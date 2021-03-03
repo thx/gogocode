@@ -1,0 +1,5 @@
+**/node_modules
+**/input.js
+**/output.js
+*.test.js
+test$.js
