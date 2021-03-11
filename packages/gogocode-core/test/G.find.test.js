@@ -3,6 +3,7 @@ const config = require('./config');
 const jc1 = require('./code/simple1');
 const jc2 = require('./code/simple2');
 const hc1 = require('./code/simple1.html');
+const jTryout = require('./code/simple-tryout');
 
 const SIMPLE_CODE = `var a = 1;`;
 const CODE = `
@@ -140,6 +141,18 @@ test('$.find: find properties value result should be ok', () => {
     const code = G.find(`{ name: $_$ }`).generate();
     expect(code.indexOf(`jerry`) > -1).toBeTruthy();
 })
+test('$.find: simple tryout js code if condition result should be ok', () => {
+ 
+    const code = $(jTryout).find('if ($_$){}')
+        .each(ast => {
+            ast.replace(`!Tryout.TRYOUT_SID_391`,`false`)
+            .replace(`Tryout.TRYOUT_SID_391`,'true')
+        })
+        .root()
+        .generate();
+    const result = code.indexOf(`if (!Tryout.TRYOUT_SID_391`) < 0 && code.indexOf(`if (Tryout.TRYOUT_SID_391`) < 0
+    expect(result).toBeTruthy();
+})
 test('$.find: find function name', () => {
     expect(()=>{
        const G = $(CODE);
@@ -149,7 +162,7 @@ test('$.find: find function name', () => {
 test('$.find: find function name result should be ok', () => {
     const G = $(CODE);
     //待定
-    const code = G.find(`function $_$(c) { $_$ }`).match[0].value;
+    const code = G.find(`function $_$(c) { $_$2 }`).match[0][0].value;
     expect(code).toBe('test');
 })
 test('$.find: find object', () => {
@@ -199,13 +212,61 @@ test('$.find: simple1 html code input is object result should be ok', () => {
     //待定
     expect(code).toBe("\n");
 })
+
+test('$.find: simple1 html code input is object result should be ok', () => {
+    const G = $(hc1, config.html);
+    // 选择器构造 抛出异常报错
+    const code = G.find({ nodeType: 'tag', content: G.expando }).generate();
+    //待定
+    expect(code.indexOf('<html>') > -1).toBeTruthy();
+})
+
 test('$.find: simple1 html code result should be ok', () => {
     const G = $(hc1, config.html).find('<span>');
     const code = G.generate();
     expect(code).toBe('<span>test</span>')
 })
-test('$.find: simple1 html code result should be ok', () => {
+test('$.find: simple1 html code use $_$ result should be ok', () => {
     const G = $(hc1, config.html).find('<span>$_$</span>');
     const code = G.generate();
     expect(code).toBe('<span>test</span>')
+})
+test('$.find: simple1 html code use full tag result should be ok', () => {
+    const G = $(hc1, config.html).find('<span>test</span>');
+    const code = G.generate();
+    expect(code).toBe('<span>test</span>')
+})
+test('$.find: simple1 html code find attr value', () => {
+    const G = $(hc1, config.html).find('<div id=$_$>');
+    const match = G.match;
+    expect(match[0].value).toBe('1');
+})
+test('$.find: simple1 html code find attr key', () => {
+    const G = $(hc1, config.html).find('<div $_$="1">');
+    const match = G.match;
+    expect(match[0].value).toBe('id');
+})
+test('$.find: simple1 html code find DOCTYPE ', () => {
+    const G = $(hc1, config.html).find('<!DOCTYPE html>');
+    const match = G.match;
+    // 无$_$ 无match返回也合理
+    // expect(match[0].value).toBe('');
+})
+test('$.find: script code result should be ok', () => {
+    const G = $(hc1, config.html);
+    const result = G.find('<script>$_$</script>');
+    const match = result.match;
+    expect(match).toBe(` var a = '1';`);
+})
+test('$.find: style code result should be ok', () => {
+    const G = $(hc1, config.html);
+    const result = G.find('<style>$_$</style>');
+    const match = result.match;
+    expect(match.indexOf('color: #000;') > -1).toBeTruthy();
+})
+test('$.find: comment code result should be ok', () => {
+    const G = $(hc1, config.html);
+    const result = G.find('<!-- $_$ -->');
+    const match = result.match;
+    expect(match).toBe(` comment test `);
 })

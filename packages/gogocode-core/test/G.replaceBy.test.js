@@ -15,7 +15,7 @@ test('$.replaceBy: this[0] is null', () => {
        const G = $('var a = 1;');
        G[0] = null
        G.replaceBy();
-    }).toThrow();
+    }).not.toThrow();
 })
 
 

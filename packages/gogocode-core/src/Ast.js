@@ -54,7 +54,7 @@ class AST {
         const {nodePathList, matchWildCardList } = this.core.getAstsBySelector(
             nodePath.node, 
             selector, {
-                strictSequence: !options.ignoreSequence,
+                strictSequence: options.ignoreSequence === false,
                 parseOptions: pOptions,
                 expando: this.expando
             }
@@ -290,12 +290,12 @@ class AST {
         if (!this[0]) {
             throw new Error('replace failed! Nodepath is null!');
         }
-        this.core.replaceSelBySel(this[0].nodePath, selector, replacer, !ignoreSequence, parseOptions, this.expando)
+        this.core.replaceSelBySel(this[0].nodePath, selector, replacer, ignoreSequence === false, parseOptions, this.expando)
         return this;
     }
     replaceBy(replacer) {
         if (!this[0]) {
-            throw new Error('replaceBy failed! Nodepath is null!');
+            return this.root();
         }
         if (replacer[0] && replacer[0].nodePath) {
             replacer = replacer[0].nodePath.node
@@ -512,7 +512,7 @@ class AST {
     }
     remove(selector, options = {}) {
         if (!this[0]) {
-            throw new Error('remove failed! Nodepath is null!');
+            return this.root()
         }
         if (typeof selector == 'string' || Array.isArray(selector)) {
             const { parseOptions } = this[0];
@@ -520,7 +520,7 @@ class AST {
             let i = 0;
             while(this[i]) {
                 this.core.removeAst(this.node, selector, { 
-                    strictSequence: !options.ignoreSequence, 
+                    strictSequence: options.ignoreSequence === false, 
                     parseOptions: pOptions, 
                     expando: this.expando
                 });

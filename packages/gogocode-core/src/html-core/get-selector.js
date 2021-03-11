@@ -2,7 +2,7 @@
 const parse = require('./parse');
 const filterProps = require('./filter-prop.js');
 
-function getSelector(selectorCode, parseOptions, expando = 'g$_$g') {
+function getSelector(selectorCode, parseOptions, expando = 'g123o456g789o') {
     const selector = { nodeType: '', structure: {} };
     if (typeof selectorCode != 'string') {
         // 如果是通过builders造出来的ast结构，比如return语句

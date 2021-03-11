@@ -45,6 +45,11 @@ test('$: second input is empty object should not throw error ', () => {
         const G = $('var a = 1;', {});
     }).not.toThrow();
 })
+test('$: second input is {isProgram: true} should not throw error ', () => {
+    expect(() => {
+        const G = $('var a = 1;', {isProgram: true});
+    }).not.toThrow();
+})
 
 test('$: second input astFragment is empty should not throw error ', () => {
     expect(() => {
@@ -69,11 +74,27 @@ test('$: first input is AST object', () => {
         const G = $(node);
     }).not.toThrow();
 })
-test('$: first input is $', () => {
+test('$: first input is AST object result should be ok', () => {
+
+    const node = $('var a = 1;').rootNode.node
+    const G = $(node);
+    const code = G.generate();
+    expect(code).toBe('var a = 1;')
+
+})
+test('$: first input is $ object', () => {
     expect(() => {
         const node = $('var a = 1;')
         const G = $(node);
     }).not.toThrow();
+})
+test('$: first input is $ object result should be ok', () => {
+
+    const node = $('var a = 1;')
+    const G = $(node);
+    const code = G.generate();
+    expect(code).toBe('var a = 1;')
+
 })
 test('$: simple js code', () => {
     code = `
@@ -150,6 +171,17 @@ test('$: astFragment', () => {
         const G = $(code, option);
     }).not.toThrow();
 })
+test('$: astFragment', () => {
+    const code = `const $_$a$_$ = 'test'`;
+    const option = {
+        astFragment: {
+            a: 'a'
+        }
+    };
+    const G = $(code, option);
+    const compareCode = G.generate();
+    expect(compareCode).toBe(`const a = 'test'`);
+})
 test('$: wrong code', () => {
     const code = `
   
@@ -176,13 +208,30 @@ test('$: simple2 code should not throw error', () => {
         const G = $(jc2);
     }).not.toThrow();
 })
+test('$: html empty string should not throw error', () => {
+    const code = ``;
+    expect(() => {
+        const G = $(code, config.html);
+    }).not.toThrow();
+})
+test('$: html DOCTYPE code', () => {
+    const code = `<!DOCTYPE html>`;
+    expect(() => {
+        const G = $(code, config.html);
+    }).not.toThrow();
+})
+test('$: html DOCTYPE code', () => {
+    const code = `<!DOCTYPE html>`;
+    const G = $(code, config.html);
+    const result = G.generate();
+    expect(result).toBe('<!doctype html>');
+})
 test('$: simple html code', () => {
     const code = `<div>test</div>`;
     expect(() => {
         const G = $(code, config.html);
     }).not.toThrow();
 })
-
 test('$: simple html code result should be ok', () => {
     const code = `<div>test</div>`;
     const G = $(code, config.html);
@@ -194,6 +243,13 @@ test('$: simple1 html code', () => {
         const G = $(hc1, config.html);
     }).not.toThrow();
 })
+
+test('$: simple1 html code, isProgram option config', () => {
+    expect(() => {
+        const G = $(hc1, { isProgram: true, ...config.html });
+    }).not.toThrow();
+})
+
 test('$: simple1 html code result should be ok', () => {
     const G = $(hc1, config.html);
     const result = G.generate();
@@ -205,3 +261,17 @@ test('$: simple1 html code', () => {
     const code = G.generate();
     expect(code).toBe('<span>test</span>');
 })
+
+// todo 而且astFragment的value必须是ast节点
+// test('$: simple1 html code use fragment', () => {
+//     const option = {
+//         astFragment: {
+//             a: 'a'
+//         },
+//         ...config.html
+//     };
+//     const code = `<span>$_$a$_$</span>`
+//     const G = $(code, option);
+//     const compareCode = G.generate();
+//     expect(compareCode).toBe('<span>test</span>');
+// })

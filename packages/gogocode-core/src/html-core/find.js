@@ -4,7 +4,7 @@ const filterProps = require('./filter-prop.js');
 const traverse = require('./html-traverse')
 const NodePath = require('../NodePath');
 
-let Expando = 'g$_$g';
+let Expando = 'g123o456g789o';
 
 function checkIsMatch(full, partial, extraData, strictSequence) {
     return Object.keys(partial).every(prop => {
@@ -79,7 +79,7 @@ function checkIsMatch(full, partial, extraData, strictSequence) {
     });
 }
 
-function find(nodeType, structure, strictSequence = false, deep, expando = 'g$_$g') {
+function find(nodeType, structure, strictSequence, deep, expando = 'g123o456g789o') {
     Expando = expando
     const nodePathList = [];
     const matchWildCardList = [];
@@ -98,7 +98,7 @@ function find(nodeType, structure, strictSequence = false, deep, expando = 'g$_$
         }] : [],
         attr: [],
         text: nodeType == 'text' ? [{
-            value: [(structure.content.trim() == Expando || structure.content.value.content.trim() == Expando) ? '' : structure.content.value.content.trim()],
+            value: [(structure.content.trim && structure.content.trim() == Expando || structure.content.value.content.trim() == Expando) ? '' : structure.content.value.content.trim()],
             type: 'containOne',
             handle(node) {
                 nodePathList.push(linkParentPath(node));
@@ -110,7 +110,10 @@ function find(nodeType, structure, strictSequence = false, deep, expando = 'g$_$
         traverseMap[nodeType] = [{
             handle(node) {
                 nodePathList.push(linkParentPath(node));
-                matchWildCardList.push(node.content.value.content);
+                if (node.content.value) {
+                    matchWildCardList.push(node.content.value.content);
+                }
+                
             }
         }]
     }

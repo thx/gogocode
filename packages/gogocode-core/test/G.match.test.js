@@ -11,18 +11,18 @@ test('$.match: simple js code should not throw error', () => {
 })
 test('$.match: simple js code match should be undefined', () => {
     const G = $(jc1);
-    const wc = G.match;
-    expect(wc).toBe(undefined);
+    const match = G.match;
+    expect(match).toBe(undefined);
 })
 test('$.match: simple js code match should be same', () => {
     const G = $(jc1).find('var $_$');
-    const wc = G.match;
-    expect(wc.length && wc[0].value === 'a').toBeTruthy();
+    const match = G.match;
+    expect(match[0][0].value === 'a').toBeTruthy();
 })
 test('$.match: js code match should be same', () => {
     const G = $(jc2).find(`const $_$ = { name: '1' };`);
-    const wc = G.match;
-    expect(wc.length && wc[0].value === 'params').toBeTruthy();
+    const match = G.match;
+    expect(match[0][0].value === 'params').toBeTruthy();
 })
 test('$.match: html code should not throw error', () => {
     expect(() => {
@@ -32,15 +32,32 @@ test('$.match: html code should not throw error', () => {
 })
 test('$.match: html code match should be undefined', () => {
     const G = $(hc1, config.html);
-    const wc = G.match;
-    expect(wc).toBe(undefined);
+    const match = G.match;
+    expect(match).toBe(undefined);
 })
 test('$.match: html code match should be same', () => {
     const G = $(hc1, config.html).find('<span>$_$</span>');
-    const wc = G.match;
-    expect(wc.length &&
-        wc[0].structure.length &&
-        wc[0].structure[0].nodeType === 'text' &&
-        wc[0].structure[0].content.value.content === 'test'
+    const match = G.match;
+    expect(match.length &&
+        match[0].structure.length &&
+        match[0].structure[0].nodeType === 'text' &&
+        match[0].structure[0].content.value.content === 'test'
+    ).toBeTruthy();
+})
+
+test('$.match: html code attr value match should be same', () => {
+    const G = $(hc1, config.html).find('<div id=$_$>');
+    const match = G.match;
+    expect(match.length &&
+        match[0].structure &&
+        match[0].structure.content === '1'
+    ).toBeTruthy();
+})
+test('$.match: html code attr key match should be same', () => {
+    const G = $(hc1, config.html).find('<div $_$="1">');
+    const match = G.match;
+    expect(match.length &&
+        match[0].structure &&
+        match[0].structure.content === 'id'
     ).toBeTruthy();
 })

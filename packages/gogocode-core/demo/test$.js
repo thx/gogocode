@@ -1,5 +1,10 @@
 const $ = require('../index');
-
+const less = ($.loadFile('packages/gogocode-core/demo/tryout/input.less')).src;
+const html = $.loadFile('packages/gogocode-core/demo/html/input.html', {
+    parseOptions: { html: true }
+});
+const res = html.append(`<style>\n${less}\n</style>`).generate();
+$.writeFile(res, 'packages/gogocode-core/demo/html/output.html');
 const argKeys = [
     'color',
     'make',
@@ -121,6 +126,15 @@ const cloneDemo = ast.find('a').clone();
 const cloneRootDemo = ast.clone();
 
 const beforeDemo = ast.find('x').before(replacer).root().generate();
+
+const tryout = $(`
+    var a = {
+        s: 2,
+        ss: true,
+        cxko: { as: '22'  },
+        try: Tryout.TRYOUT_SID_391
+    }
+`).find(`$_$: $_$`)
 
 const appendDemo = ast
     .find('function $_$() {}')

@@ -48,7 +48,6 @@ test('$.parents: simple2 code parents find result should be ok', () => {
     const G = $(jc2).find('this.render()');
     const parent = G.parents();
     const psCode = parent.eq(1).generate();
-    //待定
     expect(psCode).toBe(
 `{
     this.render()
@@ -57,7 +56,6 @@ test('$.parents: simple2 code parents find result should be ok', () => {
 })
 test('$.parents: simple1 html code result should be ok', () => {
     const G = $(hc1, config.html);
-    //如果最顶级parents()会返回什么？待定。。。
     const parent = G.parents();
     expect(!parent[0]).toBeTruthy();
 })

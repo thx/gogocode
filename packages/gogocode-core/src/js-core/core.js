@@ -2,20 +2,15 @@ const getSelector = require('./get-selector');
 const { find, visit } = require('./find');
 const parse = require('./parse');
 const generate = require('./generate');
+const nodeLinkMap = require('./node-link-map')
 
 const core = {
     // 通过选择器获取，返回ast片段
-    getAstsBySelector(ast, selector, { strictSequence = true, deep, parseOptions, expando = 'g$_$g' } = {}) { 
+    getAstsBySelector(ast, selector, { strictSequence, deep, parseOptions, expando = 'g123o456g789o' } = {}) { 
         //strictSequence作用：
         // 有的时候数组不要求顺序，如{a:$_$}匹配{b:1, a:2}
         // 有的时候需要，如function($_$, $_$)匹配function(a, b) {}
         
-        // 入参不需要顺序，根据类型转换，也可以传入对象
-        for(let i = 2; i <=3 ; i++) {
-            const arg = arguments[i];
-            if (typeof arg == 'boolean') strictSequence = arg;
-            if (typeof ['nn', 'n', '1'].indexOf(arg) > -1) deep = arg;
-        }
         if (!Array.isArray(selector)) {
             selector = [selector];
         }
@@ -135,6 +130,15 @@ const core = {
                     ast = parse(`var o = ${str}`);
                     ast = ast.program.body[0].declarations[0].init;
                     return ast;
+                } else if (e.message.match('Missing semicolon')) {
+                    // 可能是对象属性
+                    try {
+                        ast = parse(`({${str}})`, parseOptions);
+                        ast = ast.program.body[0].expression.properties[0]
+                        return ast
+                    } catch(err) {
+                        throw new Error('buildAstByAstStr failed:' + e.message);
+                    }
                 } else {
                     throw new Error('buildAstByAstStr failed:' + e)
                 }
@@ -170,27 +174,43 @@ const core = {
             oldAst.replace(newAst)
         }
     },
-    replaceSelBySel(ast, selector, replacer, strictSequence = true, parseOptions, expando = 'g$_$g') {
+    replaceSelBySel(ast, selector, replacer, strictSequence, parseOptions, expando = 'g123o456g789o') {
         // 用于结构不一致的，整体替换
         const { nodePathList, matchWildCardList } = core.getAstsBySelector(ast, selector, { strictSequence, deep: 'nn', parseOptions: this.parseOptions || parseOptions, expando });
         nodePathList.forEach((path, i) => {
             const extra = matchWildCardList[i];
-            if (extra.length > 0 && typeof replacer == 'string') {
+            if (Object.keys(extra).length > 0 && typeof replacer == 'string') {
                 let newReplacer = replacer;
-                extra.forEach(v => {
-                    // 删除代码块外部{}
-                    let wildCardCode = generate(v.structure);
-                    if (v.structure.type == 'BlockStatement') {
-                        wildCardCode = wildCardCode.slice(1, -2)
+                for(let key in extra) {
+                    if (key.match(/\$\$\$/)) {
+                        let key$$$ = key.replace(/\$\$\$/, '');
+                        key$$$ == '$' && (key$$$ = '');
+                        let join = '\n'
+                        let wildCardCode = extra[key].map(item => {
+                            const codeStr = generate(item);
+                            nodeLinkMap[item.type] && (join = nodeLinkMap[item.type])
+                            return codeStr
+                        }).join(join);
+                        // 不能都用,连接，还是需要找到$_$
+                        newReplacer = newReplacer.replace('$$$' + key$$$, wildCardCode);
+                    } else {
+                        // 删除代码块外部{},find里前置处理了，不需要在这里做了
+                        let wildCardCode = extra[key].map(item => 
+                            typeof item.value !== 'object' ? item.value : `\n[$_$${key} generate failed]\n`
+                        ).join(', ');
+                        // if (v.structure.type == 'BlockStatement') {
+                        //     wildCardCode = wildCardCode.slice(1, -2)
+                        // }
+                        key == '0' && (key = '')
+                        newReplacer = newReplacer.replace('$_$' + key, wildCardCode);
+                        // 通过选择器替换ast，返回完整ast
                     }
-                    newReplacer = newReplacer.replace('$_$', wildCardCode);
-                    // 通过选择器替换ast，返回完整ast
-                });
+                }
                 if (!replacer) {
                     path.replace(null);
                 } else {
                     let replacerAst = core.buildAstByAstStr(newReplacer);
-                    if (replacerAst.expression && replacerAst.expression.type != 'AssignmentExpression') {
+                    if (replacerAst.expression && replacerAst.expression.type != 'AssignmentExpression' && path.parentPath.name != 'body') {
                         replacerAst = replacerAst.expression
                     }
                     path && path.replace(replacerAst);
@@ -200,7 +220,7 @@ const core = {
                     path.replace(null);
                 } else if (typeof replacer == 'string') {
                     let replacerAst = replacer.type ? replacer : core.buildAstByAstStr(replacer);
-                    if (replacerAst.expression && replacerAst.expression.type != 'AssignmentExpression') {
+                    if (replacerAst.expression && replacerAst.expression.type != 'AssignmentExpression' && path.parentPath.name != 'body') {
                         replacerAst = replacerAst.expression
                     }
                     path && path.replace(replacerAst);

@@ -39,11 +39,14 @@ test('$.generate: simple html code', () => {
         $('<div class="test" ><a href=""/></div>',config.html).generate();
     }).not.toThrow();
 })
-test('$.generate: simple html code 1', () => {
-    const str = $('<div class="test" ><a href=""/></div>',config.html).generate();
-    expect(str).toBe('<div class=\"test\"><a href=\"\"/></div>');
+test('$.generate: simple html code 1 result should be ok', () => {
+    const str = $('<div class="test" >test</div>',config.html).generate();
+    expect(str).toBe('<div class=\"test\">test</div>');
 })
-
+test('$.generate: simple1 html code result should be ok', () => {
+    const str = $(hc1,config.html).generate();
+    expect(str.length > 1).toBeTruthy();
+})
 // todo magix attr
 // test('$.generate: simple html code 2 {{ test', () => {
     // const code = `<span class="{{= body_stateColor(this,crowd) }}" {{= body_updateState(this,crowd) }}>{{= body_stateText(this,crowd) }}</span>`;

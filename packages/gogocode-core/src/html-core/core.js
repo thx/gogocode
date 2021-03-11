@@ -4,17 +4,11 @@ const parse = require('./parse');
 const generate = require('./serialize-node');
 const core = {
     // 通过选择器获取，返回ast片段
-    getAstsBySelector(ast, selector, { strictSequence = true, deep, parseOptions, expando = 'g$_$g' } = {}) { 
+    getAstsBySelector(ast, selector, { strictSequence, deep, parseOptions, expando = 'g123o456g789o' } = {}) { 
         //strictSequence作用：
         // 有的时候数组不要求顺序，如{a:$_$}匹配{b:1, a:2}
         // 有的时候需要，如function($_$, $_$)匹配function(a, b) {}
         
-        // 入参不需要顺序，根据类型转换，也可以传入对象
-        for(let i = 2; i <=3 ; i++) {
-            const arg = arguments[i];
-            if (typeof arg == 'boolean') strictSequence = arg;
-            if (typeof ['nn', 'n', '1'].indexOf(arg) > -1) deep = arg;
-        }
         if (!Array.isArray(selector)) {
             selector = [selector];
         }
@@ -82,10 +76,7 @@ const core = {
     replaceStrByAst(ast, astPatialMap = {}) {
         for (let key in astPatialMap) {
             const valueAst = astPatialMap[key];
-            const { nodePathList } = core.getAstsBySelector(ast, [
-                { type: 'Identifier', name: `$_$${key}$_$` },
-                { type: 'StringLiteral', value: `$_$${key}$_$` }
-            ]);
+            const { nodePathList } = core.getAstsBySelector(ast, `'$_$${key}$_$'`);
             if (nodePathList.length > 0) {
                 nodePathList[0].replace(valueAst)
             }
@@ -99,7 +90,7 @@ const core = {
             oldAst.node.content.children = [newAst];
         }
     },
-    replaceSelBySel(ast, selector, replacer, strictSequence = true, parseOptions) {
+    replaceSelBySel(ast, selector, replacer, strictSequence, parseOptions) {
         // 用于结构不一致的，整体替换
         if (ast.value && ast.node) {
             ast = ast.value

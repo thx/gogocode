@@ -4,26 +4,39 @@ const { isObject, hasOwn } = require('../util')
 const recast = require('recast');
 const visit = recast.types.visit;
 const filterProps = require('./filter-prop.js');
+const generate = require('./generate')
 
-let Expando = 'g$_$g';
+let Expando = 'g123o456g789o';
 
 function checkIsMatch(full, partial, extraData, strictSequence) {
     return Object.keys(partial).every((prop) => {
         if (prop == 'body') {
             // 匹配一块代码
             try {
-                if (partial.body[0].expression.name == Expando) {
-                    extraData.push({ structure: full });
-                    return true;
+                const bodyContent = partial.body[0] || partial.body.body[0];
+                if (bodyContent && bodyContent.expression.name && bodyContent.expression.name.match) {
+                    if (bodyContent.expression.name.match(Expando)) {
+                        const expandoKey = bodyContent.expression.name.replace(Expando, '') || '0';
+                        extraData[expandoKey] = extraData[expandoKey] || [];
+                        // 去掉首尾花括号
+                        const bodyStr = generate(full.body).slice(1, -2);
+                        extraData[expandoKey].push({ node: full.body, value: bodyStr });
+                        return true;
+                    }
                 }
             } catch (e) {
                 // console.log(e)
             }
         }
         if (!full || !partial) {
+            // full没有
             return false;
         } else if (isObject(partial[prop])) {
             let res = false;
+            if (Array.isArray(partial[prop])) {
+                // 处理$$$这种情况
+                find$$$(partial[prop], full[prop], extraData, strictSequence);
+            }
             if (Array.isArray(partial[prop]) && !strictSequence) {
                 if (hasOwn(full, prop)) {
                     res = partial[prop].every((p) => {
@@ -53,10 +66,18 @@ function checkIsMatch(full, partial, extraData, strictSequence) {
                 }
             } else {
                 try {
+                    // 兼容某些情况例如 使用{ $_$: $_$ }匹配{ a() {} }
+                    let fullProp = full[prop];
+                    if (!fullProp) {
+                        if (partial[prop] && partial[prop].name && partial[prop].name.match(Expando)) {
+                            fullProp = full;
+                        }
+                    }
                     res =
-                        hasOwn(full, prop) &&
+                        // hasOwn(full, prop) 
+                        // &&
                         checkIsMatch(
-                            full[prop],
+                            fullProp,
                             partial[prop],
                             extraData,
                             strictSequence
@@ -67,27 +88,47 @@ function checkIsMatch(full, partial, extraData, strictSequence) {
             }
             return res;
         } else {
-            if (partial[prop] == Expando) {
+            if (partial[prop].match && partial[prop].match(new RegExp(Expando.slice(0, -1) + '\\$3'))) {
+                return true;
+            }
+            if (partial[prop].match && partial[prop].match(Expando)) {
                 let extra = {
-                    structure: full
+                    node: full
                 };
+                const expandoKey = partial[prop].replace(Expando, '') || '0';
+                extraData[expandoKey] = extraData[expandoKey] || [];
                 if (!full) return;
+                
                 switch (full.type) {
+                case 'Identifier':
+                    extra.value = full.name;
+                    break;
                 case 'ThisExpression':
                     extra.value = 'this';
                     break;
                 case 'StringLiteral':
+                    extra.value = `'${full.value}'`;
+                    break;
+                case 'NumericLiteral':
+                case 'BooleanLiteral':
                     extra.value = full.value;
                     break;
+                case 'NullLiteral':
+                    extra.value = null;
+                    break;
                 default:
-                    if (full[prop]) {
-                        extra.value = full[prop];
-                    } else {
-                        extra.value = {};
-                        filterProps(full, extra.value);
+                    try {
+                        extra.value = generate(full);
+                    } catch(e) {
+                        if (full[prop]) {
+                            extra.value = full[prop];
+                        } else {
+                            extra.value = {};
+                            filterProps(full, extra.value);
+                        }
                     }
                 }
-                extraData.push(extra);
+                extraData[expandoKey].push(extra);
                 return true;
             } else if (partial[prop]) {
                 // const reg = /^(?:\$\[).*(?=\]\$)/;
@@ -102,14 +143,49 @@ function checkIsMatch(full, partial, extraData, strictSequence) {
     });
 }
 
-function find(nodeType, structure, strictSequence = false, deep = 'nn', expando = 'g$_$g') {
+function find$$$(partial, full, extraData, strictSequence) {
+    // 先考虑strctSequence = false的情况
+    let key$$$;
+    let index$$$ = -1;
+    partial.forEach((p, i) => {
+        for (const key in p) {
+            if (p[key] && p[key].name && p[key].name.match(new RegExp(Expando.slice(0, -1) + '\\$3'))) {
+                key$$$ = p[key].name.replace(new RegExp(Expando.slice(0, -1) + '\\$3'), '') || '$'
+                index$$$ = i;
+                // partial.splice(i, 1);
+                // // 存疑🤨
+                break;
+            }
+        }
+    })
+    if (!key$$$) {
+        return;
+    }
+    const extraNodeList = full.slice(0);
+    partial.forEach((p, i) => {
+        if (i == index$$$) {
+            return;
+        }
+        let fi = 0;
+        while(extraNodeList[fi]) {
+            if (checkIsMatch(extraNodeList[fi], p, {}, strictSequence)) {
+                extraNodeList.splice(fi, 1);
+            } else {
+                fi++;
+            }
+        }
+    })
+    extraData[`$$$${key$$$}`] = (extraData[`$$$${key$$$}`] || []).concat(extraNodeList);
+}
+ 
+function find(nodeType, structure, strictSequence, deep = 'nn', expando = 'g123o456g789o') {
     const nodePathList = [];
     const matchWildCardList = [];
     let isMatch = false;
     Expando = expando
     visit(this, {
         [`visit${nodeType}`](path) {
-            const extraData = [];
+            const extraData = {};
             if (deep != 'n' || path.parent.name == 'program') {
                 isMatch = checkIsMatch(
                     path.value,

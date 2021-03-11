@@ -69,3 +69,23 @@ test('$.has: simple1 html code result should be ok', () => {
     const result = G.has('<title id="title1">$_$</title>');
     expect(result).not.toBeTruthy();
 })
+test('$.has:  code result should be ok', () => {
+    const G = $(hc1, config.html);
+    const result = G.has('<!DOCTYPE html>');
+    expect(result).toBeTruthy();
+})
+test('$.has: script code result should be ok', () => {
+    const G = $(hc1, config.html);
+    const result = G.has('<script>$_$</script>');
+    expect(result).toBeTruthy();
+})
+test('$.has: style code result should be ok', () => {
+    const G = $(hc1, config.html);
+    const result = G.has('<style>$_$</style>');
+    expect(result).toBeTruthy();
+})
+test('$.has: comment code result should be ok', () => {
+    const G = $(hc1, config.html);
+    const result = G.has('<!-- $_$ -->');
+    expect(result).toBeTruthy();
+})

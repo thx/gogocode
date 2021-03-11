@@ -1,5 +1,6 @@
 const code = 
 `
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -7,6 +8,12 @@ const code =
     <title>title</title>
     <link rel="stylesheet" href="test.css" />
     <meta name="renderer" content="webkit">
+    <script> var a = '1';</script>
+    <style type="text/css">
+    .test{
+        color: #000;
+    }
+    </style>
 </head>
 
 <body>
@@ -14,7 +21,12 @@ const code =
         <span>test</span>
         <img src="test" />
         <span>test</span>
+        <span>test1</span>
     </div>
+    <form id="myform" class="mt10" style="margin-top:10px;">
+    <!-- comment test -->
+    <input type="radio" checked />
+    </form>
 </body>
 
 </html>
