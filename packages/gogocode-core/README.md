@@ -8,7 +8,7 @@
     npm install gogocode
 ```
 
-## 快速开始
+# 快速开始
 
 对于下面的代码
 
@@ -85,321 +85,210 @@ $(code).replace(`var a = $_$`, `var c = $_$`)
 
 ```javascript
 $(code)
-.replace('var $_$ = $_$', 'let $_$ = $_$');
-.replace('const $_$ = require($_$)', 'import $_$ from $_$')
+.replace('var $_$1 = $_$2', 'let $_$1 = $_$2');
+.replace('const $_$1 = require($_$2)', 'import $_$1 from $_$2')
 ```
+
+------
+
+关于如何书写选择器，以及replace详解，请见[GoGoCode详细文档](https://gogocode.io/zh/docs/specification/replace)
+
+------
 
 # API
 
-### 核心 AST 实例
+## 获取节点
+所有的节点获取操作都会返回一个新的AST实例，实例中可能包含多个AST节点路径，如`find()`、`siblings()`等，某些api返回的实例只会存在一个AST节点路径，如`next()`
+### AST.find(selector, options)
 
-所有选择器、获取操作返回的都是这个结构
+| 入参 |  | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- | --- |
+| `selector` |  | 代码选择器，可以是代码也可以将代码中的部分内容挖空替换为通配符 | string | 无 |
+| `options` | `ignoreSequence` | 匹配时是否忽略顺序<br>忽略顺序的情况：`{a:$_$}`匹配`{b:1, a:2}`<br>需要严格按照顺序匹配的情况：`function($_$, b){}` 匹配`function(a, b){}` | boolean | false |
+|  | `parseOptions` |  同构造函数的`parseOptions` |  | |
+
+当selector中存在 `$_$` 通配符时，返回的AST实例中存在 `match` 属性，也就是被 `$_$` 匹配到的AST节点，按照$_$紧接着的key做聚合
+如：`$('const a = { key: 1, value: "gogo" }').find('const $_$1 = $_$2')`
+
+<br>
+下图是选择器通过find匹配到的整句代码对应的AST节点：
+<img src="//alp.alicdn.com/1615836728401-2250-646.png"/>
+
+<br>
+
+下图是是 `$_$1` 和 `$_$2` 分别匹配到的节点以及对应的输出
+
+<img src="//alp.alicdn.com/1615836725013-1244-520.png"/>
+
+
+### .parent(level)
+获取某个父节点
+
+| 入参 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| `level` | 自内向外第n层父元素 | number | 0 |
+
+
+
+### .parents()
+获取所有父节
+
+### .root()
+获取根节点，对于js来说是`type`为'File'的节点，对于html来说是`nodeType`为'document'的节点
+通常对AST进行操作之后需要获取root元素之后再输出
+
+
+### .siblings()
+获取所有兄弟节点
+
+### .prev()
+获取前一个节点
+
+### .prevAll()
+获取当前节点之前的同级节点
+
+### .next()
+获取后一个节点
+
+### .nextAll()
+获取当前节点之后的同级节点
+
+### .each(callback)
+以每一个匹配的元素作为上下文来执行一个函数。
+
+| 入参 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| `callback` | 对于每个匹配的元素所要执行的函数<br>执行函数时，会给函数传递当前节点`node`和`index` | function | 无 |
+
+### .eq(index)
+获取当前链式操作中第N个AST对象
+
+| 入参 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| `index` | 需要获取的AST对象的位置 | number | 0 |
+
+## 操作节点
+
+### .attr()
+
+获取或修改AST节点的属性，入参可分三种情况：
+
+1. 返回属性名称对应的节点或属性值
+
+| 入参 | 说明 | 类型 | 默认值 | 举例 |
+| --- | --- | --- | --- | --- |
+| `attrName` | ast节点的属性名称，支持多层属性，通过.连接 | string | 无 | declarations<br>declarations.0.id.name |
+
+
+
+2. 修改属性名称对应的节点或属性值
+
+| 入参 | 说明 | 类型 | 举例 |
+| --- | --- | --- | --- | 
+| `attrName` | ast节点的属性名称，支持多层属性，通过.连接 | string | declarations <br>declarations.0.id.name |
+| `attrValue` | 将第一个入参获取到的节点或属性修改为该入参 <br>注意：字符串不会被解析为ast节点而是直接替换原有属性 | node  string |  |
+
+
+
+3. 修改多个属性名称对应的节点或属性值
+
+| 入参 |  | 类型 | 默认值 | 举例 |
+| --- | --- | --- | --- | --- |
+| `attrMap` | `attrName` | string | 无 | declarations <br>declarations.0.id.name |
+|  | `attrValue` | node | string | 无 |  |
+
+
 
 ```typescript
-interface AST {
-	nodePath: NodePath    // ast的结构及上下文
-	parseOptions: ParseOption,    // 解析参数，同babel
-  match?: AST[],	// 当选择器中有通配符时，通配符所匹配的ast节点
-  ...api-func			// api方法挂在实例上
-}
+AST.attr('init', initNode)
+
+AST.attr({ 
+  init: initNode,
+  'program.body.0.params.0.name': 'a'
+})
+
+AST.attr('program.body.0.params.0.name')
 ```
+### .has(selector, options)
+判断是否有某个子节点，返回值为boolean类型
+入参同`.find()`
 
-### 构造 AST 实例：$()
+### .clone()
+返回由当前节点深度复制的新节点
 
-#### $(code, options)
 
+### .replace(selector, replacer)
+在当前节点内部用`replacer`替换`selector`匹配到的代码，返回当前节点
+
+| 入参 |  | 解释 | 类型 | 例 |
+| --- | --- | --- | --- | --- |
+| `selector` |  | 代码选择器，可以是代码也可以将代码中的部分内容挖空替换为通配符 | `string` | `var $_$1 = $_$2` |
+| `replacer` |  | 替换代码，同代码选择器通配符顺序与selector的保持一致<br>也可以是确定的ast节点 | `string` | `node` | `let $_$1 = $_$2` |
+| `options` | `ignoreSequence` | 匹配时是否忽略顺序 | object | 无 |
+|  | `parseOptions` | 解析入参 | object | 无 |
+
+### 
 ```typescript
-const $ = (
-    code: string | ast,
-    options?: {
-        parseOptions: ParseOptions;
-        astFragment: {
-            [string]: AST;
-        };
-    }
-) => AST;
-```
-
-| 字段    |              | 解释                                                     | 例                                                                              |
-| ------- | ------------ | -------------------------------------------------------- | ------------------------------------------------------------------------------- |
-| code    |              | 代码字符串，可以包含 ast 节点对应的标识<br />或 ast 片段 | 'var a = 1'                                                                     |
-|         |              |                                                          | `Alert.show({content: $_$content$_$ })`                                         |
-| options | parseOptions | 解析参数(同 babel)                                       | { plugins: ['jsx'] } <br /> 当解析 html 时，需要传 parseOptions: { html: true } |
-|         | astFragment  | ast 节点映射                                             | { content: contentNode }                                                        |
-
-```typescript
-$('var a = 1');
-
-$(astNode);
-
-$('<div></div>', {
-    parseOption: { plugins: ['jsx'] }
-});
-
-$(`Alert.show({content: $_$content$_$ , type: $_$type$_$ })`, {
-    astFragment: {
-        content: contentNode,
-        type: typeNode
-    }
-});
-```
-
-#### $.loadFile
-
-```typescript
-$.loadFile = (
-    filePath: string,
-    options?: {
-        parseOptions: ParseOptions;
-    }
-) => AST | string;
-```
-
-| 字段     |              | 解释               | 例                                                                              |
-| -------- | ------------ | ------------------ | ------------------------------------------------------------------------------- |
-| filePath |              | 文件路径           |                                                                                 |
-| options  | parseOptions | 解析参数(同 babel) | { plugins: ['jsx'] } <br /> 当解析 html 时，需要传 parseOptions: { html: true } |
-
-```typescript
-$.loadFile('src/input.js');
-
-$.loadFile('src/input.html', { parseOptions: { html: true } });
-
-$.loadFile('src/input.css'); // 除js和html之外的代码不会被解析成ast，只会返回原有代码
-```
-
-### 节点获取
-
-$.find(AST, selector, options)
-
-#### $(code).find(selector, options)
-
-```typescript
-$(code).find = function (selector: string,
-     options?: {
-       ignoreSequence: boolean
-  						// true的情况：不要求顺序，如{a:$_$}匹配{b:1, a:2}
-           		// false的情况：需要严格按照顺序匹配，如function($_$, b){} 匹配function(a, b){}
-     }
-) => AST
-```
-
-| 字段     |                | 解释                                                           | 例                                                                             |
-| -------- | -------------- | -------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| selector |                | 代码选择器，可以是代码也可以将代码中的部分内容挖空替换为通配符 | $_$<br />var $& = $&<br />var #1 = #2<br />var sdjkewiow33223 = sdjkewiow33223 |
-| options  | ignoreSequence | 匹配时是否忽略顺序                                             | true                                                                           |
-
-```typescript
-// 选择器selector示例：
-var $_$1 = $_$2
-
-function $_$name () { $_$body }
-
-View.extend($_$)
-
-$_$a ? $_$b : $_$c
-
-$_$1 && $_$2
-
-if ($_$1) {
-    $_$2
-}
-```
-
-#### .parent()
-
-#### .parents()
-
-() => AST[]
-
-> 获取所有父节点
-
-#### ~~.children()~~
-
-~~() => AST[]~~
-
-> ~~获取所有子节点<br />~~
-
-#### .siblings()
-
-() => AST[]
-
-> 获取所有兄弟节点
-
-#### .has
-
-(selector, options) => boolean
-
-> 是否有某个子节点
-
-#### .prev()
-
-() => AST
-
-> 获取前一个节点
-
-#### .prevAll()
-
-() => AST[]
-
-> 获取前面所有节点
-
-#### .next()
-
-() => AST
-
-> 获取后一个节点
-
-#### .nextAll()
-
-() => AST[]
-
-> 获取后面所有节点
-
-#### .root()
-
-() => AST
-
-> 获取根节点
-
-#### .each(index, node) => AST[]
-
-#### .eq()
-
-#### 节点操作
-
-#### .attr()
-
-> (attrName) => AST
-
-> 获取 AST 节点的某个属性
-> ( attrName, attrValue ) => AST
-
-> 修改 AST 节点的某个属性
-> ({ attrName: attrValue }) => AST
-
-> 修改 AST 节点的多个属性
-
-attrName 支持多级别，attrValue 支持节点或字符串，但字符串不会被解析为 ast 节点而是直接插入
-
-```typescript
-$(code).attr('init', initNode);
-
-$(code).attr({
-    init: initNode,
-    'program.body.0.params.0.name': 'a'
-});
-
-$(code).attr('program.body.0.params.0.name');
-```
-
-#### .clone()
-
-() => AST
-
-> 深度复制一个节点
-
-#### .replace(matcher, replacer)
-
-(matcher, replacer, options) => AST
-
-> 在当前节点内部用替换代码替换选择器匹配到的代码,返回当前节点
-
-matcher和replacer中的 `$_$1` 和 `$_$2` 相当于正则中的通配符，但是在这里只会匹配代码里有效的 AST 节点，`$$$` 则可以匹配剩下的节点，有点像 es6 里的 `...` 
-
-```typescript
-$(code).replace = (selector: string, replacer: string | AST | null) => AST;
-```
-
-| 字段     |                | 解释                                                                                                 | 例            |
-| -------- | -------------- | ---------------------------------------------------------------------------------------------------- | ------------- |
-| selector |                | 代码选择器，可以是代码也可以将代码中的部分内容挖空替换为通配符                                       | var $_$1 = $_$2 |
-| replacer |                | 替换代码，可以是代码，也可以与 selector 一样将部分内容替换为通配符，通配符顺序与 selector 的保持一致 | let $_$1 = $_$2 |
-| options  | ignoreSequence | 查找时是否忽略顺序                                                                                   | true          |
-
-####
-
-```typescript
-$(code).replace(`Component`, `module.exports = Magix.View.extend`);
-
-$(code).replace(
-  `export default function calculateData($_$1){$$$}`,
-  `function calculateData($_$1){$$$}`
+AST.replace(`Component`, `module.exports = Magix.View.extend`);
+
+AST.replace(
+  `export default function calculateData($_$1){$_$2}`, 
+  `function calculateData($_$1){$_$2}`
 )
 
-$(code).replace(
-  `navigateToOutside({url: $_$})`,
-  `jm.attachUrlParams($_$)`,
+AST.replace(
+  `navigateToOutside({url: $_$})`, 
+  `jm.attachUrlParams($_$)`, 
   options: { ignoreSequence: true }
 )
-
-$(code).replace(
-  '{ text: $_$1, value: $_$2, $$$ }',
-  '{ name: $_$1, id: $_$2, $$$ }'
-)
-
-$(code)
-    .replace(`import { $$$ } from "@alifd/next"`, `import { $$$ } from "antd"`)
-    .replace(`<h2>转译前</h2>`, `<h2>转译后</h2>`)
-    .replace(`<Button type="normal" $$$></Button>`, `<Button type="default" $$$></Button>`)
 ```
+### .replaceBy(replacerAST)
+用replacerAST替换当前节点，返回新节点
 
-#### .replaceBy(replacerAST)
+| 入参 | 类型 |
+| --- | --- |
+| `replacerAST` | AST <br>node <br> string |
 
-(AST1) => AST2
+### .after(ast)
+在当前节点后面插入一个同级别的节点，返回当前节点
 
-> 用 AST2 实例替换 AST1 实例，AST2 可以为字符串或 ast 节点
+| 入参 | 类型 |
+| --- | --- |
+| `ast` | AST <br> node <br> string |
 
-#### .after(AST)
+### .before()
+在当前节点前面插入一个同级别的节点，返回当前节点
 
-(AST) => AST
+| 入参 | 类型 |
+| --- | --- |
+| `ast` | AST <br> node <br> string |
 
-> 在当前节点后面插入一个同级别的节点，返回当前节点
+### .append(attr, ast)
+在当前节点内部某个数组属性的末尾插入一个子节点，返回当前节点
 
-#### .before()
+| 入参 | 类型 |
+| --- | --- |
+| `attr` | 当前节点的数组属性名称 |
+| `ast` | AST <br> node <br> string |
 
-(AST) => AST
+- 为什么需要传入`attr`？
 
-> 在当前节点前面插入一个同级别的节点，返回当前节点
-
-#### .append()
-
-(AST) => AST
-
-> 在当前节点内部最后插入一个子节点，返回当前节点
-
-#### .prepend()
-
-(AST) => AST
-
-> 在当前节点内部最前插入一个子节点，返回当前节点
-
-#### .empty()
-
-(AST) => AST
-
-> 清空当前节点所有子节点，返回当前节点
-
-#### .remove()
-
-(AST) => AST
-
-> 移除当前节点，返回父节点
-
-### 输出
-
-#### .generate()
-
-> 将 ast 实例输出为代码字符串
+因为某些节点中多个属性都为数组，如函数，存在入参params和函数体body两个数组子节点，必须通过attr来判断插入节点的位置
 
 ```typescript
-$(code).generate = () => string;
+AST
+.find('function $_$() {}')
+.append('params', 'b')
+.prepend('body', 'b = b || 1;')
 ```
+### .prepend()
+在当前节点内部某个数组属性的首位插入一个子节点，返回当前节点
 
-#### $.writeFile()
+### .empty()
+清空当前节点所有子节点，返回当前节点
 
-> 将字符串写入文件
+### .remove()
+移除当前节点，返回根节点
 
-```typescript
-$.writeFile(result, 'src/output.js');
-```
+### .generate()
+将AST对象输出为代码
