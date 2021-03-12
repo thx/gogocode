@@ -137,14 +137,14 @@ const core = {
                         ast = ast.program.body[0].expression.properties[0]
                         return ast
                     } catch(err) {
-                        throw new Error('buildAstByAstStr failed:' + e.message);
+                        throw new Error(`buildAstByAstStr failed:${str}`);
                     }
                 } else {
-                    throw new Error('buildAstByAstStr failed:' + e)
+                    throw new Error(`buildAstByAstStr failed:${str}`)
                 }
             }
-        } catch(e) {
-            throw new Error('buildAstByAstStr failed:' + e)
+        } catch(error) {
+            throw new Error(`buildAstByAstStr failed:${str}`)
         }
     },
     replaceStrByAst(ast, astPatialMap = {}) {
@@ -196,13 +196,16 @@ const core = {
                     } else {
                         // 删除代码块外部{},find里前置处理了，不需要在这里做了
                         let wildCardCode = extra[key].map(item => 
-                            typeof item.value !== 'object' ? item.value : `\n[$_$${key} generate failed]\n`
+                            typeof item.value !== 'object' ? item.value : ``
                         ).join(', ');
                         // if (v.structure.type == 'BlockStatement') {
                         //     wildCardCode = wildCardCode.slice(1, -2)
                         // }
                         key == '0' && (key = '')
-                        newReplacer = newReplacer.replace('$_$' + key, wildCardCode);
+                        newReplacer = newReplacer
+                            .replace(`'$_$${key}'`, wildCardCode)
+                            .replace(`"$_$${key}"`, wildCardCode)
+                            .replace('$_$' + key, wildCardCode);
                         // 通过选择器替换ast，返回完整ast
                     }
                 }

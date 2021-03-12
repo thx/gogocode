@@ -555,12 +555,18 @@ function cloneAST(ast) {
 function getAttrValue(node, attr) {
     const keyList = attr.split('.');
     let currentNode = node;
+    let deep = 0;
     keyList.forEach(attr => {
         if (currentNode[attr]) {
-            currentNode = currentNode[attr]
+            currentNode = currentNode[attr];
+            deep++
         }
     })
-    return currentNode;
+    if (deep == keyList.length) {
+        return currentNode;
+    } else {
+        return null
+    }
 }
 
 function initParent(ast) {

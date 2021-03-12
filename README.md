@@ -71,7 +71,7 @@ $(code).replace(`var a = 1`, `var c = 1`)
 
 <br>
 
-replace确实用起来爽，但当你在分析转换代码时遇到replace覆盖不到的场景时，请用GoGoCode提供的其他api来精准操作AST吧！
+replace确实用起来爽，但当你在分析转换代码时遇到replace覆盖不到的场景时，请用GoGoCode提供的其他api来精准操作AST吧！Babel、jscodeshift能做到的gogocode都能更简单的做到。
 
 -----
 
@@ -92,7 +92,7 @@ $(code)
 .replace('var $_$1 = $_$2', 'let $_$1 = $_$2');
 .replace('const $_$1 = require($_$2)', 'import $_$1 from $_$2')
 ```
-
+这里注意，选择器中出现两个通配符时，一定要紧接着一个key，才能保证准确性
 ------
 
 关于如何书写选择器，以及replace详解，请见<a href="https://gogocode.io/zh/docs/specification/replace" target="_blank">GoGoCode详细文档</a>
@@ -201,7 +201,7 @@ $(code)
 | `attrMap` | `attrName` | string | 无 | declarations <br>declarations.0.id.name |
 |  | `attrValue` | node | string | 无 |  |
 
-
+未匹配到某个属性时，会直接返回null
 
 ```typescript
 AST.attr('init', initNode)
@@ -230,6 +230,8 @@ AST.attr('program.body.0.params.0.name')
 | `replacer` |  | 替换代码，同代码选择器通配符顺序与selector的保持一致<br>也可以是确定的ast节点 | `string` | `node` | `let $_$1 = $_$2` |
 | `options` | `ignoreSequence` | 匹配时是否忽略顺序 | object | 无 |
 |  | `parseOptions` | 解析入参 | object | 无 |
+
+这里注意，选择器中出现两个通配符时，一定要紧接着一个key，才能保证准确性
 
 ### 
 ```typescript
