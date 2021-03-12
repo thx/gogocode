@@ -81,7 +81,7 @@ replace确实用起来爽，但当你在分析转换代码时遇到replace覆盖
 $(code).replace(`var a = $_$`, `var c = $_$`)
 ```
 
-> 看到这里，你应该已经理解 `find`和`replace` 的第一参有点类似‘jquery 选择器’，而这里的选择器是你需要查找的代码片段，无论想要匹配多么复杂的代码都可以匹配到，其中 `$_$` 通配符可以匹配任意确定代码，代码选择器及通配符详细介绍 <a href="/zh/docs/specification/selector">看这里</a>
+> 看到这里，你应该已经理解 `find`和`replace` 的第一参有点类似‘jquery 选择器’，而这里的选择器是你需要查找的代码片段，无论想要匹配多么复杂的代码都可以匹配到，其中 `$_$` 通配符可以匹配任意确定代码，代码选择器及通配符详细介绍 <a href="https://gogocode.io/zh/docs/specification/selector" target="_blank">看这里</a>
 
 -----
 
@@ -95,7 +95,7 @@ $(code)
 
 ------
 
-关于如何书写选择器，以及replace详解，请见[GoGoCode详细文档](https://gogocode.io/zh/docs/specification/replace)
+关于如何书写选择器，以及replace详解，请见<a href="https://gogocode.io/zh/docs/specification/replace" target="_blank">GoGoCode详细文档</a>
 
 ------
 
@@ -116,13 +116,13 @@ $(code)
 
 <br>
 下图是选择器通过find匹配到的整句代码对应的AST节点：
-<img src="//alp.alicdn.com/1615836728401-2250-646.png"/>
+<img src="http://alp.alicdn.com/1615836728401-2250-646.png"/>
 
 <br>
 
 下图是是 `$_$1` 和 `$_$2` 分别匹配到的节点以及对应的输出
 
-<img src="//alp.alicdn.com/1615836725013-1244-520.png"/>
+<img src="http://alp.alicdn.com/1615836725013-1244-520.png"/>
 
 
 ### .parent(level)
