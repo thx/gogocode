@@ -12,7 +12,7 @@
     npm install gogocode
 ```
 
-## 快速开始
+# 快速开始
 
 对于下面的代码
 
@@ -34,91 +34,74 @@ const code = `
 const $ = require('gogocode');
 const AST = $(code);
 ```
+-----
 
-
-小明想将 所有的 `a` 变量名替换为 `c`，只需要
+- 小明想将 所有的 `a` 变量名替换为 `c`，只需要
 
 ```javascript
 $(code).replace('a', 'c')
 ```
 
+-----
 
-小明改主意了，只想把 `var a = 1` 里的变量名改为  `c`，需要两步：
+- 小明改主意了，只想把 `var a = 1` 里的变量名改为  `c`，需要两步：
 
-1.取变量 a 的定义赋值，
+  - 取变量 a 的定义赋值，
+
+  ```javascript
+  $(code).find('var a = 1');
+  ```
+
+  - 将 `a` 变量名替换为 `c`，并输出整体代码
+
+  ```javascript
+  $(code)
+    .find('var a = 1')
+    .attr('declarations.0.id.name', 'c')
+    .root()
+    .generate();
+  ```
+<br>
+
+这是直接操作AST的方式，有没有更简单的方法呢？有！
 
 ```javascript
-$(code).find('var a = 1');
+$(code).replace(`var a = 1`, `var c = 1`)
 ```
 
-2.将 a 变量名替换为 c，并输出整体代码
+<br>
+
+replace确实用起来爽，但当你在分析转换代码时遇到replace覆盖不到的场景时，请用GoGoCode提供的其他api来精准操作AST吧！
+
+-----
+
+- 小明又改主意了，想把所有定义语句的 `a` 都改成  `c`，只需要将目标语句改一下写成：
+
+```javascript
+$(code).replace(`var a = $_$`, `var c = $_$`)
+```
+
+> 看到这里，你应该已经理解 `find`和`replace` 的第一参有点类似‘jquery 选择器’，而这里的选择器是你需要查找的代码片段，无论想要匹配多么复杂的代码都可以匹配到，其中 `$_$` 通配符可以匹配任意确定代码，代码选择器及通配符详细介绍 <a href="/zh/docs/specification/selector">看这里</a>
+
+-----
+
+- 小明想试试将代码里的 `var` 改为 `let`，`require` 改为 `import`，他发现用 GoGoCode 真的可以像字符串的 replace 一样简单！
 
 ```javascript
 $(code)
-  .find('var a = 1')
-  .attr('declarations.0.id.name', 'c')
-  .root()
-  .generate();
+.replace('var $_$1 = $_$2', 'let $_$1 = $_$2');
+.replace('const $_$1 = require($_$2)', 'import $_$1 from $_$2')
 ```
 
-小明又改主意了，想把所有定义语句的 `a` 都改成  `c`，只需要在第一步取定义语句时写成：
+------
 
-```javascript
-$(code).find('var a = $_$');
-```
+关于如何书写选择器，以及replace详解，请见[GoGoCode详细文档](https://gogocode.io/zh/docs/specification/replace)
 
-> 看到这里，你应该已经理解 `find` 的第一参相当于‘jquery 选择器’，而这里的选择器是你需要查找的代码片段，无论想要匹配多么复杂的代码都可以匹配到，其中 `$_$` 通配符可以匹配任意代码，代码选择器及通配符详细介绍 <a href="/zh/docs/specification/selector">看这里</a>
-
-小明想试试将代码里的 var 改为 let，require 改为 import，他发现用 GoGoCode 居然可以像字符串的 replace 一样简单！
-
-```javascript
-$(code)
-.replace('var $_$ = $_$', 'let $_$ = $_$');
-.replace('const $_$ = require($_$)', 'import $_$ from $_$')
-```
+------
 
 # API
 
-## 熟悉的$ 实例化
-
-调用 `$()` 即可将一段代码或一个ast节点构造为GoGoCode的核心AST实例
-
-### $(code, options)
-| 入参 |  | 说明 | 类型 | 举例 |
-| --- | --- | --- | --- | --- |
-| `code` |  | 需要被实例化的代码或AST节点 | string  NodePath  Node | `'var a = 1'` |
-|  |  | 支持在代码中插入ast节点，再进行实例化，与`astFragment`入参搭配使用，ast节点占位形式为`$_$astNodeName$_$` | string | `Alert.show({ content: $_$content$_$ })` |
-| `options` | `parseOptions` | 基本与babel/parse的options一致<br>唯一区别是解析html时需要定义为`{html: true}` |  | `{ plugins: ['jsx'] }` |
-|  | `astFragment` | 需要插入到代码中的ast节点的映射 |  | `{ content: contentNode }` |
-
-```typescript
-$('var a = 1')
-
-$(astNode)
-
-$('<div></div>', { 
-  parseOption: { plugins: ['jsx'] }
-})
-
-$(`Alert.show({content: $content$ , type: $type$ })`, { 
-  astFragment: {
-	  content: contentNode ,
-    type: typeNode
-  }
-})
-
-
-```
-
-
-### $.loadFile(path, options)
-
-与构造函数作用相同，第一个入参可以是文件路径，直接将文件内容实例化
-
-
-## 节点获取
-
-
+## 获取节点
 所有的节点获取操作都会返回一个新的AST实例，实例中可能包含多个AST节点路径，如`find()`、`siblings()`等，某些api返回的实例只会存在一个AST节点路径，如`next()`
 ### AST.find(selector, options)
 
@@ -128,24 +111,18 @@ $(`Alert.show({content: $content$ , type: $type$ })`, {
 | `options` | `ignoreSequence` | 匹配时是否忽略顺序<br>忽略顺序的情况：`{a:$_$}`匹配`{b:1, a:2}`<br>需要严格按照顺序匹配的情况：`function($_$, b){}` 匹配`function(a, b){}` | boolean | false |
 |  | `parseOptions` |  同构造函数的`parseOptions` |  | |
 
-当selector中存在 `$_$` 通配符时，返回的AST实例中存在 `match` 属性，也就是被 `$_$` 匹配到的AST节点
-如：`$('var a = 1').find('var $_$ = $_$')`，得到的结构为：
+当selector中存在 `$_$` 通配符时，返回的AST实例中存在 `match` 属性，也就是被 `$_$` 匹配到的AST节点，按照$_$紧接着的key做聚合
+如：`$('const a = { key: 1, value: "gogo" }').find('const $_$1 = $_$2')`
 
-<img style="width:800px; display:block" src="https://alp.alicdn.com/1614534004290-2222-1032.png"/>
+<br>
+下图是选择器通过find匹配到的整句代码对应的AST节点：
+<img src="//alp.alicdn.com/1615836728401-2250-646.png"/>
 
+<br>
 
-其中对应的 `match` 结构为：
+下图是是 `$_$1` 和 `$_$2` 分别匹配到的节点以及对应的输出
 
-```
-[{
-    structure: { type: 'Identifier', name: 'a' ... } : Node,
-    value: 'a'
-}, {
-    structure: { type: 'NumericLiteral', value: 1 ... } : Node,
-    value: '1'
-}]
-```
-
+<img src="//alp.alicdn.com/1615836725013-1244-520.png"/>
 
 
 ### .parent(level)
@@ -194,7 +171,7 @@ $(`Alert.show({content: $content$ , type: $type$ })`, {
 | --- | --- | --- | --- |
 | `index` | 需要获取的AST对象的位置 | number | 0 |
 
-### 节点操作
+## 操作节点
 
 ### .attr()
 
@@ -249,8 +226,8 @@ AST.attr('program.body.0.params.0.name')
 
 | 入参 |  | 解释 | 类型 | 例 |
 | --- | --- | --- | --- | --- |
-| `selector` |  | 代码选择器，可以是代码也可以将代码中的部分内容挖空替换为通配符 | `string` | `var $_$ = $_$` |
-| `replacer` |  | 替换代码，同代码选择器通配符顺序与selector的保持一致<br>也可以是确定的ast节点 | `string` | `node` | `let $_$ = $_$` |
+| `selector` |  | 代码选择器，可以是代码也可以将代码中的部分内容挖空替换为通配符 | `string` | `var $_$1 = $_$2` |
+| `replacer` |  | 替换代码，同代码选择器通配符顺序与selector的保持一致<br>也可以是确定的ast节点 | `string` | `node` | `let $_$1 = $_$2` |
 | `options` | `ignoreSequence` | 匹配时是否忽略顺序 | object | 无 |
 |  | `parseOptions` | 解析入参 | object | 无 |
 
@@ -260,7 +237,7 @@ AST.replace(`Component`, `module.exports = Magix.View.extend`);
 
 AST.replace(
   `export default function calculateData($_$1){$_$2}`, 
-  `function calculateData($_$2){$_$1}`
+  `function calculateData($_$1){$_$2}`
 )
 
 AST.replace(
