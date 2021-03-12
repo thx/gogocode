@@ -18,7 +18,8 @@ const code = `
   var a = 1;
   const b = 2;
   function log (x, y = 'World') {
-    console.log(x, y);
+    console.log('a')
+    console.log(a, x, y);
   }
 `;
 ```
@@ -29,40 +30,64 @@ const code = `
 const $ = require('gogocode');
 const AST = $(code);
 ```
+-----
 
-例 1：取变量 a 的定义赋值
+- 小明想将 所有的 `a` 变量名替换为 `c`，只需要
 
 ```javascript
-$(code).find('var a = $_$');
+$(code).replace('a', 'c')
 ```
 
-将 a 变量名替换为 c，并输出整体代码
+-----
 
-```javascript
-$(code)
-    .find('var a = $_$')
+- 小明改主意了，只想把 `var a = 1` 里的变量名改为  `c`，需要两步：
+
+  - 取变量 a 的定义赋值，
+
+  ```javascript
+  $(code).find('var a = 1');
+  ```
+
+  - 将 `a` 变量名替换为 `c`，并输出整体代码
+
+  ```javascript
+  $(code)
+    .find('var a = 1')
     .attr('declarations.0.id.name', 'c')
     .root()
     .generate();
-```
+  ```
+<br>
 
-例 2：取所有的 function 定义
+这是直接操作AST的方式，有没有更简单的方法呢？有！
 
 ```javascript
-$(code).find('function $_$() {}');
+$(code).replace(`var a = 1`, `var c = 1`)
 ```
 
-> 看到这里，你应该已经理解 find 的第一参相当于‘jquery 选择器’，而这里的选择器是你需要查找的代码片段，无论想要匹配多么复杂的代码都可以匹配到，$_$通配符可以匹配任意代码
+<br>
 
-例 3：将 var 改为 let，require 改为 import
+replace确实用起来爽，但当你在分析转换代码时遇到replace覆盖不到的场景时，请用GoGoCode提供的其他api来精准操作AST吧！
+
+-----
+
+- 小明又改主意了，想把所有定义语句的 `a` 都改成  `c`，只需要将目标语句改一下写成：
+
+```javascript
+$(code).replace(`var a = $_$`, `var c = $_$`)
+```
+
+> 看到这里，你应该已经理解 `find`和`replace` 的第一参有点类似‘jquery 选择器’，而这里的选择器是你需要查找的代码片段，无论想要匹配多么复杂的代码都可以匹配到，其中 `$_$` 通配符可以匹配任意确定代码，代码选择器及通配符详细介绍 <a href="/zh/docs/specification/selector">看这里</a>
+
+-----
+
+- 小明想试试将代码里的 `var` 改为 `let`，`require` 改为 `import`，他发现用 GoGoCode 真的可以像字符串的 replace 一样简单！
 
 ```javascript
 $(code)
 .replace('var $_$ = $_$', 'let $_$ = $_$');
 .replace('const $_$ = require($_$)', 'import $_$ from $_$')
 ```
-
-> 怎么样，两行代码就可以完成，是不是像字符串的 replace 一样简单？
 
 # API
 
@@ -147,10 +172,10 @@ $.loadFile('src/input.css'); // 除js和html之外的代码不会被解析成ast
 
 $.find(AST, selector, options)
 
-#### AST.find(selector, options)
+#### $(code).find(selector, options)
 
 ```typescript
-AST.find = function (selector: string,
+$(code).find = function (selector: string,
      options?: {
        ignoreSequence: boolean
   						// true的情况：不要求顺序，如{a:$_$}匹配{b:1, a:2}
@@ -166,20 +191,18 @@ AST.find = function (selector: string,
 
 ```typescript
 // 选择器selector示例：
-$_$;
-var a = 1;
-var $_$ = $_$;
-function $_$() {
-    $_$;
-}
-View.extend($_$);
-$_$ ? $_$ : $_$;
-$_$ && $_$;
-if (Tryout.TRYOUT_SID_287 && $_$) {
-}
-if (Tryout.TRYOUT_SID_287 || $_$) {
-}
-if (Tryout.TRYOUT_SID_287) {
+var $_$1 = $_$2
+
+function $_$name () { $_$body }
+
+View.extend($_$)
+
+$_$a ? $_$b : $_$c
+
+$_$1 && $_$2
+
+if ($_$1) {
+    $_$2
 }
 ```
 
@@ -260,14 +283,14 @@ if (Tryout.TRYOUT_SID_287) {
 attrName 支持多级别，attrValue 支持节点或字符串，但字符串不会被解析为 ast 节点而是直接插入
 
 ```typescript
-AST.attr('init', initNode);
+$(code).attr('init', initNode);
 
-AST.attr({
+$(code).attr({
     init: initNode,
     'program.body.0.params.0.name': 'a'
 });
 
-AST.attr('program.body.0.params.0.name');
+$(code).attr('program.body.0.params.0.name');
 ```
 
 #### .clone()
@@ -282,33 +305,43 @@ AST.attr('program.body.0.params.0.name');
 
 > 在当前节点内部用替换代码替换选择器匹配到的代码,返回当前节点
 
-'abcs'.replace('a','3')
+matcher和replacer中的 `$_$1` 和 `$_$2` 相当于正则中的通配符，但是在这里只会匹配代码里有效的 AST 节点，`$$$` 则可以匹配剩下的节点，有点像 es6 里的 `...` 
 
 ```typescript
-AST.replace = (selector: string, replacer: string | AST | null) => AST;
+$(code).replace = (selector: string, replacer: string | AST | null) => AST;
 ```
 
 | 字段     |                | 解释                                                                                                 | 例            |
 | -------- | -------------- | ---------------------------------------------------------------------------------------------------- | ------------- |
-| selector |                | 代码选择器，可以是代码也可以将代码中的部分内容挖空替换为通配符                                       | var $_$ = $_$ |
-| replacer |                | 替换代码，可以是代码，也可以与 selector 一样将部分内容替换为通配符，通配符顺序与 selector 的保持一致 | let $_$ = $_$ |
+| selector |                | 代码选择器，可以是代码也可以将代码中的部分内容挖空替换为通配符                                       | var $_$1 = $_$2 |
+| replacer |                | 替换代码，可以是代码，也可以与 selector 一样将部分内容替换为通配符，通配符顺序与 selector 的保持一致 | let $_$1 = $_$2 |
 | options  | ignoreSequence | 查找时是否忽略顺序                                                                                   | true          |
 
 ####
 
 ```typescript
-AST.replace(`Component`, `module.exports = Magix.View.extend`);
+$(code).replace(`Component`, `module.exports = Magix.View.extend`);
 
-AST.replace(
-  `export default function calculateData($_$){$_$}`,
-  `function calculateData($_$){$_$}`
+$(code).replace(
+  `export default function calculateData($_$1){$$$}`,
+  `function calculateData($_$1){$$$}`
 )
 
-AST.replace(
+$(code).replace(
   `navigateToOutside({url: $_$})`,
   `jm.attachUrlParams($_$)`,
   options: { ignoreSequence: true }
 )
+
+$(code).replace(
+  '{ text: $_$1, value: $_$2, $$$ }',
+  '{ name: $_$1, id: $_$2, $$$ }'
+)
+
+$(code)
+    .replace(`import { $$$ } from "@alifd/next"`, `import { $$$ } from "antd"`)
+    .replace(`<h2>转译前</h2>`, `<h2>转译后</h2>`)
+    .replace(`<Button type="normal" $$$></Button>`, `<Button type="default" $$$></Button>`)
 ```
 
 #### .replaceBy(replacerAST)
@@ -360,7 +393,7 @@ AST.replace(
 > 将 ast 实例输出为代码字符串
 
 ```typescript
-AST.generate = () => string;
+$(code).generate = () => string;
 ```
 
 #### $.writeFile()
