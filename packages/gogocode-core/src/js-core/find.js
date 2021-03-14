@@ -150,8 +150,9 @@ function find$$$(partial, full, extraData, strictSequence) {
     let index$$$ = -1;
     partial.forEach((p, i) => {
         for (const key in p) {
-            if (p[key] && p[key].name && p[key].name.match(new RegExp(Expando.slice(0, -1) + '\\$3'))) {
-                key$$$ = p[key].name.replace(new RegExp(Expando.slice(0, -1) + '\\$3'), '') || '$'
+            const value = p[key] ? (p[key].name || p[key].value || p[key]) : null;
+            if (value && value.match && value.match(new RegExp(Expando.slice(0, -1) + '\\$3'))) {
+                key$$$ = value.replace(new RegExp(Expando.slice(0, -1) + '\\$3'), '') || '$'
                 index$$$ = i;
                 // partial.splice(i, 1);
                 // // 存疑🤨
