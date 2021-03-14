@@ -179,6 +179,9 @@ const core = {
         const { nodePathList, matchWildCardList } = core.getAstsBySelector(ast, selector, { strictSequence, deep: 'nn', parseOptions: this.parseOptions || parseOptions, expando });
         nodePathList.forEach((path, i) => {
             const extra = matchWildCardList[i];
+            if (typeof replacer == 'function') {
+                replacer = replacer(extra, path);
+            }
             if (Object.keys(extra).length > 0 && typeof replacer == 'string') {
                 let newReplacer = replacer;
                 for(let key in extra) {
@@ -196,7 +199,7 @@ const core = {
                     } else {
                         // 删除代码块外部{},find里前置处理了，不需要在这里做了
                         let wildCardCode = extra[key].map(item => 
-                            typeof item.value !== 'object' ? item.value : ``
+                            typeof item.value !== 'object' ? (item.raw || item.value) : ``
                         ).join(', ');
                         // if (v.structure.type == 'BlockStatement') {
                         //     wildCardCode = wildCardCode.slice(1, -2)

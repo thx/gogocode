@@ -107,7 +107,8 @@ function checkIsMatch(full, partial, extraData, strictSequence) {
                     extra.value = 'this';
                     break;
                 case 'StringLiteral':
-                    extra.value = `'${full.value}'`;
+                    extra.raw = `'${full.value}'`;
+                    extra.value = full.value
                     break;
                 case 'NumericLiteral':
                 case 'BooleanLiteral':

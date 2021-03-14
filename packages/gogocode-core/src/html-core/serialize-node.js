@@ -57,8 +57,11 @@ function serializeTagAttributes (attributes = []) {
             if (item.value.content && item.value.content.match && item.value.content.match(quota)) {
                 quota = "'";
             }
-            // 处理属性中的if语句{{#if(xx == bb)}}xxx{{/if(xx == bb)}}
             if (item.value.content && item.value.content.match && item.value.content.match('=') && item.key.content.match('if')) {
+                // 处理属性中的if语句{{#if(xx == bb)}}xxx{{/if(xx == bb)}}
+                serialized += `=${ item.value.content }`
+            } else if (item.value.content && item.value.content.match && item.value.content.match(/\(/) && item.value.content.match(/\)/) && item.key.content.match(/\{\{/)) {
+                // 处理属性中的function语句{{ = body_updateState(this,crowd) }}
                 serialized += `=${ item.value.content }`
             } else {
                 serialized += `=${quota}${ item.value.content }${quota}`
