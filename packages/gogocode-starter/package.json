@@ -1,0 +1,35 @@
+{
+  "name": "gogocode-starter",
+  "version": "0.0.2",
+  "description": "gogocode examples",
+  "keywords": [
+    "babel",
+    "jscodeshift",
+    "acorn",
+    "babylon",
+    "recast",
+    "babel-generator",
+    "babel-template",
+    "babel-traverse",
+    "babel-types",
+    "esprima",
+    "html-ast-transform",
+    "htmlparser-to-html",
+    "htmlparser2",
+    "parse5",
+    "ast",
+    "gogocode"
+  ],
+  "scripts": {
+    "start": "node src/start.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@https://github.com/thx/gogocode-starter.git"
+  },
+  "author": "zhuori",
+  "license": "ISC",
+  "dependencies": {
+    "gogocode": "^0.1.6"
+  }
+}
