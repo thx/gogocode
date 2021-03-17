@@ -1,5 +1,5 @@
 /**
- * 读取js文件，利用gogocode 修改 import 
+ * 读取js文件，利用gogocode 修改代码 
  * https://gogocode.io/
  */
 const glob = require('glob');
