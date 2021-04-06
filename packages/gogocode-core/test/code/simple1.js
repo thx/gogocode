@@ -5,7 +5,7 @@ const XXMonitor = require('../monitor');
 
 var a = 1;
 var b = 2;
-
+a = 3;
 function add() {
     return a + b;
 }
@@ -42,5 +42,17 @@ function parent(){
 parent().test();
 
 const s = 'this is string';
+const car = {
+    color: 'red'
+};
+car.color = 'green';
+
+const arr = [];
+arr = [1,2];
+
+const af = () => {
+    console.log('this is arrow function' );
+}
+export sth from '@path/sth'
 `;
 module.exports = code;

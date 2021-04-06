@@ -81,7 +81,7 @@ replace确实用起来爽，但当你在分析转换代码时遇到replace覆盖
 $(code).replace(`var a = $_$`, `var c = $_$`)
 ```
 
-> 看到这里，你应该已经理解 `find`和`replace` 的第一参有点类似‘jquery 选择器’，而这里的选择器是你需要查找的代码片段，无论想要匹配多么复杂的代码都可以匹配到，其中 `$_$` 通配符可以匹配任意确定代码，代码选择器及通配符详细介绍 <a href="https://gogocode.io/zh/docs/specification/selector" target="_blank">看这里</a>
+> 看到这里，你应该已经理解 `find`和`replace` 的第一参有点类似‘jquery 选择器’，而这里的选择器是你需要查找的代码片段，无论想要匹配多么复杂的代码都可以匹配到，其中 `$_$` 通配符可以匹配任意确定代码，代码选择器及通配符详细介绍 <a href="/zh/docs/specification/selector">看这里</a>
 
 -----
 
@@ -92,10 +92,10 @@ $(code)
 .replace('var $_$1 = $_$2', 'let $_$1 = $_$2');
 .replace('const $_$1 = require($_$2)', 'import $_$1 from $_$2')
 ```
-这里注意，选择器中出现两个通配符时，一定要紧接着一个key，才能保证准确性
+
 ------
 
-关于如何书写选择器，以及replace详解，请见<a href="https://gogocode.io/zh/docs/specification/replace" target="_blank">GoGoCode详细文档</a>
+关于如何书写选择器，以及replace详解，请见[GoGoCode详细文档](https://gogocode.io/zh/docs/specification/replace)
 
 ------
 
@@ -116,13 +116,13 @@ $(code)
 
 <br>
 下图是选择器通过find匹配到的整句代码对应的AST节点：
-<img src="http://alp.alicdn.com/1615836728401-2250-646.png"/>
+<img src="//alp.alicdn.com/1615836728401-2250-646.png"/>
 
 <br>
 
 下图是是 `$_$1` 和 `$_$2` 分别匹配到的节点以及对应的输出
 
-<img src="http://alp.alicdn.com/1615836725013-1244-520.png"/>
+<img src="//alp.alicdn.com/1615836725013-1244-520.png"/>
 
 
 ### .parent(level)
@@ -201,7 +201,7 @@ $(code)
 | `attrMap` | `attrName` | string | 无 | declarations <br>declarations.0.id.name |
 |  | `attrValue` | node | string | 无 |  |
 
-未匹配到某个属性时，会直接返回null
+
 
 ```typescript
 AST.attr('init', initNode)
@@ -230,8 +230,6 @@ AST.attr('program.body.0.params.0.name')
 | `replacer` |  | 替换代码，同代码选择器通配符顺序与selector的保持一致<br>也可以是确定的ast节点 | `string` | `node` | `let $_$1 = $_$2` |
 | `options` | `ignoreSequence` | 匹配时是否忽略顺序 | object | 无 |
 |  | `parseOptions` | 解析入参 | object | 无 |
-
-这里注意，选择器中出现两个通配符时，一定要紧接着一个key，才能保证准确性
 
 ### 
 ```typescript

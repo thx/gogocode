@@ -19,7 +19,7 @@ function checkIsMatch(full, partial, extraData, strictSequence) {
                         const expandoKey = bodyContent.expression.name.replace(Expando, '') || '0';
                         extraData[expandoKey] = extraData[expandoKey] || [];
                         // 去掉首尾花括号
-                        const bodyStr = generate(full.body).slice(1, -2);
+                        const bodyStr = generate(full.body) ? generate(full.body).slice(1, -2) : '';
                         extraData[expandoKey].push({ node: full.body, value: bodyStr });
                         return true;
                     }
@@ -33,14 +33,18 @@ function checkIsMatch(full, partial, extraData, strictSequence) {
             return false;
         } else if (isObject(partial[prop])) {
             let res = false;
+            let has$$$ = false;
             if (Array.isArray(partial[prop])) {
                 // 处理$$$这种情况
-                find$$$(partial[prop], full[prop], extraData, strictSequence);
+                has$$$ = find$$$(partial[prop], full[prop], extraData, strictSequence);
             }
             if (Array.isArray(partial[prop]) && !strictSequence) {
                 if (hasOwn(full, prop)) {
                     res = partial[prop].every((p) => {
                         let a = false;
+                        if (!full[prop].length && partial[prop].length == 1 && has$$$) {
+                            return true
+                        }
                         full[prop] &&
                             full[prop].forEach((f) => {
                                 if (f && f.type == 'ObjectProperty') {
@@ -69,7 +73,9 @@ function checkIsMatch(full, partial, extraData, strictSequence) {
                     // 兼容某些情况例如 使用{ $_$: $_$ }匹配{ a() {} }
                     let fullProp = full[prop];
                     if (!fullProp) {
-                        if (partial[prop] && partial[prop].name && partial[prop].name.match(Expando)) {
+                        if (partial[prop] && typeof partial[prop].name == 'string' && 
+                            (partial[prop].name.match(Expando) || partial[prop].name.match(new RegExp(Expando.slice(0, -1) + '\\$3')))
+                        ) {
                             fullProp = full;
                         }
                     }
@@ -154,16 +160,15 @@ function find$$$(partial, full, extraData, strictSequence) {
             if (value && value.match && value.match(new RegExp(Expando.slice(0, -1) + '\\$3'))) {
                 key$$$ = value.replace(new RegExp(Expando.slice(0, -1) + '\\$3'), '') || '$'
                 index$$$ = i;
-                // partial.splice(i, 1);
-                // // 存疑🤨
+          
                 break;
             }
         }
     })
     if (!key$$$) {
-        return;
+        return false;
     }
-    const extraNodeList = full.slice(0);
+    const extraNodeList = full ? full.slice(0) : [];
     partial.forEach((p, i) => {
         if (i == index$$$) {
             return;
@@ -178,6 +183,7 @@ function find$$$(partial, full, extraData, strictSequence) {
         }
     })
     extraData[`$$$${key$$$}`] = (extraData[`$$$${key$$$}`] || []).concat(extraNodeList);
+    return true;
 }
  
 function find(nodeType, structure, strictSequence, deep = 'nn', expando = 'g123o456g789o') {

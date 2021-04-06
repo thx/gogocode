@@ -275,3 +275,375 @@ test('$: simple1 html code', () => {
 //     const compareCode = G.generate();
 //     expect(compareCode).toBe('<span>test</span>');
 // })
+
+test('getfunction', () => {
+    expect(() => {
+        $(`function greet() {
+            a
+
+            function greet() {
+                b
+            }
+          }`)
+          .find(`function greet() {}`)
+          .each(item => {
+              $(item.attr('body')).generate()
+          })
+    }).not.toThrow()
+})
+
+test('getfunctionbody', () => {
+    expect(() => {
+        $(code)
+            .find(`function greet() {}`)
+            .each(item => {
+                $(item.attr('body')).generate()			// 函数内容
+                item.attr('body')										// 函数内容对应的ast节点
+            })
+            .root()
+            .find(`function greet() {
+                $_$
+            }`)
+            .each(item => {
+            item.match[0][0].value		// 函数内容
+                item.match[0][0].node			// 函数内容对应的ast节点
+            })
+    }).not.toThrow()
+})
+
+
+test('getif', () => {
+    expect(() => {
+        $(`if (a && 1 || 0) { b } else { c; dosth() }`)
+        .find(`if ($_$1) { $_$2 } else { $_$3 }`)
+        .each(item => {
+            console.log(item.match)
+        })
+    }).not.toThrow()
+})
+
+test('getclass', () => {
+    expect(() => {
+        $(`class Car {
+            color = c
+            a = 1
+            size = s
+          }`)
+        .find(`class Car {
+            color = $_$c
+            size = $_$s
+          }`)
+        .each(item => {
+            console.log(item.match)
+        })
+    }).not.toThrow()
+})
+
+test('get obj property', () => {
+    expect(() => {
+        $(`const car = {
+            x: 2,
+            greet() {
+                this.g = '';
+            },
+            a: '1'
+        }`)
+        // `greet() {}` parse 抛异常
+        .find(`greet() {}`)
+        .each(item => {
+            console.log(item.match)
+        })
+        .root()
+        .find(`{ a: '1' }`)
+        .each(item => {
+            console.log(item.match)
+        })
+        .root()
+        .find(`const car = $_$`)
+        .each(item => {
+            // item.match是被通配符匹配到的节点
+            if (item.match[0][0].node.type == 'ObjectExpression') {
+              // 找到car被赋值的节点，判断是不是对象类型
+          }
+        })
+    }).not.toThrow()
+})
+
+
+test('get type', () => {
+    expect(() => {
+        $(`const c:CheckBoxProps = {};
+            CheckBoxProps.prop = null;
+            (a, b: CheckBoxProps, CheckBoxProps) => {
+                console.log()
+            }
+            `)
+        .find('CheckBoxProps')		// 找到的有可能是变量名，也有可能是类型定义
+        .each(item => {
+            if (item.parent().node.type == 'TSTypeReference') {
+                // 判断其父节点是类型定义TSTypeReference，就找到了
+            }
+        })
+        .root()
+        .find('const $_$1:CheckBoxProps = $_$2')
+        .each(item => {
+            item.match
+        })
+        .root()
+        .find(`($_$: CheckBoxProps) => {}`)
+        .each(item => {
+            item.match
+        })
+    }).not.toThrow()
+})
+
+
+
+test('get import', () => {
+    expect(() => {
+        $(`import '@ali/sd'
+        import a from '@ali/sd'
+        import('@ali/sd').then()
+        export * from '@path/sth'
+        export {a, b} from 'path/sth'
+        `)
+        .find(`import($_$)`)	// 找到的有可能是变量名，也有可能是类型定义
+        .each(item => {
+            item.match
+        })
+        .root()
+        .find(`export $_$ from '@path/sth'`)
+        .each(item => {
+            item.match
+        })
+        .root()
+        .find(`export * from '@path/sth'`)
+        .each(item => {
+            item.match
+        })
+        .root()
+        .find(`import $_$1 from '$_$2'`)
+        .each(item => {
+            item.match
+        })
+    }).not.toThrow()
+})
+
+
+
+test('replaceimport', () => {
+    expect(() => {
+        const res = $(`import a from 'bb/bb-plugin'
+        import { useContext, userLogger } from '@as/mdw-hk'
+        `)
+        .find(`import $_$1 from '$_$2'`)
+        .each(item => {
+            const source = item.match[2][0].value;
+            item.match[2][0].node.value = source.replace('bb/', 'bb/gogocode/');
+        })
+        .root()
+        .replace(`import { useContext, $$$ } from '@as/mdw-hk'`, `import { useFContext, $$$ } from '@as/mdw-hk'`)
+        // .replace(`import $_$ from 'bb/bb-plugin'`, `import $_$ from 'gogocode'`)
+        .generate()
+    }).not.toThrow()
+})
+
+test('findcall', () => {
+    expect(() => {
+        const res = $(`callfunc(am,b)`)
+        .find('$_$()')
+        .each(item => {
+            item.match		// 函数名
+            item.node			// 函数对应的ast节点
+            item.attr('arguments')		// 调用函数的入参
+        })
+    }).not.toThrow()
+})
+
+test('replacemethodname', () => {
+    expect(() => {
+        const res = $(`Page({
+            onShow() { },
+            data: { }
+          })`)
+            .replace(`Page({
+                onShow() {
+                $$$1	
+                },
+                $$$2
+            })`, `Page({
+                render() {
+                $$$1
+                },
+                $$$2
+            })`)
+            .generate()
+    }).not.toThrow()
+})
+
+test('insert method', () => {
+    expect(() => {
+        const res = $(`Page({
+            onShow() { },
+            data: { }
+          })`)
+          .find(`Page({})`)
+          .each(item => {
+                $(item.attr('arguments.0')).append('properties', `init() {}`)
+              // page的arguments[0]是第一个入参对象，通过attr获取到这个节点之后用$()转为AST实例，
+              // 就可以链式调用进行后续操作，append第一个参数是第二个参数指定插入的位置
+          })
+            .root()
+            .generate()
+    }).not.toThrow()
+})
+
+test('modify jsx attr', () => {
+    expect(() => {
+        const res = $(`<View>
+        <View name="1" class="active" />
+        <View name="1" t="2">sd</View>
+      </View>`)
+      .replace(`<View name="1" $$$1>$$$2</View>`,`<View type="input" $$$1>$$$2</View>`)
+      .generate()
+    }).not.toThrow()
+})
+
+test('declaration', () => {
+    expect(() => {
+        const res = $(`const {a,b = {b1},c = 3} = d`)
+        .find('const { $_$1 = $_$2 } = $_$3')
+        .each(item => {
+            const keyList = item.match[1].filter((item, i) => i%2 == 0)
+            const obj = item.match[3][0].value
+            const newkeyList = keyList.map((key, i) => {
+                let dec = `${key.value} = ${obj}.${key.value}`
+                if (item.match[2][i].value != key.value) {
+                    dec += ('||' + item.match[2][i].value)
+                }
+                return dec
+            })
+            item.replaceBy(`const ${newkeyList.join(', ')}`)
+        })
+    }).not.toThrow()
+})
+
+
+test('append', () => {
+    expect(() => {
+        const res = $(`function create(aaa) { bbb 
+            ccc
+        }`)
+        .find(`function create() {}`)
+        .each(item => {
+                $(item.attr('body')).append('body', `
+                        let type = 'success'
+                        console.log('success')
+                `)
+        })
+        .generate()
+    }).not.toThrow()
+})
+
+test('replacefunction', () => {
+    expect(() => {
+        const map = { input: 'textarea' }
+        const res = $(`
+        const componentList = [{
+            index: 1,
+            component: 'input'
+        }, {
+            index: 2,
+            component: 'radio'
+        }, {
+            index: 3,
+            component: 'checkbox'
+        }]`)
+        .replace('component: $_$', (match => {
+            if (map[match[0][0].value]) {
+                return `component: ${map[match[0][0].value]}`
+            } else {
+                return 'component: $_$'
+            }
+        }))
+        .generate()
+    }).not.toThrow()
+})
+
+
+test('replacefetch', () => {
+    expect(() => {
+        const res = $(`const fetch = () => {}; const noModify = 'fetch'`)
+        .find('fetch')
+        .each(item => {
+            item.attr('name', 'request')
+        })
+        .root()
+        .generate()
+    }).not.toThrow()
+})
+
+test('getidentifier', () => {
+    expect(() => {
+        const iden = 
+        $(`(a.b.c && b) || (c && d)`)
+        .find('$_$')
+        .each(item => {
+            if (item.parent().node.type == 'MemberExpression' && item.parent(1).node.type != 'MemberExpression') {
+                console.log(item.parent().generate())
+            } else if (item.parent().node.type != 'MemberExpression') {
+                console.log(item.generate())
+            }
+        })
+    }).not.toThrow()
+})
+
+test('replaceattr', () => {
+    expect(() => {
+        const res = $(`var a = {visibility:iconVisibility('coupon')}`)
+        .replace(`{$_$:$_$1}`, '$_$:$_$1')
+        .generate()
+    }).not.toThrow()
+})
+
+test('replacestring2ident', () => {
+    expect(() => {
+        const pres = $('<p class="title"></p>')
+        .replace(`<p class="$_$"></p>`, (match => {
+        return `<View style={styles.${match[0][0].value}}></View>`
+        }))
+        .generate()
+    }).not.toThrow()
+})
+
+
+test('replacejsxfor', () => {
+    expect(() => {
+        const res = $('<View style={styles.listItem} v-for="(item,index) in list"><Text style={styles.title}>AAA</Text></View>')
+        .replace(`<View v-for="$_$2" $$$1>$$$2</View>`, (match => {
+            const expression = $(match[2][0].value, { isProgram: false });       // 这是v-for后面整个字符串 (item,index) in list 需要单独转为ast解析
+            const listKey = expression.attr('expression.right.name')
+            const itemKey = expression.attr('expression.left.expressions.0.name')
+            return `
+            { ${listKey}.map(${itemKey}=>{
+                return (<View $$$1>$$$2</View>);
+            }) }`
+        }))
+        .generate()
+    }).not.toThrow()
+})
+
+test('replaceimg', () => {
+    expect(() => {
+        var code = $(`<View>
+            <Image class="angle"/>
+            <Image/>
+            </View>`)
+
+            .replace(`<Image/>`, (match, path) => {
+                if (path.node.openingElement && path.node.openingElement.attributes.length) {
+                    
+                }
+            })
+    }).not.toThrow()
+})

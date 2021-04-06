@@ -69,6 +69,41 @@ test('$.append: simple2 code result should to be passed', () => {
     const result = G.node.program.body[G.node.program.body.length - 1].properties[0].key.name === 'test';
     expect(result).toBeTruthy();
 });
+test('$.append: simple code result should to be passed', () => {
+    const code = $(`Page({
+        onShow() { },
+        data: { }
+      })`).find(`Page({})`)
+        .each(item => {
+            // `init() {}` parse 抛异常
+            $(item.attr('arguments.0')).append('properties', `init() {}`)
+            // page的arguments[0]是第一个入参对象，通过attr获取到这个节点之后用$()转为AST实例，
+            // 就可以链式调用进行后续操作，append第一个参数是第二个参数指定插入的位置
+        })
+        .root()
+        .generate();
+    const result = code.indexOf(`init()`) > -1;
+    expect(result).toBeTruthy();
+});
+test('$.append: append simple code result should to be passed', () => {
+    const C = `
+    function create() {
+        console.log('this is function')
+    }
+    `;
+    const code = $(C)
+        .find(`function create() {}`)
+        .each(item => {
+            $(item.attr('body')).append('body', `
+          let type = 'success'
+          console.log('success')
+      `)
+        })
+        .root()
+        .generate();
+    const result = code.indexOf(`let type = 'success'`) > -1;
+    expect(result).toBeTruthy();
+});
 test('$.append: simple html code', () => {
     const code = `<div>test</div>`;
     expect(() => {

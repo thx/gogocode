@@ -70,6 +70,22 @@ test('$.remove: simple code 2 result should be ok', () => {
     const result = G.generate();
     expect(result.indexOf(`let name = 'jerry'` < 0)).toBeTruthy();
 })
+test('$.remove: remove code use find result should be ok', () => {
+
+    const code = `
+        function parent(){
+            let name = 'jerry';
+            let city = 'bj';
+            function eat(){
+                console.log('do eat');
+            }
+        }
+        parent();
+        `
+    const G = $(code).find('parent()').remove();
+    const result = G.root().generate();
+    expect(result.indexOf(`parent()` < 0)).toBeTruthy();
+})
 // test('$.remove: simple2 code result should be ok', () => {
 //     const G = $(jc2);
 //     // G.remove('await this.fetchData();');

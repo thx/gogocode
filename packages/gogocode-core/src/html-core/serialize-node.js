@@ -57,7 +57,7 @@ function serializeTagAttributes (attributes = []) {
             if (item.value.content && item.value.content.match && item.value.content.match(quota)) {
                 quota = "'";
             }
-            if (item.value.content && item.value.content.match && item.value.content.match('=') && item.key.content.match('if')) {
+            if (item.value.content && item.value.content.trim && item.value.content.trim()[0] == '=') {
                 // 处理属性中的if语句{{#if(xx == bb)}}xxx{{/if(xx == bb)}}
                 serialized += `=${ item.value.content }`
             } else if (item.value.content && item.value.content.match && item.value.content.match(/\(/) && item.value.content.match(/\)/) && item.key.content.match(/\{\{/)) {

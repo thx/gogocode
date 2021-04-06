@@ -7,7 +7,7 @@ const filterProp = require('./js-core/filter-prop')
 const { isObject } = require('./util')
 
 class AST {
-    constructor(nodePath, { parseOptions, match, rootNode }) {
+    constructor(nodePath, { parseOptions, match, rootNode } = {}) {
         if (nodePath) {
             this[0] = {
                 nodePath, parseOptions, match
@@ -46,6 +46,12 @@ class AST {
         return newAST
     }
     find(selector, options = {}) {
+        if (!selector) {
+            throw new Error('find failed! first argument should not be null!')
+        }
+        if (!this[0]) {
+            throw new Error('find failed! Ast should not be null!')
+        }
         const { nodePath, parseOptions } = this[0];
         // if (typeof selector !== 'string' && !Array.isArray(selector)) {
         //     throw new Error('find failed! Nodepath is null!');
@@ -100,7 +106,9 @@ class AST {
         return newAST;
     }
     root() {
-        if (!this[0] || !this.rootNode) {
+        if (!this[0]) {
+            return new AST(this.rootNode);
+        } else if (!this.rootNode) {
             return this;
         }
         const parseOptions = this[0].parseOptions;
@@ -400,7 +408,12 @@ class AST {
                 return this;
             }
         }
-        this.insertSiblingNode(node, 'after');
+        if (!Array.isArray(node)) {
+            node = [node]
+        }
+        node.forEach(n => {
+            this.insertSiblingNode(n, 'after');
+        })
         return this;
     }
     before(node) {
@@ -423,7 +436,12 @@ class AST {
                 return this;
             }
         }
-        this.insertSiblingNode(node, 'before');
+        if (!Array.isArray(node)) {
+            node = [node]
+        }
+        node.reverse().forEach(n => {
+            this.insertSiblingNode(n, 'before');
+        })
         return this;
     }
     insertChildNode(attr, node, type) {
@@ -480,7 +498,12 @@ class AST {
         if (node[0] && node[0].nodePath) {
             node = node[0].nodePath.value
         }
-        this.insertChildNode(attr, node, 'append')
+        if (!Array.isArray(node)) {
+            node = [node]
+        }
+        node.forEach(n => {
+            this.insertChildNode(attr, n, 'append');
+        })
         return this;
 
     }
@@ -499,7 +522,12 @@ class AST {
         if (node[0] && node[0].nodePath) {
             node = node[0].nodePath.value
         }
-        this.insertChildNode(attr, node, 'prepend')
+        if (!Array.isArray(node)) {
+            node = [node]
+        }
+        node.reverse().forEach(n => {
+            this.insertChildNode(attr, n, 'prepend');
+        })
         return this;
     }
     empty() {

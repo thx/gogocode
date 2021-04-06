@@ -3,6 +3,7 @@ const code =
 import * as View from 'test/view';
 import moment from 'moment';
 import * as Magix from 'magix';
+import { useContext, rest } from '@as/mdw-hk';
 
 Magix.applyStyle('@test.less')
 

@@ -1,6 +1,6 @@
 const { isObject } = require('../util')
 
-// 查找时 ast无用属性
+// 查找时 ast 无用属性，这些属性的保留（如行数信息）会干扰节点的匹配，所以需要过滤掉
 const Props = [
     'computed',
     'range',
@@ -20,7 +20,7 @@ const filterProps = function (node, structure, propList, expando) {
     const props = propList || Props;
     for (const key in node) {
         // 过滤值为空的字段
-        if (props.indexOf(key) == -1 && node[key]) {
+        if ((key === 'type' && node[key] === 'Super') || (props.indexOf(key) == -1 && node[key])) {
             if (isObject(node[key])) {
                 if (Array.isArray(node[key])) {
                     structure[key] = [];

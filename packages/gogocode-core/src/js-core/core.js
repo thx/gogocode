@@ -16,12 +16,16 @@ const core = {
         }
         let nodePathList = [];
         let matchWildCardList = [];
-        const selectorAst = selector.map(item => {
-            const sel = getSelector(item, this.parseOptions || parseOptions, expando);
-            if (!sel.nodeType) {
-                throw new Error('语句类型缺失，请联系@叶兮')
-            }
-            return sel
+        const selectorAst = [];
+        selector.forEach(item => {
+            let sels = getSelector(item, this.parseOptions || parseOptions, expando);
+            !Array.isArray(sels) && (sels = [sels])
+            sels.forEach(sel => {
+                if (!sel.nodeType) {
+                    throw new Error('语句类型缺失，请在 https://github.com/thx/gogocode/issues 上提供您的代码样例')
+                }
+                selectorAst.push(sel);
+            })
         })
         selectorAst.forEach(item => {
             const res = find.call(ast, item.nodeType, item.structure, strictSequence, deep, expando);
@@ -177,8 +181,10 @@ const core = {
     replaceSelBySel(ast, selector, replacer, strictSequence, parseOptions, expando = 'g123o456g789o') {
         // 用于结构不一致的，整体替换
         const { nodePathList, matchWildCardList } = core.getAstsBySelector(ast, selector, { strictSequence, deep: 'nn', parseOptions: this.parseOptions || parseOptions, expando });
+        const originReplacer = replacer
         nodePathList.forEach((path, i) => {
             const extra = matchWildCardList[i];
+            replacer = originReplacer
             if (typeof replacer == 'function') {
                 replacer = replacer(extra, path);
             }
@@ -189,8 +195,16 @@ const core = {
                         let key$$$ = key.replace(/\$\$\$/, '');
                         key$$$ == '$' && (key$$$ = '');
                         let join = '\n'
+
                         let wildCardCode = extra[key].map(item => {
-                            const codeStr = generate(item);
+                            let codeStr = generate(item);
+                            try {
+                                // 嵌套replace
+                                const childAst = core.buildAstByAstStr(generate(item));
+                                core.replaceSelBySel(childAst, selector, replacer, strictSequence, parseOptions, expando);
+                                codeStr = generate(childAst)
+                            } catch(e) { // 
+                            }
                             nodeLinkMap[item.type] && (join = nodeLinkMap[item.type])
                             return codeStr
                         }).join(join);
@@ -330,7 +344,7 @@ const core = {
     visit() {
         visit.call(this, ...Array.from(arguments));
     },
-    traverse(node, cb) {
+    traverse(node, cb, parentNode) {
         if(!node || typeof node !== 'object'){
             throw new Error('traverse failed! first argument mast be object')
         }
@@ -340,19 +354,62 @@ const core = {
         if (node.type && typeof node.type == 'string') {
             // 是一个ast节点,且不是token
             if (['File', 'Program'].indexOf(node.type) == -1) {
-                cb(node);
+                cb(node, { parentNode });
             }
             for (let attr in node) {
                 const child = node[attr];
                 if (child) {
                     if (Array.isArray(child)) {
-                        child.forEach(c => core.traverse(c, cb));
+                        let i = 0;
+                        while(child[i]) {
+                            const c = child[i];
+                            core.traverse(c, cb, child);
+                            i = child.indexOf(c);
+                            i++
+                        }
+                        // child.forEach(c => core.traverse(c, cb, node));
                     } else if (child.type) {
-                        core.traverse(child, cb);
+                        core.traverse(child, cb, node);
                     }
                 }
             }
         }
+    },
+    initComment(ast) {
+        core.traverse(ast, ((node, {parentNode}) => {
+            if (Array.isArray(parentNode)) {
+                const index = parentNode.indexOf(node);
+                if (index == parentNode.length - 1) {
+                    if (node.trailingComments) {
+                        node.trailingComments.forEach(comment => {
+                            parentNode.push(comment);
+                        })
+                    }
+                }
+                if (node.leadingComments) {
+                    node.leadingComments.reverse().forEach(comment => {
+                        parentNode.splice(index, 0, comment);
+                    })
+                }
+            }
+        }))
+    },
+    removeComments(ast) {
+        core.traverse(ast, ((node, {parentNode}) => {
+            if (Array.isArray(parentNode)) {
+                if (!parentNode.every(item => typeof item.type == 'string' && item.type.match('Comment'))) {
+                    let i = 0;
+                    while (parentNode[i]) {
+                        const node = parentNode[i];
+                        if (node && typeof node.type == 'string' && node.type.match('Comment')) {
+                            parentNode.splice(i, 1);
+                            i--
+                        }
+                        i++
+                    }
+                }
+            }
+        }))
     }
 }
 

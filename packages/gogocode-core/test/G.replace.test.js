@@ -3,7 +3,9 @@ const config = require('./config');
 const jc1 = require('./code/simple1');
 const jc2 = require('./code/simple2');
 const jc3 = require('./code/simple3');
+const jc4 = require('./code/simple4');
 const jTryout = require('./code/simple-tryout');
+const jReact = require('./code/react');
 const hc1 = require('./code/simple1.html');
 const CODE = `
 const m = {
@@ -65,6 +67,12 @@ test('$.replace: not find', () => {
         G.replace('$_$.c()','m.b()');
     }).not.toThrow();
 })
+// TODO
+// test('$.replace: replace head String should be ok', () => {
+//     const code = `'aaaa';`;
+//     const output = $(code).replace(`'aaaa'`, `'bbbb'`).generate();
+//     expect(output).toBe(`"bbbb"`);
+// })
 test('$.replace: simple1 js code result should be ok', () => {
     const G = $(jc1);
     const result = G.replace('const c = add();', 'const b = add();');
@@ -77,7 +85,14 @@ test('$.replace: simple2 js code result should be ok', () => {
     const code = result.generate();
     expect(code.indexOf('this.updater.digest(loc)') < 0 && code.indexOf('this.updater.set(loc)') > -1).toBeTruthy();
 })
-
+test('$.replace: simple2 js code, replace with multiple $_$ show throw error', () => {
+    expect(() => {
+        // 是否允许多个$_$ 出现？
+        const G = $(jc2);
+        const result = G.replace('$_$.updater.digest($_$);', '$_$.setData($_$);');
+        const code = result.generate();
+    }).not.toThrow();
+})
 test('$.replace: simple3 js code result should be ok', () =>{
     const code = $(jc3)
     .replace(`await $_$()`, `
@@ -91,7 +106,6 @@ test('$.replace: simple3 js code result should be ok', () =>{
         content: $_$2,
         success: $_$3
     })`,    `this.alert($_$1, $_$2, $_$3)`)
-    .root()
     .generate();
     const result = code.indexOf('handleError()') > -1 && code.indexOf('this.alert(') > -1
     expect(result).toBeTruthy();
@@ -120,7 +134,6 @@ test('$.replace: simple3 js code with $$$ result should be ok', () =>{
         $$$2
     })
     `)
-    .root()
     .generate();
     const result = code.indexOf('View.extend(') > -1;
     expect(result).toBeTruthy();
@@ -132,7 +145,6 @@ test('$.replace: simple tryout js code replace width array should be ok', () =>{
         'let $_$ = Tryout.TRYOUT_SID_391',
         'const $_$ = Tryout.TRYOUT_SID_391'
     ], 'let $_$ = true;')
-    .root()
     .generate();
     const result = code.indexOf('let t1 = true') > -1 && code.indexOf('let t2 = true') > -1 && code.indexOf('let t3 = true') > -1
     expect(result).toBeTruthy();
@@ -140,7 +152,6 @@ test('$.replace: simple tryout js code replace width array should be ok', () =>{
 test('$.replace: simple tryout js code result should be ok', () => {
     const code = $(jTryout)
         .replace(`Tryout.TRYOUT_SID_391 ? $_$1 : $_$2`, '$_$1')
-        .root()
         .generate();
     const result = code.indexOf('const t4 = 1') > -1
     expect(result).toBeTruthy();
@@ -148,18 +159,161 @@ test('$.replace: simple tryout js code result should be ok', () => {
 test('$.replace: simple tryout js code result should be ok', () => {
     const code = $(jTryout)
         .replace(`!Tryout.TRYOUT_SID_391 ? $_$1 : $_$2`, '$_$2')
-        .root()
         .generate();
-        // 结果把字符串'2' 变成数字 2 了
     const result = code.indexOf(`const t7 = "2"`) > -1 && code.indexOf(`const t8 = "2"`) > -1
+    expect(result).toBeTruthy();
+})
+test('$.replace: simple js code result should be ok', () => {
+    const CODE = `alert({
+        type: 'error',
+        content: '请填写必填项',
+        done: () => {}
+      })`;
+    const code = $(CODE)
+        .replace(`alert({ type: $_$1, done: $_$3, content: $_$2})`,
+            `alert( $_$1, $_$2, $_$3 )`)
+        .generate();
+    const result = code.indexOf(`alert( 'error', '请填写必填项', () => {} )`) > -1 ;
+    expect(result).toBeTruthy();
+})
+
+test('$.replace: replace use $$$ result should be ok', () => {
+    const CODE = `alert({
+        type: 'error',
+        content: '请填写必填项',
+        done: () => {}
+      })`;
+    const code = $(CODE)
+        .replace(`alert($$$)`, `alert(this, $$$)`)
+        .generate();
+    const result = code.indexOf(`alert(this,`) > -1 ;
+    expect(result).toBeTruthy();
+})
+test('$.replace: replace use $$$ result should be ok', () => {
+    const CODE = `const code = Page({
+        onShow() { },
+        data: { }
+      })`;
+    const code = $(CODE)
+        .replace(`Page({
+            onShow() {
+              $$$1  
+            },
+            $$$2
+          })`, `Page({
+            render() {
+              $$$1
+            },
+            $$$2
+          })`)
+        .generate();
+    const result = code.indexOf(`render()`) > -1 && code.indexOf(`onShow()`) < 0;
     expect(result).toBeTruthy();
 })
 test('$.replace: simple tryout js code if condition result should be ok', () => {
     const code = $(jTryout)
         .replace(`if(Tryout.TRYOUT_SID_391){$_$}`, '$_$')
-        .root()
         .generate();
     const result = code.indexOf(`if (Tryout.TRYOUT_SID_391)`) < 0
+    expect(result).toBeTruthy();
+})
+test('$.replace: replace use callback function result should be ok', () => {
+    const map = { input: 'textarea' }   // 在map中有映射的才进行修改
+
+    const code = $(`
+        const componentList = [{
+        index: 1,
+        component: 'input'
+      }, {
+        index: 2,
+        component: 'radio'
+      }, {
+        index: 3,
+        component: 'checkbox'
+      }]`)
+        .replace('component: $_$', (match => {
+            if (map[match[0][0].value]) {
+                return `component: '${map[match[0][0].value]}'`
+            } else {
+                return 'component: $_$'
+            }
+        }))
+        .generate();
+    const result = code.indexOf(`component: 'input'`) < 0 && code.indexOf(`component: 'textarea'`) > -1;
+    expect(result).toBeTruthy();
+})
+test('$.replace: use replace to insert code result should be ok', () => {
+    const code = $(`
+    Page({
+        onShow() { },
+        data: { }
+      })`)
+        .replace(`Page({
+        $$$2
+      })`, `Page({
+        init() { 
+          this.data = {} 
+        },
+        $$$2
+      })`)
+        .generate();
+    const result = code.indexOf(`init()`) > -1;
+    expect(result).toBeTruthy();
+})
+test('$.replace:  replace import result should be ok', () => {
+    const code = $(jc2)
+    .replace(`import $_$ from 'moment';`, `import $_$ from 'gogocode';`)
+        .generate();
+    const result = code.indexOf(`'gogocode'`) > -1;
+    expect(result).toBeTruthy();
+})
+
+test('$.replace:  replace import result should be ok', () => {
+    const code = $(jc2)
+    .replace(`import { useContext, $$$ } from '@as/mdw-hk'`, `import { useFContext, $$$ } from '@as/mdw-hk'`)
+        .generate();
+    const result = code.indexOf(`{ useFContext, rest }`) > -1;
+    expect(result).toBeTruthy();
+})
+test('$.replace: react js  result should be ok', () => {
+    let code = $(jReact.code)
+        .replace(`import { $$$ } from "@alifd/next"`, `import { $$$ } from "antd"`)
+        .replace(`<h2>转译前</h2>`, `<h2>转译后</h2>`)
+        .replace(
+            `<Button type="normal" $$$></Button>`,
+            `<Button type="default" $$$></Button>`
+        )
+        .replace(
+            `<Button size="medium" $$$></Button>`,
+            `<Button size="middle" $$$></Button>`
+        )
+        .replace(`<Button text $$$></Button>`, `<Button type="link" $$$></Button>`)
+        .replace(`<Button warning $$$></Button>`, `<Button danger $$$></Button>`)
+        .generate();
+    
+   
+    expect(code).toBe(jReact.compareCode);
+})
+test('$.replace: replace attr  result should be ok', () => {
+    let code = $(jc4)
+        .replace(
+            '{ text: $_$1, value: $_$2, $$$ }',
+            '{ name: $_$1, id: $_$2, $$$ }'
+        )
+        .generate();
+    const result = code.indexOf('text:') < 0 && code.indexOf('name:') > -1 &&
+        code.indexOf('value:') < 0 && code.indexOf('id:') > -1 && 
+        code.indexOf('tips:') > -1
+    expect(result).toBeTruthy();
+})
+test('$.replace: replace like remove  result should be ok', () => {
+    let code = $(jc1)
+        .replace(
+            `const XXMonitor = require($_$);`,
+            ''
+        )
+        .generate();
+    const result = code.indexOf(`const XXMonitor = require('../monitor');`) < 0 
     expect(result).toBeTruthy();
 })
 // test('$.replace: simple tryout js code if condition with $$$ result should be ok', () => {
@@ -233,6 +387,14 @@ test('$.replace: simple1 html code use $_$ result should be ok', () => {
     expect(code.indexOf('<i>\ntest</i>') > -1).toBeTruthy();
 
 })
+// test('$.replace: replace html tag result should be ok', () => {
+
+//     const G = $(hc1, config.html);
+//     const code = G.replace('<form $$$1>$$$2</form>','<mx-form $$$1>$$$2</mx-form>').generate();
+//     expect(code.indexOf('<form') < 0 && code.indexOf('<mx-form') > -1).toBeTruthy();
+
+// })
+// TODO
 
 // test('$.replace: simple1 html code use $_$ result should be ok', () => {
 

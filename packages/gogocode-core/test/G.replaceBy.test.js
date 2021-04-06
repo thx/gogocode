@@ -64,6 +64,26 @@ test('$.replaceBy: simple2 code2 result should be ok', () => {
     const code = result.generate();
     expect(code.indexOf('this.updater.set(loc)') > -1).toBeTruthy();
 })
+
+test('$.replaceBy: replace use $_$ result should be ok', () => {
+    const CODE = `alert({
+        type: 'error',
+        content: '请填写必填项',
+        done: () => {}
+      })`;
+    const code = $(CODE)
+    .find(`alert({ type: $_$1, content: $_$2, done: $_$3 })`)
+    .each(item => {
+      const typeValue = item.match[1][0].value,
+            contentValue = item.match[2][0].value,
+            doneValue = item.match[3][0].value
+      item.replaceBy($(`
+        alert( ${typeValue}, ${contentValue}, ${doneValue} )
+      `))
+    }).generate();
+    const result = code.indexOf(`alert( error, 请填写必填项, () => {} )`) > -1 ;
+    expect(result).toBeTruthy();
+})
 test('$.replaceBy: simple1 html code', () => {
     expect(() => {
         const G = $(hc1, config.html);

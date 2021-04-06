@@ -32,12 +32,20 @@ function getSelector(selectorCode, parseOptions, expando) {
         seletorAst = parse(selectorCode, parseOptions);
         if (seletorAst.program.body.length == 0) {
             // 开头的字符串会被解析成directive
-            return {
-                nodeType: 'StringLiteral',
-                structure: {
-                    value: selectorCode.slice(1, -1)
+            if (seletorAst.program.directives.length) {
+                return {
+                    nodeType: 'StringLiteral',
+                    structure: {
+                        value: selectorCode ? selectorCode.slice(1, -1) : ''
+                    }
                 }
+            } else if (seletorAst.program.comments.length) {
+                let ast = seletorAst.program.comments[0]
+                selector.nodeType = ast.type;
+                filterProps(ast, selector.structure);
+                return selector;
             }
+            
         } else if (seletorAst.program.body[0] && seletorAst.program.body[0].type == 'LabeledStatement') {
             throw new Error('Missing semicolon')
         }
@@ -52,7 +60,18 @@ function getSelector(selectorCode, parseOptions, expando) {
                     structure: {}
                 }
                 filterProps(seletorAst, selector.structure)
-                return selector
+                if (selector.structure.key.name == 'constructor') {
+                    selector.structure.kind = 'constructor'
+                    delete selector.structure.method
+                }
+                // 如果是objectMethod\objectProperty 再复制一份class的
+                const clsSelector = {
+                    nodeType: selector.nodeType.replace('Object', 'Class'),
+                    structure: Object.assign({}, selector.structure, {
+                        type: selector.nodeType.replace('Object', 'Class')
+                    })
+                }
+                return [selector, clsSelector]
             } catch(err) {
                 throw new Error('parse error!' + e.message);
             }
@@ -61,22 +80,22 @@ function getSelector(selectorCode, parseOptions, expando) {
     visit(seletorAst, {
         visitExpressionStatement(path) {
             const expression = path.value.expression;
-            selector.nodeType = expression.type;
             if (!expression) return;
+            selector.nodeType = expression.type;
             filterProps(expression, selector.structure);
             this.abort();
         },
         visitStatement(path) {
             const expression = path.value;
-            selector.nodeType = expression.type;
             if (!expression) return;
+            selector.nodeType = expression.type;
             filterProps(expression, selector.structure);
             this.abort();
         },
         visitDeclaration(path) {
             const declaration = path.value;
-            selector.nodeType = declaration.type;
             if (!declaration) return;
+            selector.nodeType = declaration.type;
             filterProps(declaration, selector.structure);
             this.abort();
         }

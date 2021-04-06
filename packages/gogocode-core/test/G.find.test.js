@@ -2,6 +2,9 @@ const $ = require('../index');
 const config = require('./config');
 const jc1 = require('./code/simple1');
 const jc2 = require('./code/simple2');
+const jc5 = require('./code/simple5');
+const jc6 = require('./code/simple6');
+const tc1 = require('./code/simple-ts-1');
 const hc1 = require('./code/simple1.html');
 const jTryout = require('./code/simple-tryout');
 
@@ -22,14 +25,14 @@ test('$.find: input is empty string should not throw error', () => {
     expect(()=>{
        const G = $(SIMPLE_CODE);
        G.find('');
-    }).not.toThrow();
+    }).toThrow();
 })
 
 test('$.find: input is empty string should not throw error', () => {
     expect(()=>{
        const G = $(SIMPLE_CODE);
        const result = G.find('');
-    }).not.toThrow();
+    }).toThrow();
 })
 test('$.find: input is simple selector should not throw error', () => {
     expect(()=>{
@@ -130,6 +133,11 @@ test('$.find: find object result should be ok', () => {
     const code = G.find(`{$_$:'jerry'}`).generate();
     expect(code.indexOf(`name: 'jerry',`) > -1).toBeTruthy();
 })
+test('$.find: find object result should be ok', () => {
+    const G = $(OBJECT_CODE);
+    const code = G.find(`{name:'jerry'}`).generate();
+    expect(code.indexOf(`name: 'jerry',`) > -1).toBeTruthy();
+})
 test('$.find: find properties value should not throw error', () => {
     expect(()=>{
        const G = $(OBJECT_CODE);
@@ -153,6 +161,30 @@ test('$.find: simple tryout js code if condition result should be ok', () => {
     const result = code.indexOf(`if (!Tryout.TRYOUT_SID_391`) < 0 && code.indexOf(`if (Tryout.TRYOUT_SID_391`) < 0
     expect(result).toBeTruthy();
 })
+test('$.find: simple js code if condition result should be ok', () => {
+    const match = $(`if (a && 1 || 0) { b } else { c; dosth() }`)
+    .find(`if ($_$1) { $_$2 } else { $_$3 }`)
+    .match;
+    const result = match['1'][0].value === 'a && 1 || 0' && 
+    match['2'][0].value === 'b' &&
+    match['3'][0].value === 'c'
+    expect(result).toBeTruthy();
+})
+test('$.find: replace function name', () => {
+
+    const G = $(`const code = Page({
+        onShow() { },
+        data: { }
+      })`);
+    const code = G.find(`Page({ $_$() { }  })`)
+        .each(item => {
+            if (item.match[0][0].value == 'onShow') {
+                item.match[0][0].node.name = 'render'
+            }
+        }).generate();
+    const result = code.indexOf(`render()`) > -1 && code.indexOf(`onShow()`) < 0;
+    expect(result).toBeTruthy();
+})
 test('$.find: find function name', () => {
     expect(()=>{
        const G = $(CODE);
@@ -164,6 +196,11 @@ test('$.find: find function name result should be ok', () => {
     //待定
     const code = G.find(`function $_$(c) { $_$2 }`).match[0][0].value;
     expect(code).toBe('test');
+})
+test('$.find: find arrow function name', () => {
+    const G = $(jc1);
+    const code = G.find(`()=>{}`).generate();
+    expect(code.indexOf(`console.log('this is arrow function' )`) > -1).toBeTruthy();
 })
 test('$.find: find object', () => {
     expect(()=>{
@@ -199,6 +236,320 @@ test('$.find: find argument and body should be ok', () => {
     expect(code.indexOf('function test(c){') > -1 &&
         code.indexOf('let a = 1;') > -1
     ).toBeTruthy()
+})
+test('$.find: find in function should be ok', () => {
+    const G = $(CODE);
+    const code = G.find(`function $_$() {
+        let a = 1;
+      }`).generate();
+    expect(code.indexOf('function test(c){') > -1 &&
+        code.indexOf('let a = 1;') > -1
+    ).toBeTruthy()
+})
+test('$.find: find in function should be ok', () => {
+    let has = false;
+    const G = $(CODE);
+    G.find(`function $_$() {  }`)
+    .each(item => {
+        if(item.has('let a = 1;')){
+            has = true;
+        }
+    })
+    expect(has).toBeTruthy();
+})
+test('$.find: find function should be ok', () => {
+    let has = false;
+    const G = $(CODE);
+    G.find(`$_$()`)
+        .each(item => {
+            has = true;
+        })
+    expect(has).toBeTruthy();
+})
+test('$.find: find function should be ok', () => {
+    let has = false;
+    const G = $(jc1);
+    G.find(`parent().$_$()`)
+        .each(item => {
+            has = true;
+        })
+    expect(has).toBeTruthy();
+})
+test('$.find: find function should be ok', () => {
+    let has = false;
+    const G = $(CODE);
+    G.find(`test()`)
+        .each(item => {
+           has = true;
+        })
+    expect(has).toBeTruthy();
+})
+test('$.find: find "for" code should be ok', () => {
+    const G = $(jc2);
+    const code = G.find(`for($_$1;$_$2;$_$3){$_$4}`).generate();
+    expect(code.indexOf('for (let i = 0; i < array.length; i++) {') > -1 &&
+        code.indexOf('const element = array[i];') > -1
+    ).toBeTruthy()
+})
+test('$.find: find "for" code should be ok', () => {
+    const G = $(jc2);
+    const match = G.find(`for($_$1;$_$2;$_$3){$_$2}`).match;
+    expect(match['1'].length === 1 && match['2'].length === 2 && match['3'].length === 1).toBeTruthy();
+})
+// test('$.find: find in "switch" code should be ok', () => {
+//     const G = $(jc2);
+//     const code = G.find(`switch ($_$) {$_$}`).generate();
+//     expect(code.indexOf('switch (a)') > -1 &&
+//         code.indexOf(' case 1:') > -1
+//     ).toBeTruthy()
+// })
+// TODO
+test('$.find: find in "catch" code should be ok', () => {
+    const G = $(jc2);
+    const code = G.find(`try {$_$} catch (e) {$_$}`).generate();
+    expect(code.indexOf('try') > -1 &&
+        code.indexOf(' catch') > -1
+    ).toBeTruthy()
+})
+// test('$.find: find in "catch" code should be ok', () => {
+//     //  如何处理非完整try catch 语句？？
+//     const G = $(jc2);
+//     const code = G.find(`try {$_$} `).generate();
+//     expect(code.indexOf('try') > -1 
+//     ).toBeTruthy()
+// })
+// TODO
+
+// test('$.find: find in "catch" code should be ok', () => {
+//      //  如何处理非完整try catch 语句？？
+//     const G = $(jc2);
+//     const code = G.find(`catch (e) {$_$}`).generate();
+//     expect(code.indexOf('try') > -1 
+//     ).toBeTruthy()
+// })
+test('$.find: find super in ts',()=>{
+    const nodes = [];
+    const code = $(tc1)
+        .find(`super($_$,$_$,$_$)`, { ignoreSequence: true })
+        .each(item => {
+            item.after('console.log("super")')
+        }).root().generate();
+    $(code).find(`console.log("super")`).each(item => {
+        nodes.push(item);
+    })
+    const result = nodes.length === 1 &&
+    nodes[0].siblings().generate().indexOf(`super(options.baseWidth, options.baseHeight, options);`) > -1;
+    expect(result).toBeTruthy();
+ })
+test('$.find: find constructor in ts', () => {
+    const nodes = [];
+    const code = $(tc1)
+        .find(`constructor($_$){}`)
+        .append('body', 'console.log("constructor")')
+        .root()
+        .generate();
+    $(code).find(`console.log("constructor")`).each(item => {
+        nodes.push(item);
+    })
+    const result = nodes.length === 1
+    expect(result).toBeTruthy();
+})
+test('$.find: find all',()=>{
+   const nodes = [];
+    $(jc1)
+        .find('$_$')
+        .each(item => {
+            nodes.push(item);
+        })
+  expect(nodes.length > 0).toBeTruthy();
+})
+test('$.find: find h',()=>{
+    const nodes = [];
+     $(jc1)
+         .find('h')
+         .each(item => {
+             nodes.push(item);
+         })
+   expect(nodes.length > 0).toBeTruthy();
+ })
+test('$.find: 获取表达式中的变量', () => {
+    const members = [];
+    $(`(a.b.c && b) || (c && d)`)
+        .find('$_$')
+        .each(item => {
+            if (item.parent().node.type == 'MemberExpression' && item.parent(1).node.type != 'MemberExpression') {
+                // 输出a.b.c整体 而不是a \ b \ c
+                members.push(item.parent().generate())
+            } else if (item.parent().node.type != 'MemberExpression') {
+                // 输出独立的变量
+                members.push(item.generate())
+            }
+        })
+    expect(members[0] === 'a.b.c' &&
+        members[1] === 'b' &&
+        members[2] === 'c' &&
+        members[3] === 'd'
+    ).toBeTruthy();
+})
+test('$.find: find string', () => {
+    const nodes = [];
+    $(jc1)
+        .find(`'$_$'`)
+        .each(item => {
+            nodes.push(item);
+        })
+  expect(nodes[0].generate() === `'../index'`).toBeTruthy();
+})
+test('$.find: find string', () => {
+    const nodes = [];
+    $(jc1)
+        .find(`'this is string'`)
+        .each(item => {
+            nodes.push(item);
+        })
+  expect(nodes[0].generate() === `'this is string'`).toBeTruthy();
+})
+test('$.find: find 获取赋值语句', () => {
+    const matchList = [];
+    $(jc1)
+        .find(`$_$1 = $_$2`)
+        .each(item => {
+            matchList.push(item.match[1]);
+        })
+  expect(matchList[0][0].value === `a`).toBeTruthy();
+})
+
+test('$.find: find 获取赋值语句', () => {
+    const matchList = [];
+    $(jc1)
+    .find('a = $_$')
+    .each(item => {
+        matchList.push(item.match[0])
+     })
+  expect(matchList[0][0].value).toBe(3);
+})
+test('$.find: find 获取赋值语句', () => {
+    const matchList = [];
+    $(jc1)
+    .find('car.color = $_$')
+    .each(item => {
+        matchList.push(item.match[0])
+     })
+  expect(matchList[0][0].value).toBe('green');
+})
+test('$.find: find 获取赋值语句', () => {
+    const matchList = [];
+    $(jc1)
+    .find('$_$1.color = $_$2')
+    .each(item => {
+        matchList.push(item.match['1'])
+     })
+  expect(matchList[0][0].value).toBe('car');
+})
+test('$.find: find 获取赋值语句 arr', () => {
+    const matchList = [];
+    $(jc1)
+    .find('$_$ = [1, 2]')
+    .each(item => {
+        matchList.push(item.match[0])
+     })
+  expect(matchList[0][0].value).toBe('arr');
+})
+test('$.find: 在某作用域里面获取变量定义', () => {
+    const matchList = [];
+    const code = $(jc1)
+    .find(`const obj = { name: 'test' };`)
+    .parent().generate();
+const compareCode = $(
+`{
+    function test(){
+        let a = 1;
+    }
+    const obj = { name: 'test' };
+}`).generate();
+  expect(code).toBe(compareCode);
+})
+test('$.find: class define use $_$', () => {
+    const code = $(jc5)
+    .find('class $_$ {}').generate();
+    const result = code.indexOf('class Car {') > -1;
+    expect(result).toBeTruthy();
+})
+test('$.find: class define', () => {
+    const code = $(jc5)
+    .find('class Car {}').generate();
+    const result = code.indexOf('class Car {') > -1;
+    expect(result).toBeTruthy();
+})
+test('$.find: class define', () => {
+    const match = $(jc5)
+        .find(`class Car {
+        color = $_$c;
+        size = $_$s;
+      }`).match;
+    const result = match['c'][0].value === 'red' && match['s'][0].value === 12;
+    expect(result).toBeTruthy();
+})
+test('$.find: ts type define', () => {
+    let find = false;
+    $(jc6)
+        .find('CheckBoxProps')		// 找到的有可能是变量名，也有可能是类型定义
+        .each(item => {
+            if (item.parent().node.type == 'TSTypeReference') {
+                find = true;
+            }
+        })
+    expect(find).toBeTruthy();
+})
+test('$.find: ts type define', () => {
+    const match = $(jc6)
+        .find('let $_$1:CheckBoxProps = $_$2')		
+        .match;
+    const result = match['1'][0].value === 'cbp' && match['2'][0].value === '{\n  checked: true,\n  width: 100\n}';
+    expect(result).toBeTruthy();
+})
+test('$.find: ts type define in function', () => {
+    const match = $(jc6)
+        .find('($_$: CheckBoxProps) => {}')		
+        .match;
+    const result = match[0][0].value === 'props' ;
+    expect(result).toBeTruthy();
+})
+test('$.find: find import ', () => {
+    const match = $(jc2)
+        .find(`import $_$1 from '$_$2'`)		
+        .match;
+    const result = match['1'][0].value === 'View' ;
+    expect(result).toBeTruthy();
+})
+test('$.find: find import ', () => {
+    const match = $(jc1)
+        .find(`export $_$ from '@path/sth'`)		
+        .match;
+    const result = match[0][0].value === 'sth' ;
+    expect(result).toBeTruthy();
+})
+test('$.find: find 模拟解构赋值 ', () => {
+    // 找到const {a,b = {b1},c = 3} = d; 转为const a = d.a, b = d.b || {b1}, c = d.c || 3;
+
+    const code = $(`const {a,b = {b1},c = 3} = d`)
+        .find('const { $_$1 = $_$2 } = $_$3')
+        .each(item => {
+            const keyList = item.match[1].filter((item, i) => i % 2 == 0)
+            const obj = item.match[3][0].value
+            const newkeyList = keyList.map((key, i) => {
+                let dec = `${key.value} = ${obj}.${key.value}`
+                if (item.match[2][i].value != key.value) {
+                    dec += ('||' + item.match[2][i].value)
+                }
+                return dec
+            })
+            item.replaceBy(`const ${newkeyList.join(', ')}`)
+        })
+        .root()
+        .generate()
+    const result = code.indexOf('const a = d.a, b = d.b||{b1}, c = d.c||3') > -1;
+    expect(result).toBeTruthy();
 })
 test('$.find: simple1 html code', () => {
     expect(() => {
@@ -269,4 +620,15 @@ test('$.find: comment code result should be ok', () => {
     const result = G.find('<!-- $_$ -->');
     const match = result.match;
     expect(match).toBe(` comment test `);
+})
+test('$.find: replace html tag result should be ok', () => {
+
+    const G = $(hc1, config.html);
+    
+    const code = G.find('<form $_$>$_$</form>').each((ast)=>{
+        ast.node.content.name = 'mx-form'
+    }).root().generate();
+    
+    expect(code.indexOf('<form') < 0 && code.indexOf('<mx-form') > -1).toBeTruthy();
+
 })

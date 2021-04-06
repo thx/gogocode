@@ -73,6 +73,20 @@ test('$.after: insert string code to equal', () => {
     const compareCode = '\n        function a(){\n            var a = 1;\n        }\n        var a = 1;\n        ';
     expect(compareCode).toBe(newCode);
 })
+test('$.after: insert empty row code to equal', () => {
+    const C = `function add(){
+    console.log('test');
+}`
+    const placeholder = `placeholder${+new Date()}`;
+    const code = $(C)
+        .find('function add(){}')
+        .after(placeholder)
+        .root()
+        .generate()
+        .replace(new RegExp(placeholder, 'g'), '\n')
+    expect(code.split('\n').length === 4).toBeTruthy();
+})
+
 test('$.after: insert $ object', () => {
     expect(() => {
         const code = `
