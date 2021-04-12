@@ -4,7 +4,12 @@ const { isObject } = require('../util')
 const Props = [
     'startPosition',
     'endPosition',
-    'parentRef'
+    'parentRef',
+    'openStart',
+    'openEnd',
+    'startWrapper',
+    'endWrapper',
+    'close'
 ]
 
 

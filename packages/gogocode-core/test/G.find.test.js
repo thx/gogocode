@@ -590,12 +590,12 @@ test('$.find: simple1 html code use full tag result should be ok', () => {
 test('$.find: simple1 html code find attr value', () => {
     const G = $(hc1, config.html).find('<div id=$_$>');
     const match = G.match;
-    expect(match[0].value).toBe('1');
+    expect(match[0][0].value).toBe('1');
 })
 test('$.find: simple1 html code find attr key', () => {
     const G = $(hc1, config.html).find('<div $_$="1">');
     const match = G.match;
-    expect(match[0].value).toBe('id');
+    expect(match[0][0].value).toBe('id');
 })
 test('$.find: simple1 html code find DOCTYPE ', () => {
     const G = $(hc1, config.html).find('<!DOCTYPE html>');
@@ -631,4 +631,16 @@ test('$.find: replace html tag result should be ok', () => {
     
     expect(code.indexOf('<form') < 0 && code.indexOf('<mx-form') > -1).toBeTruthy();
 
+})
+
+test('$.find: replace html tag result should be ok', () => {
+    var code = $(`
+    <div>
+        <div/>
+        <div>
+            <text>kkk></text>
+        </div>
+    </div>`)
+
+    code.find(`<div></div>`)
 })

@@ -38,26 +38,26 @@ test('$.match: html code match should be undefined', () => {
 test('$.match: html code match should be same', () => {
     const G = $(hc1, config.html).find('<span>$_$</span>');
     const match = G.match;
-    expect(match.length &&
-        match[0].structure.length &&
-        match[0].structure[0].nodeType === 'text' &&
-        match[0].structure[0].content.value.content === 'test'
+    expect(match[0] &&
+        match[0][0].node.length &&
+        match[0][0].node[0].nodeType === 'text' &&
+        match[0][0].node[0].content.value.content === 'test'
     ).toBeTruthy();
 })
 
 test('$.match: html code attr value match should be same', () => {
     const G = $(hc1, config.html).find('<div id=$_$>');
     const match = G.match;
-    expect(match.length &&
-        match[0].structure &&
-        match[0].structure.content === '1'
+    expect(match[0] &&
+        match[0][0].node &&
+        match[0][0].node.content === '1'
     ).toBeTruthy();
 })
 test('$.match: html code attr key match should be same', () => {
     const G = $(hc1, config.html).find('<div $_$="1">');
     const match = G.match;
-    expect(match.length &&
-        match[0].structure &&
-        match[0].structure.content === 'id'
+    expect(match[0] &&
+        match[0][0].node &&
+        match[0][0].node.content === 'id'
     ).toBeTruthy();
 })

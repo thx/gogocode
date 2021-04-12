@@ -190,7 +190,7 @@ test('$: wrong code', () => {
     `
     expect(() => {
         const G = $(code);
-    }).toThrow();
+    }).not.toThrow();
 })
 test('$: jsx code', () => {
     const code = `<div>test</div>`;
@@ -643,6 +643,20 @@ test('replaceimg', () => {
             .replace(`<Image/>`, (match, path) => {
                 if (path.node.openingElement && path.node.openingElement.attributes.length) {
                     
+                }
+            })
+    }).not.toThrow()
+})
+
+test('selector not', () => {
+    expect(() => {
+        var code = $(`import A from 'a';
+        import B from 'b';
+        import C from 'c';`)
+            .find(`import $_$1 from '$_$2'`)
+            .each(item => {
+                if (item.match[2][0].value != 'a') {
+                    return;
                 }
             })
     }).not.toThrow()

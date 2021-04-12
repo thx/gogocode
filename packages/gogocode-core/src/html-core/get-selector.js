@@ -11,7 +11,9 @@ function getSelector(selectorCode, parseOptions, expando = 'g123o456g789o') {
         selector.type = selectorCode.nodeType; // 兼容只用type匹配的选择器
         return selector;
     } else {
-        selectorCode = selectorCode.replace(/\$_\$/g, expando);
+        selectorCode = selectorCode
+            .replace(/\$_\$/g, expando)
+            .replace(/\$\$\$/g, expando.slice(0, -1) + '$3')
     }
     let selectorAst = parse(selectorCode, parseOptions);
     if (selectorAst.content && selectorAst.content.children && selectorAst.content.children[0]) {

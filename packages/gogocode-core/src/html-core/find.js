@@ -3,6 +3,7 @@ const { isObject, hasOwn } = require('../util')
 const filterProps = require('./filter-prop.js');
 const traverse = require('./html-traverse')
 const NodePath = require('../NodePath');
+const generate = require('./serialize-node');
 
 let Expando = 'g123o456g789o';
 
@@ -12,20 +13,35 @@ function checkIsMatch(full, partial, extraData, strictSequence) {
             // 匹配一段代码
             if (partial.children.length == 1
                 && partial.children[0].nodeType == 'text'
-                && partial.children[0].content.value.content == Expando) {
-                extraData.push({ structure: full.children, matcher: Expando })
-                return true;
+                && (partial.children[0].content.value.content.match 
+                )) {
+                if (partial.children[0].content.value.content.match(Expando)) {
+                    const expandoKey = partial.children[0].content.value.content.replace(Expando, '') || '0';
+                    extraData[expandoKey] = extraData[expandoKey] || [];
+                    extraData[expandoKey].push({ node: full.children, value: full.children.map(c => generate(c)).join('\n') })
+                    return true;
+                } else if (partial.children[0].content.value.content.match(new RegExp(Expando.slice(0, -1) + '\\$3'))) {
+                    find$$$(partial[prop], full[prop], extraData, strictSequence);
+                    return true;
+                }
             }
         }
         if (!full || !partial) {
             return false;
-        } else
-        if (isObject(partial[prop])) {
+        } else if (isObject(partial[prop])) {
             let res = false;
+            let has$$$ = false;
+            if (Array.isArray(partial[prop])) {
+                // 处理$$$这种情况
+                has$$$ = find$$$(partial[prop], full[prop], extraData, strictSequence);
+            }
             if (Array.isArray(partial[prop]) && !strictSequence) {
                 if (hasOwn(full, prop)) {
                     res = partial[prop].every(p => {
                         let a = false;
+                        if (!full[prop].length && partial[prop].length == 1 && has$$$) {
+                            return true
+                        }
                         full[prop] && full[prop].forEach(f => {
                             if (checkIsMatch(f, p, extraData, strictSequence)) {
                                 a = true;
@@ -39,6 +55,14 @@ function checkIsMatch(full, partial, extraData, strictSequence) {
             } else {
                 // todo
                 try {
+                    if (partial[prop].type == 'token:attribute-value' && !full[prop]) {
+                        if (partial[prop].content.match && partial[prop].content.match(Expando)) {
+                            const expandoKey = partial[prop].content.replace(Expando, '') || '0';
+                            extraData[expandoKey] = extraData[expandoKey] || [];
+                            extraData[expandoKey].push({ node: null, value: null })
+                            return true;
+                        }
+                    }
                     res = hasOwn(full, prop) && checkIsMatch(full[prop], partial[prop], extraData, strictSequence);
                 } catch (e) {
                     console.log(e)
@@ -47,11 +71,15 @@ function checkIsMatch(full, partial, extraData, strictSequence) {
             }
             return res;
         } else {
-            if (partial[prop] == Expando || partial[prop].match(new RegExp(Expando))) {
+            if (partial[prop].match && partial[prop].match(new RegExp(Expando.slice(0, -1) + '\\$3'))) {
+                return true;
+            }
+            if (partial[prop] == Expando || (partial[prop].match && partial[prop].match(Expando))) {
                 let extra = {
-                    structure: full,
-                    matcher: partial[prop]
+                    node: full
                 };
+                const expandoKey = partial[prop].replace(Expando, '') || '0';
+                extraData[expandoKey] = extraData[expandoKey] || [];
                 if (!full) return;
                 if (full[prop]) {
                     extra.value = full[prop];
@@ -59,9 +87,7 @@ function checkIsMatch(full, partial, extraData, strictSequence) {
                     extra.value = {};
                     filterProps(full, extra.value);
                 }
-                if (partial[prop] == Expando) {
-                    extraData.push(extra);
-                }
+                extraData[expandoKey].push(extra);
                 return true;
             } else if (partial[prop]) {
                 // const reg = /^(?:\$\[).*(?=\]\$)/;
@@ -79,17 +105,60 @@ function checkIsMatch(full, partial, extraData, strictSequence) {
     });
 }
 
+function find$$$(partial, full, extraData, strictSequence) {
+    // 先考虑strctSequence = false的情况
+    let key$$$;
+    let index$$$ = -1;
+    partial.forEach((p, i) => {
+        for (const key in p) {
+            // 属性中包含$$$
+            let value = null;
+            if (p[key] && p[key].value && p[key].value.content) {
+                value = p[key].value.content
+            } else if (p[key] && p[key].content) {
+                value = p[key].content
+            }
+            if (value && value.match && value.match(new RegExp(Expando.slice(0, -1) + '\\$3'))) {
+                key$$$ = value.replace(new RegExp(Expando.slice(0, -1) + '\\$3'), '') || '$'
+                index$$$ = i;
+          
+                break;
+            }
+        }
+    })
+    if (!key$$$) {
+        return false;
+    }
+    const extraNodeList = full ? full.slice(0) : [];
+    partial.forEach((p, i) => {
+        if (i == index$$$) {
+            return;
+        }
+        let fi = 0;
+        while(extraNodeList[fi]) {
+            if (checkIsMatch(extraNodeList[fi], p, {}, strictSequence)) {
+                extraNodeList.splice(fi, 1);
+            } else {
+                fi++;
+            }
+        }
+    })
+    extraData[`$$$${key$$$}`] = (extraData[`$$$${key$$$}`] || []).concat(extraNodeList);
+    return true;
+}
+
 function find(nodeType, structure, strictSequence, deep, expando = 'g123o456g789o') {
-    Expando = expando
     const nodePathList = [];
     const matchWildCardList = [];
+    let isMatch = false;
+    Expando = expando
     const traverseMap = {
         tag: nodeType == 'tag' ? [{
-            value: structure.content.name == Expando ? '' : structure.content.name,
+            value: (structure.content.name || '').match(Expando) ? '' : structure.content.name,
             handle(tagContent, { attrMap, parentRef, nodeRef } = {}) {
                 tagContent, attrMap, parentRef
-                const matchWildCard = [];
-                let isMatch = checkIsMatch(nodeRef, structure, matchWildCard, strictSequence);
+                const matchWildCard = {};
+                isMatch = checkIsMatch(nodeRef, structure, matchWildCard, strictSequence);
                 if (isMatch) {
                     nodePathList.push(linkParentPath(nodeRef));
                     matchWildCardList.push(matchWildCard)

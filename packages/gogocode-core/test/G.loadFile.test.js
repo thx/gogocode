@@ -51,7 +51,7 @@ test('$.loadFile: non-existent file should throw error', () => {
 })
 test('$.loadFile: error code file should throw error', () => {
     const G = $.loadFile(ERROR_CODE_PATH);
-    expect(G.error).toEqual('Only correct js or html could be parse successfully, please check the code or parseOptions!');
+    expect(G.error).toEqual('Only correct js / html / vue could be parse successfully, please check the code or parseOptions!');
 })
 
 test('$.loadFile: html code should not throw error', () => {

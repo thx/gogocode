@@ -384,7 +384,7 @@ test('$.replace: simple1 html code use $_$ result should be ok', () => {
     const G = $(hc1, config.html);
     G.replace('<span>$_$</span>','<i>$_$</i>');
     const code = G.generate();
-    expect(code.indexOf('<i>\ntest</i>') > -1).toBeTruthy();
+    expect(code.indexOf('<i>test</i>') > -1).toBeTruthy();
 
 })
 // test('$.replace: replace html tag result should be ok', () => {

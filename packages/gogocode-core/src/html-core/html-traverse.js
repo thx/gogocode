@@ -7,6 +7,9 @@ module.exports = (ast, transformMap = {}, filePath, deleteComment) => {
             handleNode(a)
         });
     }
+    if (ast.nodeType) {
+        handleNode(ast)
+    }
     function handleNode(node) {
         const posIndex = node.parentRef && node.parentRef.content.children && Array.isArray(node.parentRef.content.children)
             ? node.parentRef.content.children.indexOf(node)

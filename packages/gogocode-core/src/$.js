@@ -1,10 +1,31 @@
-const core = require('./js-core/core');
-const hcore = require('./html-core/core');
+const jsCore = require('./js-core/core');
+const htmlCore = require('./html-core/core');
+const vueCore = require('./vue-core/core');
 const NodePath = require('./NodePath');
 const AST = require('./Ast');
 // const build = require('./build-node');
 const loadFile = require('./file-tool/read-file');
 const writeFile = require('./file-tool/write-file');
+const vueMid = require('./vue-core/vue-mid');
+
+const langCoreMap = {
+    'vue-script': vueCore,
+    'vue-template': vueCore,
+    'html': htmlCore,
+    'js': jsCore
+}
+
+function getCore(parseOptions = {}) {
+    let core = jsCore
+    if (parseOptions.language && langCoreMap[parseOptions.language]) {
+        core = langCoreMap[parseOptions.language]
+    }
+    if (parseOptions.html) {
+        core = htmlCore
+        parseOptions.language = 'html'
+    }
+    return core
+}
 
 const main = (code, options = {}) => {
     code = code || '';
@@ -12,7 +33,7 @@ const main = (code, options = {}) => {
     let nodePath;
     let parseOptions;
     let astFragment;
-    const isProgram =
+    let isProgram = 
         options.isProgram === undefined || options.isProgram === true;
     if (typeof options.parseOptions == 'object') {
         parseOptions = options.parseOptions;
@@ -23,16 +44,21 @@ const main = (code, options = {}) => {
     }
 
     if (typeof code == 'string') {
-        if (parseOptions && parseOptions.html) {
-            node = hcore.buildAstByAstStr(code, astFragment, {
-                isProgram,
-                parseOptions
-            });
-        } else {
-            node = core.buildAstByAstStr(code, astFragment, {
-                isProgram,
-                parseOptions
-            });
+        try {
+            const core = getCore(parseOptions)
+            node = core.buildAstByAstStr(
+                code,
+                astFragment,                 
+                {
+                    parseOptions,
+                    isProgram
+                }
+            );
+        } catch (e) {
+            return { 
+                src: code,
+                error: `Only correct js / html / vue could be parse successfully, please check the code or parseOptions!`
+            }
         }
         nodePath = new NodePath(node);
     } else if (code.nodeType) {
@@ -47,40 +73,20 @@ const main = (code, options = {}) => {
         throw new Error('$ failed! invalid input! accept code / ast node / nodePath');
     }
 
-    return new AST(nodePath, { parseOptions, rootNode: nodePath });
+    let ast = new AST(nodePath, { parseOptions, rootNode: nodePath });
+
+    // vue-template和vue-scrpit单独处理
+    if (parseOptions && parseOptions.language == 'vue-template') {
+        ast = vueMid.getTemplate(ast);
+    } else if (parseOptions && parseOptions.language == 'vue-script') {
+        ast = vueMid.getScript(ast);
+    }
+    return ast;
 };
 
 main.loadFile = (filePath, { parseOptions } = {}) => {
     const code = loadFile(filePath).toString();
-    let node;
-    try {
-        if (parseOptions && parseOptions.html) {
-            node = hcore.buildAstByAstStr(
-                code,
-                {},
-                {
-                    parseOptions,
-                    isProgram: true
-                }
-            );
-        } else {
-            node = core.buildAstByAstStr(
-                code,
-                {},
-                {
-                    parseOptions,
-                    isProgram: true
-                }
-            );
-        }
-        const nodePath = new NodePath(node);
-        return new AST(nodePath, { rootNode: nodePath, parseOptions });
-    } catch (e) {
-        return { 
-            src: code,
-            error: `Only correct js or html could be parse successfully, please check the code or parseOptions!`
-        }
-    }
+    return main(code, { parseOptions })
 };
 
 main.writeFile = writeFile;

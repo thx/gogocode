@@ -1,20 +1,42 @@
 const generate = require('./js-core/generate');
 const htmlGenerate = require('./html-core/serialize-node');
+const vueGenerate = require('./vue-core/generate');
 const core = require('./js-core/core');
-const hcore = require('./html-core/core')
+const htmlCore = require('./html-core/core')
+const vueCore = require('./vue-core/core')
 const NodePath = require('./NodePath');
 const filterProp = require('./js-core/filter-prop')
 const { isObject } = require('./util')
+
+const languageMap = {
+    'js': { 
+        generate,
+        core
+    },
+    'html': { 
+        generate: htmlGenerate,
+        core: htmlCore
+    },
+    'vue-template': { 
+        generate: vueGenerate,
+        core: vueCore
+    },
+    'vue-script': {
+        generate: vueGenerate,
+        core: vueCore
+    }
+}
 
 class AST {
     constructor(nodePath, { parseOptions, match, rootNode } = {}) {
         if (nodePath) {
             this[0] = {
-                nodePath, parseOptions, match
+                nodePath, match
             }
         }
         this.rootNode = rootNode;
-        this.expando = 'g' + ('' + Math.random()).replace( /\D/g, "" ) + 'g'
+        this.expando = 'g' + ('' + Math.random()).replace( /\D/g, "" ) + 'g';
+        this.parseOptions = parseOptions;
     }
     get node() {
         return this[0].nodePath.node
@@ -23,22 +45,32 @@ class AST {
         return this[0].match
     }
     get isHtml() {
-        return this[0].parseOptions && this[0].parseOptions.html;
+        return this.parseOptions && this.parseOptions.html;
+    }
+    get language() {
+        return (this.parseOptions && this.parseOptions.language) || 'js';
     }
     get core() {
-        return this.isHtml ? hcore : core;
+        return languageMap[this.language].core
     }
     get _index() {
         initParent(this);
         // todo js
         return this[0]._index;
     }
+    get length() {
+        let i = 0;
+        while(this[i]) {
+            i++
+        }
+        return i;
+    }
     each(callback) {
         let i = 0;
         const newAST = cloneAST(this)
         while (this[i]) {
-            const { nodePath, parseOptions, match } = this[i]
-            const eachNode = new AST(nodePath, { parseOptions, match, rootNode: this.rootNode})
+            const { nodePath, match } = this[i]
+            const eachNode = new AST(nodePath, { parseOptions: this.parseOptions, match, rootNode: this.rootNode})
             callback(eachNode, i);
             newAST[i] = eachNode[0] || null
             i++;
@@ -52,11 +84,11 @@ class AST {
         if (!this[0]) {
             throw new Error('find failed! Ast should not be null!')
         }
-        const { nodePath, parseOptions } = this[0];
+        const { nodePath } = this[0];
         // if (typeof selector !== 'string' && !Array.isArray(selector)) {
         //     throw new Error('find failed! Nodepath is null!');
         // }
-        const pOptions = options.parseOptions || parseOptions;
+        const pOptions = options.parseOptions || this.parseOptions;
         const {nodePathList, matchWildCardList } = this.core.getAstsBySelector(
             nodePath.node, 
             selector, {
@@ -82,10 +114,9 @@ class AST {
         initParent(this)
         // }
         const parent = this[0].parentList[level]
-        const { parseOptions } = this[0]
         const newAST = cloneAST(this)
         if (parent) {
-            newAST[0] = { nodePath: parent, parseOptions };
+            newAST[0] = { nodePath: parent, parseOptions: this.parseOptions };
             return newAST;
         } else {
             return this;
@@ -98,22 +129,19 @@ class AST {
         // if (!this[0].parentList) {
         initParent(this)
         // }
-        const { parentList, parseOptions } = this[0];
+        const { parentList } = this[0];
         const newAST = cloneAST(this)
         parentList.forEach((nodePath, i) => {
-            newAST[i] = { nodePath, parseOptions, match: null };
+            newAST[i] = { nodePath, parseOptions: this.parseOptions, match: null };
         })
         return newAST;
     }
     root() {
-        if (!this[0]) {
-            return new AST(this.rootNode);
-        } else if (!this.rootNode) {
+        if (!this.rootNode) {
             return this;
         }
-        const parseOptions = this[0].parseOptions;
         const newAST = cloneAST(this)
-        newAST[0] = { nodePath: this.rootNode, parseOptions }
+        newAST[0] = { nodePath: this.rootNode }
         newAST.rootNode = null;
         return newAST;
     }
@@ -187,12 +215,11 @@ class AST {
         newAST[0] = nextAll[0];
         return newAST;
     }
-    
     eq(index) {
         index = index || 0;
-        const { nodePath, parseOptions, match } = this[index] || {}
+        const { nodePath, match } = this[index] || {}
         const newAST = cloneAST(this)
-        newAST[0] = { nodePath, parseOptions, match }
+        newAST[0] = { nodePath, parseOptions: this.parseOptions, match }
         return newAST;
     }
     attr(arg1, arg2) {
@@ -289,9 +316,9 @@ class AST {
                 this[0].nodePath.parentPath 
             )
         }
-        const { parseOptions, match } = this[0]
+        const { match } = this[0]
         const newAST = cloneAST(this)
-        newAST[0] = { nodePath, parseOptions, match }
+        newAST[0] = { nodePath, parseOptions: this.parseOptions, match }
         return newAST;
     }
     replace(selector, replacer, { ignoreSequence, parseOptions } = {}) {
@@ -543,8 +570,7 @@ class AST {
             return this.root()
         }
         if (typeof selector == 'string' || Array.isArray(selector)) {
-            const { parseOptions } = this[0];
-            const pOptions = options.parseOptions || parseOptions;
+            const pOptions = options.parseOptions || this.parseOptions;
             let i = 0;
             while(this[i]) {
                 this.core.removeAst(this.node, selector, { 
@@ -568,16 +594,35 @@ class AST {
         if (!this[0]) {
             throw new Error('generate failed! Nodepath is null!');
         }
-        if (this[0].parseOptions && this[0].parseOptions.html) {
-            return htmlGenerate(this[0].nodePath.value);
+        if (this.sfc) {
+            return getRootSFC(this).generate();
         } else {
-            return generate(this[0].nodePath.node)
+            if (this.language == 'js') {
+                return generate(this[0].nodePath.node)
+            } else {
+                return (languageMap[this.language].generate)(this[0].nodePath.value);
+            }
         }
     }
 }
 
+function getRootSFC(ast) {
+    if (!ast.sfc) {
+        return ast;
+    }
+    if (ast.parseOptions && ast.parseOptions.language == 'html') {
+        ast.sfc.node.template.content = htmlGenerate(ast.root().node);
+    } else {
+        ast.sfc.node.script.content = generate(ast.root().node);
+    }
+    return ast.sfc
+}
 function cloneAST(ast) {
-    return new AST('', { parseOptions: ast.parseOptions, rootNode: ast.rootNode})
+    const newAST = new AST('', { parseOptions: ast.parseOptions, rootNode: ast.rootNode})
+    if (ast.sfc) {
+        newAST.sfc = ast.sfc
+    }
+    return newAST
 }
 
 function getAttrValue(node, attr) {
@@ -614,7 +659,7 @@ function initSiblings(ast) {
             return {
                 _index: index,
                 nodePath: new NodePath(node, parent[0].nodePath, parent[0].nodePath),
-                parseOptions: ast[0].parseOptions
+                parseOptions: ast.parseOptions
             }
         });
         
@@ -626,7 +671,7 @@ function initSiblings(ast) {
         if (!parentList || parentList.length == 0) {
             return;
         }
-        const parseOptions = ast[0].parseOptions;
+        const parseOptions = ast.parseOptions;
         let getArrayParent = false;
         let i = 0;
         const siblings = [];
