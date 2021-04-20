@@ -1,5 +1,59 @@
 const parse = require('./parse');
+const jsCore = require('../js-core/core');
+const htmlCore = require('../html-core/core')
+const NodePath = require('../NodePath');
 const core = {
+    getAstsBySelector(ast, selector, { parseOptions } = {}) {
+        parseOptions = Object.assign({}, parseOptions);
+        let newAst = ast;
+        if (selector == '<template></template>') {
+            if (ast.templateAst) {
+                newAst = ast.templateAst;
+            }
+            parseOptions.language = 'html';
+            parseOptions.rootLanguage = 'vue';
+            ast.templateAst = core.getTemplate(ast);
+            newAst = ast.templateAst;
+        } else if (selector == '<script></script>') {
+            if (ast.scriptAst) {
+                newAst = ast.scriptAst;
+            }
+            parseOptions.language = 'js'
+            parseOptions.rootLanguage = 'vue';
+            ast.scriptAst = core.getScript(ast);
+            newAst = ast.scriptAst;
+        }
+        return { nodePathList: [newAst], matchWildCardList: [], extra: { parseOptions } }
+    },
+    getTemplate(ast) {
+        // 仅针对vue，取template，后续通过htmlcore处理
+        if (ast.template) {
+            const template = htmlCore.buildAstByAstStr(
+                ast.template.content,
+                {},
+                {
+                    isProgram: true,
+                    parseOptions: { language: 'html' }
+                }
+            );
+            return new NodePath(template);
+        } else {
+            return new NodePath(ast);
+        }
+    },
+    getScript(ast) {
+        // 仅针对vue，取script，后续通过jscore处理
+        if (ast.script) {
+            const content = ast.script.content.replace(/\n/g, '')
+            const script = jsCore.buildAstByAstStr(
+                content, {},
+                { isProgram: true }
+            );
+            return new NodePath(script);
+        } else {
+            return new NodePath(ast);
+        }
+    },
     buildAstByAstStr(str, astPatialMap = {}, { isProgram = false, parseOptions } = {}) {
         try {
             const program = parse(str, parseOptions);

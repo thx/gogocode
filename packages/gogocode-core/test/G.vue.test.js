@@ -38,18 +38,19 @@ function c(  sd) {
 </style>
 `;
 test('replace vue', () => {
-    const template = $(code, { parseOptions: { language: 'vue-template' } })
+    const output = $(code, { parseOptions: { language: 'vue' } })
+        .find('<template></template>')
         .replace(
             `<$_$ :key="num" $$$1>$$$2</$_$>`,
             `<$_$ key="num:" $$$1>$$$2</$_$>`
         )
-        .generate();
-
-    const script = $(template, { parseOptions: { language: 'vue-script' } })
+        .root()
+        .find('<script></script>')
         .replace(`var a = 1;`, `var aaaaaaa = 1;`)
+        .root()
         .generate();
 
-    const res = script.match('key="num:"') && script.match('aaaaaaa');
+    const res = output.match('key="num:"') && output.match('aaaaaaa');
     expect(res).toBeTruthy();
 });
 
@@ -91,10 +92,11 @@ const keyCodeDemo = `
 const keyCodeMap = { 46: 'delete', 32: 'space', 112: 'f1' };
 
 test('replace vue', () => {
-    const scriptAst = $(keyCodeDemo, {
-        parseOptions: { language: 'vue-script' }
+    const ast = $(keyCodeDemo, {
+        parseOptions: { language: 'vue' }
     });
 
+    const scriptAst = ast.find('<script></script>');
     // 匹配取出自定义的keyCode，Node数组
     const customKeyCodeList = scriptAst.find(`Vue.config.keyCodes = {$_$}`)
         .match[0];
@@ -106,14 +108,11 @@ test('replace vue', () => {
         });
         //结果:{46: 'delete',32: 'space',112: 'f1', customSpace: 'space', customDelete: 'delete'}
     }
-    let newCode = scriptAst
+    scriptAst
         .find(`Vue.config.keyCodes = $_$`)
         .remove()
-        .generate();
 
-    const template = $(newCode, {
-        parseOptions: { language: 'vue-template' }
-    })
+    const template = ast.find('<template></template>')
       .find(['<$_$></$_$>', '<$_$ />'])
       .each((node) => {
           //如果节点含有属性,则遍历它的属性
@@ -131,6 +130,7 @@ test('replace vue', () => {
               });
           }
       })
+      .root()
       .generate();
     const res = template.match(/keyup.space\="keys\('keycode 32 space'\)"/g).length == 2 && !template.match(`Vue.config.keyCodes`);
     expect(res).toBeTruthy();
@@ -160,13 +160,15 @@ export default {
 
 test('replace ref', () => {
   // 先处理template，针对带有v-for且ref属性的标签，把ref属性名改为:ref,属性值改为函数调用getRefSetter(）
-    let templateRes = $(asyncDemo, { parseOptions: { language: 'vue-template' } })
+    let ast = $(asyncDemo, { parseOptions: { language: 'vue' } })
+    let templateRes = ast
+    .find('<template></template>')
     .replace(`<$_$ v-for="$_$1" ref="$_$2" $$$1>$$$2</$_$>`,
     `<$_$ v-for="$_$1" :ref="getRefSetter('$_$2')" $$$1>$$$2</$_$>`)
-    .generate();  // gennerate会返回完整的sfc
 
   // 处理script，在method里加入getRefSetter函数定义
-  let scriptRes = $(templateRes, { parseOptions: { language: 'vue-script' } })
+  let scriptRes = ast
+  .find('<script></script>')
   .replace(`export default {
     $$$1,
     methods: {
@@ -239,10 +241,12 @@ const popoverDemo = `
 `
 test('replace ref', () => {
 
-  const res = $(popoverDemo, { parseOptions: { language: 'vue-template' }})
+  const res = $(popoverDemo, { parseOptions: { language: 'vue' }})
+  .find('<template></template>')
   .replace(`<el-popover open-delay="$_$" $$$1>$$$2</el-popover>`, `<el-popover show-after="$_$" $$$1>$$$2</el-popover>`)
   .replace(`<el-popover close-delay="$_$" $$$1>$$$2</el-popover>`, `<el-popover hide-after="$_$" $$$1>$$$2</el-popover>`)
   .replace(`<el-popover hide-after="$_$" $$$1>$$$2</el-popover>`, `<el-popover auto-close="$_$" $$$1>$$$2</el-popover>`)
+  .root()
   .generate()
   expect(res.match(`show-after`)).toBeTruthy();
 });
@@ -257,9 +261,11 @@ const asyncDemo1 =  `
 test('replace ref', () => {
   // 先处理template，针对带有v-for且ref属性的标签，把ref属性名改为:ref,属性值改为函数调用getRefSetter(）
   function tesssst(c) {
-    let templateRes = $(c, { parseOptions: { language: 'vue-template' } })
+    let ast = $(c, { parseOptions: { language: 'vue' } });
+    let templateRes = ast.find('<template></template>')
     .replace(`<$_$ v-for="$_$1" ref="$_$2" $$$1>$$$2</$_$>`,
     `<$_$ v-for="$_$1" :ref="getRefSetter('$_$2')" $$$1>$$$2</$_$>`)
+    .root()
     .generate();  // gennerate会返回完整的sfc
     console.log(templateRes)
   }

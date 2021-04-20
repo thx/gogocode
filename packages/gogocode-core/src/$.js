@@ -6,11 +6,9 @@ const AST = require('./Ast');
 // const build = require('./build-node');
 const loadFile = require('./file-tool/read-file');
 const writeFile = require('./file-tool/write-file');
-const vueMid = require('./vue-core/vue-mid');
 
 const langCoreMap = {
-    'vue-script': vueCore,
-    'vue-template': vueCore,
+    'vue': vueCore,
     'html': htmlCore,
     'js': jsCore
 }
@@ -74,13 +72,6 @@ const main = (code, options = {}) => {
     }
 
     let ast = new AST(nodePath, { parseOptions, rootNode: nodePath });
-
-    // vue-template和vue-scrpit单独处理
-    if (parseOptions && parseOptions.language == 'vue-template') {
-        ast = vueMid.getTemplate(ast);
-    } else if (parseOptions && parseOptions.language == 'vue-script') {
-        ast = vueMid.getScript(ast);
-    }
     return ast;
 };
 

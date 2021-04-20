@@ -1,4 +1,6 @@
 const indentString = require('indent-string');
+const jsGenerate = require('../js-core/generate')
+const htmlGenerate = require('../html-core/serialize-node')
 /**
  * The following function is adapted from https://github.com/psalaets/vue-sfc-descriptor-to-string/blob/master/index.js
  */
@@ -26,7 +28,14 @@ const indentString = require('indent-string');
  */
 
 module.exports = function toString(sfcDescriptor, options = {}) {
-    let { template, script, styles = [], customBlocks = [] } = sfcDescriptor;
+    let { template, script, styles = [], customBlocks = [], templateAst, scriptAst } = sfcDescriptor;
+    if (templateAst && templateAst.node) {
+        template.content = htmlGenerate(templateAst.node);
+    } 
+    if (scriptAst && scriptAst.node) {
+        script.content = jsGenerate(scriptAst.node);
+    }
+
     if (!sfcDescriptor.template) {
         template = sfcDescriptor
     }

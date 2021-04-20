@@ -661,3 +661,18 @@ test('selector not', () => {
             })
     }).not.toThrow()
 })
+
+test('parse decorator', () => {
+    expect(() => {
+        var code = $(`@Form.create()
+        class Template extends React.PureComponent {
+            render()  {
+                return (
+                    <div>
+                        Hello, Template!
+                    </div>
+                );
+            }
+        }`)
+    }).not.toThrow()
+})

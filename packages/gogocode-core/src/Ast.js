@@ -17,11 +17,7 @@ const languageMap = {
         generate: htmlGenerate,
         core: htmlCore
     },
-    'vue-template': { 
-        generate: vueGenerate,
-        core: vueCore
-    },
-    'vue-script': {
+    'vue': { 
         generate: vueGenerate,
         core: vueCore
     }
@@ -89,8 +85,8 @@ class AST {
         //     throw new Error('find failed! Nodepath is null!');
         // }
         const pOptions = options.parseOptions || this.parseOptions;
-        const {nodePathList, matchWildCardList } = this.core.getAstsBySelector(
-            nodePath.node, 
+        const {nodePathList, matchWildCardList, extra = {} } = this.core.getAstsBySelector(
+            nodePath.node,
             selector, {
                 strictSequence: options.ignoreSequence === false,
                 parseOptions: pOptions,
@@ -102,8 +98,11 @@ class AST {
             newAST.rootNode = this[0].nodePath;
         }
         nodePathList.forEach((nodePath, i) => {
-            newAST[i] = { nodePath, parseOptions: pOptions, match: matchWildCardList[i] };
+            newAST[i] = { nodePath, parseOptions: extra.parseOptions || pOptions, match: matchWildCardList[i] };
         })
+        if (extra.parseOptions) {
+            newAST.parseOptions = extra.parseOptions
+        }
         return newAST;
     }
     parent(level = 0) {
@@ -136,13 +135,22 @@ class AST {
         })
         return newAST;
     }
-    root() {
+    root(option) {
         if (!this.rootNode) {
             return this;
         }
         const newAST = cloneAST(this)
         newAST[0] = { nodePath: this.rootNode }
         newAST.rootNode = null;
+        if (this.parseOptions && this.parseOptions.rootLanguage == 'vue') {
+            if (option == 'template') {
+                newAST[0] = { nodePath: this.rootNode.node.templateAst }
+            } else if (option == 'script') {
+                newAST[0] = { nodePath: this.rootNode.node.scriptAst }
+            } else {
+                newAST.parseOptions = { language: 'vue' };
+            }
+        }
         return newAST;
     }
     has(selector, options) {
@@ -594,29 +602,14 @@ class AST {
         if (!this[0]) {
             throw new Error('generate failed! Nodepath is null!');
         }
-        if (this.sfc) {
-            return getRootSFC(this).generate();
+        if (this.language == 'js') {
+            return generate(this[0].nodePath.node)
         } else {
-            if (this.language == 'js') {
-                return generate(this[0].nodePath.node)
-            } else {
-                return (languageMap[this.language].generate)(this[0].nodePath.value);
-            }
+            return (languageMap[this.language].generate)(this[0].nodePath.value);
         }
     }
 }
 
-function getRootSFC(ast) {
-    if (!ast.sfc) {
-        return ast;
-    }
-    if (ast.parseOptions && ast.parseOptions.language == 'html') {
-        ast.sfc.node.template.content = htmlGenerate(ast.root().node);
-    } else {
-        ast.sfc.node.script.content = generate(ast.root().node);
-    }
-    return ast.sfc
-}
 function cloneAST(ast) {
     const newAST = new AST('', { parseOptions: ast.parseOptions, rootNode: ast.rootNode})
     if (ast.sfc) {
