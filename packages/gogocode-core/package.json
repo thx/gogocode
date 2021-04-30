@@ -1,68 +1,68 @@
 {
     "name": "gogocode",
-    "version": "0.2.4",
+    "version": "0.2.18",
     "description": "The simplest tool to parse/transform/generate code on ast",
     "keywords": [
-        "babel",
-        "jscodeshift",
-        "acorn",
-        "babylon",
-        "recast",
-        "babel-generator",
-        "babel-template",
-        "babel-traverse",
-        "babel-types",
-        "esprima",
-        "html-ast-transform",
-        "htmlparser-to-html",
-        "htmlparser2",
-        "parse5",
-        "ast"
+      "babel",
+      "jscodeshift",
+      "acorn",
+      "babylon",
+      "recast",
+      "babel-generator",
+      "babel-template",
+      "babel-traverse",
+      "babel-types",
+      "esprima",
+      "html-ast-transform",
+      "htmlparser-to-html",
+      "htmlparser2",
+      "parse5",
+      "ast"
     ],
     "main": "index.js",
     "types": "types/index.d.ts",
     "scripts": {
-        "test": "jest --coverage",
-        "prepublishOnly": "npm run test" 
+      "test": "jest --coverage",
+      "prepublishOnly": "npm run test"
     },
     "repository": {
-        "type": "git",
-        "url": "git@gitlab.alibaba-inc.com:mm/gogocode.git"
+      "type": "git",
+      "url": "git@github.com:thx/gogocode.git"
     },
     "author": "yexi",
     "license": "ISC",
     "devDependencies": {
-        "jest": "^26.6.3",
-        "lerna": "^3.22.1",
-        "typescript": "^3.5.2"
+      "jest": "^26.6.3",
+      "lerna": "^3.22.1",
+      "typescript": "^3.5.2"
     },
     "dependencies": {
-        "@babel/parser": "^7.7.7",
-        "glob": "^7.1.6",
-        "hyntax-yx": "^1.0.0",
-        "moment": "^2.24.0",
-        "recast": "^0.18.5"
+      "@babel/parser": "^7.7.7",
+      "glob": "^7.1.6",
+      "hyntax-yx": "^1.0.0",
+      "indent-string": "^4.0.0",
+      "recast": "^0.18.5",
+      "vue3-browser-compiler-yx": "^1.0.1"
     },
     "jest": {
-        "collectCoverage": true,
-        "coverageDirectory": "./coverage/",
-        "collectCoverageFrom": [
-            "src/**/*.js",
-            "index.js",
-            "!**/node_modules/**",
-            "!src/browser.js",
-            "!src/run-html-plugin.js",
-            "!src/run-js-plugin.js",
-            "!src/serialize-node.js",
-            "!src/file-tool/read-file.js",
-            "!src/file-tool/write-file.js",
-            "!src/js-core/build-node.js",
-            "!src/js-core/get-absolute-value.js"
-            
-            
-        ],
-        "testPathIgnorePatterns": [
-            "/node_modules/"
-        ]
+      "collectCoverage": true,
+      "coverageDirectory": "./coverage/",
+      "collectCoverageFrom": [
+        "src/**/*.js",
+        "index.js",
+        "!**/node_modules/**",
+        "!src/browser.js",
+        "!src/run-html-plugin.js",
+        "!src/run-js-plugin.js",
+        "!src/serialize-node.js",
+        "!src/file-tool/read-file.js",
+        "!src/file-tool/write-file.js",
+        "!src/js-core/build-node.js",
+        "!src/js-core/get-absolute-value.js"
+      ],
+      "testPathIgnorePatterns": [
+        "/node_modules/"
+      ]
     }
-}
+  }
+  
