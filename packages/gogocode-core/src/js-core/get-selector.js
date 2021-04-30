@@ -55,23 +55,27 @@ function getSelector(selectorCode, parseOptions, expando) {
             try {
                 seletorAst = parse(`({${selectorCode}})`, parseOptions);
                 seletorAst = seletorAst.program.body[0].expression.properties[0]
-                const selector = {
-                    nodeType: seletorAst.type,
-                    structure: {}
-                }
-                filterProps(seletorAst, selector.structure)
-                if (selector.structure.key.name == 'constructor') {
-                    selector.structure.kind = 'constructor'
-                    delete selector.structure.method
-                }
+
+                let clsSelectorAst = parse(`class a$_$ { ${selectorCode} }`, parseOptions)
+                clsSelectorAst = clsSelectorAst.program.body[0].body.body[0]
+
+                return [seletorAst, clsSelectorAst].map(sel => {
+                    const selector = {
+                        nodeType: sel.type,
+                        structure: {}
+                    }
+                    filterProps(sel, selector.structure)
+                    return selector;
+                })
                 // 如果是objectMethod\objectProperty 再复制一份class的
-                const clsSelector = {
-                    nodeType: selector.nodeType.replace('Object', 'Class'),
-                    structure: Object.assign({}, selector.structure, {
-                        type: selector.nodeType.replace('Object', 'Class')
-                    })
-                }
-                return [selector, clsSelector]
+                // const ns = Object.assign({}, selector.structure, {
+                //     type: selector.nodeType.replace('Object', 'Class')
+                // })
+                // delete ns.method;
+                // const clsSelector = {
+                //     nodeType: selector.nodeType.replace('Object', 'Class'),
+                //     structure: ns
+                // }
             } catch(err) {
                 throw new Error('parse error!' + e.message);
             }

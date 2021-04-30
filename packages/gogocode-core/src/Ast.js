@@ -41,7 +41,7 @@ class AST {
         return this[0].match
     }
     get isHtml() {
-        return this.parseOptions && this.parseOptions.html;
+        return this.parseOptions && (this.parseOptions.html || this.parseOptions.language == 'html');
     }
     get language() {
         return (this.parseOptions && this.parseOptions.language) || 'js';
@@ -646,7 +646,7 @@ function initParent(ast) {
 }
 
 function initSiblings(ast) {
-    if (ast.isHtml) {
+    if (ast.language == 'html') {
         const parent = ast.parent();
         const siblings = (parent.attr('content.children') || []).map((node, index) => {
             return {

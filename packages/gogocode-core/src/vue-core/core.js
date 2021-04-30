@@ -7,21 +7,23 @@ const core = {
         parseOptions = Object.assign({}, parseOptions);
         let newAst = ast;
         if (selector == '<template></template>') {
-            if (ast.templateAst) {
-                newAst = ast.templateAst;
-            }
             parseOptions.language = 'html';
             parseOptions.rootLanguage = 'vue';
-            ast.templateAst = core.getTemplate(ast);
-            newAst = ast.templateAst;
-        } else if (selector == '<script></script>') {
-            if (ast.scriptAst) {
-                newAst = ast.scriptAst;
+            if (ast.templateAst) {
+                newAst = ast.templateAst;
+            } else {
+                ast.templateAst = core.getTemplate(ast);
+                newAst = ast.templateAst;
             }
+        } else if (selector == '<script></script>') {
             parseOptions.language = 'js'
             parseOptions.rootLanguage = 'vue';
-            ast.scriptAst = core.getScript(ast);
-            newAst = ast.scriptAst;
+            if (ast.scriptAst) {
+                newAst = ast.scriptAst;
+            } else {
+                ast.scriptAst = core.getScript(ast);
+                newAst = ast.scriptAst;
+            }
         }
         return { nodePathList: [newAst], matchWildCardList: [], extra: { parseOptions } }
     },
@@ -44,7 +46,8 @@ const core = {
     getScript(ast) {
         // 仅针对vue，取script，后续通过jscore处理
         if (ast.script) {
-            const content = ast.script.content.replace(/\n/g, '')
+            const content = ast.script.content
+            // const content = ast.script.content.replace(/\n/g, '')
             const script = jsCore.buildAstByAstStr(
                 content, {},
                 { isProgram: true }

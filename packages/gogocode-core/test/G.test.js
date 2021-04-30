@@ -630,6 +630,8 @@ test('replacejsxfor', () => {
             }) }`
         }))
         .generate()
+        var res1 = $('var a = 1').find('var $_$1 = $_$2')
+
     }).not.toThrow()
 })
 
@@ -674,5 +676,41 @@ test('parse decorator', () => {
                 );
             }
         }`)
+    }).not.toThrow()
+})
+
+test('parse decorator', () => {
+    const res = $(`function demo() { $_$content$_$ }`, {
+        astFragment: {
+            content: $('var a = 1', { isProgram: false }).node
+        }
+    }).generate()
+    expect(res.match(`var a = 1`)).toBeTruthy()
+})
+
+test('parse html', () => {
+    const res = $(`<div></div>`, {
+        parseOptions: { language: 'html' }
+    }).generate()
+    expect(res.match(`<div></div>`)).toBeTruthy()
+})
+
+test('parse decorator', () => {
+    expect(() => {
+        const res = $(`
+        @Form.create()
+        class Template extends React.PureComponent {
+            render()  {
+                return (
+                    <div>
+                        Hello, Template!
+                    </div>
+                );
+            }
+        }`, {
+            parseOptions: {  plugins: [['decorators', { decoratorsBeforeExport: false }]] }
+        })
+        // .find(`@Form.create()`)
+        .generate()
     }).not.toThrow()
 })

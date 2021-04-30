@@ -50,7 +50,10 @@ function checkIsMatch(full, partial, extraData, strictSequence) {
                         return a;
                     });
                 } else {
-                    res = false;
+                    if (partial[prop].length == 1 && has$$$) {
+                        return true
+                    }
+                    return false
                 }
             } else {
                 // todo

@@ -1,6 +1,9 @@
 const config = {
     html: {
-        parseOptions: { html: true }
+        parseOptions: { language: 'html' } 
+    },
+    vue: {
+        parseOptions: { language: 'vue' } 
     }
 }
 module.exports = config;

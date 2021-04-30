@@ -1,14 +1,13 @@
 module.exports = (ast, transformMap = {}, filePath, deleteComment) => {
-    if (ast.content && ast.content.children && ast.content.children.length > 0) {
+    if (ast.nodeType) {
+        handleNode(ast)
+    } else if (ast.content && ast.content.children && ast.content.children.length > 0) {
         traversChildnode(ast.content.children);
     }
     if (Array.isArray(ast)) {
         ast.forEach(a => { 
             handleNode(a)
         });
-    }
-    if (ast.nodeType) {
-        handleNode(ast)
     }
     function handleNode(node) {
         const posIndex = node.parentRef && node.parentRef.content.children && Array.isArray(node.parentRef.content.children)

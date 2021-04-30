@@ -275,6 +275,20 @@ test('$.replace:  replace import result should be ok', () => {
     const result = code.indexOf(`{ useFContext, rest }`) > -1;
     expect(result).toBeTruthy();
 })
+test('$.replace:  replace with multiple $_$', () => {
+    const code = `this.$emit('input', e.target.value)`
+    const compareCode = $(code)
+    .replace(`$_$1.$emit('input',$$$1)`, `$_$1.$emit('update:modelValue', $$$1)`)
+    .generate();
+    expect(compareCode).toBe(`this.$emit('update:modelValue', e.target.value)`);
+})
+test('$.replace:  replace with $_$ and $$$', () => {
+    const code = `this.$emit('input', e.target.value)`
+    const compareCode = $(code)
+    .replace(`$_$1.$emit('input',$$$)`, `$_$1.$emit('update:modelValue',$$$)`)
+    .generate();
+    expect(compareCode).toBe(`this.$emit('update:modelValue',e.target.value)`);
+})
 test('$.replace: react js  result should be ok', () => {
     let code = $(jReact.code)
         .replace(`import { $$$ } from "@alifd/next"`, `import { $$$ } from "antd"`)
@@ -403,3 +417,48 @@ test('$.replace: simple1 html code use $_$ result should be ok', () => {
 //     expect(code.indexOf(`<div formId="myform" class="mt10" style="margin-top:10px;"`) > -1).toBeTruthy();
 
 // })
+
+test('$.replace: jsx tag replace should be ok', () => {
+
+    const G = $(`<a v="1"></a>`);
+    const res = G.replace('<$_$1 $$$1>$$$2</$_$1>', '<$_$1 $$$1>$$$2 ssssss</$_$1>').generate()
+    expect(res.indexOf('ssssss') > -1).toBeTruthy();
+
+})
+
+test('$.replace: class replace should be ok', () => {
+    const res = $(`import { MM } from "@mm"
+    import { loaders } from 'p.js'
+    export class Sc extends MMG {
+      constructor(options) {
+        super(options);
+      }
+  
+      onInited() {
+        
+      }
+      /**
+       * 初始化加载器
+       */
+      initLoader() {
+        
+        const textureLoader = new loaders.Loader();
+        
+        textureLoader.load();
+      }
+    }
+    `).replace(`initLoader(){$$$}`, `abc() {
+        $$$
+    }`).generate()
+    expect(res.indexOf('abc') > -1).toBeTruthy();
+
+})
+
+
+
+test('$.replace: class replace should be ok', () => {
+    const res = $('<div></div>', {parseOptions: { html: true}}).replace(`<div $$$1>$$$2</div>`, 
+    `<div mx-view="xxx" $$$1> $$$2</div>`).generate()
+    expect(res.indexOf('xxx') > -1).toBeTruthy();
+
+})

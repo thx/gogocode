@@ -273,3 +273,197 @@ test('replace ref', () => {
   tesssst(asyncDemo1)
   tesssst(asyncDemo1)
 })
+
+
+test('import', () => {
+  const res = $(`
+  <template>
+  <div>
+    <p>迁移：{{ name }}</p>
+    <p>Vue版本：{{ version }}</p>
+    <AsyncComp msg="异步组件加载成功"/>
+    <AsyncCompOption msg="异步组件Option加载成功"/>
+  </div>
+  </template>
+
+  <script>
+  import Vue from 'vue';
+  /* () => import() 会识别出错 */
+  const AsyncComp = () => import('./Async');
+  const AsyncCompOption = () => ({
+    component: import('./Async'),
+    delay: 500
+  })
+  export default {
+    name: 'async-components',
+    props: {
+      msg: String,
+    },
+    data() {
+      return {
+        name: '异步组件',
+        version: Vue.version,
+      };
+    },
+    components: {
+      AsyncComp,
+      AsyncCompOption
+    },
+  };
+  </script>
+
+  <!-- Add "scoped" attribute to limit CSS to this component only -->
+  <style scoped>
+  h1 {
+    color: #64b587;
+  }
+  </style>
+`, { parseOptions: { language: 'vue' }})
+  .find('<script></script>')
+  .generate()
+
+  expect(res.match(`AsyncCompOption`)).toBeTruthy();
+})
+
+
+test('import', () => {
+  const res = $(`
+  <template>
+  <div>
+    <p>迁移：{{ name }}</p>
+    <p>Vue版本：{{ version }}</p>
+    <p v-if="visible" v-highlight="color">hehe</p>
+    <p>vmForDirective:{{vmForDirective}}</p>
+    <button @click="changeColor">更换颜色</button>
+    <button @click="changeVisible">加载/卸载</button>
+  </div>
+</template>
+
+<script>
+import Vue from 'vue';
+/* 加上 directives 解析就有问题了 */
+/* 迁移指南: https://v3.cn.vuejs.org/guide/migration/custom-directives.html */
+export default {
+  name: 'custom-directives',
+  props: {
+    msg: String,
+  },
+  data() {
+    return {
+      name: 'custom-directives',
+      version: Vue.version,
+      color: 'yellow',
+      visible: true,
+      vmForDirective: 'before'
+    };
+  },
+  methods: {
+    changeColor() {
+      this.color = this.color === 'yellow' ? 'red' : 'yellow';
+    },
+    changeVisible() {
+      this.visible = !this.visible;
+    },
+  },
+  directives: {
+    highlight: {
+      bind(el, binding, vnode) {
+        el.style.background = binding.value;
+        const vm = vnode.context
+        vm.vmForDirective = 'after'
+      },
+      inserted(el, binding) {
+        el.parentNode.style.border = \`1px solid \${binding.value}\`;
+      },
+      // and update
+      componentUpdated(el, binding) {
+        el.style.background = binding.value;
+        el.parentNode.style.border = \`1px solid \${binding.value}\`;
+      },
+      unbind(el, binding) {
+        alert('Vue2-directive-highlight 已经卸载');
+      },
+    },
+  },
+};
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+h1 {
+  color: #64b587;
+}
+</style>
+<template>
+  <div>
+    <p>迁移：{{ name }}</p>
+    <p>Vue版本：{{ version }}</p>
+    <p v-if="visible" v-highlight="color">hehe</p>
+    <p>vmForDirective:{{vmForDirective}}</p>
+    <button @click="changeColor">更换颜色</button>
+    <button @click="changeVisible">加载/卸载</button>
+  </div>
+</template>
+
+<script>
+import Vue from 'vue';
+/* 加上 directives 解析就有问题了 */
+/* 迁移指南: https://v3.cn.vuejs.org/guide/migration/custom-directives.html */
+export default {
+  name: 'custom-directives',
+  props: {
+    msg: String,
+  },
+  data() {
+    return {
+      name: 'custom-directives',
+      version: Vue.version,
+      color: 'yellow',
+      visible: true,
+      vmForDirective: 'before'
+    };
+  },
+  methods: {
+    changeColor() {
+      this.color = this.color === 'yellow' ? 'red' : 'yellow';
+    },
+    changeVisible() {
+      this.visible = !this.visible;
+    },
+  },
+  directives: {
+    highlight: {
+      bind(el, binding, vnode) {
+        el.style.background = binding.value;
+        const vm = vnode.context
+        vm.vmForDirective = 'after'
+      },
+      inserted(el, binding) {
+        el.parentNode.style.border = \`1px solid \${binding.value}\`;
+      },
+      // and update
+      componentUpdated(el, binding) {
+        el.style.background = binding.value;
+        el.parentNode.style.border = \`1px solid \${binding.value}\`;
+      },
+      unbind(el, binding) {
+        alert('Vue2-directive-highlight 已经卸载');
+      },
+    },
+  },
+};
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+h1 {
+  color: #64b587;
+}
+</style>
+
+`, { parseOptions: { language: 'vue' }})
+  .find('<script></script>')
+  .generate()
+
+  expect(res.match(`Vue2-directive-highlight`)).toBeTruthy();
+})

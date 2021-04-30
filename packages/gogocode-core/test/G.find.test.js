@@ -6,6 +6,7 @@ const jc5 = require('./code/simple5');
 const jc6 = require('./code/simple6');
 const tc1 = require('./code/simple-ts-1');
 const hc1 = require('./code/simple1.html');
+const hc2 = require('./code/simple2.html');
 const jTryout = require('./code/simple-tryout');
 
 const SIMPLE_CODE = `var a = 1;`;
@@ -633,14 +634,14 @@ test('$.find: replace html tag result should be ok', () => {
 
 })
 
-test('$.find: replace html tag result should be ok', () => {
-    var code = $(`
-    <div>
-        <div/>
-        <div>
-            <text>kkk></text>
-        </div>
-    </div>`)
-
-    code.find(`<div></div>`)
+test('$.find: find script tag content', () => {
+    const G = $(hc2, config.html);
+    let appScriptCount = 0;
+    const AST = G.find('<script>$_$</script>').each(function (ast) {
+        //找到两个script标签有内容，实际上应该只有一个
+        if (ast.match) {
+            appScriptCount++;
+        }
+    });
+    expect(appScriptCount).toBe(1);
 })

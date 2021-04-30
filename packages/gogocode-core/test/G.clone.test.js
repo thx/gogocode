@@ -1,7 +1,7 @@
 const $ = require('../index');
 const config = require('./config');
 const jc1 = require('./code/simple1');
-const jc2 = require('./code/simple2');
+const jv = require('./code/simple-vue');
 const hc1 = require('./code/simple1.html');
 
 test('$.clone: empty code', () => {
@@ -56,4 +56,13 @@ test('$.clone: simple1 html code result should be ok', () => {
     const G = $(hc1, config.html).find('<span>$_$</span>');
     const newG = G.clone();
     expect(newG.node).toEqual(G.node);
+})
+test('$.clone: test vue', () => {
+    expect(() => {
+        $(jv, config.vue)
+            .find('<template></template>').find('<$_$1 v-for=$_$2>').each(function (ast) {
+                const newAst = ast.clone();
+                console.log(newAst);
+            });
+    }).not.toThrow();
 })

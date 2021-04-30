@@ -188,7 +188,7 @@ declare module 'gogocode' {
     interface $ {
       (code: string, options?: GoGoOption): GoGoAST;
       loadFile(path: string, options: GoGoOption): GoGoAST;
-      writeFile(code: string, filename: string);
+      writeFile(code: string, filename: string): void;
     }
   }
   const $: GoGoCode.$;

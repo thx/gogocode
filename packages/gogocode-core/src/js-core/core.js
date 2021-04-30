@@ -211,25 +211,38 @@ const core = {
                         // 不能都用,连接，还是需要找到$_$
                         newReplacer = newReplacer.replace('$$$' + key$$$, wildCardCode);
                     } else {
-                        // 删除代码块外部{},find里前置处理了，不需要在这里做了
-                        let wildCardCode = extra[key].map(item => 
-                            typeof item.value !== 'object' ? (item.raw || item.value) : ``
-                        ).join(', ');
-                        // if (v.structure.type == 'BlockStatement') {
-                        //     wildCardCode = wildCardCode.slice(1, -2)
-                        // }
-                        key == '0' && (key = '')
-                        newReplacer = newReplacer
-                            .replace(`'$_$${key}'`, wildCardCode)
-                            .replace(`"$_$${key}"`, wildCardCode)
-                            .replace('$_$' + key, wildCardCode);
-                        // 通过选择器替换ast，返回完整ast
+                        if (extra[key][0] && extra[key][0].node.type == 'JSXIdentifier') {
+                            let wildCardCode = extra[key][0].value;
+                            newReplacer = newReplacer
+                                .replace(new RegExp(`'\\$_\\$${1}'`, 'g'), wildCardCode)
+                                .replace(new RegExp(`"\\$_\\$${1}"`, 'g'), wildCardCode)
+                                .replace(new RegExp('\\$_\\$' + 1, 'g'), wildCardCode);
+                        } else {
+                            // 删除代码块外部{},find里前置处理了，不需要在这里做了
+                            let wildCardCode = extra[key].map(item => 
+                                typeof item.value !== 'object' ? (item.raw || item.value) : ``
+                            ).join(', ');
+                            // if (v.structure.type == 'BlockStatement') {
+                            //     wildCardCode = wildCardCode.slice(1, -2)
+                            // }
+                            key == '0' && (key = '')
+                            newReplacer = newReplacer
+                                .replace(`'$_$${key}'`, wildCardCode)
+                                .replace(`"$_$${key}"`, wildCardCode)
+                                .replace('$_$' + key, wildCardCode);
+                            // 通过选择器替换ast，返回完整ast
+                        }
                     }
                 }
                 if (!replacer) {
                     path.replace(null);
                 } else {
                     let replacerAst = core.buildAstByAstStr(newReplacer);
+                    if (path.node.type == 'ClassMethod') {
+                        replacerAst = core.buildAstByAstStr(`class a$ {
+                            ${newReplacer}
+                        }`, { isProgram: false }).body.body[0]
+                    }
                     if (replacerAst.expression && replacerAst.expression.type != 'AssignmentExpression' && path.parentPath.name != 'body') {
                         replacerAst = replacerAst.expression
                     }
@@ -240,6 +253,11 @@ const core = {
                     path.replace(null);
                 } else if (typeof replacer == 'string') {
                     let replacerAst = replacer.type ? replacer : core.buildAstByAstStr(replacer);
+                    if (!replacer.type && path.node.type == 'ClassMethod') {
+                        replacerAst = core.buildAstByAstStr(`class a$ {
+                            ${replacer}
+                        }`, { isProgram: false }).body.body[0]
+                    }
                     if (replacerAst.expression && replacerAst.expression.type != 'AssignmentExpression' && path.parentPath.name != 'body') {
                         replacerAst = replacerAst.expression
                     }
