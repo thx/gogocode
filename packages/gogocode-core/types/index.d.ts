@@ -7,6 +7,12 @@ declare module 'gogocode' {
       parseOptions?: any;
       /** 需要插入到代码中的ast节点的映射	 */
       astFragment?: any;
+      /**
+       * 是否需要返回完整ast，默认为true
+       * js的完整ast最外层节点是File类型
+       * html完整ast是document类型
+       */
+      isProgram?: boolean;
     }
 
     interface FindOption {
