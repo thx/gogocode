@@ -27,7 +27,9 @@ module.exports = function(code, options) {
             'partialApplication',
             ['pipelineOperator', {'proposal': "smart"}],
             'throwExpressions',
-            'topLevelAwait' 
+            'topLevelAwait',
+            'decorators-legacy', 
+            ['@babel/plugin-syntax-decorators','decorators', { decoratorsBeforeExport: true }]
         ]);
     const parseOptions = {
         // sourceType: 'module',

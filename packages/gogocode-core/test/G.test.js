@@ -707,10 +707,66 @@ test('parse decorator', () => {
                     </div>
                 );
             }
-        }`, {
-            parseOptions: {  plugins: [['decorators', { decoratorsBeforeExport: false }]] }
-        })
+        }`)
         // .find(`@Form.create()`)
         .generate()
+    }).not.toThrow()
+})
+
+
+test('parse decorator 2', () => {
+    expect(() => {
+        const res = $(`
+            import { Provide, Func, Inject } from '@midwayjs/decorator';
+            import { FunctionHandler, FaaSContext } from '@ali/midway-faas';
+            import render from '@ali/ice-faas-render';
+
+            @Provide()
+            @Func('render.handler', { event: 'HTTP', path: '/*' })
+            export class RenderHandler implements FunctionHandler {
+            @Inject()
+            ctx: FaaSContext;
+
+            @Inject('baseDir')
+            baseDir: string;
+
+            async handler() {
+                await render(this.ctx, {
+                title: 'ICE & Midway Hooks',
+                g_config: {},
+                baseDir: this.baseDir,
+                favicon: 'https://img.alicdn.com/tfs/TB1.WE9xkL0gK0jSZFAXXcA9pXa-200-200.png',
+                });
+            }
+            }
+        `, {
+            parseOptions: {  
+                ecmaVersion: 2015, ecmaFeatures: { legacyDecorators: true },
+                plugins: [['decorators', { decoratorsBeforeExport: false }]] }
+        })
+        // .find(`@Form.create()`)
+    }).not.toThrow()
+})
+
+test('parse decorator 3', () => {
+    expect(() => {
+        const res = $(`
+            import { Component } from 'vue-class';
+            import render from 'index.html';
+            @Component({
+                render,
+                name: 'p',
+                props: {}
+            })
+            export default class Posi extends Mask {
+                value;
+                get v(): string {
+                    return this.value
+                }
+            }
+        `)
+        // .replace(`import { $$$ } from 'vue-class'`, `import { $$$ } from 'vue-class1'`)
+        // .generate();
+        // .find(`@Form.create()`)
     }).not.toThrow()
 })
