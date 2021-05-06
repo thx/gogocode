@@ -1,12 +1,21 @@
 declare module 'gogocode' {
   import * as t from '@babel/types';
   import ASTNode = t.Node;
+
+  type AttrValue = ASTNode | ASTNode[] | string;
+
   namespace GoGoCode {
     interface GoGoOption {
       /** 基本与babel/parse的options一致，唯一区别是解析html时需要定义为{html: true} */
       parseOptions?: any;
       /** 需要插入到代码中的ast节点的映射	 */
       astFragment?: any;
+      /**
+       * 是否需要返回完整ast，默认为true
+       * js的完整ast最外层节点是File类型
+       * html完整ast是document类型
+       */
+      isProgram?: boolean;
     }
 
     interface FindOption {
@@ -103,14 +112,14 @@ declare module 'gogocode' {
        * 返回属性名称对应的节点或属性值
        * @param attrPath ast节点的属性名称，支持多层属性，通过 . 连接
        */
-      attr(attrPath: string): ASTNode;
+      attr(attrPath: string): AttrValue;
 
       /**
        * 修改属性名称对应的节点或属性值
        * @param attrPath ast节点的属性名称，支持多层属性，通过 . 连接
        * @param attrValue 将第一个入参获取到的节点或属性修改为该入参。注意：字符串不会被解析为ast节点而是直接替换原有属性
        */
-      attr(attrPath: string, attrValue: ASTNode | string): GoGoAST;
+      attr(attrPath: string, attrValue: AttrValue): GoGoAST;
 
       /**
        * 修改多个属性名称对应的节点或属性值
@@ -120,9 +129,9 @@ declare module 'gogocode' {
       /**
        * 判断是否有某个子节点
        * @param selector 代码选择器，可以是代码也可以将代码中的部分内容挖空替换为通配符
-       * @param options
+       * @param options 同find option
        */
-      has(selector: Selector, options: FindOption): boolean;
+      has(selector: Selector, options?: FindOption): boolean;
       /**
        * 返回由当前节点深度复制的新节点
        */
