@@ -645,3 +645,31 @@ test('$.find: find script tag content', () => {
     });
     expect(appScriptCount).toBe(1);
 })
+
+test('$.find: find comments 1', () => {
+    const res = $(`// c3
+    aaaa
+    // c1
+    var a = 1;
+    // c2
+    function x () {
+        // c3
+        // c3
+        i++
+        // c3
+        // c4
+        /* sdsd
+
+        sdads
+        */
+       // c3
+    }
+    // c3`)
+    .find('// $_$')
+    .each(item => {
+        item.value.value += '>>>>>'
+    })
+    .root()
+    .generate()
+    expect(res.match('>>>>')).toBeTruthy();
+})

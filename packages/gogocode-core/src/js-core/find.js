@@ -123,6 +123,10 @@ function checkIsMatch(full, partial, extraData, strictSequence) {
                 case 'NullLiteral':
                     extra.value = null;
                     break;
+                case 'CommentLine':
+                case 'CommentBlock':
+                    extra.value = full.value;
+                    break;
                 default:
                     try {
                         extra.value = generate(full);
@@ -220,7 +224,10 @@ function find(nodeType, structure, strictSequence, deep = 'nn', expando = 'g123o
             default:
                 return false;
             }
-        }
+        },
+        visitComment() {
+            return false;
+        },
     });
     return { nodePathList, matchWildCardList };
 }

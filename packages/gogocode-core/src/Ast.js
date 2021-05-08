@@ -37,6 +37,9 @@ class AST {
     get node() {
         return this[0].nodePath.node
     }
+    get value() {
+        return this[0].nodePath.value
+    }
     get match() {
         return this[0].match
     }

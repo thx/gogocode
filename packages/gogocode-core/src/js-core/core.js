@@ -32,7 +32,7 @@ const core = {
             const posStrList = [];
             res.nodePathList.forEach((p, i) => {
                 const posStr = `${p.node.start},${p.node.end}`;
-                if (posStrList.indexOf(posStr) == -1) { // 去重
+                if (posStrList.indexOf(posStr) == -1 || item.nodeType.match('Comment')) { // 去重
                     nodePathList.push(p);
                     matchWildCardList.push(res.matchWildCardList[i]);
                     posStrList.push(posStr);
