@@ -467,3 +467,23 @@ h1 {
 
   expect(res.match(`Vue2-directive-highlight`)).toBeTruthy();
 })
+
+
+
+test('test no template', () => {
+  const res = $(`
+    <script>
+    export default {
+      name: 'components', 
+      data() {
+        return {
+          name: '组件'     
+        };
+      }  
+    };
+    </script>
+  `, { parseOptions: { language: 'vue' }})
+    .generate()
+
+  expect(res.match(`<script>`)).toBeTruthy();
+})

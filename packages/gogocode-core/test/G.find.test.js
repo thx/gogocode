@@ -646,6 +646,38 @@ test('$.find: find script tag content', () => {
     expect(appScriptCount).toBe(1);
 })
 
+test('$.find: find objproperty', () => {
+    const AST = $(
+        `
+        import Vue from 'vue';
+        export default {
+            name: 'cd',
+            props: {
+              msg: String,
+            },
+            directives: {
+              highlight: {
+                bind(el, binding, vnode) {
+                  el.style.background = binding.value;
+                },
+                inserted(el, binding) {
+                  el.parentNode.style.border = \`1px solid \${binding.value}\`;
+                }
+              },
+            },
+          };`
+    ).find(`
+    directives: {
+      $_$1: {
+        bind($_$2, $_$3, $_$4) {
+          $$$1
+        },
+      },
+    }
+    `)
+    expect(AST).toBeTruthy();
+})
+
 test('$.find: find comments 1', () => {
     const res = $(`// c3
     aaaa
@@ -668,6 +700,32 @@ test('$.find: find comments 1', () => {
     .find('// $_$')
     .each(item => {
         item.value.value += '>>>>>'
+    })
+    .root()
+    .generate()
+    expect(res.match('>>>>')).toBeTruthy();
+})
+
+test('$.find: find comments 1', () => {
+    const res = $(`
+    // c1
+    var a = 1;
+    // c2
+    function x () {
+        i++
+        // c3
+        /* sdsd
+
+        sdads
+        */
+    }`)
+    .find('/* $_$ */')
+    .each(item => {
+        item.value.value += '>>>>>'
+    })
+    .find('// $_$')
+    .each(item => {
+        item.value.value += '<<<<<'
     })
     .root()
     .generate()

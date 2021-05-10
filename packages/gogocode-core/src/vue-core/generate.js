@@ -36,9 +36,6 @@ module.exports = function toString(sfcDescriptor, options = {}) {
         script.content = jsGenerate(scriptAst.node);
     }
 
-    if (!sfcDescriptor.template) {
-        template = sfcDescriptor
-    }
     const indents = Object.assign(
         {
             template: 2,

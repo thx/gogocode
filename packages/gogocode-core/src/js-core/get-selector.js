@@ -55,11 +55,21 @@ function getSelector(selectorCode, parseOptions, expando) {
             try {
                 seletorAst = parse(`({${selectorCode}})`, parseOptions);
                 seletorAst = seletorAst.program.body[0].expression.properties[0]
-
-                let clsSelectorAst = parse(`class a$_$ { ${selectorCode} }`, parseOptions)
+            } catch(e) {
+                seletorAst = null;
+            }
+            
+            let clsSelectorAst = null;
+            try {
+                clsSelectorAst = parse(`class a$_$ { ${selectorCode} }`, parseOptions)
                 clsSelectorAst = clsSelectorAst.program.body[0].body.body[0]
-
-                return [seletorAst, clsSelectorAst].map(sel => {
+            } catch(e) {
+                //
+            }
+            
+            const result = [seletorAst, clsSelectorAst]
+                .filter(s => !!s)
+                .map(sel => {
                     const selector = {
                         nodeType: sel.type,
                         structure: {}
@@ -67,16 +77,9 @@ function getSelector(selectorCode, parseOptions, expando) {
                     filterProps(sel, selector.structure)
                     return selector;
                 })
-                // 如果是objectMethod\objectProperty 再复制一份class的
-                // const ns = Object.assign({}, selector.structure, {
-                //     type: selector.nodeType.replace('Object', 'Class')
-                // })
-                // delete ns.method;
-                // const clsSelector = {
-                //     nodeType: selector.nodeType.replace('Object', 'Class'),
-                //     structure: ns
-                // }
-            } catch(err) {
+            if (result.length) {
+                return result;
+            } else {
                 throw new Error('parse error!' + e.message);
             }
         }
