@@ -462,3 +462,40 @@ test('$.replace: class replace should be ok', () => {
     expect(res.indexOf('xxx') > -1).toBeTruthy();
 
 })
+
+
+test('$.replace: class replace should be ok', () => {
+    // const res = $(`
+    //     getApp().globalData.eventEmmit.emit("openTasks",{} );
+    // `, {parseOptions: { html: true}}).replace(`<div $$$1>$$$2</div>`, 
+    // `<div mx-view="xxx" $$$1> $$$2</div>`).generate()
+    // expect(res.indexOf('xxx') > -1).toBeTruthy();
+})
+
+test('$.replace: class replace should be ok', () => {
+    const res = $(`
+        const a = {
+            aaa: 1,
+            bbb: 2,
+        }
+    `).replace('aaa: 1', '')
+    .generate()
+    expect(res.indexOf(',') == -1).toBeTruthy();
+})
+
+test('$.replace: class replace should be ok', () => {
+    const res = $(`
+        import a from 'a';
+        console.log('get A');
+        var b = console.log();
+        console.log.bind();
+        var c = console.log;
+        console.log = func;
+    `)
+    .replace(`var $_$ = console.log()`, `var $_$ = void 0`)
+    .replace(`var $_$ = console.log`, `var $_$ = function(){}`)
+    .find(`console.log()`)
+    .remove()
+    .generate();
+    expect(res.indexOf(',') == -1).toBeTruthy();
+})

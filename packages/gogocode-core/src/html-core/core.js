@@ -31,6 +31,7 @@ const core = {
             }
             return sel;
         });
+        const posStrList = [];
         selectorAst.forEach((item) => {
             const res = find.call(
                 ast,
@@ -40,7 +41,6 @@ const core = {
                 deep,
                 expando
             );
-            const posStrList = [];
             res.nodePathList.forEach((p, i) => {
                 let posStr = '';
                 if (p.node.content.openStart) {

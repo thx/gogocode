@@ -27,9 +27,9 @@ const core = {
                 selectorAst.push(sel);
             })
         })
+        const posStrList = [];
         selectorAst.forEach(item => {
             const res = find.call(ast, item.nodeType, item.structure, strictSequence, deep, expando);
-            const posStrList = [];
             res.nodePathList.forEach((p, i) => {
                 const posStr = `${p.node.start},${p.node.end}`;
                 if (posStrList.indexOf(posStr) == -1 || item.nodeType.match('Comment')) { // 去重
@@ -235,7 +235,7 @@ const core = {
                     }
                 }
                 if (!replacer) {
-                    path.replace(null);
+                    path.replace();
                 } else {
                     let replacerAst = core.buildAstByAstStr(newReplacer);
                     if (path.node.type == 'ClassMethod') {
@@ -250,7 +250,7 @@ const core = {
                 }
             } else {
                 if (!replacer) {
-                    path.replace(null);
+                    path.replace();
                 } else if (typeof replacer == 'string') {
                     let replacerAst = replacer.type ? replacer : core.buildAstByAstStr(replacer);
                     if (!replacer.type && path.node.type == 'ClassMethod') {
@@ -321,17 +321,23 @@ const core = {
         nodePathList.forEach(path => {
             // 多条语句逗号分割的话，只删除一个；一条语句的话，删除父节点
             if ((!path.parentPath.value.length) || path.parentPath.value.length == 1) {
-                path.parent.replace(null);
+                path.parent.replace();
             } else {
-                path.replace(null)
+                path.replace()
             }
         });
     },
     remove(ast) {
         try {
-            ast.replace(null)
+            ast.replace()
         } catch(e) {
             throw `remove failed: ${e}`
+        }
+    },
+    removePathSafe(path) {
+        // 对于expression 删除之后，父节点 expressionStatement 还在，输出会多个分号。所以应该删除 expressionStatement
+        if (path.parentPath.node && path.parentPath.node.type == '') {
+            // 
         }
     },
     appendJsxAttr(ast, obj) {

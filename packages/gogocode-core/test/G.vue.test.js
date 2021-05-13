@@ -252,7 +252,7 @@ test('replace ref', () => {
 });
 
 const asyncDemo1 =  `
-<template>
+<template fu>
     <li v-for="num in a" ref="arr">
       {{ num }}
     </li>
@@ -266,6 +266,10 @@ test('replace ref', () => {
     .replace(`<$_$ v-for="$_$1" ref="$_$2" $$$1>$$$2</$_$>`,
     `<$_$ v-for="$_$1" :ref="getRefSetter('$_$2')" $$$1>$$$2</$_$>`)
     .root()
+    const tAttr = templateRes.attr('template.attrs');
+    delete tAttr.functional
+
+    templateRes = templateRes
     .generate();  // gennerate会返回完整的sfc
     console.log(templateRes)
   }

@@ -530,6 +530,16 @@ test('$.find: find import ', () => {
     const result = match[0][0].value === 'sth' ;
     expect(result).toBeTruthy();
 })
+
+test('$.find: render property', () => {
+    const match = $(`const a = {
+        render: function() {}
+      }`)
+        .find('render: function() {}')		
+    const result = !!match[0];
+    expect(result).toBeTruthy();
+})
+
 test('$.find: find 模拟解构赋值 ', () => {
     // 找到const {a,b = {b1},c = 3} = d; 转为const a = d.a, b = d.b || {b1}, c = d.c || 3;
 
@@ -730,4 +740,15 @@ test('$.find: find comments 1', () => {
     .root()
     .generate()
     expect(res.match('>>>>')).toBeTruthy();
+})
+
+test('$.find: html close tag', () => {
+    const G = $(`<hhh>222
+        <hhh>111</hhh>
+        <hhh/>
+        <hhh/>
+        <hhh>333</hhh>
+    </hhh>`, config.html);
+    const result = G.find(['<hhh></hhh>', '<hhh/>']);
+    expect(result.length == 5).toBeTruthy();
 })

@@ -50,38 +50,37 @@ function getSelector(selectorCode, parseOptions, expando) {
             throw new Error('Missing semicolon')
         }
     } catch(e) {
-        if (e.message.match('Missing semicolon')) {
-            // 可能是对象属性
-            try {
-                seletorAst = parse(`({${selectorCode}})`, parseOptions);
-                seletorAst = seletorAst.program.body[0].expression.properties[0]
-            } catch(e) {
-                seletorAst = null;
-            }
-            
-            let clsSelectorAst = null;
-            try {
-                clsSelectorAst = parse(`class a$_$ { ${selectorCode} }`, parseOptions)
-                clsSelectorAst = clsSelectorAst.program.body[0].body.body[0]
-            } catch(e) {
-                //
-            }
-            
-            const result = [seletorAst, clsSelectorAst]
-                .filter(s => !!s)
-                .map(sel => {
-                    const selector = {
-                        nodeType: sel.type,
-                        structure: {}
-                    }
-                    filterProps(sel, selector.structure)
-                    return selector;
-                })
-            if (result.length) {
-                return result;
-            } else {
-                throw new Error('parse error!' + e.message);
-            }
+        // 可能是对象属性
+        try {
+            seletorAst = parse(`({${selectorCode}})`, parseOptions);
+            seletorAst = seletorAst.program.body[0].expression.properties[0]
+        } catch(e) {
+            seletorAst = null;
+        }
+        
+        // 可能是类属性
+        let clsSelectorAst = null;
+        try {
+            clsSelectorAst = parse(`class a$_$ { ${selectorCode} }`, parseOptions)
+            clsSelectorAst = clsSelectorAst.program.body[0].body.body[0]
+        } catch(e) {
+            //
+        }
+        
+        const result = [seletorAst, clsSelectorAst]
+            .filter(s => !!s)
+            .map(sel => {
+                const selector = {
+                    nodeType: sel.type,
+                    structure: {}
+                }
+                filterProps(sel, selector.structure)
+                return selector;
+            })
+        if (result.length) {
+            return result;
+        } else {
+            throw new Error('parse error!' + e.message);
         }
     }
     visit(seletorAst, {
