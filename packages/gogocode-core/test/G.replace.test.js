@@ -493,9 +493,21 @@ test('$.replace: class replace should be ok', () => {
         console.log = func;
     `)
     .replace(`var $_$ = console.log()`, `var $_$ = void 0`)
-    .replace(`var $_$ = console.log`, `var $_$ = function(){}`)
+    .replace(`var $_$ = console.log`, `var $_$ = function(){};`)
     .find(`console.log()`)
     .remove()
     .generate();
-    expect(res.indexOf(',') == -1).toBeTruthy();
+    expect(res.match(/;/g).length == 4).toBeTruthy();
+})
+
+test('$.replace: class replace should be ok', () => {
+    const res = $(`
+        import a from 'a';console.log('get A');var b = console.log();console.log.bind();var c = console.log;console.log = func;
+    `)
+    .replace(`var $_$ = console.log()`, `var $_$ = void 0;`)
+    .replace(`var $_$ = console.log`, `var $_$ = function(){};`)
+    .find(`console.log()`)
+    .remove()
+    .generate();
+    expect(res.indexOf(`import a from 'a';var b = void 0;console.log.bind();var c = function(){};console.log = func;`) > -1).toBeTruthy();
 })

@@ -235,7 +235,7 @@ const core = {
                     }
                 }
                 if (!replacer) {
-                    path.replace();
+                    core.removePathSafe(path)
                 } else {
                     let replacerAst = core.buildAstByAstStr(newReplacer);
                     if (path.node.type == 'ClassMethod') {
@@ -250,7 +250,7 @@ const core = {
                 }
             } else {
                 if (!replacer) {
-                    path.replace();
+                    core.removePathSafe(path);
                 } else if (typeof replacer == 'string') {
                     let replacerAst = replacer.type ? replacer : core.buildAstByAstStr(replacer);
                     if (!replacer.type && path.node.type == 'ClassMethod') {
@@ -321,23 +321,25 @@ const core = {
         nodePathList.forEach(path => {
             // 多条语句逗号分割的话，只删除一个；一条语句的话，删除父节点
             if ((!path.parentPath.value.length) || path.parentPath.value.length == 1) {
-                path.parent.replace();
+                core.removePathSafe(path.parent);
             } else {
-                path.replace()
+                core.removePathSafe(path)
             }
         });
     },
-    remove(ast) {
+    remove(path) {
         try {
-            ast.replace()
+            core.removePathSafe(path)
         } catch(e) {
             throw `remove failed: ${e}`
         }
     },
     removePathSafe(path) {
         // 对于expression 删除之后，父节点 expressionStatement 还在，输出会多个分号。所以应该删除 expressionStatement
-        if (path.parentPath.node && path.parentPath.node.type == '') {
-            // 
+        if (path.name == 'expression') {
+            path.parent.replace();
+        } else {
+            path.replace();
         }
     },
     appendJsxAttr(ast, obj) {

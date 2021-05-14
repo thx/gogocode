@@ -601,12 +601,12 @@ class AST {
         }
         return this.root()
     }
-    generate() {
+    generate({ isPretty = false } = {}) {
         if (!this[0]) {
             throw new Error('generate failed! Nodepath is null!');
         }
         if (this.language == 'js') {
-            return generate(this[0].nodePath.node)
+            return generate(this[0].nodePath.node, isPretty)
         } else {
             return (languageMap[this.language].generate)(this[0].nodePath.value);
         }
