@@ -32,9 +32,14 @@ const filterProps = function (node, structure, propList, expando) {
                     structure[key] = {};
                     filterProps(node[key], structure[key], props);
                 }
-            } else if (node[key] == '$_$') {
-                node[key] = expando;
-                structure[key] = node[key];
+            } else if (expando) {
+                if (typeof node[key] == 'string') {
+                    node[key] = node[key].replace(/\$_\$/g, expando)
+                        .replace(/\$\$\$/g, expando.slice(0, -1) + '$3')
+                        .replace(/\/\$_\/\$/g, '$_$')
+                        .replace(/\/\$\/\$\/\$/g, '$$$$$$')
+                    structure[key] = node[key]
+                }
             } else {
                 structure[key] = node[key];
             }

@@ -102,7 +102,7 @@ test('$.find: input is object  should not throw error', () => {
 })
 test('$.find: input is object result should be ok', () => {
     const G = $(jc1);
-    const code = G.find({ type: 'StringLiteral', value: '$_$' }).generate();
+    const code = G.find({ type: 'StringLiteral', value: '../index' }).generate();
     expect(code).toBe("'../index'");
 })
 test('$.find: input is object array  should not throw error', () => {

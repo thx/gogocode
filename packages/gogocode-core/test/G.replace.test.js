@@ -160,7 +160,7 @@ test('$.replace: simple tryout js code result should be ok', () => {
     const code = $(jTryout)
         .replace(`!Tryout.TRYOUT_SID_391 ? $_$1 : $_$2`, '$_$2')
         .generate();
-    const result = code.indexOf(`const t7 = "2"`) > -1 && code.indexOf(`const t8 = "2"`) > -1
+    const result = code.indexOf(`const t7 = '2'`) > -1 && code.indexOf(`const t8 = '2'`) > -1
     expect(result).toBeTruthy();
 })
 test('$.replace: simple js code result should be ok', () => {
@@ -287,7 +287,7 @@ test('$.replace:  replace with $_$ and $$$', () => {
     const compareCode = $(code)
     .replace(`$_$1.$emit('input',$$$)`, `$_$1.$emit('update:modelValue',$$$)`)
     .generate();
-    expect(compareCode).toBe(`this.$emit('update:modelValue',e.target.value)`);
+    expect(compareCode).toBe(`this.$emit('update:modelValue', e.target.value)`);
 })
 test('$.replace: react js  result should be ok', () => {
     let code = $(jReact.code)
@@ -420,9 +420,11 @@ test('$.replace: simple1 html code use $_$ result should be ok', () => {
 
 test('$.replace: jsx tag replace should be ok', () => {
 
-    const G = $(`<a v="1"></a>`);
-    const res = G.replace('<$_$1 $$$1>$$$2</$_$1>', '<$_$1 $$$1>$$$2 ssssss</$_$1>').generate()
-    expect(res.indexOf('ssssss') > -1).toBeTruthy();
+    const G = $(`<a v="1">23232323
+        <b> sdsd </b>
+    </a>`);
+    const res = G.replace('<$_$1 $$$1>$$$2</$_$1>', '<$_$1 $$$1 aa="1">$$$2 ssssss</$_$1>').generate()
+    expect(res.match('ssssss').length == 2).toBeTruthy();
 
 })
 
@@ -498,4 +500,16 @@ test('$.replace: class replace should be ok', () => {
     .remove()
     .generate();
     expect(res.indexOf(',') == -1).toBeTruthy();
+})
+
+
+test('$.replace: class replace should be ok', () => {
+    const res = $(`
+        import * as ctx from '@ali/midway-hooks';
+        import { useContext } from '@ali/midway-hooks';
+        import ctx2 from '@ali/midway-hooks'
+    `)
+    .replace(`import { $$$ } from "@ali/midway-hooks"`, `import { $$$ } from "@al/hooks"`)
+    .generate();
+    expect(res.indexOf('@al/hooks') > -1).toBeTruthy();
 })

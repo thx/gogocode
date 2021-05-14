@@ -34,7 +34,7 @@ const Btn = () => {
     <div>
       <h2>转译后</h2>
       <div>
-        <Button type="default" ></Button>
+        <Button type="default"></Button>
         <Button type="primary">Prirmary</Button>
         <Button type="secondary">Secondary</Button>
         

@@ -187,89 +187,71 @@ const core = {
             replacer = originReplacer
             if (typeof replacer == 'function') {
                 replacer = replacer(extra, path);
-            }
-            if (Object.keys(extra).length > 0 && typeof replacer == 'string') {
-                let newReplacer = replacer;
-                for(let key in extra) {
-                    if (key.match(/\$\$\$/)) {
-                        let key$$$ = key.replace(/\$\$\$/, '');
-                        key$$$ == '$' && (key$$$ = '');
-                        let join = '\n'
-
-                        let wildCardCode = extra[key].map(item => {
-                            let codeStr = generate(item);
-                            try {
-                                // 嵌套replace
-                                const childAst = core.buildAstByAstStr(generate(item));
-                                core.replaceSelBySel(childAst, selector, replacer, strictSequence, parseOptions, expando);
-                                codeStr = generate(childAst)
-                            } catch(e) { // 
-                            }
-                            nodeLinkMap[item.type] && (join = nodeLinkMap[item.type])
-                            return codeStr
-                        }).join(join);
-                        // 不能都用,连接，还是需要找到$_$
-                        newReplacer = newReplacer.replace('$$$' + key$$$, wildCardCode);
-                    } else {
-                        if (extra[key][0] && extra[key][0].node.type == 'JSXIdentifier') {
-                            let wildCardCode = extra[key][0].value;
-                            newReplacer = newReplacer
-                                .replace(new RegExp(`'\\$_\\$${1}'`, 'g'), wildCardCode)
-                                .replace(new RegExp(`"\\$_\\$${1}"`, 'g'), wildCardCode)
-                                .replace(new RegExp('\\$_\\$' + 1, 'g'), wildCardCode);
-                        } else {
-                            // 删除代码块外部{},find里前置处理了，不需要在这里做了
-                            let wildCardCode = extra[key].map(item => 
-                                typeof item.value !== 'object' ? (item.raw || item.value) : ``
-                            ).join(', ');
-                            // if (v.structure.type == 'BlockStatement') {
-                            //     wildCardCode = wildCardCode.slice(1, -2)
-                            // }
-                            key == '0' && (key = '')
-                            newReplacer = newReplacer
-                                .replace(`'$_$${key}'`, wildCardCode)
-                                .replace(`"$_$${key}"`, wildCardCode)
-                                .replace('$_$' + key, wildCardCode);
-                            // 通过选择器替换ast，返回完整ast
-                        }
-                    }
+                if (replacer === null) {
+                    return; // 函数返回null则不处理，其他空值表示移除节点
                 }
-                if (!replacer) {
-                    path.replace();
-                } else {
-                    let replacerAst = core.buildAstByAstStr(newReplacer);
-                    if (path.node.type == 'ClassMethod') {
-                        replacerAst = core.buildAstByAstStr(`class a$ {
-                            ${newReplacer}
-                        }`, { isProgram: false }).body.body[0]
-                    }
-                    if (replacerAst.expression && replacerAst.expression.type != 'AssignmentExpression' && path.parentPath.name != 'body') {
-                        replacerAst = replacerAst.expression
-                    }
-                    path && path.replace(replacerAst);
+            }
+            let replacerAst;
+            if (!replacer) {
+                path.replace();
+                return;
+            } else if (typeof replacer == 'string') {
+                replacerAst = core.buildAstByAstStr(replacer, {}, { isProgram: true});
+                if (path.node.type == 'ClassMethod') {
+                    replacerAst = core.buildAstByAstStr(`class a$ {
+                        ${replacer}
+                    }`, {}, { isProgram: true })
                 }
             } else {
-                if (!replacer) {
-                    path.replace();
-                } else if (typeof replacer == 'string') {
-                    let replacerAst = replacer.type ? replacer : core.buildAstByAstStr(replacer);
-                    if (!replacer.type && path.node.type == 'ClassMethod') {
-                        replacerAst = core.buildAstByAstStr(`class a$ {
-                            ${replacer}
-                        }`, { isProgram: false }).body.body[0]
-                    }
-                    if (replacerAst.expression && replacerAst.expression.type != 'AssignmentExpression' && path.parentPath.name != 'body') {
-                        replacerAst = replacerAst.expression
-                    }
-                    path && path.replace(replacerAst);
+                if (replacer[0] && replacer[0].nodePath) {
+                    replacerAst = replacer[0].nodePath.node
                 } else {
-                    if (replacer[0] && replacer[0].nodePath) {
-                        path.replace(replacer[0].nodePath.node)
-                    } else {
-                        path.replace(replacer)
+                    replacerAst = replacer
+                }
+            }
+            
+            for(let key in extra) {
+                if (key.match(/\$\$\$/)) {
+                    let key$$$ = key.replace(/\$\$\$/, '');
+                    key$$$ == '$' && (key$$$ = '');
+                    const { nodePathList: identifier$$$  } = core.getAstsBySelector(replacerAst, [`/$/$/$${key$$$}`, { type: 'JSXText', value: `$$$${key$$$}`}])
+                    if (identifier$$$[0]) {
+                        if (identifier$$$[0].node.type == 'JSXText') {
+                            let wildCode = extra[key].map(item => {
+                                let codeStr = generate(item);
+                                return codeStr
+                            }).join('\n');
+                            identifier$$$[0].node.value = identifier$$$[0].node.value.replace(`$$$${key$$$}`, wildCode)
+                        } else {
+                            const { arrPath, index } = getArrPath(identifier$$$[0])
+                            arrPath.value && arrPath.value.splice(index, 1, ...extra[key]);
+                        }
+                    }
+                } else {
+                    let key$ = key;
+                    key == '0' && (key$ = '')
+                    const { nodePathList: identifier$  } = core.getAstsBySelector(replacerAst, `/$_/$${key$}`)
+                    if (extra[key].length == 1) {
+                        identifier$.forEach(idtPath => {
+                            idtPath.replace(extra[key][0].node)
+                        })
+                    } else if (extra[key].length == identifier$.length) {
+                        identifier$.forEach((idtPath, i) => {
+                            idtPath.replace(extra[key][i].node)
+                        })
+                    } else if (extra[key] > 1) {
+                        identifier$.forEach(idtPath => {
+                            const { arrPath, index } = getArrPath(idtPath)
+                            arrPath.value && arrPath.value.splice(index, 1, ...extra[key]);
+                        })
                     }
                 }
             }
+            replacerAst = replacerAst.program ? replacerAst.program.body[0] : replacerAst;
+            if (replacerAst.expression && replacerAst.expression.type != 'AssignmentExpression' && path.parentPath.name != 'body') {
+                replacerAst = replacerAst.expression
+            }
+            path && path.replace(replacerAst);
         });
     },
     insertAstListBefore(path, nodeList) {
@@ -434,6 +416,23 @@ const core = {
                 }
             }
         }))
+    }
+}
+
+function getArrPath(path) {
+    let arrPath = path
+    if (!arrPath) return;
+    let lastNode = path.node;
+    let i = 0;
+    while(!Array.isArray(arrPath.value) && i < 3) {
+        lastNode = arrPath.node;
+        arrPath = arrPath.parentPath;
+        i++
+    }
+    if (Array.isArray(arrPath.value)) {
+        return { arrPath: arrPath, index : arrPath.value.indexOf(lastNode) }
+    } else {
+        return { arrPath: {}, index: -1 };
     }
 }
 
