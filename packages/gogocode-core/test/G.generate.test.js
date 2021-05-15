@@ -68,3 +68,23 @@ console.log = func;`).toBeTruthy();
     // const str = $(code, config.html).generate();
     // expect(str).toBe('<span class="{{= body_stateColor(this,crowd) }}" {{= body_updateState(this,crowd) }}>{{= body_stateText(this,crowd) }}</span>');
 // })
+
+test('$.generate: simple1 html code result should be ok', () => {
+    const res = $(`
+        <s-end
+        a:elif="{{gameSta
+            
+            tus === 3}}"
+        pic="{{level.p}}"
+        last="{{(level.i + 1) >= levelTotal}}"
+        award="{{award}}"
+        nextAward="{{nextAward}}"
+        lastAward="{{lastAward}}"
+        used="{{used}}"
+        onUse="handleEndUseTap"
+        onNext="handleEndNextTap"
+    />
+    `, { parseOptions: { language: 'html' } } )
+    .generate();
+    expect(!!res.match(`/>`)).toBeTruthy();
+})
