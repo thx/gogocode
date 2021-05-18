@@ -423,7 +423,8 @@ test('$.replace: jsx tag replace should be ok', () => {
     const G = $(`<a v="1">23232323
         <b> sdsd </b>
     </a>`);
-    const res = G.replace('<$_$1 $$$1>$$$2</$_$1>', '<$_$1 $$$1 aa="1">$$$2 ssssss</$_$1>').generate()
+    const res = G.replace('<$_$1 $$$1>$$$2</$_$1>', `<$_$1 $$$1 aa="1">22222222232sdfs
+    sddsaads$$$2 ssssss</$_$1>`).generate()
     expect(res.match('ssssss').length == 2).toBeTruthy();
 
 })
@@ -495,11 +496,11 @@ test('$.replace: class replace should be ok', () => {
         console.log = func;
     `)
     .replace(`var $_$ = console.log()`, `var $_$ = void 0`)
-    .replace(`var $_$ = console.log`, `var $_$ = function(){}`)
+    .replace(`var $_$ = console.log`, `var $_$ = function(){};`)
     .find(`console.log()`)
     .remove()
     .generate();
-    expect(res.indexOf(',') == -1).toBeTruthy();
+    expect(res.match(/;/g).length == 4).toBeTruthy();
 })
 
 
@@ -512,4 +513,16 @@ test('$.replace: class replace should be ok', () => {
     .replace(`import { $$$ } from "@ali/midway-hooks"`, `import { $$$ } from "@al/hooks"`)
     .generate();
     expect(res.indexOf('@al/hooks') > -1).toBeTruthy();
+})
+
+test('$.replace: class replace should be ok', () => {
+    const res = $(`
+        import a from 'a';console.log('get A');var b = console.log();console.log.bind();var c = console.log;console.log = func;
+    `)
+    .replace(`var $_$ = console.log()`, `var $_$ = void 0;`)
+    .replace(`var $_$ = console.log`, `var $_$ = function(){};`)
+    .find(`console.log()`)
+    .remove()
+    .generate();
+    expect(res.indexOf(`import a from 'a';var b = void 0;console.log.bind();var c = function(){};console.log = func;`) > -1).toBeTruthy();
 })

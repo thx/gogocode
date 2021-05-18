@@ -16,11 +16,12 @@ const Props = [
     'typeParameters'
 ]
 
+const ignoreTypeList = ['Super'];
 const filterProps = function (node, structure, propList, expando) {
     const props = propList || Props;
     for (const key in node) {
         // 过滤值为空的字段
-        if ((key === 'type' && node[key] === 'Super') || (props.indexOf(key) == -1 && node[key])) {
+        if ((key === 'type' && ignoreTypeList.indexOf(node[key]) > -1) || (props.indexOf(key) == -1 && node[key])) {
             if (isObject(node[key])) {
                 if (Array.isArray(node[key])) {
                     structure[key] = [];

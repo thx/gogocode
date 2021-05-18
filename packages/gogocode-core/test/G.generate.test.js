@@ -47,9 +47,44 @@ test('$.generate: simple1 html code result should be ok', () => {
     const str = $(hc1,config.html).generate();
     expect(str.length > 1).toBeTruthy();
 })
+test('$.generate: simple1 html code result should be ok', () => {
+    const res = $(`
+        import a from 'a';console.log('get A');var b = console.log();console.log.bind();var c = console.log;console.log = func;
+    `)
+    .replace(`var $_$ = console.log()`, `var $_$ = void 0;`)
+    .replace(`var $_$ = console.log`, `var $_$ = function(){};`)
+    .find(`console.log()`)
+    .remove()
+    .generate({ isPretty: true });
+    expect(res == `import a from "a";
+var b = void 0;
+console.log.bind();
+var c = function() {};
+console.log = func;`).toBeTruthy();
+})
 // todo magix attr
 // test('$.generate: simple html code 2 {{ test', () => {
     // const code = `<span class="{{= body_stateColor(this,crowd) }}" {{= body_updateState(this,crowd) }}>{{= body_stateText(this,crowd) }}</span>`;
     // const str = $(code, config.html).generate();
     // expect(str).toBe('<span class="{{= body_stateColor(this,crowd) }}" {{= body_updateState(this,crowd) }}>{{= body_stateText(this,crowd) }}</span>');
 // })
+
+test('$.generate: simple1 html code result should be ok', () => {
+    const res = $(`
+        <s-end
+        a:elif="{{gameSta
+            
+            tus === 3}}"
+        pic="{{level.p}}"
+        last="{{(level.i + 1) >= levelTotal}}"
+        award="{{award}}"
+        nextAward="{{nextAward}}"
+        lastAward="{{lastAward}}"
+        used="{{used}}"
+        onUse="handleEndUseTap"
+        onNext="handleEndNextTap"
+    />
+    `, { parseOptions: { language: 'html' } } )
+    .generate();
+    expect(!!res.match(`/>`)).toBeTruthy();
+})

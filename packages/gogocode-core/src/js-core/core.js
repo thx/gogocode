@@ -193,7 +193,7 @@ const core = {
             }
             let replacerAst;
             if (!replacer) {
-                path.replace();
+                core.removePathSafe(path)
                 return;
             } else if (typeof replacer == 'string') {
                 replacerAst = core.buildAstByAstStr(replacer, {}, { isProgram: true});
@@ -217,11 +217,14 @@ const core = {
                     const { nodePathList: identifier$$$  } = core.getAstsBySelector(replacerAst, [`/$/$/$${key$$$}`, { type: 'JSXText', value: `$$$${key$$$}`}])
                     if (identifier$$$[0]) {
                         if (identifier$$$[0].node.type == 'JSXText') {
-                            let wildCode = extra[key].map(item => {
-                                let codeStr = generate(item);
-                                return codeStr
-                            }).join('\n');
-                            identifier$$$[0].node.value = identifier$$$[0].node.value.replace(`$$$${key$$$}`, wildCode)
+                            // let wildCode = extra[key].map(item => {
+                            //     let codeStr = generate(item);
+                            //     return codeStr
+                            // }).join('\n');
+                            // const newJSX = identifier$$$[0].node.value.replace(`$$$${key$$$}`, wildCode)
+                            // const newChildren = core.buildAstByAstStr(`<div>${newJSX}</div>`, {}, { isProgram: false }).expression.children || [];
+                            // const index = identifier$$$[0].parentPath.value.indexOf(identifier$$$[0].node);
+                            // identifier$$$[0].parentPath.value.splice(index, 1, ...newChildren)
                         } else {
                             const { arrPath, index } = getArrPath(identifier$$$[0])
                             arrPath.value && arrPath.value.splice(index, 1, ...extra[key]);
@@ -303,23 +306,25 @@ const core = {
         nodePathList.forEach(path => {
             // 多条语句逗号分割的话，只删除一个；一条语句的话，删除父节点
             if ((!path.parentPath.value.length) || path.parentPath.value.length == 1) {
-                path.parent.replace();
+                core.removePathSafe(path.parent);
             } else {
-                path.replace()
+                core.removePathSafe(path)
             }
         });
     },
-    remove(ast) {
+    remove(path) {
         try {
-            ast.replace()
+            core.removePathSafe(path)
         } catch(e) {
             throw `remove failed: ${e}`
         }
     },
     removePathSafe(path) {
         // 对于expression 删除之后，父节点 expressionStatement 还在，输出会多个分号。所以应该删除 expressionStatement
-        if (path.parentPath.node && path.parentPath.node.type == '') {
-            // 
+        if (path.name == 'expression') {
+            path.parent.replace();
+        } else {
+            path.replace();
         }
     },
     appendJsxAttr(ast, obj) {
