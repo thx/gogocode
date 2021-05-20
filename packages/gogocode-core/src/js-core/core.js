@@ -165,6 +165,13 @@ const core = {
         return ast;
     },
     replaceAstByAst(oldAst, newAst) {
+        if (Array.isArray(newAst)) {
+            const { arrPath = {}, index } = getArrPath(oldAst);
+            if (Array.isArray(arrPath.value) && index > -1) {
+                arrPath.value.splice(index, 1, ...newAst);
+                return;
+            }
+        }
         if (newAst.type == 'BlockStatement' && Array.isArray(oldAst.parentPath.value)) {
             const parentNode = oldAst.parentPath.value;
             const oldIndex = parentNode.indexOf(oldAst.node);
@@ -211,25 +218,24 @@ const core = {
                         // 不能都用,连接，还是需要找到$_$
                         newReplacer = newReplacer.replace('$$$' + key$$$, wildCardCode);
                     } else {
-                        if (extra[key][0] && extra[key][0].node.type == 'JSXIdentifier') {
-                            let wildCardCode = extra[key][0].value;
-                            newReplacer = newReplacer
-                                .replace(new RegExp(`'\\$_\\$${1}'`, 'g'), wildCardCode)
-                                .replace(new RegExp(`"\\$_\\$${1}"`, 'g'), wildCardCode)
-                                .replace(new RegExp('\\$_\\$' + 1, 'g'), wildCardCode);
+                        let realKey = key == '0' ? '' : key;
+                        const matchLength = (newReplacer.match(new RegExp(`\\$_\\$${realKey}`, 'g')) || []).length;
+                        if (matchLength == extra[key].length) {
+                            extra[key].forEach(ext => {
+                                newReplacer = newReplacer
+                                    .replace(`'$_$${realKey}'`, ext.raw || ext.value)
+                                    .replace(`"$_$${realKey}"`, ext.raw || ext.value)
+                                    .replace('$_$' + realKey, ext.raw || ext.value);
+                            })
                         } else {
                             // 删除代码块外部{},find里前置处理了，不需要在这里做了
                             let wildCardCode = extra[key].map(item => 
                                 typeof item.value !== 'object' ? (item.raw || item.value) : ``
                             ).join(', ');
-                            // if (v.structure.type == 'BlockStatement') {
-                            //     wildCardCode = wildCardCode.slice(1, -2)
-                            // }
-                            key == '0' && (key = '')
                             newReplacer = newReplacer
-                                .replace(`'$_$${key}'`, wildCardCode)
-                                .replace(`"$_$${key}"`, wildCardCode)
-                                .replace('$_$' + key, wildCardCode);
+                                .replace(new RegExp(`'\\$_\\$${realKey}'`, 'g'), wildCardCode)
+                                .replace(new RegExp(`"\\$_\\$${realKey}"`, 'g'), wildCardCode)
+                                .replace(new RegExp(`\\$_\\$${realKey}`, 'g'), wildCardCode);
                             // 通过选择器替换ast，返回完整ast
                         }
                     }
@@ -246,7 +252,7 @@ const core = {
                     if (replacerAst.expression && replacerAst.expression.type != 'AssignmentExpression' && path.parentPath.name != 'body') {
                         replacerAst = replacerAst.expression
                     }
-                    path && path.replace(replacerAst);
+                    path && core.replaceAstByAst(path, replacerAst);
                 }
             } else {
                 if (!replacer) {
@@ -261,12 +267,12 @@ const core = {
                     if (replacerAst.expression && replacerAst.expression.type != 'AssignmentExpression' && path.parentPath.name != 'body') {
                         replacerAst = replacerAst.expression
                     }
-                    path && path.replace(replacerAst);
+                    path && core.replaceAstByAst(path, replacerAst);
                 } else {
                     if (replacer[0] && replacer[0].nodePath) {
                         path.replace(replacer[0].nodePath.node)
                     } else {
-                        path.replace(replacer)
+                        core.replaceAstByAst(path, replacer);
                     }
                 }
             }
@@ -438,5 +444,20 @@ const core = {
         }))
     }
 }
-
+function getArrPath(path) {
+    let arrPath = path
+    if (!arrPath) return;
+    let lastNode = path.node;
+    let i = 0;
+    while(!Array.isArray(arrPath.value) && i < 3) {
+        lastNode = arrPath.node;
+        arrPath = arrPath.parentPath;
+        i++
+    }
+    if (Array.isArray(arrPath.value)) {
+        return { arrPath: arrPath, index : arrPath.value.indexOf(lastNode) }
+    } else {
+        return { arrPath: {}, index: -1 };
+    }
+}
 module.exports = core;

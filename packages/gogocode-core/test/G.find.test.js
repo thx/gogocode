@@ -520,7 +520,7 @@ test('$.find: find import ', () => {
     const match = $(jc2)
         .find(`import $_$1 from '$_$2'`)		
         .match;
-    const result = match['1'][0].value === 'View' ;
+    const result = match['1'][0].value === 'moment' ;
     expect(result).toBeTruthy();
 })
 test('$.find: find import ', () => {

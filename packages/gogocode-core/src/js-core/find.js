@@ -13,10 +13,19 @@ function checkIsMatch(full, partial, extraData, strictSequence) {
         if (prop == 'body') {
             // 匹配一块代码
             try {
-                const bodyContent = partial.body[0] || partial.body.body[0];
-                if (bodyContent && bodyContent.expression.name && bodyContent.expression.name.match) {
-                    if (bodyContent.expression.name.match(Expando)) {
-                        const expandoKey = bodyContent.expression.name.replace(Expando, '') || '0';
+                let bodyContent = partial.body;
+                if (Array.isArray(partial.body)) {
+                    bodyContent = partial.body[0] || partial.body.body[0];
+                } else if (partial.body && partial.body.body) {
+                    bodyContent = partial.body.body[0]
+                }
+                let name = ''
+                if (bodyContent) {
+                    name = bodyContent.expression ? bodyContent.expression.name : bodyContent.name ? bodyContent.name : ''
+                }
+                if (name && name.match) {
+                    if (name.match(Expando)) {
+                        const expandoKey = name.replace(Expando, '') || '0';
                         extraData[expandoKey] = extraData[expandoKey] || [];
                         // 去掉首尾花括号
                         const bodyStr = generate(full.body) ? generate(full.body).slice(1, -2) : '';

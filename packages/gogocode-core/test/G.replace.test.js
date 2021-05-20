@@ -511,3 +511,80 @@ test('$.replace: class replace should be ok', () => {
     .generate();
     expect(res.indexOf(`import a from 'a';var b = void 0;console.log.bind();var c = function(){};console.log = func;`) > -1).toBeTruthy();
 })
+
+test('$.replace: class replace should be ok', () => {
+    const res = $(`
+        import * as ctx from '@ali/midway-hooks';
+        import { useContext } from '@ali/midway-hooks';
+        import ctx2 from '@ali/midway-hooks'
+    `)
+    .replace(`import $_$ from "@ali/midway-hooks"`, `import $_$ from "@al/hooks"`)
+    .replace(`import * as $_$ from "@ali/midway-hooks"`, `import * as $_$ from "@al/hooks"`)
+    .replace(`import { $$$ } from "@ali/midway-hooks"`, `import { $$$ } from "@al/hooks"`)
+    .generate();
+    expect(res.match(/\@al\/hooks/g).length == 3).toBeTruthy();
+})
+
+test('$.replace: class replace should be ok', () => {
+    const res = $(`
+        import * as ctx from '@ali/midway-hooks';
+        import { useContext } from '@ali/midway-hooks';
+        import ctx2 from '@ali/midway-hooks'
+    `)
+    .replace(`import $_$ from "@ali/midway-hooks"`, `import $_$ from "@al/hooks"`)
+    .replace(`import * as $_$ from "@ali/midway-hooks"`, `import * as $_$ from "@al/hooks"`)
+    .replace(`import { $$$ } from "@ali/midway-hooks"`, `import { $$$ } from "@al/hooks"`)
+    .generate();
+    expect(res.match(/\@al\/hooks/g).length == 3).toBeTruthy();
+})
+
+test('$.replace: class replace should be ok', () => {
+    const res = $(`
+        import * as ctx from '@ali/midway-hooks';
+        import { useContext } from '@ali/midway-hooks';
+        import ctx2 from '@ali/midway-hooks'
+    `)
+    .replace(`import $_$ from "@ali/midway-hooks"`, `import $_$ from "@al/hooks"`)
+    .replace(`import * as $_$ from "@ali/midway-hooks"`, `import * as $_$ from "@al/hooks"`)
+    .generate();
+    expect(res.match(/\@al\/hooks/g).length == 2).toBeTruthy();
+})
+
+test('$.replace: class replace should be ok', () => {
+    const res = $(`
+        import * as ctx from '@ali/midway-hooks';
+        import { useContext } from '@ali/midway-hooks';
+        import ctx2 from '@ali/midway-hooks'
+    `)
+    .replace(`import $_$ from "@ali/midway-hooks"`, `import $_$ from "@al/hooks"`)
+    .generate();
+    expect(res.match(/\@al\/hooks/g).length == 1).toBeTruthy();
+})
+
+test('$.replace: class replace should be ok', () => {
+    const res = $(`const a = b?.s?.c?.e`)
+    .replace(`$_$1?.$_$2`, `$_$1 ? $_$1.$_$2 : null`)
+    .generate();
+    expect(res.indexOf('const a = b?.s?.c ? b?.s?.c.e : null') > -1).toBeTruthy();
+})
+
+test('$.replace: class replace should be ok', () => {
+    const res = $(`
+        "use strict";
+        module.exports = app => {
+        const mongoose = app.mongoose;
+        const BrandSchema = new Schema({
+            name: { type: String }
+        });
+        
+        const Brand = mongoose.model('Brand');
+        
+        return Brand;
+    };
+    `)
+    .replace(`module.exports = () => $_$`,  `$_$`)
+    .replace(`return $_$`, `module.exports = $_$`)
+    .before(`const app = require('mongoose')`)
+    .generate();
+    expect(res.indexOf('module.exports = Brand') > -1 && res.indexOf('module.exports = app') == -1).toBeTruthy();
+})

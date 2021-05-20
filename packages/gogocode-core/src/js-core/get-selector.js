@@ -17,7 +17,8 @@ function getSelector(selectorCode, parseOptions, expando) {
         selectorCode = selectorCode
             .replace(/\$_\$/g, expando)
             .replace(/\$\$\$/g, expando.slice(0, -1) + '$3')
-
+            .replace(/\/\$_\/\$/g, '$_$')
+            .replace(/\/\$\/\$\/\$/g, '$$$$$$')
     }
     if (selectorCode.match(/^{((.|\s)+:(.|\s)+)+}$/)) {
         // 如果是对象字面量
