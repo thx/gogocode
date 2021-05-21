@@ -7,10 +7,10 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "build": "babel --plugins ./plugin.js ./input1.js"
+    "build": "rollup -c rollup.config.js"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "gogocode": "^0.2.24"
+    "gogocode": "^0.2.24",
+    "rollup": "^2.48.0"
   }
 }

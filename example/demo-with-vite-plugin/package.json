@@ -1,0 +1,13 @@
+{
+  "name": "demo-with-vites",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "devDependencies": {
+    "gogocode": "^0.2.24",
+    "vite": "^2.3.3"
+  }
+}

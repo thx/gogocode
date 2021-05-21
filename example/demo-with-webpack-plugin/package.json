@@ -7,10 +7,11 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "build": "babel --plugins ./plugin.js ./input1.js"
+    "build": "webpack"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "gogocode": "^0.2.24"
+    "gogocode": "^0.2.24",
+    "webpack-cli": "^4.7.0"
   }
 }
