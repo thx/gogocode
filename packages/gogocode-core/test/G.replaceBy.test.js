@@ -102,3 +102,44 @@ test('$.replaceBy: simple1 html code  use find result should be ok', () => {
     const code = result.root().generate();
     expect(code.indexOf('<head>') < 0).toBeTruthy();
 })
+
+test('$.replaceBy: simple1 html code  use find result should be ok', () => {
+    const res = $(`
+    export default {
+        a: 1,
+        b: 2,
+        render() {}
+    }`).find(`render() {
+
+    }`)
+    .parent(1)
+    .replaceBy(`function render() {}`)
+    .root()
+    .generate();
+    expect(res.indexOf(`function render`) > -1).toBeTruthy();
+})
+
+test('$.replaceBy: simple1 html code  use find result should be ok', () => {
+    const res = $(`
+    export default {
+        name: 'HComp',
+        props: {
+          msg: String,
+        },
+        functional: true,
+        render(h, { props }) {
+          return h('p', \`render by h: \${props.msg}\`);
+        },
+    };`)
+        .find('{ functional: true }')
+        .each((ast) => {
+            if (ast.has('render() {}')) {
+                const renderFunction = ast.find('render() {}');
+                let renderFunctionStr = `function ${renderFunction.generate()}`;
+                renderFunction.parent(1).replaceBy(renderFunctionStr);
+            }
+        })
+        .root()
+        .generate();
+    expect(!!res.match('function render')).toBeTruthy();
+})

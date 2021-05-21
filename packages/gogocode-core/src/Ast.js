@@ -101,6 +101,17 @@ class AST {
             newAST.rootNode = this[0].nodePath;
         }
         nodePathList.forEach((nodePath, i) => {
+            // 把this里的parentPath接到nodePath上
+            if (this.language == 'js') {
+                let theNodePath = nodePath;
+                while(theNodePath.parentPath) {
+                    if (theNodePath.parentPath && theNodePath.parentPath.name == 'root') {
+                        theNodePath.parentPath = this[0].nodePath;
+                        break;
+                    }
+                    theNodePath = theNodePath.parentPath;
+                }
+            }
             newAST[i] = { nodePath, parseOptions: extra.parseOptions || pOptions, match: matchWildCardList[i] };
         })
         if (extra.parseOptions) {

@@ -61,3 +61,26 @@ test('$.match: html code attr key match should be same', () => {
         match[0][0].node.content === 'id'
     ).toBeTruthy();
 })
+
+test('$.match: html code attr key match should be same', () => {
+    let res = [];
+    $(`(function(param_1, param_2) {
+        // Code that runs in your function
+    })({"config": {a:1}, "data": {b:2}}, {"actions": {c:3}, "misc": {d:4}});
+
+    (function(param_1, param_2) {
+        // Code that runs in your function
+    })({"config": {a:1}, "data": {b:2}}, {"actions": {c:3}, "misc": {d:4}});
+    
+    (function() {
+        // Code that runs in your function
+    })({"config2": {a:1}});
+    
+    
+    (somethingelse)(111);`)
+    .find(`(function(){})($_$2)`)
+    .each(item => {
+        res.push(item.match[2].map(m => m.value))
+    })
+    expect(res.length == 3).toBeTruthy();
+})
