@@ -25,7 +25,7 @@ const core = {
                 newAst = ast.scriptAst;
             }
         }
-        return { nodePathList: [newAst], matchWildCardList: [], extra: { parseOptions } }
+        return { nodePathList: newAst ? [newAst] : [], matchWildCardList: [], extra: { parseOptions } }
     },
     getTemplate(ast) {
         // 仅针对vue，取template，后续通过htmlcore处理
@@ -40,7 +40,7 @@ const core = {
             );
             return new NodePath(template);
         } else {
-            return new NodePath(ast);
+            return undefined;
         }
     },
     getScript(ast) {
@@ -54,7 +54,7 @@ const core = {
             );
             return new NodePath(script);
         } else {
-            return new NodePath(ast);
+            return undefined;
         }
     },
     buildAstByAstStr(str, astPatialMap = {}, { isProgram = false, parseOptions } = {}) {
