@@ -752,3 +752,28 @@ test('$.find: html close tag', () => {
     const result = G.find(['<hhh></hhh>', '<hhh/>']);
     expect(result.length == 5).toBeTruthy();
 })
+
+test('$.find: should not find vue template',()=>{
+    const code = `
+    <script>
+    import Vue from "vue";
+    export default {
+    };
+    </script>`;
+    const has = $(code, config.vue)
+        .find('<template></template>').length > 0;
+    expect(has).not.toBeTruthy()
+})
+
+
+test('$.find: should not find vue script', () => {
+    const code = `
+    <template>
+    <div class="context-menu-list">
+      <slot></slot>
+    </div>
+  </template>`;
+    const has = $(code, config.vue)
+        .find('<script></script>').length > 0;
+    expect(has).not.toBeTruthy()
+})
