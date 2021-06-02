@@ -777,3 +777,17 @@ test('$.find: should not find vue script', () => {
         .find('<script></script>').length > 0;
     expect(has).not.toBeTruthy()
 })
+
+test('$.find: should not find vue script', () => {
+    const code = `
+    <template>
+    <div class="context-menu-list">
+      <slot></slot>
+    </div>
+  </template>`;
+    const res = $(code, config.vue)
+        .find('<script></script>')
+        .root()
+        .generate();
+    expect(res.match('template')).toBeTruthy()
+})
