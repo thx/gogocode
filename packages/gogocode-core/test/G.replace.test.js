@@ -588,3 +588,16 @@ test('$.replace: class replace should be ok', () => {
     .generate();
     expect(res.indexOf('module.exports = Brand') > -1 && res.indexOf('module.exports = app') == -1).toBeTruthy();
 })
+
+test('$.replace: replace arguments should not throw error', () => {
+    const code = `
+    this.$emit("input", date, {
+        type: "CUSTOM",
+        value: date
+      });
+    `;
+    expect(() => {
+    const res = $(code)
+    .replace(`$_$1.$emit('input',$$$)`, `$_$1.$emit('update:modelValue',$$$)`)
+    }).not.toThrow();
+})
