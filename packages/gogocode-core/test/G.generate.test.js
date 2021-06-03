@@ -14,7 +14,7 @@ test('$.generate: this[0] is null', () => {
        const G = $('var a = 1;');
        G[0] = null
        G.generate();
-    }).toThrow();
+    }).not.toThrow();
 })
 
 test('$.generate:simple js code 1', () => {

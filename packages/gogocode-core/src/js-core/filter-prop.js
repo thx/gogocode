@@ -18,6 +18,7 @@ const Props = [
 
 const ignoreTypeList = [
     'Super', 
+    'Import',
     'ImportSpecifier', 'ImportDefaultSpecifier', 'ImportNamespaceSpecifier',
     'exportSpecifier', 'exportDefaultSpecifier', 'exportNamespaceSpecifier'
 ];

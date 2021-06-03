@@ -11,7 +11,7 @@ function checkIsMatch(full, partial, extraData, strictSequence) {
     return Object.keys(partial).every(prop => {
         if (prop == 'children') {
             // 匹配一段代码
-            if (partial.children.length == 1
+            if (full.children && partial.children.length == 1
                 && partial.children[0].nodeType == 'text'
                 && (partial.children[0].content.value.content.match 
                 )) {

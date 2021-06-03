@@ -81,7 +81,7 @@ class AST {
             throw new Error('find failed! first argument should not be null!')
         }
         if (!this[0]) {
-            throw new Error('find failed! Ast should not be null!')
+            return this;
         }
         const { nodePath } = this[0];
         // if (typeof selector !== 'string' && !Array.isArray(selector)) {
@@ -614,7 +614,7 @@ class AST {
     }
     generate({ isPretty = false } = {}) {
         if (!this[0]) {
-            throw new Error('generate failed! Nodepath is null!');
+            return '';
         }
         if (this.language == 'js') {
             return generate(this[0].nodePath.node, isPretty)

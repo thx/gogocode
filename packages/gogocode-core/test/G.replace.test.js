@@ -601,3 +601,40 @@ test('$.replace: replace arguments should not throw error', () => {
     .replace(`$_$1.$emit('input',$$$)`, `$_$1.$emit('update:modelValue',$$$)`)
     }).not.toThrow();
 })
+
+test('$.replace: replace arguments should not throw error', () => {
+    const code = `(v) => Boolean(v.text)`;
+    const res = $(code)
+        .replace('() => import($_$)', 'Vue.defineAsyncComponent(() => import($_$))').generate()
+    expect(res.match(/Boolean\(v\.text\)/)).toBeTruthy();
+})
+
+test('$.replace: replace arguments should not throw error', () => {
+    const code = `
+    Vue.directive('a', 'b', {
+        bind(a) {
+        }
+    })`;
+    expect(() => {
+        $(code)
+        .replace(
+            `
+            Vue.directive($$$1, {
+            bind($_$2) {
+                $$$2
+            },
+            $$$3
+            },
+        )`,
+            `
+            Vue.directive($$$1, {
+            beforeMount($_$2) {
+                $$$2
+            },
+            $$$3
+            },
+        )
+            `
+        )
+    }).not.toThrow();
+})

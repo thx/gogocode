@@ -3,6 +3,8 @@ module.exports = {
     'JSXText': '\n',
     'ObjectProperty': ', \n',
     'ObjectMethod': ', \n',
-    'Identifier': ', JSXElement',
+    'Identifier': ',',
+    'StringLiteral': ',',
+    'JSXElement': '\n',
     'ImportSpecifier': ','
 }
