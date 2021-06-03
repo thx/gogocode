@@ -47,7 +47,7 @@ test('$.replace: this[0] is null', () => {
        const G = $('var a = 1;');
        G[0] = null
        G.replace();
-    }).toThrow();
+    }).not.toThrow();
 })
 test('$.replace: null', () => {
     expect(() => {

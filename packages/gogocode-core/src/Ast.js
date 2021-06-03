@@ -345,7 +345,8 @@ class AST {
     }
     replace(selector, replacer, { ignoreSequence, parseOptions } = {}) {
         if (!this[0]) {
-            throw new Error('replace failed! Nodepath is null!');
+            // throw new Error('replace failed! Nodepath is null!');
+            return this;
         }
         this.core.replaceSelBySel(this[0].nodePath, selector, replacer, ignoreSequence === false, parseOptions, this.expando)
         return this;

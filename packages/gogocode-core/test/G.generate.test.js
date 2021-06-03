@@ -88,3 +88,12 @@ test('$.generate: simple1 html code result should be ok', () => {
     .generate();
     expect(!!res.match(`/>`)).toBeTruthy();
 })
+
+
+test('$.generate: tag generate should be ok', () => {
+    const str = $(`<template>
+        <A></A>
+    </template>`, { parseOptions: { language: 'vue' } }).find('<template></template>')
+    .generate();
+    expect(str.match('A')).toBeTruthy();
+})

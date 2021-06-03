@@ -1,6 +1,6 @@
 {
     "name": "gogocode",
-    "version": "0.2.28",
+    "version": "0.2.29",
     "description": "The simplest tool to parse/transform/generate code on ast",
     "keywords": [
       "babel",
