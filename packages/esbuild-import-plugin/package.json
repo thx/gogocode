@@ -1,0 +1,23 @@
+{
+  "name": "esbuild-import-plugin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node esbuild.config.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "gogocode": "^0.2.29"
+  },
+  "devDependencies": {
+    "@alife/mux-components": "^1.22.0",
+    "antd": "^4.16.1",
+    "esbuild": "^0.12.5"
+  },
+  "peerDependencies": {
+    "lodash": "^4.17.21"
+  }
+}
