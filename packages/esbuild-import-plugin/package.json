@@ -2,7 +2,15 @@
   "name": "esbuild-dynamic-import-plugin",
   "version": "0.0.1",
   "description": "import on demand plugin for esbuild",
-  "keywords": ["esbuild", "import plugin", "esbuild-import-plugin", "babel-import-plugin", "dynamic import", "import", "import on demand"],
+  "keywords": [
+    "esbuild",
+    "import plugin",
+    "esbuild-import-plugin",
+    "babel-import-plugin",
+    "dynamic import",
+    "import",
+    "import on demand"
+  ],
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -15,8 +23,10 @@
   },
   "devDependencies": {
     "@alife/mux-components": "^1.22.0",
+    "@types/lodash": "^4.14.170",
     "antd": "^4.16.1",
-    "esbuild": "^0.12.5"
+    "esbuild": "^0.12.5",
+    "lodash": "^4.17.21"
   },
   "peerDependencies": {
     "lodash": "^4.17.21"

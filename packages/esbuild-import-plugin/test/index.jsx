@@ -1,9 +1,8 @@
 import * as React from 'react'
-import Foo from './foo'
+import Foo from './module'
 /* ImportSpecfier */
 import { MuxButton, MuxSelect } from '@alife/mux-components'
 /* DefaultImportSpecifier & ImportSpecfier */
-import lodash, { add } from 'lodash'
 /* DefaultImportSpecifier */
 import Antd from 'antd'
 

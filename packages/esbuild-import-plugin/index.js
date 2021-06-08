@@ -1,6 +1,7 @@
 const gogocode = require('gogocode')
 const fs = require('fs')
 const kebabCase = require('lodash/kebabCase')
+const path = require('path')
 
 // const replacer = kebabCase
 // 测试用例:
@@ -54,6 +55,9 @@ const pluginImport = (options = {}) => ({
       options: importOptions = [],
     } = options
     const transformContents = ({ contents, args }) => {
+      const {path: filePath} = args
+
+      const ext = path.extname(filePath).slice(1)
       return new Promise((resolve, reject) => {
         try {
           const source = gogocode(contents)
@@ -126,7 +130,7 @@ const pluginImport = (options = {}) => ({
 
           const result = source.generate()
 
-          resolve({ contents: result, loader: 'jsx' })
+          resolve({ contents: result, loader: ext.match(/j|tsx?$/) ? ext : 'js' })
         } catch (e) {
           console.error(e)
           reject(e)
