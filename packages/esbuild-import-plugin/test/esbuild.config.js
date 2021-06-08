@@ -1,5 +1,5 @@
 const esbuild = require('esbuild')
-const importPlugin = require('./src/index')
+const importPlugin = require('../index')
 
 esbuild
     .build({
