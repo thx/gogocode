@@ -11,7 +11,7 @@
     "import",
     "import on demand"
   ],
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node test/esbuild.config.js"
