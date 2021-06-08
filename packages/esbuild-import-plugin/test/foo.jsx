@@ -4,6 +4,6 @@ lodash.capitalize('foo')
 add(300, 200)
 
 const Foo = () => {
-    return <Table />
+  return <Table />
 }
 export default Foo

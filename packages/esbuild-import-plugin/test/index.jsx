@@ -1,3 +1,4 @@
+import * as React from 'react'
 import Foo from './foo'
 /* ImportSpecfier */
 import { MuxButton, MuxSelect } from '@alife/mux-components'
@@ -17,13 +18,13 @@ const bar = () => Antd.Button
 
 const App = () => {
   return (
-    <>
+    <div>
       <Foo />
       <Button />
       <MuxButton />
       {/* JSXOpeningElement */}
       <Antd.Select />
-    </>
+    </div>
   )
 }
 
