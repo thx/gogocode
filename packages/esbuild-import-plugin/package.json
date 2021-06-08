@@ -1,6 +1,6 @@
 {
   "name": "esbuild-dynamic-import-plugin",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "import on demand plugin for esbuild",
   "keywords": [
     "esbuild",
@@ -15,6 +15,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node test/esbuild.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:thx/gogocode.git"
   },
   "author": "kooriko",
   "license": "ISC",
