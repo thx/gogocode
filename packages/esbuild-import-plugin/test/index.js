@@ -1,4 +1,4 @@
-import foo from './foo'
+import Foo from './foo'
 /* ImportSpecfier */
 import { MuxButton, MuxSelect } from '@alife/mux-components'
 /* DefaultImportSpecifier & ImportSpecfier */
@@ -15,11 +15,10 @@ const bool = Antd.Button || Antd.Select || true
 /* ArrowFunctionExpression */
 const bar = () => Antd.Button
 
-lodash.capitalize('foo')
-add(300, 200)
-const Foo = () => {
+const App = () => {
   return (
     <>
+      <Foo />
       <Button />
       <MuxButton />
       {/* JSXOpeningElement */}
@@ -28,4 +27,4 @@ const Foo = () => {
   )
 }
 
-export default Foo
+export default App
