@@ -22,7 +22,6 @@
     "gogocode": "^0.2.29"
   },
   "devDependencies": {
-    "@alife/mux-components": "^1.22.0",
     "@types/lodash": "^4.14.170",
     "antd": "^4.16.1",
     "esbuild": "^0.12.5",
