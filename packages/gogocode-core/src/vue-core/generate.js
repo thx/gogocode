@@ -28,12 +28,16 @@ const htmlGenerate = require('../html-core/serialize-node')
  */
 
 module.exports = function toString(sfcDescriptor, options = {}) {
-    let { template, script, styles = [], customBlocks = [], templateAst, scriptAst } = sfcDescriptor;
+    let { template, script, scriptSetup, styles = [], customBlocks = [], templateAst, scriptAst, scriptSetupAst } = sfcDescriptor;
     if (templateAst && templateAst.node) {
         template.content = htmlGenerate(templateAst.node);
     } 
     if (scriptAst && scriptAst.node) {
         script.content = jsGenerate(scriptAst.node);
+    }
+
+    if (scriptSetupAst && scriptSetupAst.node) {
+        scriptSetup.content = jsGenerate(scriptSetupAst.node);
     }
 
     const indents = Object.assign(
@@ -46,7 +50,7 @@ module.exports = function toString(sfcDescriptor, options = {}) {
     );
 
     return (
-        [template, script, ...styles, ...customBlocks]
+        [template, script, scriptSetup, ...styles, ...customBlocks]
             // discard blocks that don't exist
             .filter((block) => block != null)
             // sort blocks by source position

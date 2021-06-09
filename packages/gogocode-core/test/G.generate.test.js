@@ -97,3 +97,16 @@ test('$.generate: tag generate should be ok', () => {
     .generate();
     expect(str.match('A')).toBeTruthy();
 })
+
+test('$.generate: html generate should be ok', () => {
+    const str = $(`<image src={{a + 'b/c.png'}} style="s"/>`, { parseOptions: { language: 'html' } })
+    .generate();
+    expect(str.indexOf(`{{a + 'b/c.png'}}`) > -1).toBeTruthy();
+})
+
+test('$.generate: UpperCase tag generate should be ok', () => {
+    const str = $(`<Image a="1" />`, { parseOptions: { language: 'html' } })
+    .generate();
+    expect(str.indexOf(`Image`) > -1).toBeTruthy();
+})
+

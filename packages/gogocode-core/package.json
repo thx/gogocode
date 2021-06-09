@@ -1,6 +1,6 @@
 {
     "name": "gogocode",
-    "version": "0.2.29",
+    "version": "0.2.30",
     "description": "The simplest tool to parse/transform/generate code on ast",
     "keywords": [
       "babel",
@@ -39,7 +39,7 @@
     "dependencies": {
       "@babel/parser": "^7.7.7",
       "glob": "^7.1.6",
-      "hyntax-yx": "^1.0.0",
+      "hyntax-yx": "^1.0.1",
       "indent-string": "^4.0.0",
       "recast": "^0.18.5",
       "vue3-browser-compiler-yx": "^1.0.1"

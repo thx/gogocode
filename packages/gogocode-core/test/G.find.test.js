@@ -791,3 +791,28 @@ test('$.find: should not find vue script', () => {
         .generate();
     expect(res.match('template')).toBeTruthy()
 })
+
+test('$.find: find import', () => {
+    const code = `
+    import foo from './foo'
+    import { MuxButton, MuxSelect } from '@alife/mux-components'
+    import lodash, { add } from 'lodash'
+    import Antd from 'antd'`;
+
+    console.log(`import $$$1, {$$$2} from '$_$1'`)
+    $(code)
+        .find(`import $$$1, {$$$2} from '$_$1'`)
+        .each(item => console.log(item.generate()));
+
+    console.log(`import $$$1 from '$_$1'`)
+    $(code)
+        .find(`import $$$1 from '$_$1'`)
+        .each(item => console.log(item.generate()));
+
+    console.log(`import { $$$1 } from '$_$1'`)
+    $(code)
+        .find(`import { $$$1 } from '$_$1'`)
+        .each(item => console.log(item.generate()));
+
+    expect(true).toBeTruthy()
+})

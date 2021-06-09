@@ -24,6 +24,15 @@ const core = {
                 ast.scriptAst = core.getScript(ast);
                 newAst = ast.scriptAst;
             }
+        } else if (selector == '<script setup></script>') {
+            parseOptions.language = 'js'
+            parseOptions.rootLanguage = 'vue';
+            if (ast.scriptSetupAst) {
+                newAst = ast.scriptSetupAst;
+            } else {
+                ast.scriptSetupAst = core.getScript(ast, { isSetup: true });
+                newAst = ast.scriptSetupAst;
+            }
         }
         return { nodePathList: newAst ? [newAst] : [], matchWildCardList: [], extra: { parseOptions } }
     },
@@ -43,11 +52,16 @@ const core = {
             return undefined;
         }
     },
-    getScript(ast) {
+    getScript(ast, { isSetup = false } = {} ) {
         // 仅针对vue，取script，后续通过jscore处理
-        if (ast.script) {
-            const content = ast.script.content
+        let content;
+        if (isSetup && ast.scriptSetup) {
+            content = ast.scriptSetup.content;
+        } else if (!isSetup && ast.script) {
+            content = ast.script.content
             // const content = ast.script.content.replace(/\n/g, '')
+        }
+        if (content) {
             const script = jsCore.buildAstByAstStr(
                 content, {},
                 { isProgram: true }

@@ -491,3 +491,38 @@ test('test no template', () => {
 
   expect(res.match(`<script>`)).toBeTruthy();
 })
+
+test('test script setup', () => {
+  const res = $(`
+  <template>
+  <Layout :key="updateKey">
+    <div>{{ $t('测试') }}</div>
+    <div>哈哈哈</div>
+  </Layout>
+</template>
+
+<script setup>
+var a = 1;
+</script>
+
+<script>
+var a = 1;
+</script>
+
+<style>
+#app {
+  color: var(--theme-font-color);
+}
+</style>
+
+  `, { parseOptions: { language: 'vue' }})
+  .find('<script setup></script>')
+  .replace('var a = 1', 'var b = 1')
+  .root()
+  .find('<script></script>')
+  .replace('var a = 1', 'var c = 1')
+  .root()
+  .generate()
+expect(res.match(`var b = 1`) && res.match(`var c = 1`)).toBeTruthy();
+})
+
