@@ -3,3 +3,4 @@
 **/output.js
 *.test.js
 test$.js
+packages/esbuild-import-plugin
