@@ -79,6 +79,27 @@ const pluginImport = (options = {}) => ({
                 camel2DashComponentName = 'true',
               } = option
 
+              const importStyle = (ast, component) => {
+                  if (!style) {
+                    return
+                  }
+                  const libPath = `${libraryName}/${libraryDirectory + '/'}${
+                    camel2DashComponentName
+                      ? kebabCase(component)
+                      : component
+                  }`
+                  let cssPath
+                  if (typeof style === 'function') {
+                    cssPath = style(libPath)
+                  } else {
+                    cssPath = style === 'css' ? 'style/css' : 'style'
+                  }
+
+                  ast.after(
+                    `import '${libPath}/${cssPath}'`,
+                  )
+              }
+
               const astReplace = importSpecifier => {
                 switch (importSpecifier.type) {
                   case 'ImportDefaultSpecifier': {
@@ -92,14 +113,7 @@ const pluginImport = (options = {}) => ({
                             : component
                         }/index'\n`,
                       )
-                      style &&
-                        ast.after(
-                          `import '${libraryName}/${libraryDirectory + '/'}${
-                            camel2DashComponentName
-                              ? kebabCase(component)
-                              : component
-                          }/index.css'`,
-                        )
+                      importStyle(ast, component)
                     })
                     break
                   }
@@ -113,14 +127,7 @@ const pluginImport = (options = {}) => ({
                           : component
                       }/index'\n`,
                     )
-                    style &&
-                      ast.after(
-                        `import '${libraryName}/${libraryDirectory + '/'}${
-                          camel2DashComponentName
-                            ? kebabCase(component)
-                            : component
-                        }/index.css'`,
-                      )
+                    importStyle(ast, component)
                   }
                 }
               }
