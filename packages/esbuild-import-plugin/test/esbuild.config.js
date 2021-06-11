@@ -1,16 +1,17 @@
 const esbuild = require('esbuild')
 const importPlugin = require('../index')
+const { readFileSync } = require('fs')
 
-esbuild
+const result = esbuild
   .build({
     entryPoints: ['test/index.jsx'],
     bundle: false,
     minify: false,
-    outdir: 'dist',
     inject: ['test/react-shim.js'],
     loader: {
       '.jsx': 'jsx',
     },
+    incremental: true,
     // external: ['react', 'lodash', '@alife/mux-components', 'antd'],
     plugins: [
       importPlugin({
@@ -33,4 +34,7 @@ esbuild
       }),
     ],
   })
-  .catch(() => process.exit(1))
+
+1
+console.log('result', result)
+

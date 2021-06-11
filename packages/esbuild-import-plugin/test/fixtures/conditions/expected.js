@@ -1,14 +1,11 @@
-"use strict";
-
-var _select = _interopRequireDefault(require("antd/lib/select"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-if (a === _select.default) {}
-
-if (_select.default) {}
-
-_select.default ? 'a' : 'b';
-a ? _select.default : 2;
-_select.default || 'a';
-a || _select.default;
+import * as React from "react";
+import "antd/lib/select/style";
+import Select from "antd/lib/select/index";
+if (a === Select) {
+}
+if (Select) {
+}
+Select ? "a" : "b";
+a ? Select : 2;
+Select || "a";
+a || Select;

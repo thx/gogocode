@@ -77,56 +77,62 @@ const pluginImport = (options = {}) => ({
                 style,
                 libraryDirectory = 'lib',
                 camel2DashComponentName = 'true',
+                customStyleName,
+                customName,
               } = option
 
               const importStyle = (ast, component) => {
                   if (!style) {
                     return
                   }
-                  const libPath = `${libraryName}/${libraryDirectory + '/'}${
-                    camel2DashComponentName
-                      ? kebabCase(component)
-                      : component
-                  }`
-                  let cssPath
-                  if (typeof style === 'function') {
-                    cssPath = style(libPath)
+                  const formatedComponentName = camel2DashComponentName
+                    ? kebabCase(component)
+                    : component
+                  let finalCssPath
+                  /* 有使用 customStyleName 函数的情形 */
+                  if (customStyleName && typeof customStyleName === 'function') {
+                    finalCssPath = customStyleName(formatedComponentName)
                   } else {
-                    cssPath = style === 'css' ? 'style/css' : 'style'
+                    const libPath = `${libraryName}/${libraryDirectory + '/'}${formatedComponentName}`
+                    let cssPath
+                    if (typeof style === 'function') {
+                      cssPath = style(libPath)
+                    } else {
+                      cssPath = style === 'css' ? 'style/css' : 'style'
+                    }
+                    finalCssPath = `${libPath}/${cssPath}'`
                   }
-
                   ast.after(
-                    `import '${libPath}/${cssPath}'\n`,
+                    `import '${finalCssPath}'\n`,
                   )
               }
 
+              const importComponent = (ast, component) => {
+                const formatedComponentName = camel2DashComponentName
+                  ? kebabCase(component)
+                  : component
+
+                if (customName && typeof customName === 'function') {
+
+                }
+                ast.after(
+                  `import ${component} from '${libraryName}/${libraryDirectory + '/'}${formatedComponentName}/index'\n`,
+                )
+              }
               const astReplace = importSpecifier => {
                 switch (importSpecifier.type) {
                   case 'ImportDefaultSpecifier': {
                     const localLibName = importSpecifier.local.name
                     const components = getUsedComponents(source, localLibName)
                     components.forEach(component => {
-                      ast.after(
-                        `import ${component} from '${libraryName}/${libraryDirectory + '/'}${
-                          camel2DashComponentName
-                            ? kebabCase(component)
-                            : component
-                        }/index'\n`,
-                      )
+                      importComponent(ast)
                       importStyle(ast, component)
                     })
                     break
                   }
                   default: {
                     const component = importSpecifier.local.name
-
-                    ast.after(
-                      `import ${component} from '${libraryName}/${libraryDirectory + '/'}${
-                        camel2DashComponentName
-                          ? kebabCase(component)
-                          : component
-                      }/index'\n`,
-                    )
+                    importComponent(ast)
                     importStyle(ast, component)
                   }
                 }
@@ -163,4 +169,5 @@ const pluginImport = (options = {}) => ({
   },
 })
 
+exports.default = pluginImport
 module.exports = pluginImport
