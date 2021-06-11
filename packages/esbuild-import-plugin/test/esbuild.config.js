@@ -4,14 +4,14 @@ const importPlugin = require('../index')
 esbuild
   .build({
     entryPoints: ['test/index.jsx'],
-    bundle: true,
+    bundle: false,
     minify: false,
     outdir: 'dist',
     inject: ['test/react-shim.js'],
     loader: {
       '.jsx': 'jsx',
     },
-    external: ['react', 'lodash', '@alife/mux-components', 'antd'],
+    // external: ['react', 'lodash', '@alife/mux-components', 'antd'],
     plugins: [
       importPlugin({
         options: [

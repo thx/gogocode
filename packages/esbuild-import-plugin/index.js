@@ -55,7 +55,7 @@ const pluginImport = (options = {}) => ({
       options: importOptions = [],
     } = options
     const transformContents = ({ contents, args }) => {
-      const {path: filePath} = args
+      const { path: filePath } = args
 
       const ext = path.extname(filePath).slice(1)
       return new Promise((resolve, reject) => {
@@ -68,7 +68,7 @@ const pluginImport = (options = {}) => ({
               const [libAst] = ast.match[1]
               const libraryName = libAst.value
               const option = importOptions.find(
-                importOption => importOption.libraryName,
+                importOption => importOption.libraryName === libraryName,
               )
               if (!option) {
                 return
@@ -76,8 +76,29 @@ const pluginImport = (options = {}) => ({
               const {
                 style,
                 libraryDirectory = 'lib',
-                camel2DashComponentName,
+                camel2DashComponentName = 'true',
               } = option
+
+              const importStyle = (ast, component) => {
+                  if (!style) {
+                    return
+                  }
+                  const libPath = `${libraryName}/${libraryDirectory + '/'}${
+                    camel2DashComponentName
+                      ? kebabCase(component)
+                      : component
+                  }`
+                  let cssPath
+                  if (typeof style === 'function') {
+                    cssPath = style(libPath)
+                  } else {
+                    cssPath = style === 'css' ? 'style/css' : 'style'
+                  }
+
+                  ast.after(
+                    `import '${libPath}/${cssPath}'\n`,
+                  )
+              }
 
               const astReplace = importSpecifier => {
                 switch (importSpecifier.type) {
@@ -86,40 +107,27 @@ const pluginImport = (options = {}) => ({
                     const components = getUsedComponents(source, localLibName)
                     components.forEach(component => {
                       ast.after(
-                        `import ${component} from '${libraryName}${libraryDirectory}/${
+                        `import ${component} from '${libraryName}/${libraryDirectory + '/'}${
                           camel2DashComponentName
                             ? kebabCase(component)
                             : component
                         }/index'\n`,
                       )
-                      style &&
-                        ast.after(
-                          `import '${libraryName}${libraryDirectory}/${
-                            camel2DashComponentName
-                              ? kebabCase(component)
-                              : component
-                          }/index.css'`,
-                        )
+                      importStyle(ast, component)
                     })
                     break
                   }
                   default: {
                     const component = importSpecifier.local.name
+
                     ast.after(
-                      `import ${component} from '${libraryName}${libraryDirectory}/${
+                      `import ${component} from '${libraryName}/${libraryDirectory + '/'}${
                         camel2DashComponentName
                           ? kebabCase(component)
                           : component
                       }/index'\n`,
                     )
-                    style &&
-                      ast.after(
-                        `import '${libraryName}${libraryDirectory}/${
-                          camel2DashComponentName
-                            ? kebabCase(component)
-                            : component
-                        }/index.css'`,
-                      )
+                    importStyle(ast, component)
                   }
                 }
               }
@@ -130,7 +138,10 @@ const pluginImport = (options = {}) => ({
 
           const result = source.generate()
 
-          resolve({ contents: result, loader: ext.match(/j|tsx?$/) ? ext : 'js' })
+          resolve({
+            contents: result,
+            loader: ext.match(/j|tsx?$/) ? ext : 'js',
+          })
         } catch (e) {
           console.error(e)
           reject(e)
