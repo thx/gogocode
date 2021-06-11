@@ -194,6 +194,9 @@ const core = {
             replacer = originReplacer
             if (typeof replacer == 'function') {
                 replacer = replacer(extra, path);
+                if (replacer === null) {
+                    return;
+                }
             }
             if (Object.keys(extra).length > 0 && typeof replacer == 'string') {
                 let newReplacer = replacer;

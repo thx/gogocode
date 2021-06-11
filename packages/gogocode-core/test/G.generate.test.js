@@ -110,3 +110,13 @@ test('$.generate: UpperCase tag generate should be ok', () => {
     expect(str.indexOf(`Image`) > -1).toBeTruthy();
 })
 
+test('$.generate: selfclose tag generate should be ok', () => {
+    const str = $(`<div >
+        <div / >
+        <span />
+        <span></span>    
+    </div>`, { parseOptions: { language: 'html' } })
+    .generate();
+    expect(str.indexOf(`<div>`) > -1 && str.indexOf(`<div/>`) > -1).toBeTruthy();
+})
+
