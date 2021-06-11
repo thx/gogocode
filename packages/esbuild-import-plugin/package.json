@@ -13,7 +13,7 @@
   ],
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node test/esbuild.config.js"
   },
   "repository": {
@@ -28,7 +28,8 @@
   "devDependencies": {
     "@types/lodash": "^4.14.170",
     "antd": "^4.16.1",
-    "esbuild": "^0.12.5"
+    "esbuild": "^0.12.5",
+    "jest": "^27.0.4"
   },
   "peerDependencies": {
     "lodash": "^4.17.21"
