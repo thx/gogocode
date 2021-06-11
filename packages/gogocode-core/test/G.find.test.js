@@ -816,3 +816,19 @@ test('$.find: find import', () => {
 
     expect(true).toBeTruthy()
 })
+
+test('$.find: find import', () => {
+    const res = $(`
+$t('s')
+$t('sss')
+'s'`)
+    .replace('$t($_$)', (match => {
+      if (match[0][0].value == 's') {
+        return `global.$t($_$)`
+      } else return null
+    }))
+    .root()
+    .generate()
+
+    expect(res.match(`global`)).toBeTruthy()
+})
