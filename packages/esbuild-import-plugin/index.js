@@ -96,7 +96,7 @@ const pluginImport = (options = {}) => ({
                   }
 
                   ast.after(
-                    `import '${libPath}/${cssPath}'`,
+                    `import '${libPath}/${cssPath}'\n`,
                   )
               }
 
