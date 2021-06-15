@@ -92,6 +92,9 @@ const pluginImport = (options = {}) => ({
                   /* 有使用 customStyleName 函数的情形 */
                   if (customStyleName && typeof customStyleName === 'function') {
                     finalCssPath = customStyleName(formatedComponentName)
+                    if (!finalCssPath) {
+                      return
+                    }
                   } else {
                     const libPath = `${libraryName}/${libraryDirectory + '/'}${formatedComponentName}`
                     let cssPath

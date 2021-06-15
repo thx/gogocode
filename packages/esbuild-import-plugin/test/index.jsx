@@ -1,10 +1,7 @@
-import { Select } from 'antd';
+import { Button, Select } from 'antd'
 
-if (a === Select) {}
-if (Select) {}
+const foo = () => {
+    return <Button />
+}
 
-Select ? 'a' : 'b';
-a ? Select : 2;
-
-Select || 'a';
-a || Select;
+foo()
