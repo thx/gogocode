@@ -12,22 +12,23 @@ esbuild
     loader: {
       '.jsx': 'jsx',
     },
+    format: 'cjs',
     plugins: [
-      importPlugin({
-        options: [
-          { libraryName: 'antd' },
-          {
-            libraryName: 'hilojs',
-            customName (name) {
-              switch (name) {
-                case 'class':
-                  return `hilojs/core/${name}`
-                default:
-                  return `hilojs/${name}`
-              }
-            },
-          },
-        ]
-      })
+      // importPlugin({
+      //   options: [
+      //     { libraryName: 'antd' },
+      //     {
+      //       libraryName: 'hilojs',
+      //       customName (name) {
+      //         switch (name) {
+      //           case 'class':
+      //             return `hilojs/core/${name}`
+      //           default:
+      //             return `hilojs/${name}`
+      //         }
+      //       },
+      //     },
+      //   ]
+      // })
     ]
   })

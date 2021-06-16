@@ -11,17 +11,16 @@ const importPlugin = require('../index')
 const actuals = glob.sync('./fixtures/*/actual.js')
 const expecteds = glob.sync('./fixtures/*/expected.js')
 
-/* XXX: 之后可以通过多入口来提升测试速度 */
 const getEsbuildOptions = (actualFile, pluginOptions, otherOptions) => {
   return {
     entryPoints: [actualFile],
     bundle: false,
     minify: false,
     outdir: 'dist',
-    inject: ['test/react-shim.js'],
     loader: {
       '.jsx': 'jsx',
     },
+    format: 'cjs',
     plugins: [
       importPlugin(pluginOptions),
     ],
@@ -36,7 +35,6 @@ describe('index', () => {
   fixtures.map(caseName => {
     const fixtureDir = join(fixturesDir, caseName)
     const [actualFile] = glob.sync(`${fixtureDir}/actual.@(jsx|js)`)
-    // console.log('actualFile', actualFile)
     const expectedFile = join(fixtureDir, 'expected.js')
 
     it(`should work with ${caseName.split('-').join(' ')}`, async () => {
@@ -173,16 +171,13 @@ describe('index', () => {
       }
 
       await esbuild.build(getEsbuildOptions(actualFile, pluginOptions))
-        // .then(() => {
-          const actual = readFileSync('dist/index.js', 'utf-8')
-          writeFileSync(expectedFile, actual)
-        // })
-        // .catch(e => {
-        //   console.error(e)
-        // })
-
-      // const expected = readFileSync(expectedFile, 'utf-8')
-      // expect(actual.trim()).toEqual(expected.trim())
+        .then(() => {
+          const actual = readFileSync('dist/actual.js', 'utf-8')
+          expect(actual.trim()).toEqual(expected.trim())
+        })
+        .catch(e => {
+          console.error(e)
+        })
     })
   })
 

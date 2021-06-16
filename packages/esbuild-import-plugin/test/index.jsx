@@ -1,5 +1,5 @@
-import { Select } from 'antd';
-import { Abc, Class } from 'hilojs';
+import { Button } from 'antd';
 
-if (Select) {}
-if (Class && Abc) {}
+var a = [Button];
+var b = { 'test': [Button] };
+[Button].map(function(){});
