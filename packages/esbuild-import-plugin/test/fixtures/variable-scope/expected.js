@@ -1,74 +1,56 @@
-"use strict";
-
-var _react = _interopRequireDefault(require("react"));
-
-var _message3 = _interopRequireDefault(require("antd/lib/message"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-(0, _message3.default)('xxx');
-
-_message3.default.error('error');
-
-var testIf = function testIf(message) {
-  if (message) return message;
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __markAsModule = (target) => __defProp(target, "__esModule", { value: true });
+var __reExport = (target, module2, desc) => {
+  if (module2 && typeof module2 === "object" || typeof module2 === "function") {
+    for (let key of __getOwnPropNames(module2))
+      if (!__hasOwnProp.call(target, key) && key !== "default")
+        __defProp(target, key, { get: () => module2[key], enumerable: !(desc = __getOwnPropDesc(module2, key)) || desc.enumerable });
+  }
+  return target;
 };
-
-var testIf2 = function testIf2() {
-  if (_message3.default) return _message3.default;
+var __toModule = (module2) => {
+  return __reExport(__markAsModule(__defProp(module2 != null ? __create(__getProtoOf(module2)) : {}, "default", module2 && module2.__esModule && "default" in module2 ? { get: () => module2.default, enumerable: true } : { value: module2, enumerable: true })), module2);
 };
-
-var testExpression = function testExpression(message) {
-  return message + 'test';
+var import_message = __toModule(require("antd/lib/message/index"));
+(0, import_message.default)("xxx");
+import_message.default.error("error");
+const testIf = (message2) => {
+  if (message2)
+    return message2;
 };
-
-var testExpression2 = function testExpression2() {
-  return _message3.default + 'test';
+const testIf2 = () => {
+  if (import_message.default)
+    return import_message.default;
 };
-
-var testNestFunction = function testNestFunction(message) {
-  return function (a) {
-    return message;
-  };
+const testExpression = (message2) => message2 + "test";
+const testExpression2 = () => import_message.default + "test";
+const testNestFunction = (message2) => (a) => message2;
+const testNestFunction2 = () => (a) => import_message.default;
+const testFunction = (message2) => {
+  message2.error("error");
+  return message2.test;
 };
-
-var testNestFunction2 = function testNestFunction2() {
-  return function (a) {
-    return _message3.default;
-  };
-};
-
-var testFunction = function testFunction(message) {
-  message.error('error');
-  return message.test;
-};
-
-var testFunction1 = function testFunction1() {
-  return _message3.default.error('error');
-};
-
-var testFunction2 = function testFunction2(message) {
-  return message.error('error');
-};
-
-var testFunction3 = function testFunction3(message) {
-  if (message) {
-    message = message.test.message;
-
-    for (var i = 0; i < 10; i++) {
-      var _message2 = i;
-
-      if (_message2 > 4) {
-        return _message2;
+const testFunction1 = () => import_message.default.error("error");
+const testFunction2 = (message2) => message2.error("error");
+const testFunction3 = (message2) => {
+  if (message2) {
+    message2 = message2.test.message;
+    for (let i = 0; i < 10; i++) {
+      const message3 = i;
+      if (message3 > 4) {
+        return message3;
       }
     }
   }
-
-  message = null;
-  return message;
+  message2 = null;
+  return message2;
 };
-
 function App() {
-  var message = 'xxx';
-  return /*#__PURE__*/_react.default.createElement("div", null, message);
+  const message2 = "xxx";
+  return /* @__PURE__ */ React.createElement("div", null, message2);
 }

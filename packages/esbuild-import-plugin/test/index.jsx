@@ -1,10 +1,5 @@
-import { Select } from 'antd';
+import { Button } from 'element-ui';
 
-if (a === Select) {}
-if (Select) {}
-
-Select ? 'a' : 'b';
-a ? Select : 2;
-
-Select || 'a';
-a || Select;
+ReactDOM.render(<div>
+  <Button>xxxx</Button>
+</div>);

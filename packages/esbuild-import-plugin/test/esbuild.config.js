@@ -1,36 +1,26 @@
 const esbuild = require('esbuild')
 const importPlugin = require('../index')
+const { readFileSync } = require('fs')
 
 esbuild
   .build({
     entryPoints: ['test/index.jsx'],
     bundle: false,
     minify: false,
+    // external: ['react', 'antd'],
     outdir: 'dist',
-    inject: ['test/react-shim.js'],
     loader: {
       '.jsx': 'jsx',
     },
-    // external: ['react', 'lodash', '@alife/mux-components', 'antd'],
+    format: 'cjs',
     plugins: [
       importPlugin({
         options: [
           {
-            libraryName: 'lodash',
-            libraryDirectory: '',
-            camel2DashComponentName: false,
+            libraryName: 'element-ui',
+            styleLibraryDirectory: 'lib/theme-chalk',
           },
-          {
-            libraryName: 'antd',
-            style: true,
-          },
-          {
-            libraryName: '@alife/mux-components',
-            libraryDirectory: 'dist/es',
-            style: true,
-          },
-        ],
-      }),
-    ],
+        ]
+      })
+    ]
   })
-  .catch(() => process.exit(1))
