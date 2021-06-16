@@ -7,28 +7,28 @@ esbuild
     entryPoints: ['test/index.jsx'],
     bundle: false,
     minify: false,
-    // external: ['react', 'antd'],
+    external: ['react', 'antd'],
     outdir: 'dist',
     loader: {
       '.jsx': 'jsx',
     },
     format: 'cjs',
     plugins: [
-      // importPlugin({
-      //   options: [
-      //     { libraryName: 'antd' },
-      //     {
-      //       libraryName: 'hilojs',
-      //       customName (name) {
-      //         switch (name) {
-      //           case 'class':
-      //             return `hilojs/core/${name}`
-      //           default:
-      //             return `hilojs/${name}`
-      //         }
-      //       },
-      //     },
-      //   ]
-      // })
+      importPlugin({
+        options: [
+          { libraryName: 'antd' },
+          {
+            libraryName: 'hilojs',
+            customName (name) {
+              switch (name) {
+                case 'class':
+                  return `hilojs/core/${name}`
+                default:
+                  return `hilojs/${name}`
+              }
+            },
+          },
+        ]
+      })
     ]
   })

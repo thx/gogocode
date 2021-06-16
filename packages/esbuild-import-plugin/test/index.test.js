@@ -1,6 +1,6 @@
 const { join } = require('path')
 const glob = require('glob')
-const { readdirSync, readFileSync, writeFileSync } = require('fs')
+const { readdirSync, readFileSync } = require('fs')
 const esbuild = require('esbuild')
 const importPlugin = require('../index')
 
@@ -173,20 +173,13 @@ describe('index', () => {
       await esbuild.build(getEsbuildOptions(actualFile, pluginOptions))
         .then(() => {
           const actual = readFileSync('dist/actual.js', 'utf-8')
+          const expected = readFileSync(expectedFile, 'utf-8')
           expect(actual.trim()).toEqual(expected.trim())
+
         })
         .catch(e => {
           console.error(e)
         })
     })
   })
-
-  // xit(`tmp`, () => {
-  //   const actualFile = join(fixturesDir, `variable-declaration/actual.js`)
-  //   const actual = transformFileSync(actualFile, {
-  //     presets: ['@babel/preset-react'],
-  //     plugins: [plugin],
-  //   }).code
-  //   console.log(actual)
-  // })
 })
