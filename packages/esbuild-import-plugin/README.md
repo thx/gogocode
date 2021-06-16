@@ -150,8 +150,6 @@ import { Button } from 'element-ui';
       ↓ ↓ ↓ ↓ ↓ ↓
 var import_button = __toModule(require("element-ui/lib/button/index"));
 var import_style = __toModule(require("element-ui/lib/theme-chalk/button/index"));
-ReactDOM.render(/* @__PURE__ */ React.createElement(import_button.default, null, "xxxx"));
-
 ```
 
 #### customName
@@ -163,7 +161,7 @@ For example, the default behavior:
 ```typescript
 import { TimePicker } from "antd"
 ↓ ↓ ↓ ↓ ↓ ↓
-var _button = require('antd/lib/time-picker');
+var import_time_picker = __toModule(require('antd/lib/time-picker'));
 ```
 
 You can set ``camel2DashComponentName` to `false` to disable transfer from camel to dash:
@@ -171,7 +169,7 @@ You can set ``camel2DashComponentName` to `false` to disable transfer from camel
 ```typescript
 import { TimePicker } from "antd"
 ↓ ↓ ↓ ↓ ↓ ↓
-var _button = require('antd/lib/TimePicker');
+var import_time_picker = __toModule(require('antd/lib/TimePicker'));
 ```
 
 And finally, you can use `customName` to customize each name parsing:
@@ -201,7 +199,7 @@ So this result is:
 ```typescript
 import { TimePicker } from "antd"
 ↓ ↓ ↓ ↓ ↓ ↓
-var _button = require('antd/lib/custom-time-picker');
+var import_time_picker = __toModule(require('antd/lib/custom-time-picker'));
 ```
 
 In some cases, the transformer may serialize the configuration object. If we set the `customName` to a function, it will lost after the serialization.
