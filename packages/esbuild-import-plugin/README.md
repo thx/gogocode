@@ -6,8 +6,10 @@
 import { Button } from 'antd';
 ReactDOM.render(<Button>xxxx</Button>);
       ↓ ↓ ↓ ↓ ↓ ↓
-var _button = require('antd/lib/button');
-ReactDOM.render(<_button>xxxx</_button>);
+var import_button = __toModule(require("antd/lib/button/index"));
+ReactDOM.render(/* @__PURE__ */ React.createElement("div", {
+  component: import_button.default
+}));
 ```
 
 #### `{ "libraryName": "antd", style: "css" }`
@@ -16,9 +18,11 @@ ReactDOM.render(<_button>xxxx</_button>);
 import { Button } from 'antd';
 ReactDOM.render(<Button>xxxx</Button>);
       ↓ ↓ ↓ ↓ ↓ ↓
-var _button = require('antd/lib/button');
-require('antd/lib/button/style/css');
-ReactDOM.render(<_button>xxxx</_button>);
+var import_button = __toModule(require("antd/lib/button/index"));
+var import_style = __toModule(require("antd/lib/button/style/css"));
+ReactDOM.render(/* @__PURE__ */ React.createElement("div", {
+  component: import_button.default
+}));
 ```
 
 #### `{ "libraryName": "antd", style: true }`
@@ -27,9 +31,11 @@ ReactDOM.render(<_button>xxxx</_button>);
 import { Button } from 'antd';
 ReactDOM.render(<Button>xxxx</Button>);
       ↓ ↓ ↓ ↓ ↓ ↓
-var _button = require('antd/lib/button');
-require('antd/lib/button/style');
-ReactDOM.render(<_button>xxxx</_button>);
+var import_button = __toModule(require("antd/lib/button/index"));
+var import_style = __toModule(require("antd/lib/button/style"));
+ReactDOM.render(/* @__PURE__ */ React.createElement("div", {
+  component: import_button.default
+}));
 ```
 
 Note : with `style: true` css source files are imported and optimizations can be done during compilation time. With `style: "css"`, pre bundled css files are imported as they are.
@@ -142,8 +148,10 @@ If `styleLibraryDirectory` is provided (default `null`), it will be used to form
 }
 import { Button } from 'element-ui';
       ↓ ↓ ↓ ↓ ↓ ↓
-var _button = require('element-ui/lib/button');
-require('element-ui/lib/theme-chalk/button');
+var import_button = __toModule(require("element-ui/lib/button/index"));
+var import_style = __toModule(require("element-ui/lib/theme-chalk/button/index"));
+ReactDOM.render(/* @__PURE__ */ React.createElement(import_button.default, null, "xxxx"));
+
 ```
 
 #### customName

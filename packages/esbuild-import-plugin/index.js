@@ -83,7 +83,7 @@ const pluginImport = (options = {}) => ({
               } = option
 
               const importStyle = (ast, component) => {
-                  if (!style) {
+                  if (!style && !styleLibraryDirectory) {
                     return
                   }
                   const formatedComponentName = camel2DashComponentName
@@ -97,7 +97,7 @@ const pluginImport = (options = {}) => ({
                       return
                     }
                   } else {
-                    const libPath = `${libraryName}/${styleLibraryDirectory || libraryDirectory + '/'}${formatedComponentName}`
+                    const libPath = `${libraryName}/${(styleLibraryDirectory || libraryDirectory) + '/'}${formatedComponentName}`
                     let cssPath
                     if (typeof style === 'function') {
                       cssPath = style(libPath)
