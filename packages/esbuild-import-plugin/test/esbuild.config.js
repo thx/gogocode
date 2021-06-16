@@ -9,11 +9,12 @@ esbuild
     minify: false,
     external: ['react', 'antd'],
     outdir: 'dist',
-    inject: ['test/react-shim.js'],
     loader: {
       '.jsx': 'jsx',
     },
-    incremental: true,
+    plugins: [
+      importPlugin({
+        options: [{ libraryName: 'antd', style: true }]
+      })
+    ]
   })
-
-

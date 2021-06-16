@@ -67,6 +67,7 @@ const pluginImport = (options = {}) => ({
             .each(ast => {
               const [libAst] = ast.match[1]
               const libraryName = libAst.value
+              console.log('libraryName', libraryName)
               const option = importOptions.find(
                 importOption => importOption.libraryName === libraryName,
               )
@@ -77,6 +78,7 @@ const pluginImport = (options = {}) => ({
                 style,
                 libraryDirectory = 'lib',
                 camel2DashComponentName = 'true',
+                styleLibraryDirectory,
                 customStyleName,
                 customName,
               } = option
@@ -89,14 +91,14 @@ const pluginImport = (options = {}) => ({
                     ? kebabCase(component)
                     : component
                   let finalCssPath
-                  /* 有使用 customStyleName 函数的情形 */
+
                   if (customStyleName && typeof customStyleName === 'function') {
                     finalCssPath = customStyleName(formatedComponentName)
                     if (!finalCssPath) {
                       return
                     }
                   } else {
-                    const libPath = `${libraryName}/${libraryDirectory + '/'}${formatedComponentName}`
+                    const libPath = `${libraryName}/${styleLibraryDirectory || libraryDirectory + '/'}${formatedComponentName}`
                     let cssPath
                     if (typeof style === 'function') {
                       cssPath = style(libPath)
@@ -117,12 +119,17 @@ const pluginImport = (options = {}) => ({
                 const formatedComponentName = camel2DashComponentName
                   ? kebabCase(component)
                   : component
-
+                let finalComponentPath
                 if (customName && typeof customName === 'function') {
-
+                  const finalComponentPath = customName(formatedComponentName)
+                  if (!finalComponentPath) {
+                    return
+                  }
+                } else {
+                  finalComponentPath = `${libraryName}/${libraryDirectory + '/'}${formatedComponentName}/index'\n`
                 }
                 ast.after(
-                  `import ${component} from '${libraryName}/${libraryDirectory + '/'}${formatedComponentName}/index'\n`,
+                  `import ${component} from '${finalComponentPath}`,
                 )
               }
               const astReplace = importSpecifier => {
@@ -131,15 +138,15 @@ const pluginImport = (options = {}) => ({
                     const localLibName = importSpecifier.local.name
                     const components = getUsedComponents(source, localLibName)
                     components.forEach(component => {
-                      importComponent(ast)
                       importStyle(ast, component)
+                      importComponent(ast, component)
                     })
                     break
                   }
                   default: {
                     const component = importSpecifier.local.name
-                    importComponent(ast)
                     importStyle(ast, component)
+                    importComponent(ast, component)
                   }
                 }
               }
@@ -149,7 +156,6 @@ const pluginImport = (options = {}) => ({
             })
 
           const result = source.generate()
-
           resolve({
             contents: result,
             loader: ext.match(/j|tsx?$/) ? ext : 'js',
@@ -157,6 +163,7 @@ const pluginImport = (options = {}) => ({
         } catch (e) {
           console.error(e)
           reject(e)
+          // process.exit(1)
         }
       })
     }

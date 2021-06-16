@@ -23,13 +23,11 @@
     return __reExport(__markAsModule(__defProp(module != null ? __create(__getProtoOf(module)) : {}, "default", module && module.__esModule && "default" in module ? { get: () => module.default, enumerable: true } : { value: module, enumerable: true })), module);
   };
 
-  // test/react-shim.js
-  var React = __toModule(__require("react"));
-
   // test/index.jsx
-  var import_antd = __toModule(__require("antd"));
-  var foo = () => {
-    return /* @__PURE__ */ React.createElement(import_antd.Button, null);
-  };
-  foo();
+  var import_message = __toModule(__require("antd/lib/message/index"));
+  var import_style = __toModule(__require("antd/lib/message/style"));
+  var import_button = __toModule(__require("antd/lib/button/index"));
+  var import_style2 = __toModule(__require("antd/lib/button/style"));
+  (0, import_message.default)("xxx");
+  ReactDOM.render(/* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement(import_button.default, null, "xxxx")));
 })();
