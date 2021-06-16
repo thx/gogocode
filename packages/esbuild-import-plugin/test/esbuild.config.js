@@ -5,16 +5,29 @@ const { readFileSync } = require('fs')
 esbuild
   .build({
     entryPoints: ['test/index.jsx'],
-    bundle: true,
+    bundle: false,
     minify: false,
-    external: ['react', 'antd'],
+    // external: ['react', 'antd'],
     outdir: 'dist',
     loader: {
       '.jsx': 'jsx',
     },
     plugins: [
       importPlugin({
-        options: [{ libraryName: 'antd', style: true }]
+        options: [
+          { libraryName: 'antd' },
+          {
+            libraryName: 'hilojs',
+            customName (name) {
+              switch (name) {
+                case 'class':
+                  return `hilojs/core/${name}`
+                default:
+                  return `hilojs/${name}`
+              }
+            },
+          },
+        ]
       })
     ]
   })

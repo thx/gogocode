@@ -1,7 +1,5 @@
-import { message } from 'antd';
-import { Button } from 'antd';
+import { Select } from 'antd';
+import { Abc, Class } from 'hilojs';
 
-message('xxx');
-ReactDOM.render(<div>
-  <Button>xxxx</Button>
-</div>);
+if (Select) {}
+if (Class && Abc) {}

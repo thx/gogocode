@@ -67,7 +67,6 @@ const pluginImport = (options = {}) => ({
             .each(ast => {
               const [libAst] = ast.match[1]
               const libraryName = libAst.value
-              console.log('libraryName', libraryName)
               const option = importOptions.find(
                 importOption => importOption.libraryName === libraryName,
               )
@@ -121,15 +120,15 @@ const pluginImport = (options = {}) => ({
                   : component
                 let finalComponentPath
                 if (customName && typeof customName === 'function') {
-                  const finalComponentPath = customName(formatedComponentName)
+                  finalComponentPath = customName(formatedComponentName)
                   if (!finalComponentPath) {
                     return
                   }
                 } else {
-                  finalComponentPath = `${libraryName}/${libraryDirectory + '/'}${formatedComponentName}/index'\n`
+                  finalComponentPath = `${libraryName}/${libraryDirectory + '/'}${formatedComponentName}/index`
                 }
                 ast.after(
-                  `import ${component} from '${finalComponentPath}`,
+                  `import ${component} from '${finalComponentPath}'\n`,
                 )
               }
               const astReplace = importSpecifier => {
