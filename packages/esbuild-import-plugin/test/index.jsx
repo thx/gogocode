@@ -1,7 +1,7 @@
-import { Button, Select } from 'antd'
+import { message } from 'antd';
+import { Button } from 'antd';
 
-const foo = () => {
-    return <Button />
-}
-
-foo()
+message('xxx');
+ReactDOM.render(<div>
+  <Button>xxxx</Button>
+</div>);

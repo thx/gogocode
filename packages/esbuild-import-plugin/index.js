@@ -100,10 +100,13 @@ const pluginImport = (options = {}) => ({
                     let cssPath
                     if (typeof style === 'function') {
                       cssPath = style(libPath)
+                      if (!cssPath) {
+                        return
+                      }
                     } else {
                       cssPath = style === 'css' ? 'style/css' : 'style'
                     }
-                    finalCssPath = `${libPath}/${cssPath}'`
+                    finalCssPath = `${libPath}/${cssPath}`
                   }
                   ast.after(
                     `import '${finalCssPath}'\n`,

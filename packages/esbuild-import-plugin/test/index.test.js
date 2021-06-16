@@ -28,13 +28,15 @@ const getEsbuildOptions = (actualFile, pluginOptions, otherOptions) => {
     ...otherOptions,
   }
 }
+
 describe('index', () => {
   const fixturesDir = join(__dirname, 'fixtures')
   const fixtures = readdirSync(fixturesDir)
 
   fixtures.map(caseName => {
     const fixtureDir = join(fixturesDir, caseName)
-    const actualFile = join(fixtureDir, 'actual.js')
+    const [actualFile] = glob.sync(`${fixtureDir}/actual.@(jsx|js)`)
+    // console.log('actualFile', actualFile)
     const expectedFile = join(fixtureDir, 'expected.js')
 
     it(`should work with ${caseName.split('-').join(' ')}`, () => {
@@ -78,10 +80,12 @@ describe('index', () => {
         }
       } else if (caseName === 'custom-name') {
         pluginOptions = {
-          options: {
-            libraryName: 'plat/antd',
-            customName: name => `antd/lib/${name}`,
-          },
+          options: [
+            {
+              libraryName: 'plat/antd',
+              customName: name => `antd/lib/${name}`,
+            },
+          ]
         }
       } else if (caseName === 'custom-name-source-file') {
         pluginOptions = {
