@@ -231,6 +231,7 @@ const core = {
                                     .replace('$_$' + realKey, ext.raw || ext.value);
                             })
                         } else {
+
                             // 删除代码块外部{},find里前置处理了，不需要在这里做了
                             let wildCardCode = extra[key].map(item => 
                                 typeof item.value !== 'object' ? (item.raw || item.value) : ``

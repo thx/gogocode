@@ -5,6 +5,7 @@ const recast = require('recast');
 const visit = recast.types.visit;
 const filterProps = require('./filter-prop.js');
 const generate = require('./generate')
+const strictSequenceAttrList = ['arguments', 'params'];
 
 let Expando = 'g123o456g789o';
 
@@ -47,7 +48,7 @@ function checkIsMatch(full, partial, extraData, strictSequence) {
                 // 处理$$$这种情况
                 has$$$ = find$$$(partial[prop], full[prop], extraData, strictSequence);
             }
-            if (Array.isArray(partial[prop]) && !strictSequence) {
+            if (Array.isArray(partial[prop]) && !strictSequence && strictSequenceAttrList.indexOf(prop) == -1) {
                 if (hasOwn(full, prop)) {
                     res = partial[prop].every((p) => {
                         let a = false;

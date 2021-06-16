@@ -638,3 +638,10 @@ test('$.replace: replace arguments should not throw error', () => {
         )
     }).not.toThrow();
 })
+
+test('$.replace: replace arguments should not throw error', () => {
+    const code = `Vue.set(state.items, item.id, item)`;
+    const res = $(code)
+    .replace(`Vue.set($_$1,$_$2,$_$3)`, `$_$1[$_$2] = $_$3`).generate()
+    expect(res == 'state.items[item.id] = item;').toBeTruthy();
+})
