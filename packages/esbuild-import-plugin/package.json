@@ -1,6 +1,6 @@
 {
   "name": "esbuild-dynamic-import-plugin",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "import on demand plugin for esbuild",
   "keywords": [
     "esbuild",
