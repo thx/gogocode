@@ -846,3 +846,28 @@ test('$.find: find script setup', () => {
 
     expect(res.match('global')).toBeTruthy()
 })
+
+test('$.find: find script setup', () => {
+    const res = $(`
+    <script setup>
+    </script>
+    <template>
+        <div a="1" b="s">
+            <div c="1222" b="s">
+                
+            </div>
+        </div>
+    </template>`, { parseOptions: { language: 'vue' }})
+        .find('<template></template>')
+        .find(`<$_$1 $$$></$_$1>`)
+        .each(item => {
+            item.match['$$$$'].forEach(attr => {
+                if (attr.value.content == 's') {
+                    attr.value.content = 'handle("s")'
+                }
+            })
+        })
+        .generate()
+
+    expect(res.match('handle')).toBeTruthy()
+})
