@@ -832,3 +832,17 @@ $t('sss')
 
     expect(res.match(`global`)).toBeTruthy()
 })
+
+test('$.find: find script setup', () => {
+    const res = $(`
+    <script setup>
+    const a = inject('global')
+    </script>
+    <template>
+    </template>`, { parseOptions: { language: 'vue' }})
+        .find('<script setup></script>')
+        .find(`const $_$1 = inject('global')`)
+        .generate()
+
+    expect(res.match('global')).toBeTruthy()
+})

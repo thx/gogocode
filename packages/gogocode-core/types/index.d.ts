@@ -56,6 +56,8 @@ declare module 'gogocode' {
       match: MatchResult;
       /** 获取AST实例上的第一个ast节点 */
       node: ASTNode;
+      /** 获取AST实例上的节点个数 */
+      length: number;
       /**
        * 根据代码选择器选中AST节点
        * @param selector 代码选择器，可以是代码也可以将代码中的部分内容挖空替换为通配符
