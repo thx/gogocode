@@ -48,7 +48,7 @@ const getUsedComponents = (source, libName) => {
 
 const pluginImport = (options = {}) => ({
   name: 'esbuild-plugin-import',
-  setup(build, { transform } = {}) {
+  setup(build) {
     const {
       filter = /\.(jsx|tsx|js|ts)$/,
       namespace = 'file',
@@ -167,8 +167,6 @@ const pluginImport = (options = {}) => ({
       })
     }
 
-    if (transform) return transformContents(transform)
-
     build.onLoad({ filter, namespace }, async args => {
       try {
         const contents = await fs.promises.readFile(args.path, 'utf8')
@@ -183,3 +181,5 @@ const pluginImport = (options = {}) => ({
 
 exports.default = pluginImport
 module.exports = pluginImport
+
+
