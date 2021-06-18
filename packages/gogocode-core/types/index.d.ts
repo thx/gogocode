@@ -193,7 +193,7 @@ declare module 'gogocode' {
       /**
        * 将AST对象输出为代码
        */
-      generate(): string;
+      generate(option?: { isPretty?: boolean }): string;
     }
 
     interface $ {
