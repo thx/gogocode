@@ -23,7 +23,7 @@ export default (context) => {
     router.push(url)
 
     // wait until router has resolved possible async hooks
-    router.onReady(() => {
+    router.isReady().then(() => {
       const matchedComponents = router.getMatchedComponents()
       // no matched routes
       if (!matchedComponents.length) {
@@ -55,6 +55,6 @@ export default (context) => {
           resolve(app)
         })
         .catch(reject)
-    }, reject)
+    })
   })
 }

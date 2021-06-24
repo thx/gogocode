@@ -2,7 +2,7 @@
   <li v-if="comment" class="comment">
     <div class="by">
       <router-link :to="'/user/' + comment.by">{{ comment.by }}</router-link>
-      {{ comment.time | timeAgo }} ago
+      {{ $filters.timeAgo(comment.time) }} ago
     </div>
     <div class="text" v-html="comment.text"></div>
     <div

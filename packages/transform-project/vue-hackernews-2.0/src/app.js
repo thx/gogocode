@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import * as Vue from 'vue'
 import App from './App.vue'
 import { createStore } from './store'
 import { createRouter } from './router'
@@ -7,11 +7,14 @@ import titleMixin from './util/title'
 import * as filters from './util/filters'
 
 // mixin for handling title
-Vue.mixin(titleMixin)
+window.$vueApp.mixin(titleMixin)
 
 // register global utility filters.
 Object.keys(filters).forEach((key) => {
-  Vue.filter(key, filters[key])
+  ;(
+    window.$vueApp.config.globalProperties.$filters ||
+    (window.$vueApp.config.globalProperties.$filters = {})
+  ).key = filters[key]
 })
 
 // Expose a factory function that creates a fresh set of store, router,
@@ -31,7 +34,7 @@ export function createApp() {
   const app = new Vue({
     router,
     store,
-    render: (h) => h(App),
+    render: () => Vue.h(App),
   })
 
   // expose the app, the router and the store.

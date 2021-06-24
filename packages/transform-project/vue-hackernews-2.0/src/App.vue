@@ -20,9 +20,11 @@
         </a>
       </nav>
     </header>
-    <transition name="fade" mode="out-in">
-      <router-view class="view"></router-view>
-    </transition>
+    <router-view v-slot="{ Component }" class="view">
+      <transition name="fade" mode="out-in">
+        <component :is="Component"></component>
+      </transition>
+    </router-view>
   </div>
 </template>
 <style lang="stylus">

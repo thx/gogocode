@@ -5,11 +5,13 @@
         <a :href="item.url" target="_blank">
           <h1>{{ item.title }}</h1>
         </a>
-        <span v-if="item.url" class="host"> ({{ item.url | host }}) </span>
+        <span v-if="item.url" class="host">
+          ({{ $filters.host(item.url) }})
+        </span>
         <p class="meta">
           {{ item.score }} points | by
           <router-link :to="'/user/' + item.by">{{ item.by }}</router-link>
-          {{ item.time | timeAgo }} ago
+          {{ $filters.timeAgo(item.time) }} ago
         </p>
       </div>
       <div class="item-view-comments">

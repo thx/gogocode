@@ -1,14 +1,16 @@
-import Vue from 'vue'
+import * as Vue from 'vue'
 import 'es6-promise/auto'
 import { createApp } from './app'
 import ProgressBar from './components/ProgressBar.vue'
 
 // global progress bar
-const bar = (Vue.prototype.$bar = new Vue(ProgressBar).$mount())
+const bar = (window.$vueApp.config.globalProperties.$bar = new Vue(
+  ProgressBar
+).$mount())
 document.body.appendChild(bar.$el)
 
 // a global mixin that calls `asyncData` when a route component's params change
-Vue.mixin({
+window.$vueApp.mixin({
   beforeRouteUpdate(to, from, next) {
     const { asyncData } = this.$options
     if (asyncData) {
@@ -34,7 +36,7 @@ if (window.__INITIAL_STATE__) {
 
 // wait until router has resolved all async before hooks
 // and async components...
-router.onReady(() => {
+router.isReady().then(() => {
   // Add router hook for handling asyncData.
   // Doing it after initial route is resolved so that we don't double-fetch
   // the data that we already have. Using router.beforeResolve() so that all
