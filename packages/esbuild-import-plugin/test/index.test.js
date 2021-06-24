@@ -175,7 +175,6 @@ describe('index', () => {
           const actual = readFileSync('dist/actual.js', 'utf-8')
           const expected = readFileSync(expectedFile, 'utf-8')
           expect(actual.trim()).toEqual(expected.trim())
-
         })
         .catch(e => {
           console.error(e)
