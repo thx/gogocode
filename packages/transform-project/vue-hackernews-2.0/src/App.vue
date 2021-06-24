@@ -3,14 +3,19 @@
     <header class="header">
       <nav class="inner">
         <router-link to="/" exact>
-          <img class="logo" src="~public/logo-48.png" alt="logo">
+          <img class="logo" src="~public/logo-48.png" alt="logo" />
         </router-link>
         <router-link to="/top">Top</router-link>
         <router-link to="/new">New</router-link>
         <router-link to="/show">Show</router-link>
         <router-link to="/ask">Ask</router-link>
         <router-link to="/job">Jobs</router-link>
-        <a class="github" href="https://github.com/vuejs/vue-hackernews-2.0" target="_blank" rel="noopener">
+        <a
+          class="github"
+          href="https://github.com/vuejs/vue-hackernews-2.0"
+          target="_blank"
+          rel="noopener"
+        >
           Built with Vue.js
         </a>
       </nav>
@@ -20,7 +25,6 @@
     </transition>
   </div>
 </template>
-
 <style lang="stylus">
 body
   font-family -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;

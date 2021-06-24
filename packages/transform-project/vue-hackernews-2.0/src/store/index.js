@@ -6,23 +6,29 @@ import getters from './getters'
 
 Vue.use(Vuex)
 
-export function createStore () {
+export function createStore() {
   return new Vuex.Store({
     state: {
       activeType: null,
       itemsPerPage: 20,
-      items: {/* [id: number]: Item */},
-      users: {/* [id: string]: User */},
+      items: {
+        /* [id: number]: Item */
+      },
+      users: {
+        /* [id: string]: User */
+      },
       lists: {
-        top: [/* number */],
+        top: [
+          /* number */
+        ],
         new: [],
         show: [],
         ask: [],
-        job: []
-      }
+        job: [],
+      },
     },
     actions,
     mutations,
-    getters
+    getters,
   })
 }

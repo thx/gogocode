@@ -10,7 +10,7 @@ export default {
   },
 
   SET_ITEMS: (state, { items }) => {
-    items.forEach(item => {
+    items.forEach((item) => {
       if (item) {
         Vue.set(state.items, item.id, item)
       }
@@ -19,5 +19,5 @@ export default {
 
   SET_USER: (state, { id, user }) => {
     Vue.set(state.users, id, user || false) /* false means user not found */
-  }
+  },
 }

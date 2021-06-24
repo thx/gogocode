@@ -4,11 +4,12 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 // route-level code splitting
-const createListView = id => () => import('../views/CreateListView').then(m => m.default(id))
+const createListView = (id) => () =>
+  import('../views/CreateListView').then((m) => m.default(id))
 const ItemView = () => import('../views/ItemView.vue')
 const UserView = () => import('../views/UserView.vue')
 
-export function createRouter () {
+export function createRouter() {
   return new Router({
     mode: 'history',
     fallback: false,
@@ -21,7 +22,7 @@ export function createRouter () {
       { path: '/job/:page(\\d+)?', component: createListView('job') },
       { path: '/item/:id(\\d+)', component: ItemView },
       { path: '/user/:id', component: UserView },
-      { path: '/', redirect: '/top' }
-    ]
+      { path: '/', redirect: '/top' },
+    ],
   })
 }

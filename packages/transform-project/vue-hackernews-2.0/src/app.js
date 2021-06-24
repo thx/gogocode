@@ -10,13 +10,13 @@ import * as filters from './util/filters'
 Vue.mixin(titleMixin)
 
 // register global utility filters.
-Object.keys(filters).forEach(key => {
+Object.keys(filters).forEach((key) => {
   Vue.filter(key, filters[key])
 })
 
 // Expose a factory function that creates a fresh set of store, router,
 // app instances on each call (which is called for each SSR request)
-export function createApp () {
+export function createApp() {
   // create store and router instances
   const store = createStore()
   const router = createRouter()
@@ -31,7 +31,7 @@ export function createApp () {
   const app = new Vue({
     router,
     store,
-    render: h => h(App)
+    render: (h) => h(App),
   })
 
   // expose the app, the router and the store.

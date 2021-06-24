@@ -10,22 +10,22 @@
         <router-link :to="'/item/' + item.id">{{ item.title }}</router-link>
       </template>
     </span>
-    <br>
+    <br />
     <span class="meta">
       <span v-if="item.type !== 'job'" class="by">
         by <router-link :to="'/user/' + item.by">{{ item.by }}</router-link>
       </span>
-      <span class="time">
-        {{ item.time | timeAgo }} ago
-      </span>
+      <span class="time"> {{ item.time | timeAgo }} ago </span>
       <span v-if="item.type !== 'job'" class="comments-link">
-        | <router-link :to="'/item/' + item.id">{{ item.descendants }} comments</router-link>
+        |
+        <router-link :to="'/item/' + item.id"
+          >{{ item.descendants }} comments</router-link
+        >
       </span>
     </span>
     <span class="label" v-if="item.type !== 'story'">{{ item.type }}</span>
   </li>
 </template>
-
 <script>
 import { timeAgo } from '../util/filters'
 
@@ -33,12 +33,11 @@ export default {
   name: 'news-item',
   props: ['item'],
   // http://ssr.vuejs.org/en/caching.html#component-level-caching
-  serverCacheKey: ({ item: { id, __lastUpdated, time }}) => {
+  serverCacheKey: ({ item: { id, __lastUpdated, time } }) => {
     return `${id}::${__lastUpdated}::${timeAgo(time)}`
-  }
+  },
 }
 </script>
-
 <style lang="stylus">
 .news-item
   background-color #fff

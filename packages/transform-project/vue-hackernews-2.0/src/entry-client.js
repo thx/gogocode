@@ -4,22 +4,24 @@ import { createApp } from './app'
 import ProgressBar from './components/ProgressBar.vue'
 
 // global progress bar
-const bar = Vue.prototype.$bar = new Vue(ProgressBar).$mount()
+const bar = (Vue.prototype.$bar = new Vue(ProgressBar).$mount())
 document.body.appendChild(bar.$el)
 
 // a global mixin that calls `asyncData` when a route component's params change
 Vue.mixin({
-  beforeRouteUpdate (to, from, next) {
+  beforeRouteUpdate(to, from, next) {
     const { asyncData } = this.$options
     if (asyncData) {
       asyncData({
         store: this.$store,
-        route: to
-      }).then(next).catch(next)
+        route: to,
+      })
+        .then(next)
+        .catch(next)
     } else {
       next()
     }
-  }
+  },
 })
 
 const { app, router, store } = createApp()
@@ -42,15 +44,15 @@ router.onReady(() => {
     const prevMatched = router.getMatchedComponents(from)
     let diffed = false
     const activated = matched.filter((c, i) => {
-      return diffed || (diffed = (prevMatched[i] !== c))
+      return diffed || (diffed = prevMatched[i] !== c)
     })
-    const asyncDataHooks = activated.map(c => c.asyncData).filter(_ => _)
+    const asyncDataHooks = activated.map((c) => c.asyncData).filter((_) => _)
     if (!asyncDataHooks.length) {
       return next()
     }
 
     bar.start()
-    Promise.all(asyncDataHooks.map(hook => hook({ store, route: to })))
+    Promise.all(asyncDataHooks.map((hook) => hook({ store, route: to })))
       .then(() => {
         bar.finish()
         next()
