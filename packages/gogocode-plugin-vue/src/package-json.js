@@ -33,6 +33,7 @@ module.exports = function (source, api, options) {
     updateDepVersion(pkg, 'dependencies', 'vuex', '^4.0.2');
     removeDep(pkg, 'devDependencies', 'vue-template-compiler');
     addDep(pkg, 'devDependencies', '@vue/compiler-sfc', '^3.0.0');
+    addDep(pkg, 'dependencies', 'tiny-emitter/instance', '^2.1.0');
     return JSON.stringify(pkg, null, 2);
   } catch (error) {
     return source;

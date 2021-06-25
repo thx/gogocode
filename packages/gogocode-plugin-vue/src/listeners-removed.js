@@ -7,18 +7,17 @@ module.exports = function (ast, api) {
     }
 
     ast.find('<template></template>')
-        .find(['<$_$></$_$>', '<$_$ />']).each((node) => {
+        .find('<$_$>').each((node) => {
             let attrList = Array.isArray(node.attr('content.attributes')) ? node.attr('content.attributes') : []
-            attrList.forEach((attr, index) => {               
+            attrList.forEach((attr, index) => {
                 if (attr.value && attr.key && attr.value.content.indexOf('$listeners') > -1 && attr.key.content == 'v-on') {
                     if (!attrList.some(attr => { return attr.key && attr.key.content == 'v-bind' })) {
                         attr.key.content = 'v-bind'
                         attr.value.content = attr.value.content.replace('$listeners', '$attrs')
                     }
                     else {
-                        let astCont = $(
-                            attr.value.content).replace('...$listeners', '').replace('$listeners', '').generate()
-                        if (!astCont || astCont == ';') {
+                        const astCont = $(attr.value.content).replace('...$listeners', '').replace('$listeners', '').generate()
+                        if (!astCont) {
                             attrList.splice(index, 1);
                         }
                         else {
