@@ -1,8 +1,6 @@
----
-title: Vue2 到 Vue3 升级指南
-order: 4
----
-# 开始迁移
+# Vue2 到 Vue3 升级指南
+
+## 开始迁移
 ​
 Vue3的到来为我们带来了许多惊喜的变化,但是由于Vue3对于Vue2在Api层面存在诸多兼容问题，并不能做到平滑升级。所以我们根据[v3迁移指南](https://v3.cn.vuejs.org/guide/migration/introduction.html)利用[gogocode](https://gogocode.io/)这个代码转换利器，利用它操作AST，开发了一套Vue2[升级工具](https://github.com/thx/gogocode/tree/main/packages/gogocode-plugin-vue)。利用这套工具能够快速地把你的Vue2代码升级到Vue3。​
 
