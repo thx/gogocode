@@ -1,4 +1,3 @@
-const $ = require('gogocode');
 module.exports = function(ast) {
   const script =
     ast.parseOptions && ast.parseOptions.language === 'vue'
