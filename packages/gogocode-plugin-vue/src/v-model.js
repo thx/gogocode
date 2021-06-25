@@ -9,34 +9,34 @@ module.exports = function (sourceAst, { gogocode: $ }, options) {
     const templateAst = sourceAst.find('<template></template>');
     if (templateAst.length !== 0) {
         templateAst.find('<$_$>').each(function (ast) {
-                const attrs = ast.attr('content.attributes') || [];
-                attrs.forEach((attr) => {
-                    let key = attr.key.content;
-                    const syncIndex = key.indexOf('.sync');
-                    if (syncIndex > -1) {
-                        const mIndex = key.indexOf(':');
-                        if (mIndex > -1) {
-                            //有 : 代表有参数绑定
-                            attr.key.content = `v-model${key.replace('.sync', '')}`;
-                        } else {
-                            attr.key.content = 'v-model';
-                        }
-                    }
-
-                    key = attr.key.content;
-                    if (!attr.value || !attr.value.content) {
-                        return;
-                    }
-
-                    const value = attr.value.content;
-
-                    if (value.indexOf('value') > -1 && key.indexOf('v-model') > -1) {
-                        attr.value.content = value.replace(/value/g, 'modelValue');
+            const attrs = ast.attr('content.attributes') || [];
+            attrs.forEach((attr) => {
+                let key = attr.key.content;
+                const syncIndex = key.indexOf('.sync');
+                if (syncIndex > -1) {
+                    const mIndex = key.indexOf(':');
+                    if (mIndex > -1) {
+                        //有 : 代表有参数绑定
+                        attr.key.content = `v-model${key.replace('.sync', '')}`;
                     } else {
-                        attr.value.content = value.replace(`$emit('input'`, `$emit('update:modelValue'`);
+                        attr.key.content = 'v-model';
                     }
-                });
+                }
+
+                key = attr.key.content;
+                if (!attr.value || !attr.value.content) {
+                    return;
+                }
+
+                const value = attr.value.content;
+
+                if (value.indexOf('value') > -1 && key.indexOf('v-model') > -1) {
+                    attr.value.content = value.replace(/value/g, 'modelValue');
+                } else {
+                    attr.value.content = value.replace(`$emit('input'`, `$emit('update:modelValue'`);
+                }
             });
+        });
     }
   
 
