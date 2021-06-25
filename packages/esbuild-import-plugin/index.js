@@ -2,47 +2,62 @@ const gogocode = require('gogocode')
 const fs = require('fs')
 const kebabCase = require('lodash/kebabCase')
 const path = require('path')
-
-// const replacer = kebabCase
-// 测试用例:
-// - 使用引用
-// - 直接使用
-// - 重复 —— 去重
+/**
+ * 搜索
+ * const { Button, Select } = Antd -> {remove}
+ * const Button = Antd.Button -> {remove}
+ * const AntdSelect = Antd.Select -> {remove}
+ * <Antd.Button>click me!!</Antd.Button> -> <Button>click me!!</Button>
+ */
 const getUsedComponents = (source, libName) => {
   const components = []
-  const usedComponents = source.find(`${libName}.$_$`)
+  const usedComponents = source.find([`<${libName}.$_$ $$$ />`, `<${libName}.$_$ $$$></${libName}.$_$>`])
+
+  /**
+   *  <Antd.Button>click me!!</Antd.Button> -> <Button>click me!!</Button>
+   *  <Antd.TimePicker value={value} /> -> <TimePicker value={value} />
+   */
   usedComponents.each(ast => {
     const componentName = ast.match[0][0].value
-    const parentNode = ast.parent()
-    components.push(componentName)
-    switch (parentNode.node.type) {
-      case 'VariableDeclarator': {
-        /**
-         * const Button = Antd.Button -> N/A
-         */
-        let removedFlag = false
-        ast.parents().each(parentNode => {
-          switch (parentNode.value.type) {
-            case 'VariableDeclaration': {
-              if (removedFlag) {
-                return
-              }
-              parentNode.remove()
-              removedFlag = true
-            }
-          }
-        })
-        break
-      }
-      default: {
-        /**
-         * <Antd.Select /> -> <Select />
-         */
-        ast.replaceBy(componentName)
-      }
-    }
+    components.push({
+      local: componentName,
+      source: componentName,
+    })
+    ast.attr('openingElement.name', gogocode(componentName, {isProgram: false}).node)
+    ast.attr('closingElement.name', gogocode(componentName, {isProgram: false}).node)
   })
 
+  /**
+   * const Button = Antd.Button -> {remove}
+   * var MySelect = Antd.Select -> {remove}
+   */
+  source.find([`const $_$ = ${libName}.$_$1`, `var $_$ = ${libName}.$_$1`, `let $_$ = ${libName}.$_$1`])
+    .each(ast => {
+      const {value: localName} = ast.match[0][0]
+      const {value: sourceName} = ast.match[1][0]
+      components.push({
+        local: localName,
+        source: sourceName
+      })
+      ast.remove()
+    })
+
+  /**
+   * const { Button: MyButton, Select } = Antd
+   */
+  source.find([`const {$$$} = ${libName}`, `var {$$$} = ${libName}`, `let {$$$} = ${libName}`])
+    .each(ast => {
+      const spreadComponents = ast.match.$$$$
+      spreadComponents.forEach(component => {
+        const localName = component.value.name
+        const sourceName = component.original.key.name
+        components.push({
+          local: localName,
+          source: sourceName,
+        })
+      })
+      ast.remove()
+    })
   return [...new Set(components)]
 }
 
@@ -83,41 +98,43 @@ const pluginImport = (options = {}) => ({
               } = option
 
               const importStyle = (ast, component) => {
-                  if (!style && !styleLibraryDirectory) {
+                const { source } = component
+                if (!style && !styleLibraryDirectory) {
+                  return
+                }
+                const formatedComponentName = camel2DashComponentName
+                  ? kebabCase(source)
+                  : source
+                let finalCssPath
+
+                if (customStyleName && typeof customStyleName === 'function') {
+                  finalCssPath = customStyleName(formatedComponentName)
+                  if (!finalCssPath) {
                     return
                   }
-                  const formatedComponentName = camel2DashComponentName
-                    ? kebabCase(component)
-                    : component
-                  let finalCssPath
-
-                  if (customStyleName && typeof customStyleName === 'function') {
-                    finalCssPath = customStyleName(formatedComponentName)
-                    if (!finalCssPath) {
+                } else {
+                  const libPath = `${libraryName}/${(styleLibraryDirectory || libraryDirectory) + '/'}${formatedComponentName}`
+                  let cssPath
+                  if (typeof style === 'function') {
+                    cssPath = style(libPath)
+                    if (!cssPath) {
                       return
                     }
                   } else {
-                    const libPath = `${libraryName}/${(styleLibraryDirectory || libraryDirectory) + '/'}${formatedComponentName}`
-                    let cssPath
-                    if (typeof style === 'function') {
-                      cssPath = style(libPath)
-                      if (!cssPath) {
-                        return
-                      }
-                    } else {
-                      cssPath = style === 'css' ? 'style/css' : 'style'
-                    }
-                    finalCssPath = `${libPath}/${cssPath}`
+                    cssPath = style === 'css' ? 'style/css' : 'style'
                   }
-                  ast.after(
-                    `import '${finalCssPath}'\n`,
-                  )
+                  finalCssPath = `${libPath}/${cssPath}`
+                }
+                ast.after(
+                  `import '${finalCssPath}'\n`,
+                )
               }
 
               const importComponent = (ast, component) => {
+                const { local, source } = component
                 const formatedComponentName = camel2DashComponentName
-                  ? kebabCase(component)
-                  : component
+                  ? kebabCase(source)
+                  : source
                 let finalComponentPath
                 if (customName && typeof customName === 'function') {
                   finalComponentPath = customName(formatedComponentName)
@@ -128,9 +145,10 @@ const pluginImport = (options = {}) => ({
                   finalComponentPath = `${libraryName}/${libraryDirectory + '/'}${formatedComponentName}/index`
                 }
                 ast.after(
-                  `import ${component} from '${finalComponentPath}'\n`,
+                  `import ${local} from '${finalComponentPath}'\n`,
                 )
               }
+
               const astReplace = importSpecifier => {
                 switch (importSpecifier.type) {
                   case 'ImportDefaultSpecifier': {
@@ -143,9 +161,15 @@ const pluginImport = (options = {}) => ({
                     break
                   }
                   default: {
-                    const component = importSpecifier.local.name
-                    importStyle(ast, component)
-                    importComponent(ast, component)
+                    const componentName = importSpecifier.local.name
+                    importStyle(ast, {
+                      local: componentName,
+                      source: componentName
+                    })
+                    importComponent(ast, {
+                      local: componentName,
+                      source: componentName
+                    })
                   }
                 }
               }
@@ -181,5 +205,3 @@ const pluginImport = (options = {}) => ({
 
 exports.default = pluginImport
 module.exports = pluginImport
-
-

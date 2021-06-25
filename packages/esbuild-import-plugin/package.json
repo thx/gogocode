@@ -1,6 +1,6 @@
 {
   "name": "esbuild-dynamic-import-plugin",
-  "version": "0.0.10",
+  "version": "0.0.12",
   "description": "import on demand plugin for esbuild",
   "keywords": [
     "esbuild",
@@ -10,6 +10,9 @@
     "dynamic import",
     "import",
     "import on demand"
+  ],
+  "files": [
+    "index.js"
   ],
   "main": "index.js",
   "scripts": {
@@ -23,7 +26,7 @@
   "author": "kooriko",
   "license": "ISC",
   "dependencies": {
-    "gogocode": "^0.2.29"
+    "gogocode": "^1.0.3"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.170",

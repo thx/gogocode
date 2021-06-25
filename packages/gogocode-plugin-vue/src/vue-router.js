@@ -3,10 +3,10 @@ module.exports = function (ast) {
     // v4: https://next.router.vuejs.org/zh/guide/
     // https://next.router.vuejs.org/zh/guide/migration/index.html
     const sourceAst =
-    ast.parseOptions && ast.parseOptions.language === 'vue'
-      ? ast.find('<script></script>')
-      : ast;
-      if(sourceAst.length > 0){
+        ast.parseOptions && ast.parseOptions.language === 'vue'
+            ? ast.find('<script></script>')
+            : ast;
+    if (sourceAst.length > 0) {
         sourceAst.find(`import $_$ from 'vue-router'`).each((fAst) => {
             if (fAst.match && fAst.match[0] && fAst.match[0].length > 0 && fAst.match[0][0].value) {
                 sourceAst.remove(`Vue.use(${fAst.match[0][0].value})`);
@@ -14,35 +14,35 @@ module.exports = function (ast) {
         });
         sourceAst.replace(`import $_$ from 'vue-router'`, `import * as VueRouter from 'vue-router'`);
         sourceAst.replace(`import $_$ from "vue-router"`, `import * as VueRouter from "vue-router"`);
-        
+
         sourceAst.replace(`new Router($_$)`, `VueRouter.createRouter($_$)`);
-        sourceAst.replace(`router.onReady.bind($_$)`,`router.isReady.bind($_$)`);
-        sourceAst.replace(`router.onReady($_$)`,`router.isReady().then($_$)`);
-        sourceAst.replace(`router.onReady($_$1,$_$2)`,`router.isReady().then($_$1).catch($_$2)`);
+        sourceAst.replace(`router.onReady.bind($_$)`, `router.isReady.bind($_$)`);
+        sourceAst.replace(`router.onReady($_$)`, `router.isReady().then($_$)`);
+        sourceAst.replace(`router.onReady($_$1,$_$2)`, `router.isReady().then($_$1).catch($_$2)`);
         sourceAst.remove('router.app = $_$');
 
-        sourceAst.find(`VueRouter.createRouter($_$)`).each((fAst)=>{
+        sourceAst.find(`VueRouter.createRouter($_$)`).each((fAst) => {
             if (!fAst.match || !fAst.match[0] || !fAst.match[0].length || !fAst.match[0][0].node) {
                 return;
             }
             handleMode(fAst);
             handleScrollBehavior(fAst);
         });
-      }
+    }
 
 
     const templateAst = ast.find('<template></template>');
-    if(templateAst.length > 0){
-        templateAst.find('<router-link>').each((fAst)=>{
+    if (templateAst.length > 0) {
+        templateAst.find('<router-link>').each((fAst) => {
             handleAppend(fAst);
             handleTagAndEvents(fAst);
         })
         handleTransition(templateAst);
         handleInnerView(templateAst);
 
-       return templateAst.root();
+        return templateAst.root();
     }
-    return sourceAst;
+    return sourceAst.root();
 }
 function handleAppend(fAst) {
     const attrs = fAst.attr('content.attributes') || [];
@@ -75,7 +75,7 @@ function handleTagAndEvents(fAst) {
 }
 function handleTransition(fAst) {
     fAst.replace(`<transition $$$1><router-view $$$2>$$$3</router-view></transition>`,
-    `<router-view v-slot="{ Component }" $$$2>
+        `<router-view v-slot="{ Component }" $$$2>
     <transition $$$1>
         <component :is="Component" >$$$3</component>
     </transition>
