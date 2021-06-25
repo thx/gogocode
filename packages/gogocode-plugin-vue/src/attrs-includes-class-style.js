@@ -1,4 +1,3 @@
-const $ = require('gogocode');
 const scriptUtils = require('../utils/scriptUtils');
 
 const code = `
