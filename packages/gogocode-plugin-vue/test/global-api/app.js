@@ -10,26 +10,26 @@ import * as filters from './util/filters'
 Vue.mixin(titleMixin)
 
 Object.keys(filters).forEach(key => {
-  Vue.filter(key, filters[key])
+    Vue.filter(key, filters[key])
 })
 
 
 export function createApp () {
-  // create store and router instances
-  const store = createStore()
-  const router = createRouter()
+    // create store and router instances
+    const store = createStore()
+    const router = createRouter()
 
 
-  sync(store, router)
+    sync(store, router)
 
 
-  const app = new Vue({
-    router,
-    store,
-    render: h => h(App),
-	  el: '#app'
-  })
+    const app = new Vue({
+        router,
+        store,
+        render: h => h(App),
+        el: '#app'
+    })
 
 
-  return { app, router, store }
+    return { app, router, store }
 }

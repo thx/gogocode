@@ -1,17 +1,16 @@
-module.exports = function (ast, api) {
-  const $ = api.gogocode;
-  const script =
+module.exports = function (ast) {
+    const script =
     ast.parseOptions && ast.parseOptions.language === 'vue'
-      ? ast.find('<script></script>')
-      : ast;
-  script.replace(
-    `{
+        ? ast.find('<script></script>')
+        : ast;
+    script.replace(
+        `{
       data: {
         $$$1
       },
       $$$2
     }`,
-    `{
+        `{
       data() {
         return {
           $$$1
@@ -19,6 +18,6 @@ module.exports = function (ast, api) {
       },
       $$$2
   }`
-  );
-  return ast;
+    );
+    return ast;
 };
