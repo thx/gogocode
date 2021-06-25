@@ -1,4 +1,7 @@
-# Vue2 到 Vue3 升级指南
+# Vue2 到 Vue3 升级插件
+
+
+配合[gogocode-cli](https://www.npmjs.com/package/){:target="_blank"}使用
 
 ## 开始迁移
 ​
