@@ -12,8 +12,7 @@ const Props = [
     'leadingComments',
     'shorthand',
     'extra',
-    'static',
-    'typeParameters'
+    'static'
 ]
 
 const ignoreTypeList = [

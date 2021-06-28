@@ -19,7 +19,7 @@ function serializeDoctypeNode (node) {
 }
   
 function serializeCommentNode (node) {
-    return `<!-- ${ node.content.value.content } -->`
+    return `<!--${ node.content.value.content }-->`
 }
   
 function serializeTagNode (nodeName, attributes, serializedChildren, selfClosing, node) {
