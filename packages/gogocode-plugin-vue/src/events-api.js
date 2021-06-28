@@ -50,7 +50,7 @@ module.exports = function (ast) {
                 transform = true
             }
         }
-         // xxx.xxx.$on() 情况处理
+        // xxx.xxx.$on() 情况处理
         else if (e.attr('callee.object.object.type') == 'Identifier' && e.attr('callee.object.property.name')) {
             const tinyEmitter = `Object.assign(${e.attr('callee.object.object.name')}.${e.attr('callee.object.property.name')}, tiny_emitter_override);\n`
             if (!e.parents().parents().has(tinyEmitter)) {
