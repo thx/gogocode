@@ -32,11 +32,14 @@ module.exports = function (ast) {
         const match = filterAst.match;
 
         const filterName = match[1][0].value;
-        const functionStr = match[2][0].value;
 
-        filterAst.replaceBy(
-            `(${vueAppName}.config.globalProperties.$filters || (${vueAppName}.config.globalProperties.$filters = {})).${filterName} = ${functionStr}`
-        );
+        if(match[2]) {
+            const functionStr = match[2][0].value;   
+            filterAst.replaceBy(
+                `(${vueAppName}.config.globalProperties.$filters || (${vueAppName}.config.globalProperties.$filters = {})).${filterName} = ${functionStr}`
+            );
+
+        }
     });
 
     const filter = script.find(`filters: { $_$1: $_$2 }`);

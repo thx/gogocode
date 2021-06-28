@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "t": "node ./t.js"
   },
   "keywords": [
     "vue",

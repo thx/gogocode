@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import Vue from 'vue'
+Vue.filter('ff')('ss')
 export default {
   props: ['src'],
   data() {
