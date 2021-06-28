@@ -120,3 +120,18 @@ test('$.generate: selfclose tag generate should be ok', () => {
     expect(str.indexOf(`<div>`) > -1 && str.indexOf(`<div/>`) > -1).toBeTruthy();
 })
 
+test('$.generate: selfclose tag generate should be ok', () => {
+    const str = $(`<view class="h-guide-game {{className}}">
+    <view class="h-guide-game-arrow-v" />
+    <view class="h-guide-game-hand" />
+  </view>`, { parseOptions: { language: 'html' } })
+    .generate();
+    expect(str.indexOf(`</view>`) > -1 && str.indexOf(`/>`) > -1).toBeTruthy();
+})
+
+test('$.generate: selfclose tag generate should be ok', () => {
+    const str = $(`<!-- sdd -->`, { parseOptions: { language: 'html' } })
+    .generate();
+    expect(str.indexOf(`<!-- sdd -->`) > -1).toBeTruthy();
+})
+

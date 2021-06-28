@@ -1,42 +1,20 @@
-const { isObject, hasOwn } = require('../util')
+const { isObject, hasOwn } = require('../../util')
 // 通过简单ast结构查找ast节点
 
 const recast = require('recast');
 const visit = recast.types.visit;
-const filterProps = require('./filter-prop.js');
-const generate = require('./generate')
+const filterProps = require('../filter-prop.js');
+const generate = require('../generate')
+const handleSpecific = require('./specific');
 const strictSequenceAttrList = ['arguments', 'params'];
 
 let Expando = 'g123o456g789o';
 
 function checkIsMatch(full, partial, extraData, strictSequence) {
     return Object.keys(partial).every((prop) => {
-        if (prop == 'body') {
-            // 匹配一块代码
-            try {
-                let bodyContent = partial.body;
-                if (Array.isArray(partial.body)) {
-                    bodyContent = partial.body[0] || partial.body.body[0];
-                } else if (partial.body && partial.body.body) {
-                    bodyContent = partial.body.body[0]
-                }
-                let name = ''
-                if (bodyContent) {
-                    name = bodyContent.expression ? bodyContent.expression.name : bodyContent.name ? bodyContent.name : ''
-                }
-                if (name && name.match) {
-                    if (name.match(Expando)) {
-                        const expandoKey = name.replace(Expando, '') || '0';
-                        extraData[expandoKey] = extraData[expandoKey] || [];
-                        // 去掉首尾花括号
-                        const bodyStr = generate(full.body) ? generate(full.body).slice(1, -2) : '';
-                        extraData[expandoKey].push({ node: full.body, value: bodyStr });
-                        return true;
-                    }
-                }
-            } catch (e) {
-                // console.log(e)
-            }
+        const { specific, result } = handleSpecific({ full, partial, prop, extraData, Expando });
+        if (specific) {
+            return result;
         }
         if (!full || !partial) {
             // full没有

@@ -1,5 +1,5 @@
 const getSelector = require('./get-selector');
-const { find, visit } = require('./find');
+const { find, visit } = require('./find/general');
 const parse = require('./parse');
 const generate = require('./generate');
 const nodeLinkMap = require('./node-link-map')
