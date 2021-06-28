@@ -1,16 +1,4 @@
 const scriptUtils = require('../utils/scriptUtils');
-const domProps = {
-    staticClass: {
-        key: 'class'
-    },
-    staticStyle: {
-        key: 'style'
-    },
-    on: '',
-    domProps: '',
-    props: '',
-    attrs: ''
-}
 
 module.exports = function (ast, options) {
     // 迁移指南: https://v3.cn.vuejs.org/guide/migration/render-function-api.html
@@ -33,7 +21,7 @@ module.exports = function (ast, options) {
         }
     })
 
-    scriptAst.find([`render($_$){}`, `render: $_$ => $_$`]).each(node => {
+    scriptAst.find([`render($$$1){$$$2}`, `render: $$$1 => $$$2`, `render: function($$$1){$$$2}`]).each(node => {
         let params = node.attr('params') || node.attr('value.params') || []
         params.forEach((item, index) => {
             hName = item.name
@@ -91,13 +79,13 @@ module.exports = function (ast, options) {
             }
             return result;
           }`
-                    ast.replace(ast.match[0][1].value ,`plantRenderPara(${ast.match[0][1].value})`)                  
+                    ast.replace(ast.match[0][1].value, `plantRenderPara(${ast.match[0][1].value})`)
                     if (!scriptAst.has(plantRenderParaCode)) {
                         scriptAst.after(plantRenderParaCode)
                     }
                 }
             })
-            ast.attr('callee.name', 'Vue.h') 
+            ast.attr('callee.name', 'Vue.h')
         })
     })
     return ast
