@@ -1,0 +1,22 @@
+{
+  "name": "gogocode-vue-playground",
+  "version": "1.0.0",
+  "description": "gogocode vue playground",
+  "main": "main/index.js",
+  "private": true,
+  "scripts": {
+    "start": "npm-run-all --parallel start:*",
+    "start:main": "yarn workspace main run start",
+    "start:vue2": "yarn workspace vue2 run start",
+    "start:vue3": "yarn workspace vue3 run start"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "repository": "git@gitlab.alibaba-inc.com:mm/gogocode-vue-playground.git",
+  "author": "chibing.fy",
+  "license": "MIT",
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}
