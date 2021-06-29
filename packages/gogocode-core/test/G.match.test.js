@@ -84,3 +84,9 @@ test('$.match: html code attr key match should be same', () => {
     })
     expect(res.length == 3).toBeTruthy();
 })
+
+test('$.match: match params', () => {
+    const res = $(`foo(a)`)
+    .find(`foo($_$1, $_$2)`)
+    expect(!res.length).toBeTruthy();
+})

@@ -49,11 +49,11 @@ module.exports = function (ast) {
                 transform = true
             }
         }
-         // xxx.xxx.$on() 情况处理
-        else if (node.attr('callee.object.object.type') == 'Identifier' && node.attr('callee.object.property.name')) {
-            const tinyEmitter = `Object.assign(${node.attr('callee.object.object.name')}.${node.attr('callee.object.property.name')}, tiny_emitter_override);\n`
-            if (!node.parent(1).has(tinyEmitter)) {
-                node.before(tinyEmitter)
+        // xxx.xxx.$on() 情况处理
+        else if (e.attr('callee.object.object.type') == 'Identifier' && e.attr('callee.object.property.name')) {
+            const tinyEmitter = `Object.assign(${e.attr('callee.object.object.name')}.${e.attr('callee.object.property.name')}, tiny_emitter_override);\n`
+            if (!e.parents().parents().has(tinyEmitter)) {
+                e.before(tinyEmitter)
                 transform = true
             }
         }

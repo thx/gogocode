@@ -6,6 +6,7 @@ const AST = require('./Ast');
 // const build = require('./build-node');
 const loadFile = require('./file-tool/read-file');
 const writeFile = require('./file-tool/write-file');
+const pkg = require('../package.json');
 
 const langCoreMap = {
     'vue': vueCore,
@@ -81,5 +82,7 @@ main.loadFile = (filePath, { parseOptions } = {}) => {
 };
 
 main.writeFile = writeFile;
+
+main.version = pkg.version;
 
 module.exports = main;
