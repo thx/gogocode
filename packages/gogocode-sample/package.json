@@ -1,0 +1,22 @@
+{
+  "name": "gogocode-plugin-sample",
+  "version": "0.0.10",
+  "description": "gogocode-plugin-sample",
+  "scripts": {
+    "start": "node ./test/run.js"
+  },
+  "keywords": [
+    "gogocode",
+    "ast"
+  ],
+  "main": "transform.js",
+  "author": "chibing",
+  "license": "ISC",
+  "dependencies": {},
+  "engines": {
+    "node": "*"
+  },
+  "devDependencies": {
+    "gogocode": "^1.0.3"
+  }
+}
