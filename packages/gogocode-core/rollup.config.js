@@ -1,5 +1,6 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
+import json from '@rollup/plugin-json';
 import { terser } from "rollup-plugin-terser";
 import pkg from './package.json';
 
@@ -13,6 +14,7 @@ export default [
             format: 'umd',
         },
         plugins: [
+            json(),
             resolve(), // so Rollup can find `ms`
             commonjs(), // so Rollup can convert `ms` to an ES module
         ],
@@ -25,6 +27,7 @@ export default [
             format: 'umd',
         },
         plugins: [
+            json(),
             resolve(), // so Rollup can find `ms`
             commonjs(), // so Rollup can convert `ms` to an ES module
             terser()

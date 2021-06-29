@@ -32,9 +32,9 @@
 		return a;
 	}
 
-	var main$2 = {};
+	var main$3 = {};
 
-	var main$1 = {};
+	var main$2 = {};
 
 	var fork = {exports: {}};
 
@@ -4260,7 +4260,7 @@
 	var __importDefault$9 = (commonjsGlobal && commonjsGlobal.__importDefault) || function (mod) {
 	    return (mod && mod.__esModule) ? mod : { "default": mod };
 	};
-	Object.defineProperty(main$1, "__esModule", { value: true });
+	Object.defineProperty(main$2, "__esModule", { value: true });
 	var fork_1 = __importDefault$9(fork.exports);
 	var core_1$3 = __importDefault$9(core$4.exports);
 	var es6_1 = __importDefault$9(es6.exports);
@@ -4273,7 +4273,7 @@
 	var typescript_1 = __importDefault$9(typescript$1.exports);
 	var es_proposals_1 = __importDefault$9(esProposals.exports);
 	var namedTypes_1 = namedTypes$1;
-	main$1.namedTypes = namedTypes_1.namedTypes;
+	main$2.namedTypes = namedTypes_1.namedTypes;
 	var _a = fork_1.default([
 	    // This core module of AST types captures ES5 as it is parsed today by
 	    // git://github.com/ariya/esprima.git#master.
@@ -4290,23 +4290,23 @@
 	    typescript_1.default,
 	    es_proposals_1.default,
 	]), astNodesAreEquivalent = _a.astNodesAreEquivalent, builders = _a.builders, builtInTypes = _a.builtInTypes, defineMethod = _a.defineMethod, eachField = _a.eachField, finalize = _a.finalize, getBuilderName = _a.getBuilderName, getFieldNames = _a.getFieldNames, getFieldValue = _a.getFieldValue, getSupertypeNames = _a.getSupertypeNames, n$4 = _a.namedTypes, NodePath$4 = _a.NodePath, Path = _a.Path, PathVisitor = _a.PathVisitor, someField = _a.someField, Type = _a.Type, use = _a.use, visit$3 = _a.visit;
-	main$1.astNodesAreEquivalent = astNodesAreEquivalent;
-	main$1.builders = builders;
-	main$1.builtInTypes = builtInTypes;
-	main$1.defineMethod = defineMethod;
-	main$1.eachField = eachField;
-	main$1.finalize = finalize;
-	main$1.getBuilderName = getBuilderName;
-	main$1.getFieldNames = getFieldNames;
-	main$1.getFieldValue = getFieldValue;
-	main$1.getSupertypeNames = getSupertypeNames;
-	main$1.NodePath = NodePath$4;
-	main$1.Path = Path;
-	main$1.PathVisitor = PathVisitor;
-	main$1.someField = someField;
-	main$1.Type = Type;
-	main$1.use = use;
-	main$1.visit = visit$3;
+	main$2.astNodesAreEquivalent = astNodesAreEquivalent;
+	main$2.builders = builders;
+	main$2.builtInTypes = builtInTypes;
+	main$2.defineMethod = defineMethod;
+	main$2.eachField = eachField;
+	main$2.finalize = finalize;
+	main$2.getBuilderName = getBuilderName;
+	main$2.getFieldNames = getFieldNames;
+	main$2.getFieldValue = getFieldValue;
+	main$2.getSupertypeNames = getSupertypeNames;
+	main$2.NodePath = NodePath$4;
+	main$2.Path = Path;
+	main$2.PathVisitor = PathVisitor;
+	main$2.someField = someField;
+	main$2.Type = Type;
+	main$2.use = use;
+	main$2.visit = visit$3;
 	// Populate the exported fields of the namedTypes namespace, while still
 	// retaining its member types.
 	Object.assign(namedTypes_1.namedTypes, n$4);
@@ -7490,7 +7490,7 @@
 	};
 	Object.defineProperty(util$i, "__esModule", { value: true });
 	var assert_1$7 = __importDefault$8(require$$0__default['default']);
-	var types$9 = __importStar$6(main$1);
+	var types$9 = __importStar$6(main$2);
 	var n$3 = types$9.namedTypes;
 	var source_map_1$1 = __importDefault$8(sourceMap$3);
 	var SourceMapConsumer$5 = source_map_1$1.default.SourceMapConsumer;
@@ -15567,7 +15567,7 @@
 	};
 	Object.defineProperty(comments, "__esModule", { value: true });
 	var assert_1$4 = __importDefault$5(require$$0__default['default']);
-	var types$8 = __importStar$5(main$1);
+	var types$8 = __importStar$5(main$2);
 	var n$2 = types$8.namedTypes;
 	var isArray$4 = types$8.builtInTypes.array;
 	var isObject$b = types$8.builtInTypes.object;
@@ -15873,7 +15873,7 @@
 	};
 	Object.defineProperty(parser$4, "__esModule", { value: true });
 	var assert_1$3 = __importDefault$4(require$$0__default['default']);
-	var types$7 = __importStar$4(main$1);
+	var types$7 = __importStar$4(main$2);
 	var b = types$7.builders;
 	var isObject$a = types$7.builtInTypes.object;
 	var isArray$3 = types$7.builtInTypes.array;
@@ -16135,7 +16135,7 @@
 	};
 	Object.defineProperty(fastPath, "__esModule", { value: true });
 	var assert_1$2 = __importDefault$3(require$$0__default['default']);
-	var types$6 = __importStar$3(main$1);
+	var types$6 = __importStar$3(main$2);
 	var n$1 = types$6.namedTypes;
 	var isArray$2 = types$6.builtInTypes.array;
 	var isNumber = types$6.builtInTypes.number;
@@ -16673,7 +16673,7 @@
 	Object.defineProperty(patcher, "__esModule", { value: true });
 	var assert_1$1 = __importDefault$2(require$$0__default['default']);
 	var linesModule = __importStar$2(lines);
-	var types$5 = __importStar$2(main$1);
+	var types$5 = __importStar$2(main$2);
 	var Printable = types$5.namedTypes.Printable;
 	var Expression = types$5.namedTypes.Expression;
 	var ReturnStatement = types$5.namedTypes.ReturnStatement;
@@ -17073,7 +17073,7 @@
 	var lines_1 = lines;
 	var options_1 = options;
 	var patcher_1 = patcher;
-	var types$4 = __importStar$1(main$1);
+	var types$4 = __importStar$1(main$2);
 	var namedTypes = types$4.namedTypes;
 	var isString$2 = types$4.builtInTypes.string;
 	var isObject$8 = types$4.builtInTypes.object;
@@ -19327,12 +19327,12 @@
 	    result["default"] = mod;
 	    return result;
 	};
-	Object.defineProperty(main$2, "__esModule", { value: true });
+	Object.defineProperty(main$3, "__esModule", { value: true });
 	var fs_1 = __importDefault(require$$0__default$1['default']);
-	var types$3 = __importStar(main$1);
-	main$2.types = types$3;
+	var types$3 = __importStar(main$2);
+	main$3.types = types$3;
 	var parser_1 = parser$4;
-	main$2.parse = parser_1.parse;
+	main$3.parse = parser_1.parse;
 	var printer_1 = printer;
 	/**
 	 * Traverse and potentially modify an abstract syntax tree using a
@@ -19347,8 +19347,8 @@
 	 *     }
 	 *   });
 	 */
-	var ast_types_1 = main$1;
-	main$2.visit = ast_types_1.visit;
+	var ast_types_1 = main$2;
+	main$3.visit = ast_types_1.visit;
 	/**
 	 * Reprint a modified syntax tree using as much of the original source
 	 * code as possible.
@@ -19356,21 +19356,21 @@
 	function print(node, options) {
 	    return new printer_1.Printer(options).print(node);
 	}
-	main$2.print = print;
+	main$3.print = print;
 	/**
 	 * Print without attempting to reuse any original source code.
 	 */
 	function prettyPrint(node, options) {
 	    return new printer_1.Printer(options).printGenerically(node);
 	}
-	main$2.prettyPrint = prettyPrint;
+	main$3.prettyPrint = prettyPrint;
 	/**
 	 * Convenient command-line interface (see e.g. example/add-braces).
 	 */
 	function run(transformer, options) {
 	    return runFile(process.argv[2], transformer, options);
 	}
-	main$2.run = run;
+	main$3.run = run;
 	function runFile(path, transformer, options) {
 	    fs_1.default.readFile(path, "utf-8", function (err, code) {
 	        if (err) {
@@ -19443,7 +19443,7 @@
 	  });
 	}
 
-	const types$1 = {
+	const types$1$1 = {
 	  num: new TokenType("num", {
 	    startsExpr
 	  }),
@@ -20568,15 +20568,15 @@
 	  template: new TokContext("`", true)
 	};
 
-	types$1.braceR.updateContext = context => {
+	types$1$1.braceR.updateContext = context => {
 	  context.pop();
 	};
 
-	types$1.braceL.updateContext = types$1.braceHashL.updateContext = types$1.dollarBraceL.updateContext = context => {
+	types$1$1.braceL.updateContext = types$1$1.braceHashL.updateContext = types$1$1.dollarBraceL.updateContext = context => {
 	  context.push(types$2.brace);
 	};
 
-	types$1.backQuote.updateContext = context => {
+	types$1$1.backQuote.updateContext = context => {
 	  if (context[context.length - 1] === types$2.template) {
 	    context.pop();
 	  } else {
@@ -20637,7 +20637,7 @@
 	  strict: ["implements", "interface", "let", "package", "private", "protected", "public", "static", "yield"],
 	  strictBind: ["eval", "arguments"]
 	};
-	const keywords = new Set(reservedWords.keyword);
+	const keywords$2 = new Set(reservedWords.keyword);
 	const reservedWordsStrictSet = new Set(reservedWords.strict);
 	const reservedWordsStrictBindSet = new Set(reservedWords.strictBind);
 	function isReservedWord(word, inModule) {
@@ -20653,7 +20653,7 @@
 	  return isStrictReservedWord(word, inModule) || isStrictBindOnlyReservedWord(word);
 	}
 	function isKeyword(word) {
-	  return keywords.has(word);
+	  return keywords$2.has(word);
 	}
 
 	function isIteratorStart(current, next) {
@@ -20977,7 +20977,7 @@
 	}
 
 	function isMaybeDefaultImport(state) {
-	  return (state.type === types$1.name || !!state.type.keyword) && state.value !== "from";
+	  return (state.type === types$1$1.name || !!state.type.keyword) && state.value !== "from";
 	}
 
 	const exportSuggestions = {
@@ -21018,7 +21018,7 @@
 	  }
 
 	  finishToken(type, val) {
-	    if (type !== types$1.string && type !== types$1.semi && type !== types$1.interpreterDirective) {
+	    if (type !== types$1$1.string && type !== types$1$1.semi && type !== types$1$1.interpreterDirective) {
 	      if (this.flowPragma === undefined) {
 	        this.flowPragma = null;
 	      }
@@ -21046,7 +21046,7 @@
 	  flowParseTypeInitialiser(tok) {
 	    const oldInType = this.state.inType;
 	    this.state.inType = true;
-	    this.expect(tok || types$1.colon);
+	    this.expect(tok || types$1$1.colon);
 	    const type = this.flowParseType();
 	    this.state.inType = oldInType;
 	    return type;
@@ -21062,9 +21062,9 @@
 	      this.raise(moduloPos, FlowErrors.UnexpectedSpaceBetweenModuloChecks);
 	    }
 
-	    if (this.eat(types$1.parenL)) {
+	    if (this.eat(types$1$1.parenL)) {
 	      node.value = this.parseExpression();
-	      this.expect(types$1.parenR);
+	      this.expect(types$1$1.parenR);
 	      return this.finishNode(node, "DeclaredPredicate");
 	    } else {
 	      return this.finishNode(node, "InferredPredicate");
@@ -21074,18 +21074,18 @@
 	  flowParseTypeAndPredicateInitialiser() {
 	    const oldInType = this.state.inType;
 	    this.state.inType = true;
-	    this.expect(types$1.colon);
+	    this.expect(types$1$1.colon);
 	    let type = null;
 	    let predicate = null;
 
-	    if (this.match(types$1.modulo)) {
+	    if (this.match(types$1$1.modulo)) {
 	      this.state.inType = oldInType;
 	      predicate = this.flowParsePredicate();
 	    } else {
 	      type = this.flowParseType();
 	      this.state.inType = oldInType;
 
-	      if (this.match(types$1.modulo)) {
+	      if (this.match(types$1$1.modulo)) {
 	        predicate = this.flowParsePredicate();
 	      }
 	    }
@@ -21111,12 +21111,12 @@
 	      typeNode.typeParameters = null;
 	    }
 
-	    this.expect(types$1.parenL);
+	    this.expect(types$1$1.parenL);
 	    const tmp = this.flowParseFunctionTypeParams();
 	    typeNode.params = tmp.params;
 	    typeNode.rest = tmp.rest;
 	    typeNode.this = tmp._this;
-	    this.expect(types$1.parenR);
+	    this.expect(types$1$1.parenR);
 	    [typeNode.returnType, node.predicate] = this.flowParseTypeAndPredicateInitialiser();
 	    typeContainer.typeAnnotation = this.finishNode(typeNode, "FunctionTypeAnnotation");
 	    id.typeAnnotation = this.finishNode(typeContainer, "TypeAnnotation");
@@ -21127,14 +21127,14 @@
 	  }
 
 	  flowParseDeclare(node, insideModule) {
-	    if (this.match(types$1._class)) {
+	    if (this.match(types$1$1._class)) {
 	      return this.flowParseDeclareClass(node);
-	    } else if (this.match(types$1._function)) {
+	    } else if (this.match(types$1$1._function)) {
 	      return this.flowParseDeclareFunction(node);
-	    } else if (this.match(types$1._var)) {
+	    } else if (this.match(types$1$1._var)) {
 	      return this.flowParseDeclareVariable(node);
 	    } else if (this.eatContextual("module")) {
-	      if (this.match(types$1.dot)) {
+	      if (this.match(types$1$1.dot)) {
 	        return this.flowParseDeclareModuleExports(node);
 	      } else {
 	        if (insideModule) {
@@ -21149,7 +21149,7 @@
 	      return this.flowParseDeclareOpaqueType(node);
 	    } else if (this.isContextual("interface")) {
 	      return this.flowParseDeclareInterface(node);
-	    } else if (this.match(types$1._export)) {
+	    } else if (this.match(types$1$1._export)) {
 	      return this.flowParseDeclareExportDeclaration(node, insideModule);
 	    } else {
 	      throw this.unexpected();
@@ -21167,7 +21167,7 @@
 	  flowParseDeclareModule(node) {
 	    this.scope.enter(SCOPE_OTHER);
 
-	    if (this.match(types$1.string)) {
+	    if (this.match(types$1$1.string)) {
 	      node.id = this.parseExprAtom();
 	    } else {
 	      node.id = this.parseIdentifier();
@@ -21175,15 +21175,15 @@
 
 	    const bodyNode = node.body = this.startNode();
 	    const body = bodyNode.body = [];
-	    this.expect(types$1.braceL);
+	    this.expect(types$1$1.braceL);
 
-	    while (!this.match(types$1.braceR)) {
+	    while (!this.match(types$1$1.braceR)) {
 	      let bodyNode = this.startNode();
 
-	      if (this.match(types$1._import)) {
+	      if (this.match(types$1$1._import)) {
 	        this.next();
 
-	        if (!this.isContextual("type") && !this.match(types$1._typeof)) {
+	        if (!this.isContextual("type") && !this.match(types$1$1._typeof)) {
 	          this.raise(this.state.lastTokStart, FlowErrors.InvalidNonTypeImportInDeclareModule);
 	        }
 
@@ -21197,7 +21197,7 @@
 	    }
 
 	    this.scope.exit();
-	    this.expect(types$1.braceR);
+	    this.expect(types$1$1.braceR);
 	    this.finishNode(bodyNode, "BlockStatement");
 	    let kind = null;
 	    let hasModuleExport = false;
@@ -21226,10 +21226,10 @@
 	  }
 
 	  flowParseDeclareExportDeclaration(node, insideModule) {
-	    this.expect(types$1._export);
+	    this.expect(types$1$1._export);
 
-	    if (this.eat(types$1._default)) {
-	      if (this.match(types$1._function) || this.match(types$1._class)) {
+	    if (this.eat(types$1$1._default)) {
+	      if (this.match(types$1$1._function) || this.match(types$1$1._class)) {
 	        node.declaration = this.flowParseDeclare(this.startNode());
 	      } else {
 	        node.declaration = this.flowParseType();
@@ -21239,17 +21239,17 @@
 	      node.default = true;
 	      return this.finishNode(node, "DeclareExportDeclaration");
 	    } else {
-	      if (this.match(types$1._const) || this.isLet() || (this.isContextual("type") || this.isContextual("interface")) && !insideModule) {
+	      if (this.match(types$1$1._const) || this.isLet() || (this.isContextual("type") || this.isContextual("interface")) && !insideModule) {
 	        const label = this.state.value;
 	        const suggestion = exportSuggestions[label];
 	        throw this.raise(this.state.start, FlowErrors.UnsupportedDeclareExportKind, label, suggestion);
 	      }
 
-	      if (this.match(types$1._var) || this.match(types$1._function) || this.match(types$1._class) || this.isContextual("opaque")) {
+	      if (this.match(types$1$1._var) || this.match(types$1$1._function) || this.match(types$1$1._class) || this.isContextual("opaque")) {
 	          node.declaration = this.flowParseDeclare(this.startNode());
 	          node.default = false;
 	          return this.finishNode(node, "DeclareExportDeclaration");
-	        } else if (this.match(types$1.star) || this.match(types$1.braceL) || this.isContextual("interface") || this.isContextual("type") || this.isContextual("opaque")) {
+	        } else if (this.match(types$1$1.star) || this.match(types$1$1.braceL) || this.isContextual("interface") || this.isContextual("type") || this.isContextual("opaque")) {
 	          node = this.parseExport(node);
 
 	          if (node.type === "ExportNamedDeclaration") {
@@ -21308,10 +21308,10 @@
 	    node.implements = [];
 	    node.mixins = [];
 
-	    if (this.eat(types$1._extends)) {
+	    if (this.eat(types$1$1._extends)) {
 	      do {
 	        node.extends.push(this.flowParseInterfaceExtends());
-	      } while (!isClass && this.eat(types$1.comma));
+	      } while (!isClass && this.eat(types$1$1.comma));
 	    }
 
 	    if (this.isContextual("mixins")) {
@@ -21319,7 +21319,7 @@
 
 	      do {
 	        node.mixins.push(this.flowParseInterfaceExtends());
-	      } while (this.eat(types$1.comma));
+	      } while (this.eat(types$1$1.comma));
 	    }
 
 	    if (this.isContextual("implements")) {
@@ -21327,7 +21327,7 @@
 
 	      do {
 	        node.implements.push(this.flowParseInterfaceExtends());
-	      } while (this.eat(types$1.comma));
+	      } while (this.eat(types$1$1.comma));
 	    }
 
 	    node.body = this.flowParseObjectType({
@@ -21383,7 +21383,7 @@
 	      node.typeParameters = null;
 	    }
 
-	    node.right = this.flowParseTypeInitialiser(types$1.eq);
+	    node.right = this.flowParseTypeInitialiser(types$1$1.eq);
 	    this.semicolon();
 	    return this.finishNode(node, "TypeAlias");
 	  }
@@ -21401,14 +21401,14 @@
 
 	    node.supertype = null;
 
-	    if (this.match(types$1.colon)) {
-	      node.supertype = this.flowParseTypeInitialiser(types$1.colon);
+	    if (this.match(types$1$1.colon)) {
+	      node.supertype = this.flowParseTypeInitialiser(types$1$1.colon);
 	    }
 
 	    node.impltype = null;
 
 	    if (!declare) {
-	      node.impltype = this.flowParseTypeInitialiser(types$1.eq);
+	      node.impltype = this.flowParseTypeInitialiser(types$1$1.eq);
 	    }
 
 	    this.semicolon();
@@ -21424,8 +21424,8 @@
 	    node.variance = variance;
 	    node.bound = ident.typeAnnotation;
 
-	    if (this.match(types$1.eq)) {
-	      this.eat(types$1.eq);
+	    if (this.match(types$1$1.eq)) {
+	      this.eat(types$1$1.eq);
 	      node.default = this.flowParseType();
 	    } else {
 	      if (requireDefault) {
@@ -21442,7 +21442,7 @@
 	    node.params = [];
 	    this.state.inType = true;
 
-	    if (this.isRelational("<") || this.match(types$1.jsxTagStart)) {
+	    if (this.isRelational("<") || this.match(types$1$1.jsxTagStart)) {
 	      this.next();
 	    } else {
 	      this.unexpected();
@@ -21459,7 +21459,7 @@
 	      }
 
 	      if (!this.isRelational(">")) {
-	        this.expect(types$1.comma);
+	        this.expect(types$1$1.comma);
 	      }
 	    } while (!this.isRelational(">"));
 
@@ -21481,7 +21481,7 @@
 	      node.params.push(this.flowParseType());
 
 	      if (!this.isRelational(">")) {
-	        this.expect(types$1.comma);
+	        this.expect(types$1$1.comma);
 	      }
 	    }
 
@@ -21502,7 +21502,7 @@
 	      node.params.push(this.flowParseTypeOrImplicitInstantiation());
 
 	      if (!this.isRelational(">")) {
-	        this.expect(types$1.comma);
+	        this.expect(types$1$1.comma);
 	      }
 	    }
 
@@ -21516,10 +21516,10 @@
 	    this.expectContextual("interface");
 	    node.extends = [];
 
-	    if (this.eat(types$1._extends)) {
+	    if (this.eat(types$1$1._extends)) {
 	      do {
 	        node.extends.push(this.flowParseInterfaceExtends());
-	      } while (this.eat(types$1.comma));
+	      } while (this.eat(types$1$1.comma));
 	    }
 
 	    node.body = this.flowParseObjectType({
@@ -21533,13 +21533,13 @@
 	  }
 
 	  flowParseObjectPropertyKey() {
-	    return this.match(types$1.num) || this.match(types$1.string) ? this.parseExprAtom() : this.parseIdentifier(true);
+	    return this.match(types$1$1.num) || this.match(types$1$1.string) ? this.parseExprAtom() : this.parseIdentifier(true);
 	  }
 
 	  flowParseObjectTypeIndexer(node, isStatic, variance) {
 	    node.static = isStatic;
 
-	    if (this.lookahead().type === types$1.colon) {
+	    if (this.lookahead().type === types$1$1.colon) {
 	      node.id = this.flowParseObjectPropertyKey();
 	      node.key = this.flowParseTypeInitialiser();
 	    } else {
@@ -21547,7 +21547,7 @@
 	      node.key = this.flowParseType();
 	    }
 
-	    this.expect(types$1.bracketR);
+	    this.expect(types$1$1.bracketR);
 	    node.value = this.flowParseTypeInitialiser();
 	    node.variance = variance;
 	    return this.finishNode(node, "ObjectTypeIndexer");
@@ -21556,17 +21556,17 @@
 	  flowParseObjectTypeInternalSlot(node, isStatic) {
 	    node.static = isStatic;
 	    node.id = this.flowParseObjectPropertyKey();
-	    this.expect(types$1.bracketR);
-	    this.expect(types$1.bracketR);
+	    this.expect(types$1$1.bracketR);
+	    this.expect(types$1$1.bracketR);
 
-	    if (this.isRelational("<") || this.match(types$1.parenL)) {
+	    if (this.isRelational("<") || this.match(types$1$1.parenL)) {
 	      node.method = true;
 	      node.optional = false;
 	      node.value = this.flowParseObjectTypeMethodish(this.startNodeAt(node.start, node.loc.start));
 	    } else {
 	      node.method = false;
 
-	      if (this.eat(types$1.question)) {
+	      if (this.eat(types$1$1.question)) {
 	        node.optional = true;
 	      }
 
@@ -21586,30 +21586,30 @@
 	      node.typeParameters = this.flowParseTypeParameterDeclaration();
 	    }
 
-	    this.expect(types$1.parenL);
+	    this.expect(types$1$1.parenL);
 
-	    if (this.match(types$1._this)) {
+	    if (this.match(types$1$1._this)) {
 	      node.this = this.flowParseFunctionTypeParam(true);
 	      node.this.name = null;
 
-	      if (!this.match(types$1.parenR)) {
-	        this.expect(types$1.comma);
+	      if (!this.match(types$1$1.parenR)) {
+	        this.expect(types$1$1.comma);
 	      }
 	    }
 
-	    while (!this.match(types$1.parenR) && !this.match(types$1.ellipsis)) {
+	    while (!this.match(types$1$1.parenR) && !this.match(types$1$1.ellipsis)) {
 	      node.params.push(this.flowParseFunctionTypeParam(false));
 
-	      if (!this.match(types$1.parenR)) {
-	        this.expect(types$1.comma);
+	      if (!this.match(types$1$1.parenR)) {
+	        this.expect(types$1$1.comma);
 	      }
 	    }
 
-	    if (this.eat(types$1.ellipsis)) {
+	    if (this.eat(types$1$1.ellipsis)) {
 	      node.rest = this.flowParseFunctionTypeParam(false);
 	    }
 
-	    this.expect(types$1.parenR);
+	    this.expect(types$1$1.parenR);
 	    node.returnType = this.flowParseTypeInitialiser();
 	    return this.finishNode(node, "FunctionTypeAnnotation");
 	  }
@@ -21639,13 +21639,13 @@
 	    let exact;
 	    let inexact = false;
 
-	    if (allowExact && this.match(types$1.braceBarL)) {
-	      this.expect(types$1.braceBarL);
-	      endDelim = types$1.braceBarR;
+	    if (allowExact && this.match(types$1$1.braceBarL)) {
+	      this.expect(types$1$1.braceBarL);
+	      endDelim = types$1$1.braceBarR;
 	      exact = true;
 	    } else {
-	      this.expect(types$1.braceL);
-	      endDelim = types$1.braceR;
+	      this.expect(types$1$1.braceL);
+	      endDelim = types$1$1.braceR;
 	      exact = false;
 	    }
 
@@ -21660,7 +21660,7 @@
 	      if (allowProto && this.isContextual("proto")) {
 	        const lookahead = this.lookahead();
 
-	        if (lookahead.type !== types$1.colon && lookahead.type !== types$1.question) {
+	        if (lookahead.type !== types$1$1.colon && lookahead.type !== types$1$1.question) {
 	          this.next();
 	          protoStart = this.state.start;
 	          allowStatic = false;
@@ -21670,7 +21670,7 @@
 	      if (allowStatic && this.isContextual("static")) {
 	        const lookahead = this.lookahead();
 
-	        if (lookahead.type !== types$1.colon && lookahead.type !== types$1.question) {
+	        if (lookahead.type !== types$1$1.colon && lookahead.type !== types$1$1.question) {
 	          this.next();
 	          isStatic = true;
 	        }
@@ -21678,12 +21678,12 @@
 
 	      const variance = this.flowParseVariance();
 
-	      if (this.eat(types$1.bracketL)) {
+	      if (this.eat(types$1$1.bracketL)) {
 	        if (protoStart != null) {
 	          this.unexpected(protoStart);
 	        }
 
-	        if (this.eat(types$1.bracketL)) {
+	        if (this.eat(types$1$1.bracketL)) {
 	          if (variance) {
 	            this.unexpected(variance.start);
 	          }
@@ -21692,7 +21692,7 @@
 	        } else {
 	          nodeStart.indexers.push(this.flowParseObjectTypeIndexer(node, isStatic, variance));
 	        }
-	      } else if (this.match(types$1.parenL) || this.isRelational("<")) {
+	      } else if (this.match(types$1$1.parenL) || this.isRelational("<")) {
 	        if (protoStart != null) {
 	          this.unexpected(protoStart);
 	        }
@@ -21708,7 +21708,7 @@
 	        if (this.isContextual("get") || this.isContextual("set")) {
 	          const lookahead = this.lookahead();
 
-	          if (lookahead.type === types$1.name || lookahead.type === types$1.string || lookahead.type === types$1.num) {
+	          if (lookahead.type === types$1$1.name || lookahead.type === types$1$1.string || lookahead.type === types$1$1.num) {
 	            kind = this.state.value;
 	            this.next();
 	          }
@@ -21726,7 +21726,7 @@
 
 	      this.flowObjectTypeSemicolon();
 
-	      if (inexactStart && !this.match(types$1.braceR) && !this.match(types$1.braceBarR)) {
+	      if (inexactStart && !this.match(types$1$1.braceR) && !this.match(types$1$1.braceBarR)) {
 	        this.raise(inexactStart, FlowErrors.UnexpectedExplicitInexactInObject);
 	      }
 	    }
@@ -21743,8 +21743,8 @@
 	  }
 
 	  flowParseObjectTypeProperty(node, isStatic, protoStart, variance, kind, allowSpread, allowInexact) {
-	    if (this.eat(types$1.ellipsis)) {
-	      const isInexactToken = this.match(types$1.comma) || this.match(types$1.semi) || this.match(types$1.braceR) || this.match(types$1.braceBarR);
+	    if (this.eat(types$1$1.ellipsis)) {
+	      const isInexactToken = this.match(types$1$1.comma) || this.match(types$1$1.semi) || this.match(types$1$1.braceR) || this.match(types$1$1.braceBarR);
 
 	      if (isInexactToken) {
 	        if (!allowSpread) {
@@ -21781,7 +21781,7 @@
 	      node.kind = kind;
 	      let optional = false;
 
-	      if (this.isRelational("<") || this.match(types$1.parenL)) {
+	      if (this.isRelational("<") || this.match(types$1$1.parenL)) {
 	        node.method = true;
 
 	        if (protoStart != null) {
@@ -21805,7 +21805,7 @@
 	        if (kind !== "init") this.unexpected();
 	        node.method = false;
 
-	        if (this.eat(types$1.question)) {
+	        if (this.eat(types$1$1.question)) {
 	          optional = true;
 	        }
 
@@ -21841,7 +21841,7 @@
 	  }
 
 	  flowObjectTypeSemicolon() {
-	    if (!this.eat(types$1.semi) && !this.eat(types$1.comma) && !this.match(types$1.braceR) && !this.match(types$1.braceBarR)) {
+	    if (!this.eat(types$1$1.semi) && !this.eat(types$1$1.comma) && !this.match(types$1$1.braceR) && !this.match(types$1$1.braceBarR)) {
 	      this.unexpected();
 	    }
 	  }
@@ -21851,7 +21851,7 @@
 	    startLoc = startLoc || this.state.startLoc;
 	    let node = id || this.flowParseRestrictedIdentifier(true);
 
-	    while (this.eat(types$1.dot)) {
+	    while (this.eat(types$1$1.dot)) {
 	      const node2 = this.startNodeAt(startPos, startLoc);
 	      node2.qualification = node;
 	      node2.id = this.flowParseRestrictedIdentifier(true);
@@ -21875,7 +21875,7 @@
 
 	  flowParseTypeofType() {
 	    const node = this.startNode();
-	    this.expect(types$1._typeof);
+	    this.expect(types$1$1._typeof);
 	    node.argument = this.flowParsePrimaryType();
 	    return this.finishNode(node, "TypeofTypeAnnotation");
 	  }
@@ -21883,15 +21883,15 @@
 	  flowParseTupleType() {
 	    const node = this.startNode();
 	    node.types = [];
-	    this.expect(types$1.bracketL);
+	    this.expect(types$1$1.bracketL);
 
-	    while (this.state.pos < this.length && !this.match(types$1.bracketR)) {
+	    while (this.state.pos < this.length && !this.match(types$1$1.bracketR)) {
 	      node.types.push(this.flowParseType());
-	      if (this.match(types$1.bracketR)) break;
-	      this.expect(types$1.comma);
+	      if (this.match(types$1$1.bracketR)) break;
+	      this.expect(types$1$1.comma);
 	    }
 
-	    this.expect(types$1.bracketR);
+	    this.expect(types$1$1.bracketR);
 	    return this.finishNode(node, "TupleTypeAnnotation");
 	  }
 
@@ -21901,16 +21901,16 @@
 	    let typeAnnotation = null;
 	    const node = this.startNode();
 	    const lh = this.lookahead();
-	    const isThis = this.state.type === types$1._this;
+	    const isThis = this.state.type === types$1$1._this;
 
-	    if (lh.type === types$1.colon || lh.type === types$1.question) {
+	    if (lh.type === types$1$1.colon || lh.type === types$1$1.question) {
 	      if (isThis && !first) {
 	        this.raise(node.start, FlowErrors.ThisParamMustBeFirst);
 	      }
 
 	      name = this.parseIdentifier(isThis);
 
-	      if (this.eat(types$1.question)) {
+	      if (this.eat(types$1$1.question)) {
 	        optional = true;
 
 	        if (isThis) {
@@ -21941,24 +21941,24 @@
 	    let rest = null;
 	    let _this = null;
 
-	    if (this.match(types$1._this)) {
+	    if (this.match(types$1$1._this)) {
 	      _this = this.flowParseFunctionTypeParam(true);
 	      _this.name = null;
 
-	      if (!this.match(types$1.parenR)) {
-	        this.expect(types$1.comma);
+	      if (!this.match(types$1$1.parenR)) {
+	        this.expect(types$1$1.comma);
 	      }
 	    }
 
-	    while (!this.match(types$1.parenR) && !this.match(types$1.ellipsis)) {
+	    while (!this.match(types$1$1.parenR) && !this.match(types$1$1.ellipsis)) {
 	      params.push(this.flowParseFunctionTypeParam(false));
 
-	      if (!this.match(types$1.parenR)) {
-	        this.expect(types$1.comma);
+	      if (!this.match(types$1$1.parenR)) {
+	        this.expect(types$1$1.comma);
 	      }
 	    }
 
-	    if (this.eat(types$1.ellipsis)) {
+	    if (this.eat(types$1$1.ellipsis)) {
 	      rest = this.flowParseFunctionTypeParam(false);
 	    }
 
@@ -22009,14 +22009,14 @@
 	    const oldNoAnonFunctionType = this.state.noAnonFunctionType;
 
 	    switch (this.state.type) {
-	      case types$1.name:
+	      case types$1$1.name:
 	        if (this.isContextual("interface")) {
 	          return this.flowParseInterfaceType();
 	        }
 
 	        return this.flowIdentToTypeAnnotation(startPos, startLoc, node, this.parseIdentifier());
 
-	      case types$1.braceL:
+	      case types$1$1.braceL:
 	        return this.flowParseObjectType({
 	          allowStatic: false,
 	          allowExact: false,
@@ -22025,7 +22025,7 @@
 	          allowInexact: true
 	        });
 
-	      case types$1.braceBarL:
+	      case types$1$1.braceBarL:
 	        return this.flowParseObjectType({
 	          allowStatic: false,
 	          allowExact: true,
@@ -22034,35 +22034,35 @@
 	          allowInexact: false
 	        });
 
-	      case types$1.bracketL:
+	      case types$1$1.bracketL:
 	        this.state.noAnonFunctionType = false;
 	        type = this.flowParseTupleType();
 	        this.state.noAnonFunctionType = oldNoAnonFunctionType;
 	        return type;
 
-	      case types$1.relational:
+	      case types$1$1.relational:
 	        if (this.state.value === "<") {
 	          node.typeParameters = this.flowParseTypeParameterDeclaration();
-	          this.expect(types$1.parenL);
+	          this.expect(types$1$1.parenL);
 	          tmp = this.flowParseFunctionTypeParams();
 	          node.params = tmp.params;
 	          node.rest = tmp.rest;
 	          node.this = tmp._this;
-	          this.expect(types$1.parenR);
-	          this.expect(types$1.arrow);
+	          this.expect(types$1$1.parenR);
+	          this.expect(types$1$1.arrow);
 	          node.returnType = this.flowParseType();
 	          return this.finishNode(node, "FunctionTypeAnnotation");
 	        }
 
 	        break;
 
-	      case types$1.parenL:
+	      case types$1$1.parenL:
 	        this.next();
 
-	        if (!this.match(types$1.parenR) && !this.match(types$1.ellipsis)) {
-	          if (this.match(types$1.name) || this.match(types$1._this)) {
+	        if (!this.match(types$1$1.parenR) && !this.match(types$1$1.ellipsis)) {
+	          if (this.match(types$1$1.name) || this.match(types$1$1._this)) {
 	            const token = this.lookahead().type;
-	            isGroupedType = token !== types$1.question && token !== types$1.colon;
+	            isGroupedType = token !== types$1$1.question && token !== types$1$1.colon;
 	          } else {
 	            isGroupedType = true;
 	          }
@@ -22073,11 +22073,11 @@
 	          type = this.flowParseType();
 	          this.state.noAnonFunctionType = oldNoAnonFunctionType;
 
-	          if (this.state.noAnonFunctionType || !(this.match(types$1.comma) || this.match(types$1.parenR) && this.lookahead().type === types$1.arrow)) {
-	            this.expect(types$1.parenR);
+	          if (this.state.noAnonFunctionType || !(this.match(types$1$1.comma) || this.match(types$1$1.parenR) && this.lookahead().type === types$1$1.arrow)) {
+	            this.expect(types$1$1.parenR);
 	            return type;
 	          } else {
-	            this.eat(types$1.comma);
+	            this.eat(types$1$1.comma);
 	          }
 	        }
 
@@ -22090,30 +22090,30 @@
 	        node.params = tmp.params;
 	        node.rest = tmp.rest;
 	        node.this = tmp._this;
-	        this.expect(types$1.parenR);
-	        this.expect(types$1.arrow);
+	        this.expect(types$1$1.parenR);
+	        this.expect(types$1$1.arrow);
 	        node.returnType = this.flowParseType();
 	        node.typeParameters = null;
 	        return this.finishNode(node, "FunctionTypeAnnotation");
 
-	      case types$1.string:
+	      case types$1$1.string:
 	        return this.parseLiteral(this.state.value, "StringLiteralTypeAnnotation");
 
-	      case types$1._true:
-	      case types$1._false:
-	        node.value = this.match(types$1._true);
+	      case types$1$1._true:
+	      case types$1$1._false:
+	        node.value = this.match(types$1$1._true);
 	        this.next();
 	        return this.finishNode(node, "BooleanLiteralTypeAnnotation");
 
-	      case types$1.plusMin:
+	      case types$1$1.plusMin:
 	        if (this.state.value === "-") {
 	          this.next();
 
-	          if (this.match(types$1.num)) {
+	          if (this.match(types$1$1.num)) {
 	            return this.parseLiteralAtNode(-this.state.value, "NumberLiteralTypeAnnotation", node);
 	          }
 
-	          if (this.match(types$1.bigint)) {
+	          if (this.match(types$1$1.bigint)) {
 	            return this.parseLiteralAtNode(-this.state.value, "BigIntLiteralTypeAnnotation", node);
 	          }
 
@@ -22122,25 +22122,25 @@
 
 	        throw this.unexpected();
 
-	      case types$1.num:
+	      case types$1$1.num:
 	        return this.parseLiteral(this.state.value, "NumberLiteralTypeAnnotation");
 
-	      case types$1.bigint:
+	      case types$1$1.bigint:
 	        return this.parseLiteral(this.state.value, "BigIntLiteralTypeAnnotation");
 
-	      case types$1._void:
+	      case types$1$1._void:
 	        this.next();
 	        return this.finishNode(node, "VoidTypeAnnotation");
 
-	      case types$1._null:
+	      case types$1$1._null:
 	        this.next();
 	        return this.finishNode(node, "NullLiteralTypeAnnotation");
 
-	      case types$1._this:
+	      case types$1$1._this:
 	        this.next();
 	        return this.finishNode(node, "ThisTypeAnnotation");
 
-	      case types$1.star:
+	      case types$1$1.star:
 	        this.next();
 	        return this.finishNode(node, "ExistsTypeAnnotation");
 
@@ -22164,20 +22164,20 @@
 	    let type = this.flowParsePrimaryType();
 	    let seenOptionalIndexedAccess = false;
 
-	    while ((this.match(types$1.bracketL) || this.match(types$1.questionDot)) && !this.canInsertSemicolon()) {
+	    while ((this.match(types$1$1.bracketL) || this.match(types$1$1.questionDot)) && !this.canInsertSemicolon()) {
 	      const node = this.startNodeAt(startPos, startLoc);
-	      const optional = this.eat(types$1.questionDot);
+	      const optional = this.eat(types$1$1.questionDot);
 	      seenOptionalIndexedAccess = seenOptionalIndexedAccess || optional;
-	      this.expect(types$1.bracketL);
+	      this.expect(types$1$1.bracketL);
 
-	      if (!optional && this.match(types$1.bracketR)) {
+	      if (!optional && this.match(types$1$1.bracketR)) {
 	        node.elementType = type;
 	        this.next();
 	        type = this.finishNode(node, "ArrayTypeAnnotation");
 	      } else {
 	        node.objectType = type;
 	        node.indexType = this.flowParseType();
-	        this.expect(types$1.bracketR);
+	        this.expect(types$1$1.bracketR);
 
 	        if (seenOptionalIndexedAccess) {
 	          node.optional = optional;
@@ -22194,7 +22194,7 @@
 	  flowParsePrefixType() {
 	    const node = this.startNode();
 
-	    if (this.eat(types$1.question)) {
+	    if (this.eat(types$1$1.question)) {
 	      node.typeAnnotation = this.flowParsePrefixType();
 	      return this.finishNode(node, "NullableTypeAnnotation");
 	    } else {
@@ -22205,7 +22205,7 @@
 	  flowParseAnonFunctionWithoutParens() {
 	    const param = this.flowParsePrefixType();
 
-	    if (!this.state.noAnonFunctionType && this.eat(types$1.arrow)) {
+	    if (!this.state.noAnonFunctionType && this.eat(types$1$1.arrow)) {
 	      const node = this.startNodeAt(param.start, param.loc.start);
 	      node.params = [this.reinterpretTypeAsFunctionTypeParam(param)];
 	      node.rest = null;
@@ -22220,11 +22220,11 @@
 
 	  flowParseIntersectionType() {
 	    const node = this.startNode();
-	    this.eat(types$1.bitwiseAND);
+	    this.eat(types$1$1.bitwiseAND);
 	    const type = this.flowParseAnonFunctionWithoutParens();
 	    node.types = [type];
 
-	    while (this.eat(types$1.bitwiseAND)) {
+	    while (this.eat(types$1$1.bitwiseAND)) {
 	      node.types.push(this.flowParseAnonFunctionWithoutParens());
 	    }
 
@@ -22233,11 +22233,11 @@
 
 	  flowParseUnionType() {
 	    const node = this.startNode();
-	    this.eat(types$1.bitwiseOR);
+	    this.eat(types$1$1.bitwiseOR);
 	    const type = this.flowParseIntersectionType();
 	    node.types = [type];
 
-	    while (this.eat(types$1.bitwiseOR)) {
+	    while (this.eat(types$1$1.bitwiseOR)) {
 	      node.types.push(this.flowParseIntersectionType());
 	    }
 
@@ -22253,7 +22253,7 @@
 	  }
 
 	  flowParseTypeOrImplicitInstantiation() {
-	    if (this.state.type === types$1.name && this.state.value === "_") {
+	    if (this.state.type === types$1$1.name && this.state.value === "_") {
 	      const startPos = this.state.start;
 	      const startLoc = this.state.startLoc;
 	      const node = this.parseIdentifier();
@@ -22272,7 +22272,7 @@
 	  flowParseTypeAnnotatableIdentifier(allowPrimitiveOverride) {
 	    const ident = allowPrimitiveOverride ? this.parseIdentifier() : this.flowParseRestrictedIdentifier();
 
-	    if (this.match(types$1.colon)) {
+	    if (this.match(types$1$1.colon)) {
 	      ident.typeAnnotation = this.flowParseTypeAnnotation();
 	      this.resetEndLocation(ident);
 	    }
@@ -22289,7 +22289,7 @@
 	  flowParseVariance() {
 	    let variance = null;
 
-	    if (this.match(types$1.plusMin)) {
+	    if (this.match(types$1$1.plusMin)) {
 	      variance = this.startNode();
 
 	      if (this.state.value === "+") {
@@ -22314,7 +22314,7 @@
 	  }
 
 	  parseFunctionBodyAndFinish(node, type, isMethod = false) {
-	    if (this.match(types$1.colon)) {
+	    if (this.match(types$1$1.colon)) {
 	      const typeNode = this.startNode();
 	      [typeNode.typeAnnotation, node.predicate] = this.flowParseTypeAndPredicateInitialiser();
 	      node.returnType = typeNode.typeAnnotation ? this.finishNode(typeNode, "TypeAnnotation") : null;
@@ -22324,10 +22324,10 @@
 	  }
 
 	  parseStatement(context, topLevel) {
-	    if (this.state.strict && this.match(types$1.name) && this.state.value === "interface") {
+	    if (this.state.strict && this.match(types$1$1.name) && this.state.value === "interface") {
 	      const lookahead = this.lookahead();
 
-	      if (lookahead.type === types$1.name || isKeyword(lookahead.value)) {
+	      if (lookahead.type === types$1$1.name || isKeyword(lookahead.value)) {
 	        const node = this.startNode();
 	        this.next();
 	        return this.flowParseInterface(node);
@@ -22350,10 +22350,10 @@
 	  parseExpressionStatement(node, expr) {
 	    if (expr.type === "Identifier") {
 	      if (expr.name === "declare") {
-	        if (this.match(types$1._class) || this.match(types$1.name) || this.match(types$1._function) || this.match(types$1._var) || this.match(types$1._export)) {
+	        if (this.match(types$1$1._class) || this.match(types$1$1.name) || this.match(types$1$1._function) || this.match(types$1$1._var) || this.match(types$1$1._export)) {
 	          return this.flowParseDeclare(node);
 	        }
-	      } else if (this.match(types$1.name)) {
+	      } else if (this.match(types$1$1.name)) {
 	        if (expr.name === "interface") {
 	          return this.flowParseInterface(node);
 	        } else if (expr.name === "type") {
@@ -22372,7 +22372,7 @@
 	  }
 
 	  isExportDefaultSpecifier() {
-	    if (this.match(types$1.name) && (this.state.value === "type" || this.state.value === "interface" || this.state.value === "opaque" || this.shouldParseEnums() && this.state.value === "enum")) {
+	    if (this.match(types$1$1.name) && (this.state.value === "type" || this.state.value === "interface" || this.state.value === "opaque" || this.shouldParseEnums() && this.state.value === "enum")) {
 	      return false;
 	    }
 
@@ -22390,7 +22390,7 @@
 	  }
 
 	  parseConditional(expr, startPos, startLoc, refExpressionErrors) {
-	    if (!this.match(types$1.question)) return expr;
+	    if (!this.match(types$1$1.question)) return expr;
 
 	    if (this.state.maybeInArrowParameters) {
 	      const result = this.tryParse(() => super.parseConditional(expr, startPos, startLoc));
@@ -22407,7 +22407,7 @@
 	      return result.node;
 	    }
 
-	    this.expect(types$1.question);
+	    this.expect(types$1$1.question);
 	    const state = this.state.clone();
 	    const originalNoArrowAt = this.state.noArrowAt;
 	    const node = this.startNodeAt(startPos, startLoc);
@@ -22451,7 +22451,7 @@
 
 	    this.getArrowLikeExpressions(consequent, true);
 	    this.state.noArrowAt = originalNoArrowAt;
-	    this.expect(types$1.colon);
+	    this.expect(types$1$1.colon);
 	    node.test = expr;
 	    node.consequent = consequent;
 	    node.alternate = this.forwardNoArrowParamsConversionAt(node, () => this.parseMaybeAssign(undefined, undefined));
@@ -22461,7 +22461,7 @@
 	  tryParseConditionalConsequent() {
 	    this.state.noArrowParamsConversionAt.push(this.state.start);
 	    const consequent = this.parseMaybeAssignAllowIn();
-	    const failed = !this.match(types$1.colon);
+	    const failed = !this.match(types$1$1.colon);
 	    this.state.noArrowParamsConversionAt.pop();
 	    return {
 	      consequent,
@@ -22524,12 +22524,12 @@
 	  parseParenItem(node, startPos, startLoc) {
 	    node = super.parseParenItem(node, startPos, startLoc);
 
-	    if (this.eat(types$1.question)) {
+	    if (this.eat(types$1$1.question)) {
 	      node.optional = true;
 	      this.resetEndLocation(node);
 	    }
 
-	    if (this.match(types$1.colon)) {
+	    if (this.match(types$1$1.colon)) {
 	      const typeCastNode = this.startNodeAt(startPos, startLoc);
 	      typeCastNode.expression = node;
 	      typeCastNode.typeAnnotation = this.flowParseTypeAnnotation();
@@ -22563,7 +22563,7 @@
 	      const declarationNode = this.startNode();
 	      this.next();
 
-	      if (this.match(types$1.braceL)) {
+	      if (this.match(types$1$1.braceL)) {
 	        node.specifiers = this.parseExportSpecifiers();
 	        this.parseExportFrom(node);
 	        return null;
@@ -22593,7 +22593,7 @@
 	  eatExportStar(node) {
 	    if (super.eatExportStar(...arguments)) return true;
 
-	    if (this.isContextual("type") && this.lookahead().type === types$1.star) {
+	    if (this.isContextual("type") && this.lookahead().type === types$1$1.star) {
 	      node.exportKind = "type";
 	      this.next();
 	      this.next();
@@ -22656,22 +22656,22 @@
 	      this.raise(this.state.pos, ErrorMessages.InvalidIdentifier, fullWord);
 	    }
 
-	    this.finishToken(types$1.name, fullWord);
+	    this.finishToken(types$1$1.name, fullWord);
 	  }
 
 	  getTokenFromCode(code) {
 	    const next = this.input.charCodeAt(this.state.pos + 1);
 
 	    if (code === 123 && next === 124) {
-	      return this.finishOp(types$1.braceBarL, 2);
+	      return this.finishOp(types$1$1.braceBarL, 2);
 	    } else if (this.state.inType && (code === 62 || code === 60)) {
-	      return this.finishOp(types$1.relational, 1);
+	      return this.finishOp(types$1$1.relational, 1);
 	    } else if (this.state.inType && code === 63) {
 	      if (next === 46) {
-	        return this.finishOp(types$1.questionDot, 2);
+	        return this.finishOp(types$1$1.questionDot, 2);
 	      }
 
-	      return this.finishOp(types$1.question, 1);
+	      return this.finishOp(types$1$1.question, 1);
 	    } else if (isIteratorStart(code, next)) {
 	      this.state.pos += 2;
 	      return this.readIterator();
@@ -22772,7 +22772,7 @@
 	  }
 
 	  parseClassProperty(node) {
-	    if (this.match(types$1.colon)) {
+	    if (this.match(types$1$1.colon)) {
 	      node.typeAnnotation = this.flowParseTypeAnnotation();
 	    }
 
@@ -22780,7 +22780,7 @@
 	  }
 
 	  parseClassPrivateProperty(node) {
-	    if (this.match(types$1.colon)) {
+	    if (this.match(types$1$1.colon)) {
 	      node.typeAnnotation = this.flowParseTypeAnnotation();
 	    }
 
@@ -22792,11 +22792,11 @@
 	  }
 
 	  isClassProperty() {
-	    return this.match(types$1.colon) || super.isClassProperty();
+	    return this.match(types$1$1.colon) || super.isClassProperty();
 	  }
 
 	  isNonstaticConstructor(method) {
-	    return !this.match(types$1.colon) && super.isNonstaticConstructor(method);
+	    return !this.match(types$1$1.colon) && super.isNonstaticConstructor(method);
 	  }
 
 	  pushClassMethod(classBody, method, isGenerator, isAsync, isConstructor, allowsDirectSuper) {
@@ -22863,7 +22863,7 @@
 	        }
 
 	        implemented.push(this.finishNode(node, "ClassImplements"));
-	      } while (this.eat(types$1.comma));
+	      } while (this.eat(types$1$1.comma));
 	    }
 	  }
 
@@ -22899,7 +22899,7 @@
 
 	    if (this.isRelational("<") && !isAccessor) {
 	      typeParameters = this.flowParseTypeParameterDeclaration();
-	      if (!this.match(types$1.parenL)) this.unexpected();
+	      if (!this.match(types$1$1.parenL)) this.unexpected();
 	    }
 
 	    super.parseObjPropValue(prop, startPos, startLoc, isGenerator, isAsync, isPattern, isAccessor, refExpressionErrors);
@@ -22910,7 +22910,7 @@
 	  }
 
 	  parseAssignableListItemTypes(param) {
-	    if (this.eat(types$1.question)) {
+	    if (this.eat(types$1$1.question)) {
 	      if (param.type !== "Identifier") {
 	        this.raise(param.start, FlowErrors.OptionalBindingPattern);
 	      }
@@ -22922,13 +22922,13 @@
 	      param.optional = true;
 	    }
 
-	    if (this.match(types$1.colon)) {
+	    if (this.match(types$1$1.colon)) {
 	      param.typeAnnotation = this.flowParseTypeAnnotation();
 	    } else if (this.isThisParam(param)) {
 	      this.raise(param.start, FlowErrors.ThisParamAnnotationRequired);
 	    }
 
-	    if (this.match(types$1.eq) && this.isThisParam(param)) {
+	    if (this.match(types$1$1.eq) && this.isThisParam(param)) {
 	      this.raise(param.start, FlowErrors.ThisParamNoDefault);
 	    }
 
@@ -22964,7 +22964,7 @@
 	    node.importKind = "value";
 	    let kind = null;
 
-	    if (this.match(types$1._typeof)) {
+	    if (this.match(types$1$1._typeof)) {
 	      kind = "typeof";
 	    } else if (this.isContextual("type")) {
 	      kind = "type";
@@ -22973,11 +22973,11 @@
 	    if (kind) {
 	      const lh = this.lookahead();
 
-	      if (kind === "type" && lh.type === types$1.star) {
+	      if (kind === "type" && lh.type === types$1$1.star) {
 	        this.unexpected(lh.start);
 	      }
 
-	      if (isMaybeDefaultImport(lh) || lh.type === types$1.braceL || lh.type === types$1.star) {
+	      if (isMaybeDefaultImport(lh) || lh.type === types$1$1.braceL || lh.type === types$1$1.star) {
 	        this.next();
 	        node.importKind = kind;
 	      }
@@ -22988,7 +22988,7 @@
 
 	  parseImportSpecifier(node) {
 	    const specifier = this.startNode();
-	    const firstIdentIsString = this.match(types$1.string);
+	    const firstIdentIsString = this.match(types$1$1.string);
 	    const firstIdent = this.parseModuleExportName();
 	    let specifierTypeKind = null;
 
@@ -23005,7 +23005,7 @@
 	    if (this.isContextual("as") && !this.isLookaheadContextual("as")) {
 	      const as_ident = this.parseIdentifier(true);
 
-	      if (specifierTypeKind !== null && !this.match(types$1.name) && !this.state.type.keyword) {
+	      if (specifierTypeKind !== null && !this.match(types$1$1.name) && !this.state.type.keyword) {
 	        specifier.imported = as_ident;
 	        specifier.importKind = specifierTypeKind;
 	        specifier.local = as_ident.__clone();
@@ -23014,7 +23014,7 @@
 	        specifier.importKind = null;
 	        specifier.local = this.parseIdentifier();
 	      }
-	    } else if (specifierTypeKind !== null && (this.match(types$1.name) || this.state.type.keyword)) {
+	    } else if (specifierTypeKind !== null && (this.match(types$1$1.name) || this.state.type.keyword)) {
 	      specifier.imported = this.parseIdentifier(true);
 	      specifier.importKind = specifierTypeKind;
 
@@ -23056,7 +23056,7 @@
 
 	  parseBindingAtom() {
 	    switch (this.state.type) {
-	      case types$1._this:
+	      case types$1$1._this:
 	        return this.parseIdentifier(true);
 
 	      default:
@@ -23077,14 +23077,14 @@
 	  parseVarId(decl, kind) {
 	    super.parseVarId(decl, kind);
 
-	    if (this.match(types$1.colon)) {
+	    if (this.match(types$1$1.colon)) {
 	      decl.id.typeAnnotation = this.flowParseTypeAnnotation();
 	      this.resetEndLocation(decl.id);
 	    }
 	  }
 
 	  parseAsyncArrowFromCallExpression(node, call) {
-	    if (this.match(types$1.colon)) {
+	    if (this.match(types$1$1.colon)) {
 	      const oldNoAnonFunctionType = this.state.noAnonFunctionType;
 	      this.state.noAnonFunctionType = true;
 	      node.returnType = this.flowParseTypeAnnotation();
@@ -23095,7 +23095,7 @@
 	  }
 
 	  shouldParseAsyncArrow() {
-	    return this.match(types$1.colon) || super.shouldParseAsyncArrow();
+	    return this.match(types$1$1.colon) || super.shouldParseAsyncArrow();
 	  }
 
 	  parseMaybeAssign(refExpressionErrors, afterLeftParse) {
@@ -23104,7 +23104,7 @@
 	    let state = null;
 	    let jsx;
 
-	    if (this.hasPlugin("jsx") && (this.match(types$1.jsxTagStart) || this.isRelational("<"))) {
+	    if (this.hasPlugin("jsx") && (this.match(types$1$1.jsxTagStart) || this.isRelational("<"))) {
 	      state = this.state.clone();
 	      jsx = this.tryParse(() => super.parseMaybeAssign(refExpressionErrors, afterLeftParse), state);
 	      if (!jsx.error) return jsx.node;
@@ -23177,7 +23177,7 @@
 	  }
 
 	  parseArrow(node) {
-	    if (this.match(types$1.colon)) {
+	    if (this.match(types$1$1.colon)) {
 	      const result = this.tryParse(() => {
 	        const oldNoAnonFunctionType = this.state.noAnonFunctionType;
 	        this.state.noAnonFunctionType = true;
@@ -23185,7 +23185,7 @@
 	        [typeNode.typeAnnotation, node.predicate] = this.flowParseTypeAndPredicateInitialiser();
 	        this.state.noAnonFunctionType = oldNoAnonFunctionType;
 	        if (this.canInsertSemicolon()) this.unexpected();
-	        if (!this.match(types$1.arrow)) this.unexpected();
+	        if (!this.match(types$1$1.arrow)) this.unexpected();
 	        return typeNode;
 	      });
 	      if (result.thrown) return null;
@@ -23197,7 +23197,7 @@
 	  }
 
 	  shouldParseArrow() {
-	    return this.match(types$1.colon) || super.shouldParseArrow();
+	    return this.match(types$1$1.colon) || super.shouldParseArrow();
 	  }
 
 	  setArrowFunctionParameters(node, params) {
@@ -23231,7 +23231,7 @@
 	      this.next();
 	      const node = this.startNodeAt(startPos, startLoc);
 	      node.callee = base;
-	      node.arguments = this.parseCallExpressionArguments(types$1.parenR, false);
+	      node.arguments = this.parseCallExpressionArguments(types$1$1.parenR, false);
 	      base = this.finishNode(node, "CallExpression");
 	    } else if (base.type === "Identifier" && base.name === "async" && this.isRelational("<")) {
 	      const state = this.state.clone();
@@ -23257,7 +23257,7 @@
 	  }
 
 	  parseSubscript(base, startPos, startLoc, noCalls, subscriptState) {
-	    if (this.match(types$1.questionDot) && this.isLookaheadToken_lt()) {
+	    if (this.match(types$1$1.questionDot) && this.isLookaheadToken_lt()) {
 	      subscriptState.optionalChainMember = true;
 
 	      if (noCalls) {
@@ -23269,8 +23269,8 @@
 	      const node = this.startNodeAt(startPos, startLoc);
 	      node.callee = base;
 	      node.typeArguments = this.flowParseTypeParameterInstantiation();
-	      this.expect(types$1.parenL);
-	      node.arguments = this.parseCallExpressionArguments(types$1.parenR, false);
+	      this.expect(types$1$1.parenL);
+	      node.arguments = this.parseCallExpressionArguments(types$1$1.parenR, false);
 	      node.optional = true;
 	      return this.finishCallExpression(node, true);
 	    } else if (!noCalls && this.shouldParseTypes() && this.isRelational("<")) {
@@ -23278,8 +23278,8 @@
 	      node.callee = base;
 	      const result = this.tryParse(() => {
 	        node.typeArguments = this.flowParseTypeParameterInstantiationCallOrNew();
-	        this.expect(types$1.parenL);
-	        node.arguments = this.parseCallExpressionArguments(types$1.parenR, false);
+	        this.expect(types$1$1.parenL);
+	        node.arguments = this.parseCallExpressionArguments(types$1$1.parenR, false);
 	        if (subscriptState.optionalChainMember) node.optional = false;
 	        return this.finishCallExpression(node, subscriptState.optionalChainMember);
 	      });
@@ -23328,7 +23328,7 @@
 	    const next = this.input.charCodeAt(this.state.pos + 1);
 
 	    if (code === 124 && next === 125) {
-	      this.finishOp(types$1.braceBarR, 2);
+	      this.finishOp(types$1$1.braceBarR, 2);
 	      return;
 	    }
 
@@ -23483,10 +23483,10 @@
 	  flowEnumMemberInit() {
 	    const startPos = this.state.start;
 
-	    const endOfInit = () => this.match(types$1.comma) || this.match(types$1.braceR);
+	    const endOfInit = () => this.match(types$1$1.comma) || this.match(types$1$1.braceR);
 
 	    switch (this.state.type) {
-	      case types$1.num:
+	      case types$1$1.num:
 	        {
 	          const literal = this.parseNumericLiteral(this.state.value);
 
@@ -23504,7 +23504,7 @@
 	          };
 	        }
 
-	      case types$1.string:
+	      case types$1$1.string:
 	        {
 	          const literal = this.parseStringLiteral(this.state.value);
 
@@ -23522,10 +23522,10 @@
 	          };
 	        }
 
-	      case types$1._true:
-	      case types$1._false:
+	      case types$1$1._true:
+	      case types$1$1._false:
 	        {
-	          const literal = this.parseBooleanLiteral(this.match(types$1._true));
+	          const literal = this.parseBooleanLiteral(this.match(types$1$1._true));
 
 	          if (endOfInit()) {
 	            return {
@@ -23552,7 +23552,7 @@
 	  flowEnumMemberRaw() {
 	    const pos = this.state.start;
 	    const id = this.parseIdentifier(true);
-	    const init = this.eat(types$1.eq) ? this.flowEnumMemberInit() : {
+	    const init = this.eat(types$1$1.eq) ? this.flowEnumMemberInit() : {
 	      type: "none",
 	      pos
 	    };
@@ -23589,8 +23589,8 @@
 	    };
 	    let hasUnknownMembers = false;
 
-	    while (!this.match(types$1.braceR)) {
-	      if (this.eat(types$1.ellipsis)) {
+	    while (!this.match(types$1$1.braceR)) {
+	      if (this.eat(types$1$1.ellipsis)) {
 	        hasUnknownMembers = true;
 	        break;
 	      }
@@ -23675,8 +23675,8 @@
 	          }
 	      }
 
-	      if (!this.match(types$1.braceR)) {
-	        this.expect(types$1.comma);
+	      if (!this.match(types$1$1.braceR)) {
+	        this.expect(types$1$1.comma);
 	      }
 	    }
 
@@ -23716,7 +23716,7 @@
 	    enumName
 	  }) {
 	    if (this.eatContextual("of")) {
-	      if (!this.match(types$1.name)) {
+	      if (!this.match(types$1$1.name)) {
 	        throw this.flowEnumErrorInvalidExplicitType(this.state.start, {
 	          enumName,
 	          suppliedType: null
@@ -23748,7 +23748,7 @@
 	    const explicitType = this.flowEnumParseExplicitType({
 	      enumName
 	    });
-	    this.expect(types$1.braceL);
+	    this.expect(types$1$1.braceL);
 	    const {
 	      members,
 	      hasUnknownMembers
@@ -23762,13 +23762,13 @@
 	      case "boolean":
 	        node.explicitType = true;
 	        node.members = members.booleanMembers;
-	        this.expect(types$1.braceR);
+	        this.expect(types$1$1.braceR);
 	        return this.finishNode(node, "EnumBooleanBody");
 
 	      case "number":
 	        node.explicitType = true;
 	        node.members = members.numberMembers;
-	        this.expect(types$1.braceR);
+	        this.expect(types$1$1.braceR);
 	        return this.finishNode(node, "EnumNumberBody");
 
 	      case "string":
@@ -23776,19 +23776,19 @@
 	        node.members = this.flowEnumStringMembers(members.stringMembers, members.defaultedMembers, {
 	          enumName
 	        });
-	        this.expect(types$1.braceR);
+	        this.expect(types$1$1.braceR);
 	        return this.finishNode(node, "EnumStringBody");
 
 	      case "symbol":
 	        node.members = members.defaultedMembers;
-	        this.expect(types$1.braceR);
+	        this.expect(types$1$1.braceR);
 	        return this.finishNode(node, "EnumSymbolBody");
 
 	      default:
 	        {
 	          const empty = () => {
 	            node.members = [];
-	            this.expect(types$1.braceR);
+	            this.expect(types$1$1.braceR);
 	            return this.finishNode(node, "EnumStringBody");
 	          };
 
@@ -23804,7 +23804,7 @@
 	            node.members = this.flowEnumStringMembers(members.stringMembers, members.defaultedMembers, {
 	              enumName
 	            });
-	            this.expect(types$1.braceR);
+	            this.expect(types$1$1.braceR);
 	            return this.finishNode(node, "EnumStringBody");
 	          } else if (!numsLen && !strsLen && boolsLen >= defaultedLen) {
 	            for (const member of members.defaultedMembers) {
@@ -23815,7 +23815,7 @@
 	            }
 
 	            node.members = members.booleanMembers;
-	            this.expect(types$1.braceR);
+	            this.expect(types$1$1.braceR);
 	            return this.finishNode(node, "EnumBooleanBody");
 	          } else if (!boolsLen && !strsLen && numsLen >= defaultedLen) {
 	            for (const member of members.defaultedMembers) {
@@ -23826,7 +23826,7 @@
 	            }
 
 	            node.members = members.numberMembers;
-	            this.expect(types$1.braceR);
+	            this.expect(types$1$1.braceR);
 	            return this.finishNode(node, "EnumNumberBody");
 	          } else {
 	            this.flowEnumErrorInconsistentMemberValues(nameLoc, {
@@ -24154,7 +24154,7 @@
 	    this.commentPreviousNode = null;
 	    this.pos = 0;
 	    this.lineStart = 0;
-	    this.type = types$1.eof;
+	    this.type = types$1$1.eof;
 	    this.value = null;
 	    this.start = 0;
 	    this.end = 0;
@@ -24213,16 +24213,16 @@
 	types$2.j_oTag = new TokContext("<tag");
 	types$2.j_cTag = new TokContext("</tag");
 	types$2.j_expr = new TokContext("<tag>...</tag>", true);
-	types$1.jsxName = new TokenType("jsxName");
-	types$1.jsxText = new TokenType("jsxText", {
+	types$1$1.jsxName = new TokenType("jsxName");
+	types$1$1.jsxText = new TokenType("jsxText", {
 	  beforeExpr: true
 	});
-	types$1.jsxTagStart = new TokenType("jsxTagStart", {
+	types$1$1.jsxTagStart = new TokenType("jsxTagStart", {
 	  startsExpr: true
 	});
-	types$1.jsxTagEnd = new TokenType("jsxTagEnd");
+	types$1$1.jsxTagEnd = new TokenType("jsxTagEnd");
 
-	types$1.jsxTagStart.updateContext = context => {
+	types$1$1.jsxTagStart.updateContext = context => {
 	  context.push(types$2.j_expr, types$2.j_oTag);
 	};
 
@@ -24264,14 +24264,14 @@
 	          if (this.state.pos === this.state.start) {
 	            if (ch === 60 && this.state.exprAllowed) {
 	              ++this.state.pos;
-	              return this.finishToken(types$1.jsxTagStart);
+	              return this.finishToken(types$1$1.jsxTagStart);
 	            }
 
 	            return super.getTokenFromCode(ch);
 	          }
 
 	          out += this.input.slice(chunkStart, this.state.pos);
-	          return this.finishToken(types$1.jsxText, out);
+	          return this.finishToken(types$1$1.jsxText, out);
 
 	        case 38:
 	          out += this.input.slice(chunkStart, this.state.pos);
@@ -24338,7 +24338,7 @@
 	    }
 
 	    out += this.input.slice(chunkStart, this.state.pos++);
-	    return this.finishToken(types$1.string, out);
+	    return this.finishToken(types$1$1.string, out);
 	  }
 
 	  jsxReadEntity() {
@@ -24392,13 +24392,13 @@
 	      ch = this.input.charCodeAt(++this.state.pos);
 	    } while (isIdentifierChar(ch) || ch === 45);
 
-	    return this.finishToken(types$1.jsxName, this.input.slice(start, this.state.pos));
+	    return this.finishToken(types$1$1.jsxName, this.input.slice(start, this.state.pos));
 	  }
 
 	  jsxParseIdentifier() {
 	    const node = this.startNode();
 
-	    if (this.match(types$1.jsxName)) {
+	    if (this.match(types$1$1.jsxName)) {
 	      node.name = this.state.value;
 	    } else if (this.state.type.keyword) {
 	      node.name = this.state.type.keyword;
@@ -24414,7 +24414,7 @@
 	    const startPos = this.state.start;
 	    const startLoc = this.state.startLoc;
 	    const name = this.jsxParseIdentifier();
-	    if (!this.eat(types$1.colon)) return name;
+	    if (!this.eat(types$1$1.colon)) return name;
 	    const node = this.startNodeAt(startPos, startLoc);
 	    node.namespace = name;
 	    node.name = this.jsxParseIdentifier();
@@ -24430,7 +24430,7 @@
 	      return node;
 	    }
 
-	    while (this.eat(types$1.dot)) {
+	    while (this.eat(types$1$1.dot)) {
 	      const newNode = this.startNodeAt(startPos, startLoc);
 	      newNode.object = node;
 	      newNode.property = this.jsxParseIdentifier();
@@ -24444,7 +24444,7 @@
 	    let node;
 
 	    switch (this.state.type) {
-	      case types$1.braceL:
+	      case types$1$1.braceL:
 	        node = this.startNode();
 	        this.next();
 	        node = this.jsxParseExpressionContainer(node);
@@ -24455,8 +24455,8 @@
 
 	        return node;
 
-	      case types$1.jsxTagStart:
-	      case types$1.string:
+	      case types$1$1.jsxTagStart:
+	      case types$1$1.string:
 	        return this.parseExprAtom();
 
 	      default:
@@ -24472,42 +24472,42 @@
 	  jsxParseSpreadChild(node) {
 	    this.next();
 	    node.expression = this.parseExpression();
-	    this.expect(types$1.braceR);
+	    this.expect(types$1$1.braceR);
 	    return this.finishNode(node, "JSXSpreadChild");
 	  }
 
 	  jsxParseExpressionContainer(node) {
-	    if (this.match(types$1.braceR)) {
+	    if (this.match(types$1$1.braceR)) {
 	      node.expression = this.jsxParseEmptyExpression();
 	    } else {
 	      const expression = this.parseExpression();
 	      node.expression = expression;
 	    }
 
-	    this.expect(types$1.braceR);
+	    this.expect(types$1$1.braceR);
 	    return this.finishNode(node, "JSXExpressionContainer");
 	  }
 
 	  jsxParseAttribute() {
 	    const node = this.startNode();
 
-	    if (this.eat(types$1.braceL)) {
-	      this.expect(types$1.ellipsis);
+	    if (this.eat(types$1$1.braceL)) {
+	      this.expect(types$1$1.ellipsis);
 	      node.argument = this.parseMaybeAssignAllowIn();
-	      this.expect(types$1.braceR);
+	      this.expect(types$1$1.braceR);
 	      return this.finishNode(node, "JSXSpreadAttribute");
 	    }
 
 	    node.name = this.jsxParseNamespacedName();
-	    node.value = this.eat(types$1.eq) ? this.jsxParseAttributeValue() : null;
+	    node.value = this.eat(types$1$1.eq) ? this.jsxParseAttributeValue() : null;
 	    return this.finishNode(node, "JSXAttribute");
 	  }
 
 	  jsxParseOpeningElementAt(startPos, startLoc) {
 	    const node = this.startNodeAt(startPos, startLoc);
 
-	    if (this.match(types$1.jsxTagEnd)) {
-	      this.expect(types$1.jsxTagEnd);
+	    if (this.match(types$1$1.jsxTagEnd)) {
+	      this.expect(types$1$1.jsxTagEnd);
 	      return this.finishNode(node, "JSXOpeningFragment");
 	    }
 
@@ -24518,26 +24518,26 @@
 	  jsxParseOpeningElementAfterName(node) {
 	    const attributes = [];
 
-	    while (!this.match(types$1.slash) && !this.match(types$1.jsxTagEnd)) {
+	    while (!this.match(types$1$1.slash) && !this.match(types$1$1.jsxTagEnd)) {
 	      attributes.push(this.jsxParseAttribute());
 	    }
 
 	    node.attributes = attributes;
-	    node.selfClosing = this.eat(types$1.slash);
-	    this.expect(types$1.jsxTagEnd);
+	    node.selfClosing = this.eat(types$1$1.slash);
+	    this.expect(types$1$1.jsxTagEnd);
 	    return this.finishNode(node, "JSXOpeningElement");
 	  }
 
 	  jsxParseClosingElementAt(startPos, startLoc) {
 	    const node = this.startNodeAt(startPos, startLoc);
 
-	    if (this.match(types$1.jsxTagEnd)) {
-	      this.expect(types$1.jsxTagEnd);
+	    if (this.match(types$1$1.jsxTagEnd)) {
+	      this.expect(types$1$1.jsxTagEnd);
 	      return this.finishNode(node, "JSXClosingFragment");
 	    }
 
 	    node.name = this.jsxParseElementName();
-	    this.expect(types$1.jsxTagEnd);
+	    this.expect(types$1$1.jsxTagEnd);
 	    return this.finishNode(node, "JSXClosingElement");
 	  }
 
@@ -24550,12 +24550,12 @@
 	    if (!openingElement.selfClosing) {
 	      contents: for (;;) {
 	        switch (this.state.type) {
-	          case types$1.jsxTagStart:
+	          case types$1$1.jsxTagStart:
 	            startPos = this.state.start;
 	            startLoc = this.state.startLoc;
 	            this.next();
 
-	            if (this.eat(types$1.slash)) {
+	            if (this.eat(types$1$1.slash)) {
 	              closingElement = this.jsxParseClosingElementAt(startPos, startLoc);
 	              break contents;
 	            }
@@ -24563,16 +24563,16 @@
 	            children.push(this.jsxParseElementAt(startPos, startLoc));
 	            break;
 
-	          case types$1.jsxText:
+	          case types$1$1.jsxText:
 	            children.push(this.parseExprAtom());
 	            break;
 
-	          case types$1.braceL:
+	          case types$1$1.braceL:
 	            {
 	              const node = this.startNode();
 	              this.next();
 
-	              if (this.match(types$1.ellipsis)) {
+	              if (this.match(types$1$1.ellipsis)) {
 	                children.push(this.jsxParseSpreadChild(node));
 	              } else {
 	                children.push(this.jsxParseExpressionContainer(node));
@@ -24622,12 +24622,12 @@
 	  }
 
 	  parseExprAtom(refExpressionErrors) {
-	    if (this.match(types$1.jsxText)) {
+	    if (this.match(types$1$1.jsxText)) {
 	      return this.parseLiteral(this.state.value, "JSXText");
-	    } else if (this.match(types$1.jsxTagStart)) {
+	    } else if (this.match(types$1$1.jsxTagStart)) {
 	      return this.jsxParseElement();
 	    } else if (this.isRelational("<") && this.input.charCodeAt(this.state.pos) !== 33) {
-	      this.finishToken(types$1.jsxTagStart);
+	      this.finishToken(types$1$1.jsxTagStart);
 	      return this.jsxParseElement();
 	    } else {
 	      return super.parseExprAtom(refExpressionErrors);
@@ -24655,7 +24655,7 @@
 
 	      if (code === 62) {
 	        ++this.state.pos;
-	        return this.finishToken(types$1.jsxTagEnd);
+	        return this.finishToken(types$1$1.jsxTagEnd);
 	      }
 
 	      if ((code === 34 || code === 39) && context === types$2.j_oTag) {
@@ -24665,7 +24665,7 @@
 
 	    if (code === 60 && this.state.exprAllowed && this.input.charCodeAt(this.state.pos + 1) !== 33) {
 	      ++this.state.pos;
-	      return this.finishToken(types$1.jsxTagStart);
+	      return this.finishToken(types$1$1.jsxTagStart);
 	    }
 
 	    return super.getTokenFromCode(code);
@@ -24678,19 +24678,19 @@
 	      type
 	    } = this.state;
 
-	    if (type === types$1.slash && prevType === types$1.jsxTagStart) {
+	    if (type === types$1$1.slash && prevType === types$1$1.jsxTagStart) {
 	      context.splice(-2, 2, types$2.j_cTag);
 	      this.state.exprAllowed = false;
-	    } else if (type === types$1.jsxTagEnd) {
+	    } else if (type === types$1$1.jsxTagEnd) {
 	      const out = context.pop();
 
-	      if (out === types$2.j_oTag && prevType === types$1.slash || out === types$2.j_cTag) {
+	      if (out === types$2.j_oTag && prevType === types$1$1.slash || out === types$2.j_cTag) {
 	        context.pop();
 	        this.state.exprAllowed = context[context.length - 1] === types$2.j_expr;
 	      } else {
 	        this.state.exprAllowed = true;
 	      }
-	    } else if (type.keyword && (prevType === types$1.dot || prevType === types$1.questionDot)) {
+	    } else if (type.keyword && (prevType === types$1$1.dot || prevType === types$1$1.questionDot)) {
 	      this.state.exprAllowed = false;
 	    } else {
 	      this.state.exprAllowed = type.beforeExpr;
@@ -24934,11 +24934,11 @@
 	  }
 
 	  tsIsIdentifier() {
-	    return this.match(types$1.name);
+	    return this.match(types$1$1.name);
 	  }
 
 	  tsTokenCanFollowModifier() {
-	    return (this.match(types$1.bracketL) || this.match(types$1.braceL) || this.match(types$1.star) || this.match(types$1.ellipsis) || this.match(types$1.privateName) || this.isLiteralPropertyName()) && !this.hasPrecedingLineBreak();
+	    return (this.match(types$1$1.bracketL) || this.match(types$1$1.braceL) || this.match(types$1$1.star) || this.match(types$1$1.ellipsis) || this.match(types$1$1.privateName) || this.isLiteralPropertyName()) && !this.hasPrecedingLineBreak();
 	  }
 
 	  tsNextTokenCanFollowModifier() {
@@ -24947,7 +24947,7 @@
 	  }
 
 	  tsParseModifier(allowedModifiers) {
-	    if (!this.match(types$1.name)) {
+	    if (!this.match(types$1$1.name)) {
 	      return undefined;
 	    }
 
@@ -25012,13 +25012,13 @@
 	    switch (kind) {
 	      case "EnumMembers":
 	      case "TypeMembers":
-	        return this.match(types$1.braceR);
+	        return this.match(types$1$1.braceR);
 
 	      case "HeritageClauseElement":
-	        return this.match(types$1.braceL);
+	        return this.match(types$1$1.braceL);
 
 	      case "TupleElementTypes":
-	        return this.match(types$1.bracketR);
+	        return this.match(types$1$1.bracketR);
 
 	      case "TypeParametersOrArguments":
 	        return this.isRelational(">");
@@ -25057,7 +25057,7 @@
 
 	      result.push(element);
 
-	      if (this.eat(types$1.comma)) {
+	      if (this.eat(types$1$1.comma)) {
 	        continue;
 	      }
 
@@ -25066,7 +25066,7 @@
 	      }
 
 	      if (expectSuccess) {
-	        this.expect(types$1.comma);
+	        this.expect(types$1$1.comma);
 	      }
 
 	      return undefined;
@@ -25078,7 +25078,7 @@
 	  tsParseBracketedList(kind, parseElement, bracket, skipFirstToken) {
 	    if (!skipFirstToken) {
 	      if (bracket) {
-	        this.expect(types$1.bracketL);
+	        this.expect(types$1$1.bracketL);
 	      } else {
 	        this.expectRelational("<");
 	      }
@@ -25087,7 +25087,7 @@
 	    const result = this.tsParseDelimitedList(kind, parseElement);
 
 	    if (bracket) {
-	      this.expect(types$1.bracketR);
+	      this.expect(types$1$1.bracketR);
 	    } else {
 	      this.expectRelational(">");
 	    }
@@ -25097,17 +25097,17 @@
 
 	  tsParseImportType() {
 	    const node = this.startNode();
-	    this.expect(types$1._import);
-	    this.expect(types$1.parenL);
+	    this.expect(types$1$1._import);
+	    this.expect(types$1$1.parenL);
 
-	    if (!this.match(types$1.string)) {
+	    if (!this.match(types$1$1.string)) {
 	      this.raise(this.state.start, TSErrors.UnsupportedImportTypeArgument);
 	    }
 
 	    node.argument = this.parseExprAtom();
-	    this.expect(types$1.parenR);
+	    this.expect(types$1$1.parenR);
 
-	    if (this.eat(types$1.dot)) {
+	    if (this.eat(types$1$1.dot)) {
 	      node.qualifier = this.tsParseEntityName(true);
 	    }
 
@@ -25121,7 +25121,7 @@
 	  tsParseEntityName(allowReservedWords) {
 	    let entity = this.parseIdentifier();
 
-	    while (this.eat(types$1.dot)) {
+	    while (this.eat(types$1$1.dot)) {
 	      const node = this.startNodeAtNode(entity);
 	      node.left = entity;
 	      node.right = this.parseIdentifier(allowReservedWords);
@@ -25159,9 +25159,9 @@
 
 	  tsParseTypeQuery() {
 	    const node = this.startNode();
-	    this.expect(types$1._typeof);
+	    this.expect(types$1$1._typeof);
 
-	    if (this.match(types$1._import)) {
+	    if (this.match(types$1$1._import)) {
 	      node.exprName = this.tsParseImportType();
 	    } else {
 	      node.exprName = this.tsParseEntityName(true);
@@ -25173,8 +25173,8 @@
 	  tsParseTypeParameter() {
 	    const node = this.startNode();
 	    node.name = this.parseIdentifierName(node.start);
-	    node.constraint = this.tsEatThenParseType(types$1._extends);
-	    node.default = this.tsEatThenParseType(types$1.eq);
+	    node.constraint = this.tsEatThenParseType(types$1$1._extends);
+	    node.default = this.tsEatThenParseType(types$1$1.eq);
 	    return this.finishNode(node, "TSTypeParameter");
 	  }
 
@@ -25187,7 +25187,7 @@
 	  tsParseTypeParameters() {
 	    const node = this.startNode();
 
-	    if (this.isRelational("<") || this.match(types$1.jsxTagStart)) {
+	    if (this.isRelational("<") || this.match(types$1$1.jsxTagStart)) {
 	      this.next();
 	    } else {
 	      this.unexpected();
@@ -25203,7 +25203,7 @@
 	  }
 
 	  tsTryNextParseConstantContext() {
-	    if (this.lookahead().type === types$1._const) {
+	    if (this.lookahead().type === types$1$1._const) {
 	      this.next();
 	      return this.tsParseTypeReference();
 	    }
@@ -25212,9 +25212,9 @@
 	  }
 
 	  tsFillSignature(returnToken, signature) {
-	    const returnTokenRequired = returnToken === types$1.arrow;
+	    const returnTokenRequired = returnToken === types$1$1.arrow;
 	    signature.typeParameters = this.tsTryParseTypeParameters();
-	    this.expect(types$1.parenL);
+	    this.expect(types$1$1.parenL);
 	    signature.parameters = this.tsParseBindingListForSignature();
 
 	    if (returnTokenRequired) {
@@ -25225,7 +25225,7 @@
 	  }
 
 	  tsParseBindingListForSignature() {
-	    return this.parseBindingList(types$1.parenR, 41).map(pattern => {
+	    return this.parseBindingList(types$1$1.parenR, 41).map(pattern => {
 	      if (pattern.type !== "Identifier" && pattern.type !== "RestElement" && pattern.type !== "ObjectPattern" && pattern.type !== "ArrayPattern") {
 	        this.raise(pattern.start, TSErrors.UnsupportedSignatureParameterKind, pattern.type);
 	      }
@@ -25235,32 +25235,32 @@
 	  }
 
 	  tsParseTypeMemberSemicolon() {
-	    if (!this.eat(types$1.comma) && !this.isLineTerminator()) {
-	      this.expect(types$1.semi);
+	    if (!this.eat(types$1$1.comma) && !this.isLineTerminator()) {
+	      this.expect(types$1$1.semi);
 	    }
 	  }
 
 	  tsParseSignatureMember(kind, node) {
-	    this.tsFillSignature(types$1.colon, node);
+	    this.tsFillSignature(types$1$1.colon, node);
 	    this.tsParseTypeMemberSemicolon();
 	    return this.finishNode(node, kind);
 	  }
 
 	  tsIsUnambiguouslyIndexSignature() {
 	    this.next();
-	    return this.eat(types$1.name) && this.match(types$1.colon);
+	    return this.eat(types$1$1.name) && this.match(types$1$1.colon);
 	  }
 
 	  tsTryParseIndexSignature(node) {
-	    if (!(this.match(types$1.bracketL) && this.tsLookAhead(this.tsIsUnambiguouslyIndexSignature.bind(this)))) {
+	    if (!(this.match(types$1$1.bracketL) && this.tsLookAhead(this.tsIsUnambiguouslyIndexSignature.bind(this)))) {
 	      return undefined;
 	    }
 
-	    this.expect(types$1.bracketL);
+	    this.expect(types$1$1.bracketL);
 	    const id = this.parseIdentifier();
 	    id.typeAnnotation = this.tsParseTypeAnnotation();
 	    this.resetEndLocation(id);
-	    this.expect(types$1.bracketR);
+	    this.expect(types$1$1.bracketR);
 	    node.parameters = [id];
 	    const type = this.tsTryParseTypeAnnotation();
 	    if (type) node.typeAnnotation = type;
@@ -25269,10 +25269,10 @@
 	  }
 
 	  tsParsePropertyOrMethodSignature(node, readonly) {
-	    if (this.eat(types$1.question)) node.optional = true;
+	    if (this.eat(types$1$1.question)) node.optional = true;
 	    const nodeAny = node;
 
-	    if (this.match(types$1.parenL) || this.isRelational("<")) {
+	    if (this.match(types$1$1.parenL) || this.isRelational("<")) {
 	      if (readonly) {
 	        this.raise(node.start, TSErrors.ReadonlyForMethodSignature);
 	      }
@@ -25283,7 +25283,7 @@
 	        this.raise(this.state.pos, TSErrors.AccesorCannotHaveTypeParameters);
 	      }
 
-	      this.tsFillSignature(types$1.colon, method);
+	      this.tsFillSignature(types$1$1.colon, method);
 	      this.tsParseTypeMemberSemicolon();
 
 	      if (method.kind === "get") {
@@ -25334,15 +25334,15 @@
 	  tsParseTypeMember() {
 	    const node = this.startNode();
 
-	    if (this.match(types$1.parenL) || this.isRelational("<")) {
+	    if (this.match(types$1$1.parenL) || this.isRelational("<")) {
 	      return this.tsParseSignatureMember("TSCallSignatureDeclaration", node);
 	    }
 
-	    if (this.match(types$1._new)) {
+	    if (this.match(types$1$1._new)) {
 	      const id = this.startNode();
 	      this.next();
 
-	      if (this.match(types$1.parenL) || this.isRelational("<")) {
+	      if (this.match(types$1$1.parenL) || this.isRelational("<")) {
 	        return this.tsParseSignatureMember("TSConstructSignatureDeclaration", node);
 	      } else {
 	        node.key = this.createIdentifier(id, "new");
@@ -25374,16 +25374,16 @@
 	  }
 
 	  tsParseObjectTypeMembers() {
-	    this.expect(types$1.braceL);
+	    this.expect(types$1$1.braceL);
 	    const members = this.tsParseList("TypeMembers", this.tsParseTypeMember.bind(this));
-	    this.expect(types$1.braceR);
+	    this.expect(types$1$1.braceR);
 	    return members;
 	  }
 
 	  tsIsStartOfMappedType() {
 	    this.next();
 
-	    if (this.eat(types$1.plusMin)) {
+	    if (this.eat(types$1$1.plusMin)) {
 	      return this.isContextual("readonly");
 	    }
 
@@ -25391,7 +25391,7 @@
 	      this.next();
 	    }
 
-	    if (!this.match(types$1.bracketL)) {
+	    if (!this.match(types$1$1.bracketL)) {
 	      return false;
 	    }
 
@@ -25402,21 +25402,21 @@
 	    }
 
 	    this.next();
-	    return this.match(types$1._in);
+	    return this.match(types$1$1._in);
 	  }
 
 	  tsParseMappedTypeParameter() {
 	    const node = this.startNode();
 	    node.name = this.parseIdentifierName(node.start);
-	    node.constraint = this.tsExpectThenParseType(types$1._in);
+	    node.constraint = this.tsExpectThenParseType(types$1$1._in);
 	    return this.finishNode(node, "TSTypeParameter");
 	  }
 
 	  tsParseMappedType() {
 	    const node = this.startNode();
-	    this.expect(types$1.braceL);
+	    this.expect(types$1$1.braceL);
 
-	    if (this.match(types$1.plusMin)) {
+	    if (this.match(types$1$1.plusMin)) {
 	      node.readonly = this.state.value;
 	      this.next();
 	      this.expectContextual("readonly");
@@ -25424,22 +25424,22 @@
 	      node.readonly = true;
 	    }
 
-	    this.expect(types$1.bracketL);
+	    this.expect(types$1$1.bracketL);
 	    node.typeParameter = this.tsParseMappedTypeParameter();
 	    node.nameType = this.eatContextual("as") ? this.tsParseType() : null;
-	    this.expect(types$1.bracketR);
+	    this.expect(types$1$1.bracketR);
 
-	    if (this.match(types$1.plusMin)) {
+	    if (this.match(types$1$1.plusMin)) {
 	      node.optional = this.state.value;
 	      this.next();
-	      this.expect(types$1.question);
-	    } else if (this.eat(types$1.question)) {
+	      this.expect(types$1$1.question);
+	    } else if (this.eat(types$1$1.question)) {
 	      node.optional = true;
 	    }
 
 	    node.typeAnnotation = this.tsTryParseType();
 	    this.semicolon();
-	    this.expect(types$1.braceR);
+	    this.expect(types$1$1.braceR);
 	    return this.finishNode(node, "TSMappedType");
 	  }
 
@@ -25481,10 +25481,10 @@
 	      start: startPos,
 	      startLoc
 	    } = this.state;
-	    const rest = this.eat(types$1.ellipsis);
+	    const rest = this.eat(types$1$1.ellipsis);
 	    let type = this.tsParseType();
-	    const optional = this.eat(types$1.question);
-	    const labeled = this.eat(types$1.colon);
+	    const optional = this.eat(types$1$1.question);
+	    const labeled = this.eat(types$1$1.colon);
 
 	    if (labeled) {
 	      const labeledNode = this.startNodeAtNode(type);
@@ -25516,9 +25516,9 @@
 
 	  tsParseParenthesizedType() {
 	    const node = this.startNode();
-	    this.expect(types$1.parenL);
+	    this.expect(types$1$1.parenL);
 	    node.typeAnnotation = this.tsParseType();
-	    this.expect(types$1.parenR);
+	    this.expect(types$1$1.parenR);
 	    return this.finishNode(node, "TSParenthesizedType");
 	  }
 
@@ -25531,7 +25531,7 @@
 	      this.next();
 	    }
 
-	    this.tsFillSignature(types$1.arrow, node);
+	    this.tsFillSignature(types$1$1.arrow, node);
 	    return this.finishNode(node, type);
 	  }
 
@@ -25540,11 +25540,11 @@
 
 	    node.literal = (() => {
 	      switch (this.state.type) {
-	        case types$1.num:
-	        case types$1.bigint:
-	        case types$1.string:
-	        case types$1._true:
-	        case types$1._false:
+	        case types$1$1.num:
+	        case types$1$1.bigint:
+	        case types$1$1.string:
+	        case types$1$1._true:
+	        case types$1$1._false:
 	          return this.parseExprAtom();
 
 	        default:
@@ -25578,11 +25578,11 @@
 
 	  tsParseNonArrayType() {
 	    switch (this.state.type) {
-	      case types$1.name:
-	      case types$1._void:
-	      case types$1._null:
+	      case types$1$1.name:
+	      case types$1$1._void:
+	      case types$1$1._null:
 	        {
-	          const type = this.match(types$1._void) ? "TSVoidKeyword" : this.match(types$1._null) ? "TSNullKeyword" : keywordTypeFromName(this.state.value);
+	          const type = this.match(types$1$1._void) ? "TSVoidKeyword" : this.match(types$1$1._null) ? "TSNullKeyword" : keywordTypeFromName(this.state.value);
 
 	          if (type !== undefined && this.lookaheadCharCode() !== 46) {
 	            const node = this.startNode();
@@ -25593,19 +25593,19 @@
 	          return this.tsParseTypeReference();
 	        }
 
-	      case types$1.string:
-	      case types$1.num:
-	      case types$1.bigint:
-	      case types$1._true:
-	      case types$1._false:
+	      case types$1$1.string:
+	      case types$1$1.num:
+	      case types$1$1.bigint:
+	      case types$1$1._true:
+	      case types$1$1._false:
 	        return this.tsParseLiteralTypeNode();
 
-	      case types$1.plusMin:
+	      case types$1$1.plusMin:
 	        if (this.state.value === "-") {
 	          const node = this.startNode();
 	          const nextToken = this.lookahead();
 
-	          if (nextToken.type !== types$1.num && nextToken.type !== types$1.bigint) {
+	          if (nextToken.type !== types$1$1.num && nextToken.type !== types$1$1.bigint) {
 	            throw this.unexpected();
 	          }
 
@@ -25615,25 +25615,25 @@
 
 	        break;
 
-	      case types$1._this:
+	      case types$1$1._this:
 	        return this.tsParseThisTypeOrThisTypePredicate();
 
-	      case types$1._typeof:
+	      case types$1$1._typeof:
 	        return this.tsParseTypeQuery();
 
-	      case types$1._import:
+	      case types$1$1._import:
 	        return this.tsParseImportType();
 
-	      case types$1.braceL:
+	      case types$1$1.braceL:
 	        return this.tsLookAhead(this.tsIsStartOfMappedType.bind(this)) ? this.tsParseMappedType() : this.tsParseTypeLiteral();
 
-	      case types$1.bracketL:
+	      case types$1$1.bracketL:
 	        return this.tsParseTupleType();
 
-	      case types$1.parenL:
+	      case types$1$1.parenL:
 	        return this.tsParseParenthesizedType();
 
-	      case types$1.backQuote:
+	      case types$1$1.backQuote:
 	        return this.tsParseTemplateLiteralType();
 	    }
 
@@ -25643,17 +25643,17 @@
 	  tsParseArrayTypeOrHigher() {
 	    let type = this.tsParseNonArrayType();
 
-	    while (!this.hasPrecedingLineBreak() && this.eat(types$1.bracketL)) {
-	      if (this.match(types$1.bracketR)) {
+	    while (!this.hasPrecedingLineBreak() && this.eat(types$1$1.bracketL)) {
+	      if (this.match(types$1$1.bracketR)) {
 	        const node = this.startNodeAtNode(type);
 	        node.elementType = type;
-	        this.expect(types$1.bracketR);
+	        this.expect(types$1$1.bracketR);
 	        type = this.finishNode(node, "TSArrayType");
 	      } else {
 	        const node = this.startNodeAtNode(type);
 	        node.objectType = type;
 	        node.indexType = this.tsParseType();
-	        this.expect(types$1.bracketR);
+	        this.expect(types$1$1.bracketR);
 	        type = this.finishNode(node, "TSIndexedAccessType");
 	      }
 	    }
@@ -25717,11 +25717,11 @@
 	  }
 
 	  tsParseIntersectionTypeOrHigher() {
-	    return this.tsParseUnionOrIntersectionType("TSIntersectionType", this.tsParseTypeOperatorOrHigher.bind(this), types$1.bitwiseAND);
+	    return this.tsParseUnionOrIntersectionType("TSIntersectionType", this.tsParseTypeOperatorOrHigher.bind(this), types$1$1.bitwiseAND);
 	  }
 
 	  tsParseUnionTypeOrHigher() {
-	    return this.tsParseUnionOrIntersectionType("TSUnionType", this.tsParseIntersectionTypeOrHigher.bind(this), types$1.bitwiseOR);
+	    return this.tsParseUnionOrIntersectionType("TSUnionType", this.tsParseIntersectionTypeOrHigher.bind(this), types$1$1.bitwiseOR);
 	  }
 
 	  tsIsStartOfFunctionType() {
@@ -25729,23 +25729,23 @@
 	      return true;
 	    }
 
-	    return this.match(types$1.parenL) && this.tsLookAhead(this.tsIsUnambiguouslyStartOfFunctionType.bind(this));
+	    return this.match(types$1$1.parenL) && this.tsLookAhead(this.tsIsUnambiguouslyStartOfFunctionType.bind(this));
 	  }
 
 	  tsSkipParameterStart() {
-	    if (this.match(types$1.name) || this.match(types$1._this)) {
+	    if (this.match(types$1$1.name) || this.match(types$1$1._this)) {
 	      this.next();
 	      return true;
 	    }
 
-	    if (this.match(types$1.braceL)) {
+	    if (this.match(types$1$1.braceL)) {
 	      let braceStackCounter = 1;
 	      this.next();
 
 	      while (braceStackCounter > 0) {
-	        if (this.match(types$1.braceL)) {
+	        if (this.match(types$1$1.braceL)) {
 	          ++braceStackCounter;
-	        } else if (this.match(types$1.braceR)) {
+	        } else if (this.match(types$1$1.braceR)) {
 	          --braceStackCounter;
 	        }
 
@@ -25755,14 +25755,14 @@
 	      return true;
 	    }
 
-	    if (this.match(types$1.bracketL)) {
+	    if (this.match(types$1$1.bracketL)) {
 	      let braceStackCounter = 1;
 	      this.next();
 
 	      while (braceStackCounter > 0) {
-	        if (this.match(types$1.bracketL)) {
+	        if (this.match(types$1$1.bracketL)) {
 	          ++braceStackCounter;
-	        } else if (this.match(types$1.bracketR)) {
+	        } else if (this.match(types$1$1.bracketR)) {
 	          --braceStackCounter;
 	        }
 
@@ -25778,19 +25778,19 @@
 	  tsIsUnambiguouslyStartOfFunctionType() {
 	    this.next();
 
-	    if (this.match(types$1.parenR) || this.match(types$1.ellipsis)) {
+	    if (this.match(types$1$1.parenR) || this.match(types$1$1.ellipsis)) {
 	      return true;
 	    }
 
 	    if (this.tsSkipParameterStart()) {
-	      if (this.match(types$1.colon) || this.match(types$1.comma) || this.match(types$1.question) || this.match(types$1.eq)) {
+	      if (this.match(types$1$1.colon) || this.match(types$1$1.comma) || this.match(types$1$1.question) || this.match(types$1$1.eq)) {
 	        return true;
 	      }
 
-	      if (this.match(types$1.parenR)) {
+	      if (this.match(types$1$1.parenR)) {
 	        this.next();
 
-	        if (this.match(types$1.arrow)) {
+	        if (this.match(types$1$1.arrow)) {
 	          return true;
 	        }
 	      }
@@ -25806,7 +25806,7 @@
 	      const node = this.startNode();
 	      const asserts = !!this.tsTryParse(this.tsParseTypePredicateAsserts.bind(this));
 
-	      if (asserts && this.match(types$1._this)) {
+	      if (asserts && this.match(types$1$1._this)) {
 	        let thisTypePredicate = this.tsParseThisTypeOrThisTypePredicate();
 
 	        if (thisTypePredicate.type === "TSThisType") {
@@ -25847,15 +25847,15 @@
 	  }
 
 	  tsTryParseTypeOrTypePredicateAnnotation() {
-	    return this.match(types$1.colon) ? this.tsParseTypeOrTypePredicateAnnotation(types$1.colon) : undefined;
+	    return this.match(types$1$1.colon) ? this.tsParseTypeOrTypePredicateAnnotation(types$1$1.colon) : undefined;
 	  }
 
 	  tsTryParseTypeAnnotation() {
-	    return this.match(types$1.colon) ? this.tsParseTypeAnnotation() : undefined;
+	    return this.match(types$1$1.colon) ? this.tsParseTypeAnnotation() : undefined;
 	  }
 
 	  tsTryParseType() {
-	    return this.tsEatThenParseType(types$1.colon);
+	    return this.tsEatThenParseType(types$1$1.colon);
 	  }
 
 	  tsParseTypePredicatePrefix() {
@@ -25868,14 +25868,14 @@
 	  }
 
 	  tsParseTypePredicateAsserts() {
-	    if (!this.match(types$1.name) || this.state.value !== "asserts" || this.hasPrecedingLineBreak()) {
+	    if (!this.match(types$1$1.name) || this.state.value !== "asserts" || this.hasPrecedingLineBreak()) {
 	      return false;
 	    }
 
 	    const containsEsc = this.state.containsEsc;
 	    this.next();
 
-	    if (!this.match(types$1.name) && !this.match(types$1._this)) {
+	    if (!this.match(types$1$1.name) && !this.match(types$1$1._this)) {
 	      return false;
 	    }
 
@@ -25888,7 +25888,7 @@
 
 	  tsParseTypeAnnotation(eatColon = true, t = this.startNode()) {
 	    this.tsInType(() => {
-	      if (eatColon) this.expect(types$1.colon);
+	      if (eatColon) this.expect(types$1$1.colon);
 	      t.typeAnnotation = this.tsParseType();
 	    });
 	    return this.finishNode(t, "TSTypeAnnotation");
@@ -25898,22 +25898,22 @@
 	    assert$1(this.state.inType);
 	    const type = this.tsParseNonConditionalType();
 
-	    if (this.hasPrecedingLineBreak() || !this.eat(types$1._extends)) {
+	    if (this.hasPrecedingLineBreak() || !this.eat(types$1$1._extends)) {
 	      return type;
 	    }
 
 	    const node = this.startNodeAtNode(type);
 	    node.checkType = type;
 	    node.extendsType = this.tsParseNonConditionalType();
-	    this.expect(types$1.question);
+	    this.expect(types$1$1.question);
 	    node.trueType = this.tsParseType();
-	    this.expect(types$1.colon);
+	    this.expect(types$1$1.colon);
 	    node.falseType = this.tsParseType();
 	    return this.finishNode(node, "TSConditionalType");
 	  }
 
 	  isAbstractConstructorSignature() {
-	    return this.isContextual("abstract") && this.lookahead().type === types$1._new;
+	    return this.isContextual("abstract") && this.lookahead().type === types$1$1._new;
 	  }
 
 	  tsParseNonConditionalType() {
@@ -25921,7 +25921,7 @@
 	      return this.tsParseFunctionOrConstructorType("TSFunctionType");
 	    }
 
-	    if (this.match(types$1._new)) {
+	    if (this.match(types$1$1._new)) {
 	      return this.tsParseFunctionOrConstructorType("TSConstructorType");
 	    } else if (this.isAbstractConstructorSignature()) {
 	      return this.tsParseFunctionOrConstructorType("TSConstructorType", true);
@@ -25968,7 +25968,7 @@
 	    this.checkLVal(node.id, "typescript interface declaration", BIND_TS_INTERFACE);
 	    node.typeParameters = this.tsTryParseTypeParameters();
 
-	    if (this.eat(types$1._extends)) {
+	    if (this.eat(types$1$1._extends)) {
 	      node.extends = this.tsParseHeritageClause("extends");
 	    }
 
@@ -25983,9 +25983,9 @@
 	    this.checkLVal(node.id, "typescript type alias", BIND_TS_TYPE);
 	    node.typeParameters = this.tsTryParseTypeParameters();
 	    node.typeAnnotation = this.tsInType(() => {
-	      this.expect(types$1.eq);
+	      this.expect(types$1$1.eq);
 
-	      if (this.isContextual("intrinsic") && this.lookahead().type !== types$1.dot) {
+	      if (this.isContextual("intrinsic") && this.lookahead().type !== types$1$1.dot) {
 	        const node = this.startNode();
 	        this.next();
 	        return this.finishNode(node, "TSIntrinsicKeyword");
@@ -26040,9 +26040,9 @@
 
 	  tsParseEnumMember() {
 	    const node = this.startNode();
-	    node.id = this.match(types$1.string) ? this.parseExprAtom() : this.parseIdentifier(true);
+	    node.id = this.match(types$1$1.string) ? this.parseExprAtom() : this.parseIdentifier(true);
 
-	    if (this.eat(types$1.eq)) {
+	    if (this.eat(types$1$1.eq)) {
 	      node.initializer = this.parseMaybeAssignAllowIn();
 	    }
 
@@ -26053,17 +26053,17 @@
 	    if (isConst) node.const = true;
 	    node.id = this.parseIdentifier();
 	    this.checkLVal(node.id, "typescript enum declaration", isConst ? BIND_TS_CONST_ENUM : BIND_TS_ENUM);
-	    this.expect(types$1.braceL);
+	    this.expect(types$1$1.braceL);
 	    node.members = this.tsParseDelimitedList("EnumMembers", this.tsParseEnumMember.bind(this));
-	    this.expect(types$1.braceR);
+	    this.expect(types$1$1.braceR);
 	    return this.finishNode(node, "TSEnumDeclaration");
 	  }
 
 	  tsParseModuleBlock() {
 	    const node = this.startNode();
 	    this.scope.enter(SCOPE_OTHER);
-	    this.expect(types$1.braceL);
-	    this.parseBlockOrModuleBlockBody(node.body = [], undefined, true, types$1.braceR);
+	    this.expect(types$1$1.braceL);
+	    this.parseBlockOrModuleBlockBody(node.body = [], undefined, true, types$1$1.braceR);
 	    this.scope.exit();
 	    return this.finishNode(node, "TSModuleBlock");
 	  }
@@ -26075,7 +26075,7 @@
 	      this.checkLVal(node.id, "module or namespace declaration", BIND_TS_NAMESPACE);
 	    }
 
-	    if (this.eat(types$1.dot)) {
+	    if (this.eat(types$1$1.dot)) {
 	      const inner = this.startNode();
 	      this.tsParseModuleOrNamespaceDeclaration(inner, true);
 	      node.body = inner;
@@ -26094,13 +26094,13 @@
 	    if (this.isContextual("global")) {
 	      node.global = true;
 	      node.id = this.parseIdentifier();
-	    } else if (this.match(types$1.string)) {
+	    } else if (this.match(types$1$1.string)) {
 	      node.id = this.parseExprAtom();
 	    } else {
 	      this.unexpected();
 	    }
 
-	    if (this.match(types$1.braceL)) {
+	    if (this.match(types$1$1.braceL)) {
 	      this.scope.enter(SCOPE_TS_MODULE);
 	      this.prodParam.enter(PARAM);
 	      node.body = this.tsParseModuleBlock();
@@ -26117,7 +26117,7 @@
 	    node.isExport = isExport || false;
 	    node.id = this.parseIdentifier();
 	    this.checkLVal(node.id, "import equals declaration", BIND_LEXICAL);
-	    this.expect(types$1.eq);
+	    this.expect(types$1$1.eq);
 	    const moduleReference = this.tsParseModuleReference();
 
 	    if (node.importKind === "type" && moduleReference.type !== "TSExternalModuleReference") {
@@ -26140,14 +26140,14 @@
 	  tsParseExternalModuleReference() {
 	    const node = this.startNode();
 	    this.expectContextual("require");
-	    this.expect(types$1.parenL);
+	    this.expect(types$1$1.parenL);
 
-	    if (!this.match(types$1.string)) {
+	    if (!this.match(types$1$1.string)) {
 	      throw this.unexpected();
 	    }
 
 	    node.expression = this.parseExprAtom();
-	    this.expect(types$1.parenR);
+	    this.expect(types$1$1.parenR);
 	    return this.finishNode(node, "TSExternalModuleReference");
 	  }
 
@@ -26186,32 +26186,32 @@
 	    let kind;
 
 	    if (this.isContextual("let")) {
-	      starttype = types$1._var;
+	      starttype = types$1$1._var;
 	      kind = "let";
 	    }
 
 	    return this.tsInAmbientContext(() => {
 	      switch (starttype) {
-	        case types$1._function:
+	        case types$1$1._function:
 	          nany.declare = true;
 	          return this.parseFunctionStatement(nany, false, true);
 
-	        case types$1._class:
+	        case types$1$1._class:
 	          nany.declare = true;
 	          return this.parseClass(nany, true, false);
 
-	        case types$1._const:
-	          if (this.match(types$1._const) && this.isLookaheadContextual("enum")) {
-	            this.expect(types$1._const);
+	        case types$1$1._const:
+	          if (this.match(types$1$1._const) && this.isLookaheadContextual("enum")) {
+	            this.expect(types$1$1._const);
 	            this.expectContextual("enum");
 	            return this.tsParseEnumDeclaration(nany, true);
 	          }
 
-	        case types$1._var:
+	        case types$1$1._var:
 	          kind = kind || this.state.value;
 	          return this.parseVarStatement(nany, kind);
 
-	        case types$1.name:
+	        case types$1$1.name:
 	          {
 	            const value = this.state.value;
 
@@ -26244,7 +26244,7 @@
 	        }
 
 	      case "global":
-	        if (this.match(types$1.braceL)) {
+	        if (this.match(types$1$1.braceL)) {
 	          this.scope.enter(SCOPE_TS_MODULE);
 	          this.prodParam.enter(PARAM);
 	          const mod = node;
@@ -26266,14 +26266,14 @@
 	  tsParseDeclaration(node, value, next) {
 	    switch (value) {
 	      case "abstract":
-	        if (this.tsCheckLineTerminator(next) && (this.match(types$1._class) || this.match(types$1.name))) {
+	        if (this.tsCheckLineTerminator(next) && (this.match(types$1$1._class) || this.match(types$1$1.name))) {
 	          return this.tsParseAbstractDeclaration(node);
 	        }
 
 	        break;
 
 	      case "enum":
-	        if (next || this.match(types$1.name)) {
+	        if (next || this.match(types$1$1.name)) {
 	          if (next) this.next();
 	          return this.tsParseEnumDeclaration(node, false);
 	        }
@@ -26281,7 +26281,7 @@
 	        break;
 
 	      case "interface":
-	        if (this.tsCheckLineTerminator(next) && this.match(types$1.name)) {
+	        if (this.tsCheckLineTerminator(next) && this.match(types$1$1.name)) {
 	          return this.tsParseInterfaceDeclaration(node);
 	        }
 
@@ -26289,9 +26289,9 @@
 
 	      case "module":
 	        if (this.tsCheckLineTerminator(next)) {
-	          if (this.match(types$1.string)) {
+	          if (this.match(types$1$1.string)) {
 	            return this.tsParseAmbientExternalModuleDeclaration(node);
-	          } else if (this.match(types$1.name)) {
+	          } else if (this.match(types$1$1.name)) {
 	            return this.tsParseModuleOrNamespaceDeclaration(node);
 	          }
 	        }
@@ -26299,14 +26299,14 @@
 	        break;
 
 	      case "namespace":
-	        if (this.tsCheckLineTerminator(next) && this.match(types$1.name)) {
+	        if (this.tsCheckLineTerminator(next) && this.match(types$1$1.name)) {
 	          return this.tsParseModuleOrNamespaceDeclaration(node);
 	        }
 
 	        break;
 
 	      case "type":
-	        if (this.tsCheckLineTerminator(next) && this.match(types$1.name)) {
+	        if (this.tsCheckLineTerminator(next) && this.match(types$1$1.name)) {
 	          return this.tsParseTypeAliasDeclaration(node);
 	        }
 
@@ -26336,7 +26336,7 @@
 	      node.typeParameters = this.tsParseTypeParameters();
 	      super.parseFunctionParams(node);
 	      node.returnType = this.tsTryParseTypeOrTypePredicateAnnotation();
-	      this.expect(types$1.arrow);
+	      this.expect(types$1$1.arrow);
 	      return node;
 	    });
 	    this.state.maybeInArrowParameters = oldMaybeInArrowParameters;
@@ -26364,7 +26364,7 @@
 	  }
 
 	  tsIsDeclarationStart() {
-	    if (this.match(types$1.name)) {
+	    if (this.match(types$1$1.name)) {
 	      switch (this.state.value) {
 	        case "abstract":
 	        case "declare":
@@ -26435,13 +26435,13 @@
 	  }
 
 	  parseFunctionBodyAndFinish(node, type, isMethod = false) {
-	    if (this.match(types$1.colon)) {
-	      node.returnType = this.tsParseTypeOrTypePredicateAnnotation(types$1.colon);
+	    if (this.match(types$1$1.colon)) {
+	      node.returnType = this.tsParseTypeOrTypePredicateAnnotation(types$1$1.colon);
 	    }
 
 	    const bodilessType = type === "FunctionDeclaration" ? "TSDeclareFunction" : type === "ClassMethod" ? "TSDeclareMethod" : undefined;
 
-	    if (bodilessType && !this.match(types$1.braceL) && this.isLineTerminator()) {
+	    if (bodilessType && !this.match(types$1$1.braceL) && this.isLineTerminator()) {
 	      this.finishNode(node, bodilessType);
 	      return;
 	    }
@@ -26490,7 +26490,7 @@
 	  }
 
 	  parseSubscript(base, startPos, startLoc, noCalls, state) {
-	    if (!this.hasPrecedingLineBreak() && this.match(types$1.bang)) {
+	    if (!this.hasPrecedingLineBreak() && this.match(types$1$1.bang)) {
 	      this.state.exprAllowed = false;
 	      this.next();
 	      const nonNullExpression = this.startNodeAt(startPos, startLoc);
@@ -26513,8 +26513,8 @@
 	        const typeArguments = this.tsParseTypeArguments();
 
 	        if (typeArguments) {
-	          if (!noCalls && this.eat(types$1.parenL)) {
-	            node.arguments = this.parseCallExpressionArguments(types$1.parenR, false);
+	          if (!noCalls && this.eat(types$1$1.parenL)) {
+	            node.arguments = this.parseCallExpressionArguments(types$1$1.parenR, false);
 	            this.tsCheckForInvalidTypeCasts(node.arguments);
 	            node.typeParameters = typeArguments;
 
@@ -26523,7 +26523,7 @@
 	            }
 
 	            return this.finishCallExpression(node, state.optionalChainMember);
-	          } else if (this.match(types$1.backQuote)) {
+	          } else if (this.match(types$1$1.backQuote)) {
 	            const result = this.parseTaggedTemplateExpression(base, startPos, startLoc, state);
 	            result.typeParameters = typeArguments;
 	            return result;
@@ -26542,7 +26542,7 @@
 	    if (this.isRelational("<")) {
 	      const typeParameters = this.tsTryParseAndCatch(() => {
 	        const args = this.tsParseTypeArguments();
-	        if (!this.match(types$1.parenL)) this.unexpected();
+	        if (!this.match(types$1$1.parenL)) this.unexpected();
 	        return args;
 	      });
 
@@ -26555,7 +26555,7 @@
 	  }
 
 	  parseExprOp(left, leftStartPos, leftStartLoc, minPrec) {
-	    if (nonNull(types$1._in.binop) > minPrec && !this.hasPrecedingLineBreak() && this.isContextual("as")) {
+	    if (nonNull(types$1$1._in.binop) > minPrec && !this.hasPrecedingLineBreak() && this.isContextual("as")) {
 	      const node = this.startNodeAt(leftStartPos, leftStartLoc);
 	      node.expression = left;
 
@@ -26582,16 +26582,16 @@
 	  parseImport(node) {
 	    node.importKind = "value";
 
-	    if (this.match(types$1.name) || this.match(types$1.star) || this.match(types$1.braceL)) {
+	    if (this.match(types$1$1.name) || this.match(types$1$1.star) || this.match(types$1$1.braceL)) {
 	      let ahead = this.lookahead();
 
-	      if (this.isContextual("type") && ahead.type !== types$1.comma && !(ahead.type === types$1.name && ahead.value === "from") && ahead.type !== types$1.eq) {
+	      if (this.isContextual("type") && ahead.type !== types$1$1.comma && !(ahead.type === types$1$1.name && ahead.value === "from") && ahead.type !== types$1$1.eq) {
 	        node.importKind = "type";
 	        this.next();
 	        ahead = this.lookahead();
 	      }
 
-	      if (this.match(types$1.name) && ahead.type === types$1.eq) {
+	      if (this.match(types$1$1.name) && ahead.type === types$1$1.eq) {
 	        return this.tsParseImportEqualsDeclaration(node);
 	      }
 	    }
@@ -26606,7 +26606,7 @@
 	  }
 
 	  parseExport(node) {
-	    if (this.match(types$1._import)) {
+	    if (this.match(types$1$1._import)) {
 	      this.next();
 
 	      if (this.isContextual("type") && this.lookaheadCharCode() !== 61) {
@@ -26617,7 +26617,7 @@
 	      }
 
 	      return this.tsParseImportEqualsDeclaration(node, true);
-	    } else if (this.eat(types$1.eq)) {
+	    } else if (this.eat(types$1$1.eq)) {
 	      const assign = node;
 	      assign.expression = this.parseExpression();
 	      this.semicolon();
@@ -26629,7 +26629,7 @@
 	      this.semicolon();
 	      return this.finishNode(decl, "TSNamespaceExportDeclaration");
 	    } else {
-	      if (this.isContextual("type") && this.lookahead().type === types$1.braceL) {
+	      if (this.isContextual("type") && this.lookahead().type === types$1$1.braceL) {
 	        this.next();
 	        node.exportKind = "type";
 	      } else {
@@ -26641,7 +26641,7 @@
 	  }
 
 	  isAbstractClass() {
-	    return this.isContextual("abstract") && this.lookahead().type === types$1._class;
+	    return this.isContextual("abstract") && this.lookahead().type === types$1$1._class;
 	  }
 
 	  parseExportDefaultExpression() {
@@ -26662,12 +26662,12 @@
 	  }
 
 	  parseStatementContent(context, topLevel) {
-	    if (this.state.type === types$1._const) {
+	    if (this.state.type === types$1$1._const) {
 	      const ahead = this.lookahead();
 
-	      if (ahead.type === types$1.name && ahead.value === "enum") {
+	      if (ahead.type === types$1$1.name && ahead.value === "enum") {
 	        const node = this.startNode();
-	        this.expect(types$1._const);
+	        this.expect(types$1$1._const);
 	        this.expectContextual("enum");
 	        return this.tsParseEnumDeclaration(node, true);
 	      }
@@ -26697,7 +26697,7 @@
 	    const callParseClassMemberWithIsStatic = () => {
 	      const isStatic = !!member.static;
 
-	      if (isStatic && this.eat(types$1.braceL)) {
+	      if (isStatic && this.eat(types$1$1.braceL)) {
 	        if (this.tsHasSomeModifiers(member, invalidModifersForStaticBlocks)) {
 	          this.raise(this.state.pos, TSErrors.StaticBlockCannotHaveModifier);
 	        }
@@ -26754,14 +26754,14 @@
 	  }
 
 	  parsePostMemberNameModifiers(methodOrProp) {
-	    const optional = this.eat(types$1.question);
+	    const optional = this.eat(types$1$1.question);
 	    if (optional) methodOrProp.optional = true;
 
-	    if (methodOrProp.readonly && this.match(types$1.parenL)) {
+	    if (methodOrProp.readonly && this.match(types$1$1.parenL)) {
 	      this.raise(methodOrProp.start, TSErrors.ClassMethodHasReadonly);
 	    }
 
-	    if (methodOrProp.declare && this.match(types$1.parenL)) {
+	    if (methodOrProp.declare && this.match(types$1$1.parenL)) {
 	      this.raise(methodOrProp.start, TSErrors.ClassMethodHasDeclare);
 	    }
 	  }
@@ -26777,7 +26777,7 @@
 	  }
 
 	  parseConditional(expr, startPos, startLoc, refExpressionErrors) {
-	    if (!this.state.maybeInArrowParameters || !this.match(types$1.question)) {
+	    if (!this.state.maybeInArrowParameters || !this.match(types$1$1.question)) {
 	      return super.parseConditional(expr, startPos, startLoc, refExpressionErrors);
 	    }
 
@@ -26798,12 +26798,12 @@
 	  parseParenItem(node, startPos, startLoc) {
 	    node = super.parseParenItem(node, startPos, startLoc);
 
-	    if (this.eat(types$1.question)) {
+	    if (this.eat(types$1$1.question)) {
 	      node.optional = true;
 	      this.resetEndLocation(node);
 	    }
 
-	    if (this.match(types$1.colon)) {
+	    if (this.match(types$1$1.colon)) {
 	      const typeCastNode = this.startNodeAt(startPos, startLoc);
 	      typeCastNode.expression = node;
 	      typeCastNode.typeAnnotation = this.tsParseTypeAnnotation();
@@ -26824,7 +26824,7 @@
 
 	    let declaration;
 
-	    if (this.match(types$1.name)) {
+	    if (this.match(types$1$1.name)) {
 	      declaration = this.tsTryParseExportDeclaration();
 	    }
 
@@ -26855,7 +26855,7 @@
 	  }
 
 	  parseClassPropertyAnnotation(node) {
-	    if (!node.optional && this.eat(types$1.bang)) {
+	    if (!node.optional && this.eat(types$1$1.bang)) {
 	      node.definite = true;
 	    }
 
@@ -26866,7 +26866,7 @@
 	  parseClassProperty(node) {
 	    this.parseClassPropertyAnnotation(node);
 
-	    if (this.state.isAmbientContext && this.match(types$1.eq)) {
+	    if (this.state.isAmbientContext && this.match(types$1$1.eq)) {
 	      this.raise(this.state.start, TSErrors.DeclareClassFieldHasInitializer);
 	    }
 
@@ -26934,7 +26934,7 @@
 	  parseVarId(decl, kind) {
 	    super.parseVarId(decl, kind);
 
-	    if (decl.id.type === "Identifier" && this.eat(types$1.bang)) {
+	    if (decl.id.type === "Identifier" && this.eat(types$1$1.bang)) {
 	      decl.definite = true;
 	    }
 
@@ -26947,7 +26947,7 @@
 	  }
 
 	  parseAsyncArrowFromCallExpression(node, call) {
-	    if (this.match(types$1.colon)) {
+	    if (this.match(types$1$1.colon)) {
 	      node.returnType = this.tsParseTypeAnnotation();
 	    }
 
@@ -26961,7 +26961,7 @@
 	    let jsx;
 	    let typeCast;
 
-	    if (this.hasPlugin("jsx") && (this.match(types$1.jsxTagStart) || this.isRelational("<"))) {
+	    if (this.hasPlugin("jsx") && (this.match(types$1$1.jsxTagStart) || this.isRelational("<"))) {
 	      state = this.state.clone();
 	      jsx = this.tryParse(() => super.parseMaybeAssign(...args), state);
 	      if (!jsx.error) return jsx.node;
@@ -27037,10 +27037,10 @@
 	  }
 
 	  parseArrow(node) {
-	    if (this.match(types$1.colon)) {
+	    if (this.match(types$1$1.colon)) {
 	      const result = this.tryParse(abort => {
-	        const returnType = this.tsParseTypeOrTypePredicateAnnotation(types$1.colon);
-	        if (this.canInsertSemicolon() || !this.match(types$1.arrow)) abort();
+	        const returnType = this.tsParseTypeOrTypePredicateAnnotation(types$1$1.colon);
+	        if (this.canInsertSemicolon() || !this.match(types$1$1.arrow)) abort();
 	        return returnType;
 	      });
 	      if (result.aborted) return;
@@ -27055,7 +27055,7 @@
 	  }
 
 	  parseAssignableListItemTypes(param) {
-	    if (this.eat(types$1.question)) {
+	    if (this.eat(types$1$1.question)) {
 	      if (param.type !== "Identifier" && !this.state.isAmbientContext && !this.state.inType) {
 	        this.raise(param.start, TSErrors.PatternIsOptional);
 	      }
@@ -27138,7 +27138,7 @@
 
 	  parseBindingAtom() {
 	    switch (this.state.type) {
-	      case types$1._this:
+	      case types$1$1._this:
 	        return this.parseIdentifier(true);
 
 	      default:
@@ -27150,20 +27150,20 @@
 	    if (this.isRelational("<")) {
 	      const typeArguments = this.tsParseTypeArguments();
 
-	      if (this.match(types$1.parenL)) {
+	      if (this.match(types$1$1.parenL)) {
 	        const call = super.parseMaybeDecoratorArguments(expr);
 	        call.typeParameters = typeArguments;
 	        return call;
 	      }
 
-	      this.unexpected(this.state.start, types$1.parenL);
+	      this.unexpected(this.state.start, types$1$1.parenL);
 	    }
 
 	    return super.parseMaybeDecoratorArguments(expr);
 	  }
 
 	  checkCommaAfterRest(close) {
-	    if (this.state.isAmbientContext && this.match(types$1.comma) && this.lookaheadCharCode() === close) {
+	    if (this.state.isAmbientContext && this.match(types$1$1.comma) && this.lookaheadCharCode() === close) {
 	      this.next();
 	    } else {
 	      super.checkCommaAfterRest(close);
@@ -27175,7 +27175,7 @@
 	  }
 
 	  isClassProperty() {
-	    return this.match(types$1.bang) || this.match(types$1.colon) || super.isClassProperty();
+	    return this.match(types$1$1.bang) || this.match(types$1$1.colon) || super.isClassProperty();
 	  }
 
 	  parseMaybeDefault(...args) {
@@ -27190,14 +27190,14 @@
 
 	  getTokenFromCode(code) {
 	    if (this.state.inType && (code === 62 || code === 60)) {
-	      return this.finishOp(types$1.relational, 1);
+	      return this.finishOp(types$1$1.relational, 1);
 	    } else {
 	      return super.getTokenFromCode(code);
 	    }
 	  }
 
 	  reScan_lt_gt() {
-	    if (this.match(types$1.relational)) {
+	    if (this.match(types$1$1.relational)) {
 	      const code = this.input.charCodeAt(this.state.start);
 
 	      if (code === 60 || code === 62) {
@@ -27239,11 +27239,11 @@
 	  }
 
 	  shouldParseArrow() {
-	    return this.match(types$1.colon) || super.shouldParseArrow();
+	    return this.match(types$1$1.colon) || super.shouldParseArrow();
 	  }
 
 	  shouldParseAsyncArrow() {
-	    return this.match(types$1.colon) || super.shouldParseAsyncArrow();
+	    return this.match(types$1$1.colon) || super.shouldParseAsyncArrow();
 	  }
 
 	  canHaveLeadingDecorator() {
@@ -27302,7 +27302,7 @@
 	  }
 
 	  tsParseAbstractDeclaration(node) {
-	    if (this.match(types$1._class)) {
+	    if (this.match(types$1$1._class)) {
 	      node.abstract = true;
 	      return this.parseClass(node, true, false);
 	    } else if (this.isContextual("interface")) {
@@ -27313,7 +27313,7 @@
 	        return this.tsParseInterfaceDeclaration(node);
 	      }
 	    } else {
-	      this.unexpected(null, types$1._class);
+	      this.unexpected(null, types$1$1._class);
 	    }
 	  }
 
@@ -27356,7 +27356,7 @@
 
 	});
 
-	types$1.placeholder = new TokenType("%%", {
+	types$1$1.placeholder = new TokenType("%%", {
 	  startsExpr: true
 	});
 	const PlaceHolderErrors = makeErrorTemplates({
@@ -27364,13 +27364,13 @@
 	}, ErrorCodes.SyntaxError);
 	var placeholders = (superClass => class extends superClass {
 	  parsePlaceholder(expectedNode) {
-	    if (this.match(types$1.placeholder)) {
+	    if (this.match(types$1$1.placeholder)) {
 	      const node = this.startNode();
 	      this.next();
 	      this.assertNoSpace("Unexpected space in placeholder.");
 	      node.name = super.parseIdentifier(true);
 	      this.assertNoSpace("Unexpected space in placeholder.");
-	      this.expect(types$1.placeholder);
+	      this.expect(types$1$1.placeholder);
 	      return this.finishPlaceholder(node, expectedNode);
 	    }
 	  }
@@ -27383,7 +27383,7 @@
 
 	  getTokenFromCode(code) {
 	    if (code === 37 && this.input.charCodeAt(this.state.pos + 1) === 37) {
-	      return this.finishOp(types$1.placeholder, 2);
+	      return this.finishOp(types$1$1.placeholder, 2);
 	    }
 
 	    return super.getTokenFromCode(...arguments);
@@ -27430,7 +27430,7 @@
 	    if (context) return false;
 	    const nextToken = this.lookahead();
 
-	    if (nextToken.type === types$1.placeholder) {
+	    if (nextToken.type === types$1$1.placeholder) {
 	      return true;
 	    }
 
@@ -27447,7 +27447,7 @@
 	      return super.parseExpressionStatement(...arguments);
 	    }
 
-	    if (this.match(types$1.colon)) {
+	    if (this.match(types$1$1.colon)) {
 	      const stmt = node;
 	      stmt.label = this.finishPlaceholder(expr, "Identifier");
 	      this.next();
@@ -27476,7 +27476,7 @@
 	    const placeholder = this.parsePlaceholder("Identifier");
 
 	    if (placeholder) {
-	      if (this.match(types$1._extends) || this.match(types$1.placeholder) || this.match(types$1.braceL)) {
+	      if (this.match(types$1$1._extends) || this.match(types$1$1.placeholder) || this.match(types$1$1.braceL)) {
 	        node.id = placeholder;
 	      } else if (optionalId || !isStatement) {
 	        node.id = null;
@@ -27498,7 +27498,7 @@
 	    const placeholder = this.parsePlaceholder("Identifier");
 	    if (!placeholder) return super.parseExport(...arguments);
 
-	    if (!this.isContextual("from") && !this.match(types$1.comma)) {
+	    if (!this.isContextual("from") && !this.match(types$1$1.comma)) {
 	      node.specifiers = [];
 	      node.source = null;
 	      node.declaration = this.finishPlaceholder(placeholder, "Declaration");
@@ -27513,11 +27513,11 @@
 	  }
 
 	  isExportDefaultSpecifier() {
-	    if (this.match(types$1._default)) {
+	    if (this.match(types$1$1._default)) {
 	      const next = this.nextTokenStart();
 
 	      if (this.isUnparsedContextual(next, "from")) {
-	        if (this.input.startsWith(types$1.placeholder.label, this.nextTokenStartSince(next + 4))) {
+	        if (this.input.startsWith(types$1$1.placeholder.label, this.nextTokenStartSince(next + 4))) {
 	          return true;
 	        }
 	      }
@@ -27552,7 +27552,7 @@
 	    if (!placeholder) return super.parseImport(...arguments);
 	    node.specifiers = [];
 
-	    if (!this.isContextual("from") && !this.match(types$1.comma)) {
+	    if (!this.isContextual("from") && !this.match(types$1$1.comma)) {
 	      node.source = this.finishPlaceholder(placeholder, "StringLiteral");
 	      this.semicolon();
 	      return this.finishNode(node, "ImportDeclaration");
@@ -27563,7 +27563,7 @@
 	    this.finishNode(specifier, "ImportDefaultSpecifier");
 	    node.specifiers.push(specifier);
 
-	    if (this.eat(types$1.comma)) {
+	    if (this.eat(types$1$1.comma)) {
 	      const hasStarImport = this.maybeParseStarImportSpecifier(node);
 	      if (!hasStarImport) this.parseNamedImportSpecifiers(node);
 	    }
@@ -27582,17 +27582,17 @@
 
 	var v8intrinsic = (superClass => class extends superClass {
 	  parseV8Intrinsic() {
-	    if (this.match(types$1.modulo)) {
+	    if (this.match(types$1$1.modulo)) {
 	      const v8IntrinsicStart = this.state.start;
 	      const node = this.startNode();
-	      this.eat(types$1.modulo);
+	      this.eat(types$1$1.modulo);
 
-	      if (this.match(types$1.name)) {
+	      if (this.match(types$1$1.name)) {
 	        const name = this.parseIdentifierName(this.state.start);
 	        const identifier = this.createIdentifier(node, name);
 	        identifier.type = "V8IntrinsicIdentifier";
 
-	        if (this.match(types$1.parenL)) {
+	        if (this.match(types$1$1.parenL)) {
 	          return identifier;
 	        }
 	      }
@@ -27860,7 +27860,7 @@
 	    if (!this.isLookahead) this.state.startLoc = this.state.curPosition();
 
 	    if (this.state.pos >= this.length) {
-	      this.finishToken(types$1.eof);
+	      this.finishToken(types$1$1.eof);
 	      return;
 	    }
 
@@ -28004,18 +28004,18 @@
 	      this.state.pos += 2;
 
 	      if (next === 123) {
-	        this.finishToken(types$1.braceHashL);
+	        this.finishToken(types$1$1.braceHashL);
 	      } else {
-	        this.finishToken(types$1.bracketHashL);
+	        this.finishToken(types$1$1.bracketHashL);
 	      }
 	    } else if (isIdentifierStart(next)) {
 	      ++this.state.pos;
-	      this.finishToken(types$1.privateName, this.readWord1(next));
+	      this.finishToken(types$1$1.privateName, this.readWord1(next));
 	    } else if (next === 92) {
 	      ++this.state.pos;
-	      this.finishToken(types$1.privateName, this.readWord1());
+	      this.finishToken(types$1$1.privateName, this.readWord1());
 	    } else {
-	      this.finishOp(types$1.hash, 1);
+	      this.finishOp(types$1$1.hash, 1);
 	    }
 	  }
 
@@ -28029,10 +28029,10 @@
 
 	    if (next === 46 && this.input.charCodeAt(this.state.pos + 2) === 46) {
 	      this.state.pos += 3;
-	      this.finishToken(types$1.ellipsis);
+	      this.finishToken(types$1$1.ellipsis);
 	    } else {
 	      ++this.state.pos;
-	      this.finishToken(types$1.dot);
+	      this.finishToken(types$1$1.dot);
 	    }
 	  }
 
@@ -28040,9 +28040,9 @@
 	    const next = this.input.charCodeAt(this.state.pos + 1);
 
 	    if (next === 61) {
-	      this.finishOp(types$1.slashAssign, 2);
+	      this.finishOp(types$1$1.slashAssign, 2);
 	    } else {
-	      this.finishOp(types$1.slash, 1);
+	      this.finishOp(types$1$1.slash, 1);
 	    }
 	  }
 
@@ -28058,24 +28058,24 @@
 	    }
 
 	    const value = this.input.slice(start + 2, this.state.pos);
-	    this.finishToken(types$1.interpreterDirective, value);
+	    this.finishToken(types$1$1.interpreterDirective, value);
 	    return true;
 	  }
 
 	  readToken_mult_modulo(code) {
-	    let type = code === 42 ? types$1.star : types$1.modulo;
+	    let type = code === 42 ? types$1$1.star : types$1$1.modulo;
 	    let width = 1;
 	    let next = this.input.charCodeAt(this.state.pos + 1);
 
 	    if (code === 42 && next === 42) {
 	      width++;
 	      next = this.input.charCodeAt(this.state.pos + 2);
-	      type = types$1.exponent;
+	      type = types$1$1.exponent;
 	    }
 
 	    if (next === 61 && !this.state.inType) {
 	      width++;
-	      type = types$1.assign;
+	      type = types$1$1.assign;
 	    }
 
 	    this.finishOp(type, width);
@@ -28086,9 +28086,9 @@
 
 	    if (next === code) {
 	      if (this.input.charCodeAt(this.state.pos + 2) === 61) {
-	        this.finishOp(types$1.assign, 3);
+	        this.finishOp(types$1$1.assign, 3);
 	      } else {
-	        this.finishOp(code === 124 ? types$1.logicalOR : types$1.logicalAND, 2);
+	        this.finishOp(code === 124 ? types$1$1.logicalOR : types$1$1.logicalAND, 2);
 	      }
 
 	      return;
@@ -28096,7 +28096,7 @@
 
 	    if (code === 124) {
 	      if (next === 62) {
-	        this.finishOp(types$1.pipeline, 2);
+	        this.finishOp(types$1$1.pipeline, 2);
 	        return;
 	      }
 
@@ -28106,7 +28106,7 @@
 	        }
 
 	        this.state.pos += 2;
-	        this.finishToken(types$1.braceBarR);
+	        this.finishToken(types$1$1.braceBarR);
 	        return;
 	      }
 
@@ -28116,26 +28116,26 @@
 	        }
 
 	        this.state.pos += 2;
-	        this.finishToken(types$1.bracketBarR);
+	        this.finishToken(types$1$1.bracketBarR);
 	        return;
 	      }
 	    }
 
 	    if (next === 61) {
-	      this.finishOp(types$1.assign, 2);
+	      this.finishOp(types$1$1.assign, 2);
 	      return;
 	    }
 
-	    this.finishOp(code === 124 ? types$1.bitwiseOR : types$1.bitwiseAND, 1);
+	    this.finishOp(code === 124 ? types$1$1.bitwiseOR : types$1$1.bitwiseAND, 1);
 	  }
 
 	  readToken_caret() {
 	    const next = this.input.charCodeAt(this.state.pos + 1);
 
 	    if (next === 61) {
-	      this.finishOp(types$1.assign, 2);
+	      this.finishOp(types$1$1.assign, 2);
 	    } else {
-	      this.finishOp(types$1.bitwiseXOR, 1);
+	      this.finishOp(types$1$1.bitwiseXOR, 1);
 	    }
 	  }
 
@@ -28150,14 +28150,14 @@
 	        return;
 	      }
 
-	      this.finishOp(types$1.incDec, 2);
+	      this.finishOp(types$1$1.incDec, 2);
 	      return;
 	    }
 
 	    if (next === 61) {
-	      this.finishOp(types$1.assign, 2);
+	      this.finishOp(types$1$1.assign, 2);
 	    } else {
-	      this.finishOp(types$1.plusMin, 1);
+	      this.finishOp(types$1$1.plusMin, 1);
 	    }
 	  }
 
@@ -28169,11 +28169,11 @@
 	      size = code === 62 && this.input.charCodeAt(this.state.pos + 2) === 62 ? 3 : 2;
 
 	      if (this.input.charCodeAt(this.state.pos + size) === 61) {
-	        this.finishOp(types$1.assign, size + 1);
+	        this.finishOp(types$1$1.assign, size + 1);
 	        return;
 	      }
 
-	      this.finishOp(types$1.bitShift, size);
+	      this.finishOp(types$1$1.bitShift, size);
 	      return;
 	    }
 
@@ -28188,24 +28188,24 @@
 	      size = 2;
 	    }
 
-	    this.finishOp(types$1.relational, size);
+	    this.finishOp(types$1$1.relational, size);
 	  }
 
 	  readToken_eq_excl(code) {
 	    const next = this.input.charCodeAt(this.state.pos + 1);
 
 	    if (next === 61) {
-	      this.finishOp(types$1.equality, this.input.charCodeAt(this.state.pos + 2) === 61 ? 3 : 2);
+	      this.finishOp(types$1$1.equality, this.input.charCodeAt(this.state.pos + 2) === 61 ? 3 : 2);
 	      return;
 	    }
 
 	    if (code === 61 && next === 62) {
 	      this.state.pos += 2;
-	      this.finishToken(types$1.arrow);
+	      this.finishToken(types$1$1.arrow);
 	      return;
 	    }
 
-	    this.finishOp(code === 61 ? types$1.eq : types$1.bang, 1);
+	    this.finishOp(code === 61 ? types$1$1.eq : types$1$1.bang, 1);
 	  }
 
 	  readToken_question() {
@@ -28214,16 +28214,16 @@
 
 	    if (next === 63) {
 	      if (next2 === 61) {
-	        this.finishOp(types$1.assign, 3);
+	        this.finishOp(types$1$1.assign, 3);
 	      } else {
-	        this.finishOp(types$1.nullishCoalescing, 2);
+	        this.finishOp(types$1$1.nullishCoalescing, 2);
 	      }
 	    } else if (next === 46 && !(next2 >= 48 && next2 <= 57)) {
 	      this.state.pos += 2;
-	      this.finishToken(types$1.questionDot);
+	      this.finishToken(types$1$1.questionDot);
 	    } else {
 	      ++this.state.pos;
-	      this.finishToken(types$1.question);
+	      this.finishToken(types$1$1.question);
 	    }
 	  }
 
@@ -28235,22 +28235,22 @@
 
 	      case 40:
 	        ++this.state.pos;
-	        this.finishToken(types$1.parenL);
+	        this.finishToken(types$1$1.parenL);
 	        return;
 
 	      case 41:
 	        ++this.state.pos;
-	        this.finishToken(types$1.parenR);
+	        this.finishToken(types$1$1.parenR);
 	        return;
 
 	      case 59:
 	        ++this.state.pos;
-	        this.finishToken(types$1.semi);
+	        this.finishToken(types$1$1.semi);
 	        return;
 
 	      case 44:
 	        ++this.state.pos;
-	        this.finishToken(types$1.comma);
+	        this.finishToken(types$1$1.comma);
 	        return;
 
 	      case 91:
@@ -28260,17 +28260,17 @@
 	          }
 
 	          this.state.pos += 2;
-	          this.finishToken(types$1.bracketBarL);
+	          this.finishToken(types$1$1.bracketBarL);
 	        } else {
 	          ++this.state.pos;
-	          this.finishToken(types$1.bracketL);
+	          this.finishToken(types$1$1.bracketL);
 	        }
 
 	        return;
 
 	      case 93:
 	        ++this.state.pos;
-	        this.finishToken(types$1.bracketR);
+	        this.finishToken(types$1$1.bracketR);
 	        return;
 
 	      case 123:
@@ -28280,25 +28280,25 @@
 	          }
 
 	          this.state.pos += 2;
-	          this.finishToken(types$1.braceBarL);
+	          this.finishToken(types$1$1.braceBarL);
 	        } else {
 	          ++this.state.pos;
-	          this.finishToken(types$1.braceL);
+	          this.finishToken(types$1$1.braceL);
 	        }
 
 	        return;
 
 	      case 125:
 	        ++this.state.pos;
-	        this.finishToken(types$1.braceR);
+	        this.finishToken(types$1$1.braceR);
 	        return;
 
 	      case 58:
 	        if (this.hasPlugin("functionBind") && this.input.charCodeAt(this.state.pos + 1) === 58) {
-	          this.finishOp(types$1.doubleColon, 2);
+	          this.finishOp(types$1$1.doubleColon, 2);
 	        } else {
 	          ++this.state.pos;
-	          this.finishToken(types$1.colon);
+	          this.finishToken(types$1$1.colon);
 	        }
 
 	        return;
@@ -28309,7 +28309,7 @@
 
 	      case 96:
 	        ++this.state.pos;
-	        this.finishToken(types$1.backQuote);
+	        this.finishToken(types$1$1.backQuote);
 	        return;
 
 	      case 48:
@@ -28383,12 +28383,12 @@
 	        return;
 
 	      case 126:
-	        this.finishOp(types$1.tilde, 1);
+	        this.finishOp(types$1$1.tilde, 1);
 	        return;
 
 	      case 64:
 	        ++this.state.pos;
-	        this.finishToken(types$1.at);
+	        this.finishToken(types$1$1.at);
 	        return;
 
 	      case 35:
@@ -28472,7 +28472,7 @@
 	    }
 
 	    this.state.pos = pos;
-	    this.finishToken(types$1.regexp, {
+	    this.finishToken(types$1$1.regexp, {
 	      pattern: content,
 	      flags: mods
 	    });
@@ -28565,11 +28565,11 @@
 
 	    if (isBigInt) {
 	      const str = this.input.slice(start, this.state.pos).replace(/[_n]/g, "");
-	      this.finishToken(types$1.bigint, str);
+	      this.finishToken(types$1$1.bigint, str);
 	      return;
 	    }
 
-	    this.finishToken(types$1.num, val);
+	    this.finishToken(types$1$1.num, val);
 	  }
 
 	  readNumber(startsWithDot) {
@@ -28653,17 +28653,17 @@
 	    const str = this.input.slice(start, this.state.pos).replace(/[_mn]/g, "");
 
 	    if (isBigInt) {
-	      this.finishToken(types$1.bigint, str);
+	      this.finishToken(types$1$1.bigint, str);
 	      return;
 	    }
 
 	    if (isDecimal) {
-	      this.finishToken(types$1.decimal, str);
+	      this.finishToken(types$1$1.decimal, str);
 	      return;
 	    }
 
 	    const val = isOctal ? parseInt(str, 8) : parseFloat(str);
-	    this.finishToken(types$1.num, val);
+	    this.finishToken(types$1$1.num, val);
 	  }
 
 	  readCodePoint(throwOnInvalid) {
@@ -28717,7 +28717,7 @@
 	    }
 
 	    out += this.input.slice(chunkStart, this.state.pos++);
-	    this.finishToken(types$1.string, out);
+	    this.finishToken(types$1$1.string, out);
 	  }
 
 	  readTmplToken() {
@@ -28733,20 +28733,20 @@
 	      const ch = this.input.charCodeAt(this.state.pos);
 
 	      if (ch === 96 || ch === 36 && this.input.charCodeAt(this.state.pos + 1) === 123) {
-	        if (this.state.pos === this.state.start && this.match(types$1.template)) {
+	        if (this.state.pos === this.state.start && this.match(types$1$1.template)) {
 	          if (ch === 36) {
 	            this.state.pos += 2;
-	            this.finishToken(types$1.dollarBraceL);
+	            this.finishToken(types$1$1.dollarBraceL);
 	            return;
 	          } else {
 	            ++this.state.pos;
-	            this.finishToken(types$1.backQuote);
+	            this.finishToken(types$1$1.backQuote);
 	            return;
 	          }
 	        }
 
 	        out += this.input.slice(chunkStart, this.state.pos);
-	        this.finishToken(types$1.template, containsInvalid ? null : out);
+	        this.finishToken(types$1$1.template, containsInvalid ? null : out);
 	        return;
 	      }
 
@@ -28948,7 +28948,7 @@
 
 	  readWord(firstCode) {
 	    const word = this.readWord1(firstCode);
-	    const type = keywords$1.get(word) || types$1.name;
+	    const type = keywords$1.get(word) || types$1$1.name;
 	    this.finishToken(type, word);
 	  }
 
@@ -29195,19 +29195,19 @@
 	  }
 
 	  isRelational(op) {
-	    return this.match(types$1.relational) && this.state.value === op;
+	    return this.match(types$1$1.relational) && this.state.value === op;
 	  }
 
 	  expectRelational(op) {
 	    if (this.isRelational(op)) {
 	      this.next();
 	    } else {
-	      this.unexpected(null, types$1.relational);
+	      this.unexpected(null, types$1$1.relational);
 	    }
 	  }
 
 	  isContextual(name) {
-	    return this.match(types$1.name) && this.state.value === name && !this.state.containsEsc;
+	    return this.match(types$1$1.name) && this.state.value === name && !this.state.containsEsc;
 	  }
 
 	  isUnparsedContextual(nameStart, name) {
@@ -29227,7 +29227,7 @@
 	  }
 
 	  eatContextual(name) {
-	    return this.isContextual(name) && this.eat(types$1.name);
+	    return this.isContextual(name) && this.eat(types$1$1.name);
 	  }
 
 	  expectContextual(name, template) {
@@ -29235,7 +29235,7 @@
 	  }
 
 	  canInsertSemicolon() {
-	    return this.match(types$1.eof) || this.match(types$1.braceR) || this.hasPrecedingLineBreak();
+	    return this.match(types$1$1.eof) || this.match(types$1$1.braceR) || this.hasPrecedingLineBreak();
 	  }
 
 	  hasPrecedingLineBreak() {
@@ -29247,11 +29247,11 @@
 	  }
 
 	  isLineTerminator() {
-	    return this.eat(types$1.semi) || this.canInsertSemicolon();
+	    return this.eat(types$1$1.semi) || this.canInsertSemicolon();
 	  }
 
 	  semicolon(allowAsi = true) {
-	    if (allowAsi ? this.isLineTerminator() : this.eat(types$1.semi)) return;
+	    if (allowAsi ? this.isLineTerminator() : this.eat(types$1$1.semi)) return;
 	    this.raise(this.state.lastTokEnd, ErrorMessages.MissingSemicolon);
 	  }
 
@@ -29388,7 +29388,7 @@
 	  }
 
 	  isLiteralPropertyName() {
-	    return this.match(types$1.name) || !!this.state.type.keyword || this.match(types$1.string) || this.match(types$1.num) || this.match(types$1.bigint) || this.match(types$1.decimal);
+	    return this.match(types$1$1.name) || !!this.state.type.keyword || this.match(types$1$1.string) || this.match(types$1$1.num) || this.match(types$1$1.bigint) || this.match(types$1$1.decimal);
 	  }
 
 	  isPrivateName(node) {
@@ -29710,16 +29710,16 @@
 
 	  parseBindingAtom() {
 	    switch (this.state.type) {
-	      case types$1.bracketL:
+	      case types$1$1.bracketL:
 	        {
 	          const node = this.startNode();
 	          this.next();
-	          node.elements = this.parseBindingList(types$1.bracketR, 93, true);
+	          node.elements = this.parseBindingList(types$1$1.bracketR, 93, true);
 	          return this.finishNode(node, "ArrayPattern");
 	        }
 
-	      case types$1.braceL:
-	        return this.parseObjectLike(types$1.braceR, true);
+	      case types$1$1.braceL:
+	        return this.parseObjectLike(types$1$1.braceR, true);
 	    }
 
 	    return this.parseIdentifier();
@@ -29733,14 +29733,14 @@
 	      if (first) {
 	        first = false;
 	      } else {
-	        this.expect(types$1.comma);
+	        this.expect(types$1$1.comma);
 	      }
 
-	      if (allowEmpty && this.match(types$1.comma)) {
+	      if (allowEmpty && this.match(types$1$1.comma)) {
 	        elts.push(null);
 	      } else if (this.eat(close)) {
 	        break;
-	      } else if (this.match(types$1.ellipsis)) {
+	      } else if (this.match(types$1$1.ellipsis)) {
 	        elts.push(this.parseAssignableListItemTypes(this.parseRestBinding()));
 	        this.checkCommaAfterRest(closeCharCode);
 	        this.expect(close);
@@ -29748,11 +29748,11 @@
 	      } else {
 	        const decorators = [];
 
-	        if (this.match(types$1.at) && this.hasPlugin("decorators")) {
+	        if (this.match(types$1$1.at) && this.hasPlugin("decorators")) {
 	          this.raise(this.state.start, ErrorMessages.UnsupportedParameterDecorator);
 	        }
 
-	        while (this.match(types$1.at)) {
+	        while (this.match(types$1$1.at)) {
 	          decorators.push(this.parseDecorator());
 	        }
 
@@ -29785,7 +29785,7 @@
 	    startLoc = (_startLoc = startLoc) != null ? _startLoc : this.state.startLoc;
 	    startPos = (_startPos = startPos) != null ? _startPos : this.state.start;
 	    left = (_left = left) != null ? _left : this.parseBindingAtom();
-	    if (!this.eat(types$1.eq)) return left;
+	    if (!this.eat(types$1$1.eq)) return left;
 	    const node = this.startNodeAt(startPos, startLoc);
 	    node.left = left;
 	    node.right = this.parseMaybeAssignAllowIn();
@@ -29873,7 +29873,7 @@
 	  }
 
 	  checkCommaAfterRest(close) {
-	    if (this.match(types$1.comma)) {
+	    if (this.match(types$1$1.comma)) {
 	      if (this.lookaheadCharCode() === close) {
 	        this.raiseTrailingCommaAfterRest(this.state.start);
 	      } else {
@@ -29937,7 +29937,7 @@
 	    this.nextToken();
 	    const expr = this.parseExpression();
 
-	    if (!this.match(types$1.eof)) {
+	    if (!this.match(types$1$1.eof)) {
 	      this.unexpected();
 	    }
 
@@ -29964,11 +29964,11 @@
 	    const startLoc = this.state.startLoc;
 	    const expr = this.parseMaybeAssign(refExpressionErrors);
 
-	    if (this.match(types$1.comma)) {
+	    if (this.match(types$1$1.comma)) {
 	      const node = this.startNodeAt(startPos, startLoc);
 	      node.expressions = [expr];
 
-	      while (this.eat(types$1.comma)) {
+	      while (this.eat(types$1$1.comma)) {
 	        node.expressions.push(this.parseMaybeAssign(refExpressionErrors));
 	      }
 
@@ -30018,7 +30018,7 @@
 	      ownExpressionErrors = true;
 	    }
 
-	    if (this.match(types$1.parenL) || this.match(types$1.name)) {
+	    if (this.match(types$1$1.parenL) || this.match(types$1$1.name)) {
 	      this.state.potentialArrowAt = this.state.start;
 	    }
 
@@ -30033,7 +30033,7 @@
 	      const operator = this.state.value;
 	      node.operator = operator;
 
-	      if (this.match(types$1.eq)) {
+	      if (this.match(types$1$1.eq)) {
 	        node.left = this.toAssignable(left, true);
 	        refExpressionErrors.doubleProto = -1;
 	      } else {
@@ -30069,11 +30069,11 @@
 	  }
 
 	  parseConditional(expr, startPos, startLoc, refExpressionErrors) {
-	    if (this.eat(types$1.question)) {
+	    if (this.eat(types$1$1.question)) {
 	      const node = this.startNodeAt(startPos, startLoc);
 	      node.test = expr;
 	      node.consequent = this.parseMaybeAssignAllowIn();
-	      this.expect(types$1.colon);
+	      this.expect(types$1$1.colon);
 	      node.alternate = this.parseMaybeAssign();
 	      return this.finishNode(node, "ConditionalExpression");
 	    }
@@ -30097,11 +30097,11 @@
 	  parseExprOp(left, leftStartPos, leftStartLoc, minPrec) {
 	    let prec = this.state.type.binop;
 
-	    if (prec != null && (this.prodParam.hasIn || !this.match(types$1._in))) {
+	    if (prec != null && (this.prodParam.hasIn || !this.match(types$1$1._in))) {
 	      if (prec > minPrec) {
 	        const op = this.state.type;
 
-	        if (op === types$1.pipeline) {
+	        if (op === types$1$1.pipeline) {
 	          this.expectPlugin("pipelineOperator");
 
 	          if (this.state.inFSharpPipelineDirectBody) {
@@ -30115,17 +30115,17 @@
 	        const node = this.startNodeAt(leftStartPos, leftStartLoc);
 	        node.left = left;
 	        node.operator = this.state.value;
-	        const logical = op === types$1.logicalOR || op === types$1.logicalAND;
-	        const coalesce = op === types$1.nullishCoalescing;
+	        const logical = op === types$1$1.logicalOR || op === types$1$1.logicalAND;
+	        const coalesce = op === types$1$1.nullishCoalescing;
 
 	        if (coalesce) {
-	          prec = types$1.logicalAND.binop;
+	          prec = types$1$1.logicalAND.binop;
 	        }
 
 	        this.next();
 
-	        if (op === types$1.pipeline && this.getPluginOption("pipelineOperator", "proposal") === "minimal") {
-	          if (this.match(types$1.name) && this.state.value === "await" && this.prodParam.hasAwait) {
+	        if (op === types$1$1.pipeline && this.getPluginOption("pipelineOperator", "proposal") === "minimal") {
+	          if (this.match(types$1$1.name) && this.state.value === "await" && this.prodParam.hasAwait) {
 	            throw this.raise(this.state.start, ErrorMessages.UnexpectedAwaitAfterPipelineBody);
 	          }
 	        }
@@ -30134,7 +30134,7 @@
 	        this.finishNode(node, logical || coalesce ? "LogicalExpression" : "BinaryExpression");
 	        const nextOp = this.state.type;
 
-	        if (coalesce && (nextOp === types$1.logicalOR || nextOp === types$1.logicalAND) || logical && nextOp === types$1.nullishCoalescing) {
+	        if (coalesce && (nextOp === types$1$1.logicalOR || nextOp === types$1$1.logicalAND) || logical && nextOp === types$1$1.nullishCoalescing) {
 	          throw this.raise(this.state.start, ErrorMessages.MixingCoalesceWithLogical);
 	        }
 
@@ -30150,7 +30150,7 @@
 	    const startLoc = this.state.startLoc;
 
 	    switch (op) {
-	      case types$1.pipeline:
+	      case types$1$1.pipeline:
 	        switch (this.getPluginOption("pipelineOperator", "proposal")) {
 	          case "smart":
 	            return this.withTopicPermittingContext(() => {
@@ -30175,7 +30175,7 @@
 	  }
 
 	  checkExponentialAfterUnary(node) {
-	    if (this.match(types$1.exponent)) {
+	    if (this.match(types$1$1.exponent)) {
 	      this.raise(node.argument.start, ErrorMessages.UnexpectedTokenUnaryExponentiation);
 	    }
 	  }
@@ -30196,18 +30196,18 @@
 	      return this.parseModuleExpression();
 	    }
 
-	    const update = this.match(types$1.incDec);
+	    const update = this.match(types$1$1.incDec);
 	    const node = this.startNode();
 
 	    if (this.state.type.prefix) {
 	      node.operator = this.state.value;
 	      node.prefix = true;
 
-	      if (this.match(types$1._throw)) {
+	      if (this.match(types$1$1._throw)) {
 	        this.expectPlugin("throwExpressions");
 	      }
 
-	      const isDelete = this.match(types$1._delete);
+	      const isDelete = this.match(types$1$1._delete);
 	      this.next();
 	      node.argument = this.parseMaybeUnary(null, true);
 	      this.checkExpressionErrors(refExpressionErrors, true);
@@ -30231,7 +30231,7 @@
 	    const expr = this.parseUpdate(node, update, refExpressionErrors);
 
 	    if (isAwait) {
-	      const startsExpr = this.hasPlugin("v8intrinsic") ? this.state.type.startsExpr : this.state.type.startsExpr && !this.match(types$1.modulo);
+	      const startsExpr = this.hasPlugin("v8intrinsic") ? this.state.type.startsExpr : this.state.type.startsExpr && !this.match(types$1$1.modulo);
 
 	      if (startsExpr && !this.isAmbiguousAwait()) {
 	        this.raiseOverwrite(startPos, this.hasPlugin("topLevelAwait") ? ErrorMessages.AwaitNotInAsyncContext : ErrorMessages.AwaitNotInAsyncFunction);
@@ -30295,15 +30295,15 @@
 	  }
 
 	  parseSubscript(base, startPos, startLoc, noCalls, state) {
-	    if (!noCalls && this.eat(types$1.doubleColon)) {
+	    if (!noCalls && this.eat(types$1$1.doubleColon)) {
 	      return this.parseBind(base, startPos, startLoc, noCalls, state);
-	    } else if (this.match(types$1.backQuote)) {
+	    } else if (this.match(types$1$1.backQuote)) {
 	      return this.parseTaggedTemplateExpression(base, startPos, startLoc, state);
 	    }
 
 	    let optional = false;
 
-	    if (this.match(types$1.questionDot)) {
+	    if (this.match(types$1$1.questionDot)) {
 	      if (noCalls && this.lookaheadCharCode() === 40) {
 	        state.stop = true;
 	        return base;
@@ -30313,9 +30313,9 @@
 	      this.next();
 	    }
 
-	    if (!noCalls && this.match(types$1.parenL)) {
+	    if (!noCalls && this.match(types$1$1.parenL)) {
 	      return this.parseCoverCallAndAsyncArrowHead(base, startPos, startLoc, state, optional);
-	    } else if (optional || this.match(types$1.bracketL) || this.eat(types$1.dot)) {
+	    } else if (optional || this.match(types$1$1.bracketL) || this.eat(types$1$1.dot)) {
 	      return this.parseMember(base, startPos, startLoc, state, optional);
 	    } else {
 	      state.stop = true;
@@ -30325,10 +30325,10 @@
 
 	  parseMember(base, startPos, startLoc, state, optional) {
 	    const node = this.startNodeAt(startPos, startLoc);
-	    const computed = this.eat(types$1.bracketL);
+	    const computed = this.eat(types$1$1.bracketL);
 	    node.object = base;
 	    node.computed = computed;
-	    const privateName = !computed && this.match(types$1.privateName) && this.state.value;
+	    const privateName = !computed && this.match(types$1$1.privateName) && this.state.value;
 	    const property = computed ? this.parseExpression() : privateName ? this.parsePrivateName() : this.parseIdentifier(true);
 
 	    if (privateName !== false) {
@@ -30342,7 +30342,7 @@
 	    node.property = property;
 
 	    if (computed) {
-	      this.expect(types$1.bracketR);
+	      this.expect(types$1$1.bracketR);
 	    }
 
 	    if (state.optionalChainMember) {
@@ -30379,9 +30379,9 @@
 	    }
 
 	    if (optional) {
-	      node.arguments = this.parseCallExpressionArguments(types$1.parenR);
+	      node.arguments = this.parseCallExpressionArguments(types$1$1.parenR);
 	    } else {
-	      node.arguments = this.parseCallExpressionArguments(types$1.parenR, base.type === "Import", base.type !== "Super", node, refExpressionErrors);
+	      node.arguments = this.parseCallExpressionArguments(types$1$1.parenR, base.type === "Import", base.type !== "Super", node, refExpressionErrors);
 	    }
 
 	    this.finishCallExpression(node, state.optionalChainMember);
@@ -30458,7 +30458,7 @@
 	      if (first) {
 	        first = false;
 	      } else {
-	        this.expect(types$1.comma);
+	        this.expect(types$1$1.comma);
 
 	        if (this.match(close)) {
 	          if (dynamicImport && !this.hasPlugin("importAssertions") && !this.hasPlugin("moduleAttributes")) {
@@ -30482,13 +30482,13 @@
 	  }
 
 	  shouldParseAsyncArrow() {
-	    return this.match(types$1.arrow) && !this.canInsertSemicolon();
+	    return this.match(types$1$1.arrow) && !this.canInsertSemicolon();
 	  }
 
 	  parseAsyncArrowFromCallExpression(node, call) {
 	    var _call$extra;
 
-	    this.expect(types$1.arrow);
+	    this.expect(types$1$1.arrow);
 	    this.parseArrowExpression(node, call.arguments, true, (_call$extra = call.extra) == null ? void 0 : _call$extra.trailingComma);
 	    return node;
 	  }
@@ -30503,50 +30503,50 @@
 	    let node;
 
 	    switch (this.state.type) {
-	      case types$1._super:
+	      case types$1$1._super:
 	        return this.parseSuper();
 
-	      case types$1._import:
+	      case types$1$1._import:
 	        node = this.startNode();
 	        this.next();
 
-	        if (this.match(types$1.dot)) {
+	        if (this.match(types$1$1.dot)) {
 	          return this.parseImportMetaProperty(node);
 	        }
 
-	        if (!this.match(types$1.parenL)) {
+	        if (!this.match(types$1$1.parenL)) {
 	          this.raise(this.state.lastTokStart, ErrorMessages.UnsupportedImport);
 	        }
 
 	        return this.finishNode(node, "Import");
 
-	      case types$1._this:
+	      case types$1$1._this:
 	        node = this.startNode();
 	        this.next();
 	        return this.finishNode(node, "ThisExpression");
 
-	      case types$1.name:
+	      case types$1$1.name:
 	        {
 	          const canBeArrow = this.state.potentialArrowAt === this.state.start;
 	          const containsEsc = this.state.containsEsc;
 	          const id = this.parseIdentifier();
 
 	          if (!containsEsc && id.name === "async" && !this.canInsertSemicolon()) {
-	            if (this.match(types$1._function)) {
+	            if (this.match(types$1$1._function)) {
 	              this.next();
 	              return this.parseFunction(this.startNodeAtNode(id), undefined, true);
-	            } else if (this.match(types$1.name)) {
+	            } else if (this.match(types$1$1.name)) {
 	              if (this.lookaheadCharCode() === 61) {
 	                return this.parseAsyncArrowUnaryFunction(id);
 	              } else {
 	                return id;
 	              }
-	            } else if (this.match(types$1._do)) {
+	            } else if (this.match(types$1$1._do)) {
 	              return this.parseDo(true);
 	            }
 	          }
 
-	          if (canBeArrow && this.match(types$1.arrow) && !this.canInsertSemicolon()) {
+	          if (canBeArrow && this.match(types$1$1.arrow) && !this.canInsertSemicolon()) {
 	            this.next();
 	            return this.parseArrowExpression(this.startNodeAtNode(id), [id], false);
 	          }
@@ -30554,85 +30554,85 @@
 	          return id;
 	        }
 
-	      case types$1._do:
+	      case types$1$1._do:
 	        {
 	          return this.parseDo(false);
 	        }
 
-	      case types$1.slash:
-	      case types$1.slashAssign:
+	      case types$1$1.slash:
+	      case types$1$1.slashAssign:
 	        {
 	          this.readRegexp();
 	          return this.parseRegExpLiteral(this.state.value);
 	        }
 
-	      case types$1.num:
+	      case types$1$1.num:
 	        return this.parseNumericLiteral(this.state.value);
 
-	      case types$1.bigint:
+	      case types$1$1.bigint:
 	        return this.parseBigIntLiteral(this.state.value);
 
-	      case types$1.decimal:
+	      case types$1$1.decimal:
 	        return this.parseDecimalLiteral(this.state.value);
 
-	      case types$1.string:
+	      case types$1$1.string:
 	        return this.parseStringLiteral(this.state.value);
 
-	      case types$1._null:
+	      case types$1$1._null:
 	        return this.parseNullLiteral();
 
-	      case types$1._true:
+	      case types$1$1._true:
 	        return this.parseBooleanLiteral(true);
 
-	      case types$1._false:
+	      case types$1$1._false:
 	        return this.parseBooleanLiteral(false);
 
-	      case types$1.parenL:
+	      case types$1$1.parenL:
 	        {
 	          const canBeArrow = this.state.potentialArrowAt === this.state.start;
 	          return this.parseParenAndDistinguishExpression(canBeArrow);
 	        }
 
-	      case types$1.bracketBarL:
-	      case types$1.bracketHashL:
+	      case types$1$1.bracketBarL:
+	      case types$1$1.bracketHashL:
 	        {
-	          return this.parseArrayLike(this.state.type === types$1.bracketBarL ? types$1.bracketBarR : types$1.bracketR, false, true, refExpressionErrors);
+	          return this.parseArrayLike(this.state.type === types$1$1.bracketBarL ? types$1$1.bracketBarR : types$1$1.bracketR, false, true, refExpressionErrors);
 	        }
 
-	      case types$1.bracketL:
+	      case types$1$1.bracketL:
 	        {
-	          return this.parseArrayLike(types$1.bracketR, true, false, refExpressionErrors);
+	          return this.parseArrayLike(types$1$1.bracketR, true, false, refExpressionErrors);
 	        }
 
-	      case types$1.braceBarL:
-	      case types$1.braceHashL:
+	      case types$1$1.braceBarL:
+	      case types$1$1.braceHashL:
 	        {
-	          return this.parseObjectLike(this.state.type === types$1.braceBarL ? types$1.braceBarR : types$1.braceR, false, true, refExpressionErrors);
+	          return this.parseObjectLike(this.state.type === types$1$1.braceBarL ? types$1$1.braceBarR : types$1$1.braceR, false, true, refExpressionErrors);
 	        }
 
-	      case types$1.braceL:
+	      case types$1$1.braceL:
 	        {
-	          return this.parseObjectLike(types$1.braceR, false, false, refExpressionErrors);
+	          return this.parseObjectLike(types$1$1.braceR, false, false, refExpressionErrors);
 	        }
 
-	      case types$1._function:
+	      case types$1$1._function:
 	        return this.parseFunctionOrFunctionSent();
 
-	      case types$1.at:
+	      case types$1$1.at:
 	        this.parseDecorators();
 
-	      case types$1._class:
+	      case types$1$1._class:
 	        node = this.startNode();
 	        this.takeDecorators(node);
 	        return this.parseClass(node, false);
 
-	      case types$1._new:
+	      case types$1$1._new:
 	        return this.parseNewOrNewTarget();
 
-	      case types$1.backQuote:
+	      case types$1$1.backQuote:
 	        return this.parseTemplate(false);
 
-	      case types$1.doubleColon:
+	      case types$1$1.doubleColon:
 	        {
 	          node = this.startNode();
 	          this.next();
@@ -30646,13 +30646,13 @@
 	          }
 	        }
 
-	      case types$1.privateName:
+	      case types$1$1.privateName:
 	        {
 	          const start = this.state.start;
 	          const value = this.state.value;
 	          node = this.parsePrivateName();
 
-	          if (this.match(types$1._in)) {
+	          if (this.match(types$1$1._in)) {
 	            this.expectPlugin("privateIn");
 	            this.classScope.usePrivateName(value, node.start);
 	          } else if (this.hasPlugin("privateIn")) {
@@ -30664,7 +30664,7 @@
 	          return node;
 	        }
 
-	      case types$1.hash:
+	      case types$1$1.hash:
 	        {
 	          if (this.state.inPipeline) {
 	            node = this.startNode();
@@ -30684,7 +30684,7 @@
 	          }
 	        }
 
-	      case types$1.relational:
+	      case types$1$1.relational:
 	        {
 	          if (this.state.value === "<") {
 	            const lookaheadCh = this.input.codePointAt(this.nextTokenStart());
@@ -30710,7 +30710,7 @@
 	      this.raise(this.state.pos, ErrorMessages.LineTerminatorBeforeArrow);
 	    }
 
-	    this.expect(types$1.arrow);
+	    this.expect(types$1$1.arrow);
 	    this.parseArrowExpression(node, params, true);
 	    return node;
 	  }
@@ -30744,13 +30744,13 @@
 	    const node = this.startNode();
 	    this.next();
 
-	    if (this.match(types$1.parenL) && !this.scope.allowDirectSuper && !this.options.allowSuperOutsideMethod) {
+	    if (this.match(types$1$1.parenL) && !this.scope.allowDirectSuper && !this.options.allowSuperOutsideMethod) {
 	      this.raise(node.start, ErrorMessages.SuperNotAllowed);
 	    } else if (!this.scope.allowSuper && !this.options.allowSuperOutsideMethod) {
 	      this.raise(node.start, ErrorMessages.UnexpectedSuper);
 	    }
 
-	    if (!this.match(types$1.parenL) && !this.match(types$1.bracketL) && !this.match(types$1.dot)) {
+	    if (!this.match(types$1$1.parenL) && !this.match(types$1$1.bracketL) && !this.match(types$1$1.dot)) {
 	      this.raise(node.start, ErrorMessages.UnsupportedSuper);
 	    }
 
@@ -30758,7 +30758,7 @@
 	  }
 
 	  parseMaybePrivateName(isPrivateNameAllowed) {
-	    const isPrivate = this.match(types$1.privateName);
+	    const isPrivate = this.match(types$1$1.privateName);
 
 	    if (isPrivate) {
 	      if (!isPrivateNameAllowed) {
@@ -30784,7 +30784,7 @@
 	    const node = this.startNode();
 	    this.next();
 
-	    if (this.prodParam.hasYield && this.match(types$1.dot)) {
+	    if (this.prodParam.hasYield && this.match(types$1$1.dot)) {
 	      const meta = this.createIdentifier(this.startNodeAtNode(node), "function");
 	      this.next();
 	      return this.parseMetaProperty(node, meta, "sent");
@@ -30896,19 +30896,19 @@
 	    let spreadStart;
 	    let optionalCommaStart;
 
-	    while (!this.match(types$1.parenR)) {
+	    while (!this.match(types$1$1.parenR)) {
 	      if (first) {
 	        first = false;
 	      } else {
-	        this.expect(types$1.comma, refExpressionErrors.optionalParameters === -1 ? null : refExpressionErrors.optionalParameters);
+	        this.expect(types$1$1.comma, refExpressionErrors.optionalParameters === -1 ? null : refExpressionErrors.optionalParameters);
 
-	        if (this.match(types$1.parenR)) {
+	        if (this.match(types$1$1.parenR)) {
 	          optionalCommaStart = this.state.start;
 	          break;
 	        }
 	      }
 
-	      if (this.match(types$1.ellipsis)) {
+	      if (this.match(types$1$1.ellipsis)) {
 	        const spreadNodeStartPos = this.state.start;
 	        const spreadNodeStartLoc = this.state.startLoc;
 	        spreadStart = this.state.start;
@@ -30922,7 +30922,7 @@
 
 	    const innerEndPos = this.state.lastTokEnd;
 	    const innerEndLoc = this.state.lastTokEndLoc;
-	    this.expect(types$1.parenR);
+	    this.expect(types$1$1.parenR);
 	    this.state.maybeInArrowParameters = oldMaybeInArrowParameters;
 	    this.state.inFSharpPipelineDirectBody = oldInFSharpPipelineDirectBody;
 	    let arrowNode = this.startNodeAt(startPos, startLoc);
@@ -30970,7 +30970,7 @@
 	  }
 
 	  parseArrow(node) {
-	    if (this.eat(types$1.arrow)) {
+	    if (this.eat(types$1$1.arrow)) {
 	      return node;
 	    }
 	  }
@@ -30983,7 +30983,7 @@
 	    const node = this.startNode();
 	    this.next();
 
-	    if (this.match(types$1.dot)) {
+	    if (this.match(types$1$1.dot)) {
 	      const meta = this.createIdentifier(this.startNodeAtNode(node), "new");
 	      this.next();
 	      const metaProp = this.parseMetaProperty(node, meta, "target");
@@ -31005,7 +31005,7 @@
 	      this.raise(node.callee.start, ErrorMessages.ImportCallNotNewExpression);
 	    } else if (this.isOptionalChain(node.callee)) {
 	      this.raise(this.state.lastTokEnd, ErrorMessages.OptionalChainingNoNew);
-	    } else if (this.eat(types$1.questionDot)) {
+	    } else if (this.eat(types$1$1.questionDot)) {
 	      this.raise(this.state.start, ErrorMessages.OptionalChainingNoNew);
 	    }
 
@@ -31014,8 +31014,8 @@
 	  }
 
 	  parseNewArguments(node) {
-	    if (this.eat(types$1.parenL)) {
-	      const args = this.parseExprList(types$1.parenR);
+	    if (this.eat(types$1$1.parenL)) {
+	      const args = this.parseExprList(types$1$1.parenR);
 	      this.toReferencedList(args);
 	      node.arguments = args;
 	    } else {
@@ -31037,7 +31037,7 @@
 	      cooked: this.state.value
 	    };
 	    this.next();
-	    elem.tail = this.match(types$1.backQuote);
+	    elem.tail = this.match(types$1$1.backQuote);
 	    return this.finishNode(elem, "TemplateElement");
 	  }
 
@@ -31049,9 +31049,9 @@
 	    node.quasis = [curElt];
 
 	    while (!curElt.tail) {
-	      this.expect(types$1.dollarBraceL);
+	      this.expect(types$1$1.dollarBraceL);
 	      node.expressions.push(this.parseTemplateSubstitution());
-	      this.expect(types$1.braceR);
+	      this.expect(types$1$1.braceR);
 	      node.quasis.push(curElt = this.parseTemplateElement(isTagged));
 	    }
 
@@ -31080,7 +31080,7 @@
 	      if (first) {
 	        first = false;
 	      } else {
-	        this.expect(types$1.comma);
+	        this.expect(types$1$1.comma);
 
 	        if (this.match(close)) {
 	          this.addExtra(node, "trailingComma", this.state.lastTokStart);
@@ -31119,18 +31119,18 @@
 	  }
 
 	  maybeAsyncOrAccessorProp(prop) {
-	    return !prop.computed && prop.key.type === "Identifier" && (this.isLiteralPropertyName() || this.match(types$1.bracketL) || this.match(types$1.star));
+	    return !prop.computed && prop.key.type === "Identifier" && (this.isLiteralPropertyName() || this.match(types$1$1.bracketL) || this.match(types$1$1.star));
 	  }
 
 	  parsePropertyDefinition(isPattern, refExpressionErrors) {
 	    let decorators = [];
 
-	    if (this.match(types$1.at)) {
+	    if (this.match(types$1$1.at)) {
 	      if (this.hasPlugin("decorators")) {
 	        this.raise(this.state.start, ErrorMessages.UnsupportedPropertyDecorator);
 	      }
 
-	      while (this.match(types$1.at)) {
+	      while (this.match(types$1$1.at)) {
 	        decorators.push(this.parseDecorator());
 	      }
 	    }
@@ -31142,7 +31142,7 @@
 	    let startPos;
 	    let startLoc;
 
-	    if (this.match(types$1.ellipsis)) {
+	    if (this.match(types$1$1.ellipsis)) {
 	      if (decorators.length) this.unexpected();
 
 	      if (isPattern) {
@@ -31168,7 +31168,7 @@
 	    }
 
 	    if (!isPattern) {
-	      isGenerator = this.eat(types$1.star);
+	      isGenerator = this.eat(types$1$1.star);
 	    }
 
 	    const containsEsc = this.state.containsEsc;
@@ -31179,7 +31179,7 @@
 
 	      if (keyName === "async" && !this.hasPrecedingLineBreak()) {
 	        isAsync = true;
-	        isGenerator = this.eat(types$1.star);
+	        isGenerator = this.eat(types$1$1.star);
 	        this.parsePropertyName(prop, false);
 	      }
 
@@ -31187,7 +31187,7 @@
 	        isAccessor = true;
 	        prop.kind = keyName;
 
-	        if (this.match(types$1.star)) {
+	        if (this.match(types$1$1.star)) {
 	          isGenerator = true;
 	          this.raise(this.state.pos, ErrorMessages.AccessorIsGenerator, keyName);
 	          this.next();
@@ -31236,7 +31236,7 @@
 	      return prop;
 	    }
 
-	    if (isAsync || isGenerator || this.match(types$1.parenL)) {
+	    if (isAsync || isGenerator || this.match(types$1$1.parenL)) {
 	      if (isPattern) this.unexpected();
 	      prop.kind = "method";
 	      prop.method = true;
@@ -31247,7 +31247,7 @@
 	  parseObjectProperty(prop, startPos, startLoc, isPattern, refExpressionErrors) {
 	    prop.shorthand = false;
 
-	    if (this.eat(types$1.colon)) {
+	    if (this.eat(types$1$1.colon)) {
 	      prop.value = isPattern ? this.parseMaybeDefault(this.state.start, this.state.startLoc) : this.parseMaybeAssignAllowIn(refExpressionErrors);
 	      return this.finishNode(prop, "ObjectProperty");
 	    }
@@ -31257,7 +31257,7 @@
 
 	      if (isPattern) {
 	        prop.value = this.parseMaybeDefault(startPos, startLoc, prop.key.__clone());
-	      } else if (this.match(types$1.eq) && refExpressionErrors) {
+	      } else if (this.match(types$1$1.eq) && refExpressionErrors) {
 	        if (refExpressionErrors.shorthandAssign === -1) {
 	          refExpressionErrors.shorthandAssign = this.state.start;
 	        }
@@ -31279,17 +31279,17 @@
 	  }
 
 	  parsePropertyName(prop, isPrivateNameAllowed) {
-	    if (this.eat(types$1.bracketL)) {
+	    if (this.eat(types$1$1.bracketL)) {
 	      prop.computed = true;
 	      prop.key = this.parseMaybeAssignAllowIn();
-	      this.expect(types$1.bracketR);
+	      this.expect(types$1$1.bracketR);
 	    } else {
 	      const oldInPropertyName = this.state.inPropertyName;
 	      this.state.inPropertyName = true;
 	      const type = this.state.type;
-	      prop.key = type === types$1.num || type === types$1.string || type === types$1.bigint || type === types$1.decimal ? this.parseExprAtom() : this.parseMaybePrivateName(isPrivateNameAllowed);
+	      prop.key = type === types$1$1.num || type === types$1$1.string || type === types$1$1.bigint || type === types$1$1.decimal ? this.parseExprAtom() : this.parseMaybePrivateName(isPrivateNameAllowed);
 
-	      if (type !== types$1.privateName) {
+	      if (type !== types$1$1.privateName) {
 	        prop.computed = false;
 	      }
 
@@ -31336,7 +31336,7 @@
 	    this.scope.enter(SCOPE_FUNCTION | SCOPE_ARROW);
 	    let flags = functionFlags(isAsync, false);
 
-	    if (!this.match(types$1.bracketL) && this.prodParam.hasIn) {
+	    if (!this.match(types$1$1.bracketL) && this.prodParam.hasIn) {
 	      flags |= PARAM_IN;
 	    }
 
@@ -31367,7 +31367,7 @@
 	  }
 
 	  parseFunctionBody(node, allowExpression, isMethod = false) {
-	    const isExpression = allowExpression && !this.match(types$1.braceL);
+	    const isExpression = allowExpression && !this.match(types$1$1.braceL);
 	    this.expressionScope.enter(newExpressionScope());
 
 	    if (isExpression) {
@@ -31423,7 +31423,7 @@
 	      if (first) {
 	        first = false;
 	      } else {
-	        this.expect(types$1.comma);
+	        this.expect(types$1$1.comma);
 
 	        if (this.match(close)) {
 	          if (nodeForExtra) {
@@ -31444,17 +31444,17 @@
 	  parseExprListItem(allowEmpty, refExpressionErrors, allowPlaceholder) {
 	    let elt;
 
-	    if (this.match(types$1.comma)) {
+	    if (this.match(types$1$1.comma)) {
 	      if (!allowEmpty) {
 	        this.raise(this.state.pos, ErrorMessages.UnexpectedToken, ",");
 	      }
 
 	      elt = null;
-	    } else if (this.match(types$1.ellipsis)) {
+	    } else if (this.match(types$1$1.ellipsis)) {
 	      const spreadNodeStartPos = this.state.start;
 	      const spreadNodeStartLoc = this.state.startLoc;
 	      elt = this.parseParenItem(this.parseSpread(refExpressionErrors), spreadNodeStartPos, spreadNodeStartLoc);
-	    } else if (this.match(types$1.question)) {
+	    } else if (this.match(types$1$1.question)) {
 	      this.expectPlugin("partialApplication");
 
 	      if (!allowPlaceholder) {
@@ -31490,7 +31490,7 @@
 	      type
 	    } = this.state;
 
-	    if (type === types$1.name) {
+	    if (type === types$1$1.name) {
 	      name = this.state.value;
 	    } else if (type.keyword) {
 	      name = type.keyword;
@@ -31499,7 +31499,7 @@
 	    }
 
 	    if (liberal) {
-	      this.state.type = types$1.name;
+	      this.state.type = types$1$1.name;
 	    } else {
 	      this.checkReservedWord(name, start, !!type.keyword, false);
 	    }
@@ -31565,7 +31565,7 @@
 	    const node = this.startNodeAt(startPos, startLoc);
 	    this.expressionScope.recordParameterInitializerError(node.start, ErrorMessages.AwaitExpressionFormalParameter);
 
-	    if (this.eat(types$1.star)) {
+	    if (this.eat(types$1$1.star)) {
 	      this.raise(node.start, ErrorMessages.ObsoleteAwaitStar);
 	    }
 
@@ -31585,7 +31585,7 @@
 	  }
 
 	  isAmbiguousAwait() {
-	    return this.hasPrecedingLineBreak() || this.match(types$1.plusMin) || this.match(types$1.parenL) || this.match(types$1.bracketL) || this.match(types$1.backQuote) || this.match(types$1.regexp) || this.match(types$1.slash) || this.hasPlugin("v8intrinsic") && this.match(types$1.modulo);
+	    return this.hasPrecedingLineBreak() || this.match(types$1$1.plusMin) || this.match(types$1$1.parenL) || this.match(types$1$1.bracketL) || this.match(types$1$1.backQuote) || this.match(types$1$1.regexp) || this.match(types$1$1.slash) || this.hasPlugin("v8intrinsic") && this.match(types$1$1.modulo);
 	  }
 
 	  parseYield() {
@@ -31596,17 +31596,17 @@
 	    let argument = null;
 
 	    if (!this.hasPrecedingLineBreak()) {
-	      delegating = this.eat(types$1.star);
+	      delegating = this.eat(types$1$1.star);
 
 	      switch (this.state.type) {
-	        case types$1.semi:
-	        case types$1.eof:
-	        case types$1.braceR:
-	        case types$1.parenR:
-	        case types$1.bracketR:
-	        case types$1.braceBarR:
-	        case types$1.colon:
-	        case types$1.comma:
+	        case types$1$1.semi:
+	        case types$1$1.eof:
+	        case types$1$1.braceR:
+	        case types$1$1.parenR:
+	        case types$1$1.bracketR:
+	        case types$1$1.braceBarR:
+	        case types$1$1.colon:
+	        case types$1$1.comma:
 	          if (!delegating) break;
 
 	        default:
@@ -31633,7 +31633,7 @@
 	  }
 
 	  checkSmartPipelineBodyEarlyErrors(childExpression, startPos) {
-	    if (this.match(types$1.arrow)) {
+	    if (this.match(types$1$1.arrow)) {
 	      throw this.raise(this.state.start, ErrorMessages.PipelineBodyNoArrow);
 	    } else if (childExpression.type === "SequenceExpression") {
 	      this.raise(startPos, ErrorMessages.PipelineBodySequenceExpression);
@@ -31770,18 +31770,18 @@
 	    this.expectPlugin("moduleBlocks");
 	    const node = this.startNode();
 	    this.next();
-	    this.eat(types$1.braceL);
+	    this.eat(types$1$1.braceL);
 	    const revertScopes = this.initializeScopes(true);
 	    this.enterInitialScopes();
 	    const program = this.startNode();
 
 	    try {
-	      node.body = this.parseProgram(program, types$1.braceR, "module");
+	      node.body = this.parseProgram(program, types$1$1.braceR, "module");
 	    } finally {
 	      revertScopes();
 	    }
 
-	    this.eat(types$1.braceR);
+	    this.eat(types$1$1.braceR);
 	    return this.finishNode(node, "ModuleExpression");
 	  }
 
@@ -31805,7 +31805,7 @@
 	    for (let i = 0; i < tokens.length; i++) {
 	      const token = tokens[i];
 
-	      if (token.type === types$1.privateName) {
+	      if (token.type === types$1$1.privateName) {
 	        const {
 	          loc,
 	          start,
@@ -31815,14 +31815,14 @@
 	        const hashEndPos = start + 1;
 	        const hashEndLoc = new Position(loc.start.line, loc.start.column + 1);
 	        tokens.splice(i, 1, new Token({
-	          type: types$1.hash,
+	          type: types$1$1.hash,
 	          value: "#",
 	          start: start,
 	          end: hashEndPos,
 	          startLoc: loc.start,
 	          endLoc: hashEndLoc
 	        }), new Token({
-	          type: types$1.name,
+	          type: types$1$1.name,
 	          value: value,
 	          start: hashEndPos,
 	          end: end,
@@ -31843,7 +31843,7 @@
 	    return this.finishNode(file, "File");
 	  }
 
-	  parseProgram(program, end = types$1.eof, sourceType = this.options.sourceType) {
+	  parseProgram(program, end = types$1$1.eof, sourceType = this.options.sourceType) {
 	    program.sourceType = sourceType;
 	    program.interpreter = this.parseInterpreterDirective();
 	    this.parseBlockBody(program, true, true, end);
@@ -31871,7 +31871,7 @@
 	  }
 
 	  parseInterpreterDirective() {
-	    if (!this.match(types$1.interpreterDirective)) {
+	    if (!this.match(types$1$1.interpreterDirective)) {
 	      return null;
 	    }
 
@@ -31919,7 +31919,7 @@
 	  }
 
 	  parseStatement(context, topLevel) {
-	    if (this.match(types$1.at)) {
+	    if (this.match(types$1$1.at)) {
 	      this.parseDecorators(true);
 	    }
 
@@ -31932,25 +31932,25 @@
 	    let kind;
 
 	    if (this.isLet(context)) {
-	      starttype = types$1._var;
+	      starttype = types$1$1._var;
 	      kind = "let";
 	    }
 
 	    switch (starttype) {
-	      case types$1._break:
-	      case types$1._continue:
+	      case types$1$1._break:
+	      case types$1$1._continue:
 	        return this.parseBreakContinueStatement(node, starttype.keyword);
 
-	      case types$1._debugger:
+	      case types$1$1._debugger:
 	        return this.parseDebuggerStatement(node);
 
-	      case types$1._do:
+	      case types$1$1._do:
 	        return this.parseDoStatement(node);
 
-	      case types$1._for:
+	      case types$1$1._for:
 	        return this.parseForStatement(node);
 
-	      case types$1._function:
+	      case types$1$1._function:
 	        if (this.lookaheadCharCode() === 46) break;
 
 	        if (context) {
@@ -31963,27 +31963,27 @@
 
 	        return this.parseFunctionStatement(node, false, !context);
 
-	      case types$1._class:
+	      case types$1$1._class:
 	        if (context) this.unexpected();
 	        return this.parseClass(node, true);
 
-	      case types$1._if:
+	      case types$1$1._if:
 	        return this.parseIfStatement(node);
 
-	      case types$1._return:
+	      case types$1$1._return:
 	        return this.parseReturnStatement(node);
 
-	      case types$1._switch:
+	      case types$1$1._switch:
 	        return this.parseSwitchStatement(node);
 
-	      case types$1._throw:
+	      case types$1$1._throw:
 	        return this.parseThrowStatement(node);
 
-	      case types$1._try:
+	      case types$1$1._try:
 	        return this.parseTryStatement(node);
 
-	      case types$1._const:
-	      case types$1._var:
+	      case types$1$1._const:
+	      case types$1$1._var:
 	        kind = kind || this.state.value;
 
 	        if (context && kind !== "var") {
@@ -31992,19 +31992,19 @@
 
 	        return this.parseVarStatement(node, kind);
 
-	      case types$1._while:
+	      case types$1$1._while:
 	        return this.parseWhileStatement(node);
 
-	      case types$1._with:
+	      case types$1$1._with:
 	        return this.parseWithStatement(node);
 
-	      case types$1.braceL:
+	      case types$1$1.braceL:
 	        return this.parseBlock();
 
-	      case types$1.semi:
+	      case types$1$1.semi:
 	        return this.parseEmptyStatement(node);
 
-	      case types$1._import:
+	      case types$1$1._import:
 	        {
 	          const nextTokenCharCode = this.lookaheadCharCode();
 
@@ -32013,7 +32013,7 @@
 	            }
 	        }
 
-	      case types$1._export:
+	      case types$1$1._export:
 	        {
 	          if (!this.options.allowImportExportEverywhere && !topLevel) {
 	            this.raise(this.state.start, ErrorMessages.UnexpectedImportExport);
@@ -32022,7 +32022,7 @@
 	          this.next();
 	          let result;
 
-	          if (starttype === types$1._import) {
+	          if (starttype === types$1$1._import) {
 	            result = this.parseImport(node);
 
 	            if (result.type === "ImportDeclaration" && (!result.importKind || result.importKind === "value")) {
@@ -32056,7 +32056,7 @@
 	    const maybeName = this.state.value;
 	    const expr = this.parseExpression();
 
-	    if (starttype === types$1.name && expr.type === "Identifier" && this.eat(types$1.colon)) {
+	    if (starttype === types$1$1.name && expr.type === "Identifier" && this.eat(types$1$1.colon)) {
 	      return this.parseLabeledStatement(node, maybeName, expr, context);
 	    } else {
 	      return this.parseExpressionStatement(node, expr);
@@ -32080,18 +32080,18 @@
 	  }
 
 	  canHaveLeadingDecorator() {
-	    return this.match(types$1._class);
+	    return this.match(types$1$1._class);
 	  }
 
 	  parseDecorators(allowExport) {
 	    const currentContextDecorators = this.state.decoratorStack[this.state.decoratorStack.length - 1];
 
-	    while (this.match(types$1.at)) {
+	    while (this.match(types$1$1.at)) {
 	      const decorator = this.parseDecorator();
 	      currentContextDecorators.push(decorator);
 	    }
 
-	    if (this.match(types$1._export)) {
+	    if (this.match(types$1$1._export)) {
 	      if (!allowExport) {
 	        this.unexpected();
 	      }
@@ -32115,13 +32115,13 @@
 	      const startLoc = this.state.startLoc;
 	      let expr;
 
-	      if (this.eat(types$1.parenL)) {
+	      if (this.eat(types$1$1.parenL)) {
 	        expr = this.parseExpression();
-	        this.expect(types$1.parenR);
+	        this.expect(types$1$1.parenR);
 	      } else {
 	        expr = this.parseIdentifier(false);
 
-	        while (this.eat(types$1.dot)) {
+	        while (this.eat(types$1$1.dot)) {
 	          const node = this.startNodeAt(startPos, startLoc);
 	          node.object = expr;
 	          node.property = this.parseIdentifier(true);
@@ -32140,10 +32140,10 @@
 	  }
 
 	  parseMaybeDecoratorArguments(expr) {
-	    if (this.eat(types$1.parenL)) {
+	    if (this.eat(types$1$1.parenL)) {
 	      const node = this.startNodeAtNode(expr);
 	      node.callee = expr;
-	      node.arguments = this.parseCallExpressionArguments(types$1.parenR, false);
+	      node.arguments = this.parseCallExpressionArguments(types$1$1.parenR, false);
 	      this.toReferencedList(node.arguments);
 	      return this.finishNode(node, "CallExpression");
 	    }
@@ -32191,9 +32191,9 @@
 	  }
 
 	  parseHeaderExpression() {
-	    this.expect(types$1.parenL);
+	    this.expect(types$1$1.parenL);
 	    const val = this.parseExpression();
-	    this.expect(types$1.parenR);
+	    this.expect(types$1$1.parenR);
 	    return val;
 	  }
 
@@ -32202,9 +32202,9 @@
 	    this.state.labels.push(loopLabel);
 	    node.body = this.withTopicForbiddingContext(() => this.parseStatement("do"));
 	    this.state.labels.pop();
-	    this.expect(types$1._while);
+	    this.expect(types$1$1._while);
 	    node.test = this.parseHeaderExpression();
-	    this.eat(types$1.semi);
+	    this.eat(types$1$1.semi);
 	    return this.finishNode(node, "DoWhileStatement");
 	  }
 
@@ -32218,9 +32218,9 @@
 	    }
 
 	    this.scope.enter(SCOPE_OTHER);
-	    this.expect(types$1.parenL);
+	    this.expect(types$1$1.parenL);
 
-	    if (this.match(types$1.semi)) {
+	    if (this.match(types$1$1.semi)) {
 	      if (awaitAt > -1) {
 	        this.unexpected(awaitAt);
 	      }
@@ -32231,14 +32231,14 @@
 	    const startsWithLet = this.isContextual("let");
 	    const isLet = startsWithLet && this.isLetKeyword();
 
-	    if (this.match(types$1._var) || this.match(types$1._const) || isLet) {
+	    if (this.match(types$1$1._var) || this.match(types$1$1._const) || isLet) {
 	      const init = this.startNode();
 	      const kind = isLet ? "let" : this.state.value;
 	      this.next();
 	      this.parseVar(init, true, kind);
 	      this.finishNode(init, "VariableDeclaration");
 
-	      if ((this.match(types$1._in) || this.isContextual("of")) && init.declarations.length === 1) {
+	      if ((this.match(types$1$1._in) || this.isContextual("of")) && init.declarations.length === 1) {
 	        return this.parseForIn(node, init, awaitAt);
 	      }
 
@@ -32249,7 +32249,7 @@
 	      return this.parseFor(node, init);
 	    }
 
-	    const startsWithUnescapedName = this.match(types$1.name) && !this.state.containsEsc;
+	    const startsWithUnescapedName = this.match(types$1$1.name) && !this.state.containsEsc;
 	    const refExpressionErrors = new ExpressionErrors();
 	    const init = this.parseExpression(true, refExpressionErrors);
 	    const isForOf = this.isContextual("of");
@@ -32262,7 +32262,7 @@
 	      }
 	    }
 
-	    if (isForOf || this.match(types$1._in)) {
+	    if (isForOf || this.match(types$1$1._in)) {
 	      this.toAssignable(init, true);
 	      const description = isForOf ? "for-of statement" : "for-in statement";
 	      this.checkLVal(init, description);
@@ -32287,7 +32287,7 @@
 	    this.next();
 	    node.test = this.parseHeaderExpression();
 	    node.consequent = this.parseStatement("if");
-	    node.alternate = this.eat(types$1._else) ? this.parseStatement("if") : null;
+	    node.alternate = this.eat(types$1$1._else) ? this.parseStatement("if") : null;
 	    return this.finishNode(node, "IfStatement");
 	  }
 
@@ -32312,14 +32312,14 @@
 	    this.next();
 	    node.discriminant = this.parseHeaderExpression();
 	    const cases = node.cases = [];
-	    this.expect(types$1.braceL);
+	    this.expect(types$1$1.braceL);
 	    this.state.labels.push(switchLabel);
 	    this.scope.enter(SCOPE_OTHER);
 	    let cur;
 
-	    for (let sawDefault; !this.match(types$1.braceR);) {
-	      if (this.match(types$1._case) || this.match(types$1._default)) {
-	        const isCase = this.match(types$1._case);
+	    for (let sawDefault; !this.match(types$1$1.braceR);) {
+	      if (this.match(types$1$1._case) || this.match(types$1$1._default)) {
+	        const isCase = this.match(types$1$1._case);
 	        if (cur) this.finishNode(cur, "SwitchCase");
 	        cases.push(cur = this.startNode());
 	        cur.consequent = [];
@@ -32336,7 +32336,7 @@
 	          cur.test = null;
 	        }
 
-	        this.expect(types$1.colon);
+	        this.expect(types$1$1.colon);
 	      } else {
 	        if (cur) {
 	          cur.consequent.push(this.parseStatement(null));
@@ -32378,14 +32378,14 @@
 	    node.block = this.parseBlock();
 	    node.handler = null;
 
-	    if (this.match(types$1._catch)) {
+	    if (this.match(types$1$1._catch)) {
 	      const clause = this.startNode();
 	      this.next();
 
-	      if (this.match(types$1.parenL)) {
-	        this.expect(types$1.parenL);
+	      if (this.match(types$1$1.parenL)) {
+	        this.expect(types$1$1.parenL);
 	        clause.param = this.parseCatchClauseParam();
-	        this.expect(types$1.parenR);
+	        this.expect(types$1$1.parenR);
 	      } else {
 	        clause.param = null;
 	        this.scope.enter(SCOPE_OTHER);
@@ -32396,7 +32396,7 @@
 	      node.handler = this.finishNode(clause, "CatchClause");
 	    }
 
-	    node.finalizer = this.eat(types$1._finally) ? this.parseBlock() : null;
+	    node.finalizer = this.eat(types$1$1._finally) ? this.parseBlock() : null;
 
 	    if (!node.handler && !node.finalizer) {
 	      this.raise(node.start, ErrorMessages.NoCatchOrFinally);
@@ -32444,7 +32444,7 @@
 	      }
 	    }
 
-	    const kind = this.state.type.isLoop ? "loop" : this.match(types$1._switch) ? "switch" : null;
+	    const kind = this.state.type.isLoop ? "loop" : this.match(types$1$1._switch) ? "switch" : null;
 
 	    for (let i = this.state.labels.length - 1; i >= 0; i--) {
 	      const label = this.state.labels[i];
@@ -32481,13 +32481,13 @@
 	      this.state.strictErrors.clear();
 	    }
 
-	    this.expect(types$1.braceL);
+	    this.expect(types$1$1.braceL);
 
 	    if (createNewLexicalScope) {
 	      this.scope.enter(SCOPE_OTHER);
 	    }
 
-	    this.parseBlockBody(node, allowDirectives, false, types$1.braceR, afterBlockParse);
+	    this.parseBlockBody(node, allowDirectives, false, types$1$1.braceR, afterBlockParse);
 
 	    if (createNewLexicalScope) {
 	      this.scope.exit();
@@ -32548,10 +32548,10 @@
 	  parseFor(node, init) {
 	    node.init = init;
 	    this.semicolon(false);
-	    node.test = this.match(types$1.semi) ? null : this.parseExpression();
+	    node.test = this.match(types$1$1.semi) ? null : this.parseExpression();
 	    this.semicolon(false);
-	    node.update = this.match(types$1.parenR) ? null : this.parseExpression();
-	    this.expect(types$1.parenR);
+	    node.update = this.match(types$1$1.parenR) ? null : this.parseExpression();
+	    this.expect(types$1$1.parenR);
 	    node.body = this.withTopicForbiddingContext(() => this.parseStatement("for"));
 	    this.scope.exit();
 	    this.state.labels.pop();
@@ -32559,7 +32559,7 @@
 	  }
 
 	  parseForIn(node, init, awaitAt) {
-	    const isForIn = this.match(types$1._in);
+	    const isForIn = this.match(types$1$1._in);
 	    this.next();
 
 	    if (isForIn) {
@@ -32576,7 +32576,7 @@
 
 	    node.left = init;
 	    node.right = isForIn ? this.parseExpression() : this.parseMaybeAssignAllowIn();
-	    this.expect(types$1.parenR);
+	    this.expect(types$1$1.parenR);
 	    node.body = this.withTopicForbiddingContext(() => this.parseStatement("for"));
 	    this.scope.exit();
 	    this.state.labels.pop();
@@ -32592,14 +32592,14 @@
 	      const decl = this.startNode();
 	      this.parseVarId(decl, kind);
 
-	      if (this.eat(types$1.eq)) {
+	      if (this.eat(types$1$1.eq)) {
 	        decl.init = isFor ? this.parseMaybeAssignDisallowIn() : this.parseMaybeAssignAllowIn();
 	      } else {
-	        if (kind === "const" && !(this.match(types$1._in) || this.isContextual("of"))) {
+	        if (kind === "const" && !(this.match(types$1$1._in) || this.isContextual("of"))) {
 	          if (!isTypescript) {
 	            this.raise(this.state.lastTokEnd, ErrorMessages.DeclarationMissingInitializer, "Const declarations");
 	          }
-	        } else if (decl.id.type !== "Identifier" && !(isFor && (this.match(types$1._in) || this.isContextual("of")))) {
+	        } else if (decl.id.type !== "Identifier" && !(isFor && (this.match(types$1$1._in) || this.isContextual("of")))) {
 	          this.raise(this.state.lastTokEnd, ErrorMessages.DeclarationMissingInitializer, "Complex binding patterns");
 	        }
 
@@ -32607,7 +32607,7 @@
 	      }
 
 	      declarations.push(this.finishNode(decl, "VariableDeclarator"));
-	      if (!this.eat(types$1.comma)) break;
+	      if (!this.eat(types$1$1.comma)) break;
 	    }
 
 	    return node;
@@ -32624,11 +32624,11 @@
 	    const requireId = !!isStatement && !(statement & FUNC_NULLABLE_ID);
 	    this.initFunction(node, isAsync);
 
-	    if (this.match(types$1.star) && isHangingStatement) {
+	    if (this.match(types$1$1.star) && isHangingStatement) {
 	      this.raise(this.state.start, ErrorMessages.GeneratorInSingleStatementContext);
 	    }
 
-	    node.generator = this.eat(types$1.star);
+	    node.generator = this.eat(types$1$1.star);
 
 	    if (isStatement) {
 	      node.id = this.parseFunctionId(requireId);
@@ -32659,13 +32659,13 @@
 	  }
 
 	  parseFunctionId(requireId) {
-	    return requireId || this.match(types$1.name) ? this.parseIdentifier() : null;
+	    return requireId || this.match(types$1$1.name) ? this.parseIdentifier() : null;
 	  }
 
 	  parseFunctionParams(node, allowModifiers) {
-	    this.expect(types$1.parenL);
+	    this.expect(types$1$1.parenL);
 	    this.expressionScope.enter(newParameterDeclarationScope());
-	    node.params = this.parseBindingList(types$1.parenR, 41, false, allowModifiers);
+	    node.params = this.parseBindingList(types$1$1.parenR, 41, false, allowModifiers);
 	    this.expressionScope.exit();
 	  }
 
@@ -32686,11 +32686,11 @@
 	  }
 
 	  isClassProperty() {
-	    return this.match(types$1.eq) || this.match(types$1.semi) || this.match(types$1.braceR);
+	    return this.match(types$1$1.eq) || this.match(types$1$1.semi) || this.match(types$1$1.braceR);
 	  }
 
 	  isClassMethod() {
-	    return this.match(types$1.parenL);
+	    return this.match(types$1$1.parenL);
 	  }
 
 	  isNonstaticConstructor(method) {
@@ -32706,10 +32706,10 @@
 	    let decorators = [];
 	    const classBody = this.startNode();
 	    classBody.body = [];
-	    this.expect(types$1.braceL);
+	    this.expect(types$1$1.braceL);
 	    this.withTopicForbiddingContext(() => {
-	      while (!this.match(types$1.braceR)) {
-	        if (this.eat(types$1.semi)) {
+	      while (!this.match(types$1$1.braceR)) {
+	        if (this.eat(types$1$1.semi)) {
 	          if (decorators.length > 0) {
 	            throw this.raise(this.state.lastTokEnd, ErrorMessages.DecoratorSemicolon);
 	          }
@@ -32717,7 +32717,7 @@
 	          continue;
 	        }
 
-	        if (this.match(types$1.at)) {
+	        if (this.match(types$1$1.at)) {
 	          decorators.push(this.parseDecorator());
 	          continue;
 	        }
@@ -32779,7 +32779,7 @@
 	        return;
 	      }
 
-	      if (this.eat(types$1.braceL)) {
+	      if (this.eat(types$1$1.braceL)) {
 	        this.parseClassStaticBlock(classBody, member);
 	        return;
 	      }
@@ -32797,9 +32797,9 @@
 	    const publicMember = publicMethod;
 	    member.static = isStatic;
 
-	    if (this.eat(types$1.star)) {
+	    if (this.eat(types$1$1.star)) {
 	      method.kind = "method";
-	      const isPrivateName = this.match(types$1.privateName);
+	      const isPrivateName = this.match(types$1$1.privateName);
 	      this.parseClassElementName(method);
 
 	      if (isPrivateName) {
@@ -32816,7 +32816,7 @@
 	    }
 
 	    const containsEsc = this.state.containsEsc;
-	    const isPrivate = this.match(types$1.privateName);
+	    const isPrivate = this.match(types$1$1.privateName);
 	    const key = this.parseClassElementName(member);
 	    const isSimple = key.type === "Identifier";
 	    const maybeQuestionTokenStart = this.state.start;
@@ -32856,14 +32856,14 @@
 	        this.pushClassProperty(classBody, publicProp);
 	      }
 	    } else if (isSimple && key.name === "async" && !containsEsc && !this.isLineTerminator()) {
-	      const isGenerator = this.eat(types$1.star);
+	      const isGenerator = this.eat(types$1$1.star);
 
 	      if (publicMember.optional) {
 	        this.unexpected(maybeQuestionTokenStart);
 	      }
 
 	      method.kind = "method";
-	      const isPrivate = this.match(types$1.privateName);
+	      const isPrivate = this.match(types$1$1.privateName);
 	      this.parseClassElementName(method);
 	      this.parsePostMemberNameModifiers(publicMember);
 
@@ -32876,9 +32876,9 @@
 
 	        this.pushClassMethod(classBody, publicMethod, isGenerator, true, false, false);
 	      }
-	    } else if (isSimple && (key.name === "get" || key.name === "set") && !containsEsc && !(this.match(types$1.star) && this.isLineTerminator())) {
+	    } else if (isSimple && (key.name === "get" || key.name === "set") && !containsEsc && !(this.match(types$1$1.star) && this.isLineTerminator())) {
 	      method.kind = key.name;
-	      const isPrivate = this.match(types$1.privateName);
+	      const isPrivate = this.match(types$1$1.privateName);
 	      this.parseClassElementName(publicMethod);
 
 	      if (isPrivate) {
@@ -32910,11 +32910,11 @@
 	      start
 	    } = this.state;
 
-	    if ((type === types$1.name || type === types$1.string) && member.static && value === "prototype") {
+	    if ((type === types$1$1.name || type === types$1$1.string) && member.static && value === "prototype") {
 	      this.raise(start, ErrorMessages.StaticPrototype);
 	    }
 
-	    if (type === types$1.privateName && value === "constructor") {
+	    if (type === types$1$1.privateName && value === "constructor") {
 	      this.raise(start, ErrorMessages.ConstructorClassPrivateField);
 	    }
 
@@ -32930,7 +32930,7 @@
 	    this.state.labels = [];
 	    this.prodParam.enter(PARAM);
 	    const body = member.body = [];
-	    this.parseBlockOrModuleBlockBody(body, undefined, false, types$1.braceR);
+	    this.parseBlockOrModuleBlockBody(body, undefined, false, types$1$1.braceR);
 	    this.prodParam.exit();
 	    this.scope.exit();
 	    this.state.labels = oldLabels;
@@ -32984,14 +32984,14 @@
 	    this.scope.enter(SCOPE_CLASS | SCOPE_SUPER);
 	    this.expressionScope.enter(newExpressionScope());
 	    this.prodParam.enter(PARAM);
-	    node.value = this.eat(types$1.eq) ? this.parseMaybeAssignAllowIn() : null;
+	    node.value = this.eat(types$1$1.eq) ? this.parseMaybeAssignAllowIn() : null;
 	    this.expressionScope.exit();
 	    this.prodParam.exit();
 	    this.scope.exit();
 	  }
 
 	  parseClassId(node, isStatement, optionalId, bindingType = BIND_CLASS) {
-	    if (this.match(types$1.name)) {
+	    if (this.match(types$1$1.name)) {
 	      node.id = this.parseIdentifier();
 
 	      if (isStatement) {
@@ -33007,15 +33007,15 @@
 	  }
 
 	  parseClassSuper(node) {
-	    node.superClass = this.eat(types$1._extends) ? this.parseExprSubscripts() : null;
+	    node.superClass = this.eat(types$1$1._extends) ? this.parseExprSubscripts() : null;
 	  }
 
 	  parseExport(node) {
 	    const hasDefault = this.maybeParseExportDefaultSpecifier(node);
-	    const parseAfterDefault = !hasDefault || this.eat(types$1.comma);
+	    const parseAfterDefault = !hasDefault || this.eat(types$1$1.comma);
 	    const hasStar = parseAfterDefault && this.eatExportStar(node);
 	    const hasNamespace = hasStar && this.maybeParseExportNamespaceSpecifier(node);
-	    const parseAfterNamespace = parseAfterDefault && (!hasNamespace || this.eat(types$1.comma));
+	    const parseAfterNamespace = parseAfterDefault && (!hasNamespace || this.eat(types$1$1.comma));
 	    const isFromRequired = hasDefault || hasStar;
 
 	    if (hasStar && !hasNamespace) {
@@ -33027,7 +33027,7 @@
 	    const hasSpecifiers = this.maybeParseExportNamedSpecifiers(node);
 
 	    if (hasDefault && parseAfterDefault && !hasStar && !hasSpecifiers || hasNamespace && parseAfterNamespace && !hasSpecifiers) {
-	      throw this.unexpected(null, types$1.braceL);
+	      throw this.unexpected(null, types$1$1.braceL);
 	    }
 
 	    let hasDeclaration;
@@ -33044,17 +33044,17 @@
 	      return this.finishNode(node, "ExportNamedDeclaration");
 	    }
 
-	    if (this.eat(types$1._default)) {
+	    if (this.eat(types$1$1._default)) {
 	      node.declaration = this.parseExportDefaultExpression();
 	      this.checkExport(node, true, true);
 	      return this.finishNode(node, "ExportDefaultDeclaration");
 	    }
 
-	    throw this.unexpected(null, types$1.braceL);
+	    throw this.unexpected(null, types$1$1.braceL);
 	  }
 
 	  eatExportStar(node) {
-	    return this.eat(types$1.star);
+	    return this.eat(types$1$1.star);
 	  }
 
 	  maybeParseExportDefaultSpecifier(node) {
@@ -33083,7 +33083,7 @@
 	  }
 
 	  maybeParseExportNamedSpecifiers(node) {
-	    if (this.match(types$1.braceL)) {
+	    if (this.match(types$1$1.braceL)) {
 	      if (!node.specifiers) node.specifiers = [];
 	      node.specifiers.push(...this.parseExportSpecifiers());
 	      node.source = null;
@@ -33115,7 +33115,7 @@
 	    const expr = this.startNode();
 	    const isAsync = this.isAsyncFunction();
 
-	    if (this.match(types$1._function) || isAsync) {
+	    if (this.match(types$1$1._function) || isAsync) {
 	      this.next();
 
 	      if (isAsync) {
@@ -33123,16 +33123,16 @@
 	      }
 
 	      return this.parseFunction(expr, FUNC_STATEMENT | FUNC_NULLABLE_ID, isAsync);
-	    } else if (this.match(types$1._class)) {
+	    } else if (this.match(types$1$1._class)) {
 	      return this.parseClass(expr, true, true);
-	    } else if (this.match(types$1.at)) {
+	    } else if (this.match(types$1$1.at)) {
 	      if (this.hasPlugin("decorators") && this.getPluginOption("decorators", "decoratorsBeforeExport")) {
 	        this.raise(this.state.start, ErrorMessages.DecoratorBeforeExport);
 	      }
 
 	      this.parseDecorators(false);
 	      return this.parseClass(expr, true, true);
-	    } else if (this.match(types$1._const) || this.match(types$1._var) || this.isLet()) {
+	    } else if (this.match(types$1$1._const) || this.match(types$1$1._var) || this.isLet()) {
 	      throw this.raise(this.state.start, ErrorMessages.UnsupportedDefaultExport);
 	    } else {
 	      const res = this.parseMaybeAssignAllowIn();
@@ -33146,7 +33146,7 @@
 	  }
 
 	  isExportDefaultSpecifier() {
-	    if (this.match(types$1.name)) {
+	    if (this.match(types$1$1.name)) {
 	      const value = this.state.value;
 
 	      if (value === "async" && !this.state.containsEsc || value === "let") {
@@ -33156,23 +33156,23 @@
 	      if ((value === "type" || value === "interface") && !this.state.containsEsc) {
 	        const l = this.lookahead();
 
-	        if (l.type === types$1.name && l.value !== "from" || l.type === types$1.braceL) {
+	        if (l.type === types$1$1.name && l.value !== "from" || l.type === types$1$1.braceL) {
 	          this.expectOnePlugin(["flow", "typescript"]);
 	          return false;
 	        }
 	      }
-	    } else if (!this.match(types$1._default)) {
+	    } else if (!this.match(types$1$1._default)) {
 	      return false;
 	    }
 
 	    const next = this.nextTokenStart();
 	    const hasFrom = this.isUnparsedContextual(next, "from");
 
-	    if (this.input.charCodeAt(next) === 44 || this.match(types$1.name) && hasFrom) {
+	    if (this.input.charCodeAt(next) === 44 || this.match(types$1$1.name) && hasFrom) {
 	      return true;
 	    }
 
-	    if (this.match(types$1._default) && hasFrom) {
+	    if (this.match(types$1$1._default) && hasFrom) {
 	      const nextAfterFrom = this.input.charCodeAt(this.nextTokenStartSince(next + 4));
 	      return nextAfterFrom === 34 || nextAfterFrom === 39;
 	    }
@@ -33201,7 +33201,7 @@
 	  }
 
 	  shouldParseExportDeclaration() {
-	    if (this.match(types$1.at)) {
+	    if (this.match(types$1$1.at)) {
 	      this.expectOnePlugin(["decorators", "decorators-legacy"]);
 
 	      if (this.hasPlugin("decorators")) {
@@ -33304,14 +33304,14 @@
 	  parseExportSpecifiers() {
 	    const nodes = [];
 	    let first = true;
-	    this.expect(types$1.braceL);
+	    this.expect(types$1$1.braceL);
 
-	    while (!this.eat(types$1.braceR)) {
+	    while (!this.eat(types$1$1.braceR)) {
 	      if (first) {
 	        first = false;
 	      } else {
-	        this.expect(types$1.comma);
-	        if (this.eat(types$1.braceR)) break;
+	        this.expect(types$1$1.comma);
+	        if (this.eat(types$1$1.braceR)) break;
 	      }
 
 	      const node = this.startNode();
@@ -33324,7 +33324,7 @@
 	  }
 
 	  parseModuleExportName() {
-	    if (this.match(types$1.string)) {
+	    if (this.match(types$1$1.string)) {
 	      const result = this.parseStringLiteral(this.state.value);
 	      const surrogate = result.value.match(loneSurrogate);
 
@@ -33341,9 +33341,9 @@
 	  parseImport(node) {
 	    node.specifiers = [];
 
-	    if (!this.match(types$1.string)) {
+	    if (!this.match(types$1$1.string)) {
 	      const hasDefault = this.maybeParseDefaultImportSpecifier(node);
-	      const parseNext = !hasDefault || this.eat(types$1.comma);
+	      const parseNext = !hasDefault || this.eat(types$1$1.comma);
 	      const hasStar = parseNext && this.maybeParseStarImportSpecifier(node);
 	      if (parseNext && !hasStar) this.parseNamedImportSpecifiers(node);
 	      this.expectContextual("from");
@@ -33367,12 +33367,12 @@
 	  }
 
 	  parseImportSource() {
-	    if (!this.match(types$1.string)) this.unexpected();
+	    if (!this.match(types$1$1.string)) this.unexpected();
 	    return this.parseExprAtom();
 	  }
 
 	  shouldParseDefaultImport(node) {
-	    return this.match(types$1.name);
+	    return this.match(types$1$1.name);
 	  }
 
 	  parseImportSpecifierLocal(node, specifier, type, contextDescription) {
@@ -33386,7 +33386,7 @@
 	    const attrNames = new Set();
 
 	    do {
-	      if (this.match(types$1.braceR)) {
+	      if (this.match(types$1$1.braceR)) {
 	        break;
 	      }
 
@@ -33399,28 +33399,28 @@
 
 	      attrNames.add(keyName);
 
-	      if (this.match(types$1.string)) {
+	      if (this.match(types$1$1.string)) {
 	        node.key = this.parseStringLiteral(keyName);
 	      } else {
 	        node.key = this.parseIdentifier(true);
 	      }
 
-	      this.expect(types$1.colon);
+	      this.expect(types$1$1.colon);
 
-	      if (!this.match(types$1.string)) {
+	      if (!this.match(types$1$1.string)) {
 	        throw this.unexpected(this.state.start, ErrorMessages.ModuleAttributeInvalidValue);
 	      }
 
 	      node.value = this.parseStringLiteral(this.state.value);
 	      this.finishNode(node, "ImportAttribute");
 	      attrs.push(node);
-	    } while (this.eat(types$1.comma));
+	    } while (this.eat(types$1$1.comma));
 
 	    return attrs;
 	  }
 
 	  maybeParseModuleAttributes() {
-	    if (this.match(types$1._with) && !this.hasPrecedingLineBreak()) {
+	    if (this.match(types$1$1._with) && !this.hasPrecedingLineBreak()) {
 	      this.expectPlugin("moduleAttributes");
 	      this.next();
 	    } else {
@@ -33444,16 +33444,16 @@
 	      }
 
 	      attributes.add(node.key.name);
-	      this.expect(types$1.colon);
+	      this.expect(types$1$1.colon);
 
-	      if (!this.match(types$1.string)) {
+	      if (!this.match(types$1$1.string)) {
 	        throw this.unexpected(this.state.start, ErrorMessages.ModuleAttributeInvalidValue);
 	      }
 
 	      node.value = this.parseStringLiteral(this.state.value);
 	      this.finishNode(node, "ImportAttribute");
 	      attrs.push(node);
-	    } while (this.eat(types$1.comma));
+	    } while (this.eat(types$1$1.comma));
 
 	    return attrs;
 	  }
@@ -33467,9 +33467,9 @@
 	      return null;
 	    }
 
-	    this.eat(types$1.braceL);
+	    this.eat(types$1$1.braceL);
 	    const attrs = this.parseAssertEntries();
-	    this.eat(types$1.braceR);
+	    this.eat(types$1$1.braceR);
 	    return attrs;
 	  }
 
@@ -33483,7 +33483,7 @@
 	  }
 
 	  maybeParseStarImportSpecifier(node) {
-	    if (this.match(types$1.star)) {
+	    if (this.match(types$1$1.star)) {
 	      const specifier = this.startNode();
 	      this.next();
 	      this.expectContextual("as");
@@ -33496,18 +33496,18 @@
 
 	  parseNamedImportSpecifiers(node) {
 	    let first = true;
-	    this.expect(types$1.braceL);
+	    this.expect(types$1$1.braceL);
 
-	    while (!this.eat(types$1.braceR)) {
+	    while (!this.eat(types$1$1.braceR)) {
 	      if (first) {
 	        first = false;
 	      } else {
-	        if (this.eat(types$1.colon)) {
+	        if (this.eat(types$1$1.colon)) {
 	          throw this.raise(this.state.start, ErrorMessages.DestructureNamedImport);
 	        }
 
-	        this.expect(types$1.comma);
-	        if (this.eat(types$1.braceR)) break;
+	        this.expect(types$1$1.comma);
+	        if (this.eat(types$1$1.braceR)) break;
 	      }
 
 	      this.parseImportSpecifier(node);
@@ -33516,7 +33516,7 @@
 
 	  parseImportSpecifier(node) {
 	    const specifier = this.startNode();
-	    const importedIsString = this.match(types$1.string);
+	    const importedIsString = this.match(types$1$1.string);
 	    specifier.imported = this.parseModuleExportName();
 
 	    if (this.eatContextual("as")) {
@@ -33662,9 +33662,9 @@
 
 	lib$4.parse = parse$i;
 	lib$4.parseExpression = parseExpression;
-	lib$4.tokTypes = types$1;
+	lib$4.tokTypes = types$1$1;
 
-	const recast$3 = main$2;
+	const recast$3 = main$3;
 	const babelParse = lib$4;
 	var parse$h = function(code, options) {
 	    options = options || commonjsGlobal.parseOptions;
@@ -33807,7 +33807,7 @@
 
 	// 把简单的api转换成ast
 	// todo await 
-	const recast$2 = main$2;
+	const recast$2 = main$3;
 	const parse$g = parse$h;
 	const visit$2 = recast$2.types.visit;
 	const filterProps$4 = filterProp$2;
@@ -33921,7 +33921,7 @@
 
 	var getSelector_1$1 = getSelector$3;
 
-	const recast$1 = main$2;
+	const recast$1 = main$3;
 	var generate$8 = function(ast, isPretty) {
 	    return isPretty ? recast$1.prettyPrint(ast).code : recast$1.print(ast).code;
 	};
@@ -33972,7 +33972,7 @@
 	const { isObject: isObject$5, hasOwn: hasOwn$2 } = util$8;
 	// 通过简单ast结构查找ast节点
 
-	const recast = main$2;
+	const recast = main$3;
 	const visit$1 = recast.types.visit;
 	const filterProps$3 = filterProp$2;
 	const generate$6 = generate$8;
@@ -34029,9 +34029,9 @@
 	                }
 	            } else {
 	                try {
-	                    // 兼容某些情况例如 使用{ $_$: $_$ }匹配{ a() {} }
+	                    // 例如 使用{ $_$: $_$ }匹配{ a() {} }
 	                    let fullProp = full[prop];
-	                    if (!fullProp) {
+	                    if (!fullProp && !Array.isArray(full)) {
 	                        if (partial[prop] && typeof partial[prop].name == 'string' && 
 	                            (partial[prop].name.match(Expando$1) || partial[prop].name.match(new RegExp(Expando$1.slice(0, -1) + '\\$3')))
 	                        ) {
@@ -34057,12 +34057,12 @@
 	                return true;
 	            }
 	            if (partial[prop].match && partial[prop].match(Expando$1)) {
+	                if (!full) return;
 	                let extra = {
 	                    node: full
 	                };
 	                const expandoKey = partial[prop].replace(Expando$1, '') || '0';
 	                extraData[expandoKey] = extraData[expandoKey] || [];
-	                if (!full) return;
 	                
 	                switch (full.type) {
 	                case 'Identifier':
@@ -52141,34 +52141,34 @@
 	module.exports = exports.default;
 	}(node$1, node$1.exports));
 
-	var types = {};
+	var types$1 = {};
 
-	types.__esModule = true;
-	types.UNIVERSAL = types.ATTRIBUTE = types.CLASS = types.COMBINATOR = types.COMMENT = types.ID = types.NESTING = types.PSEUDO = types.ROOT = types.SELECTOR = types.STRING = types.TAG = void 0;
+	types$1.__esModule = true;
+	types$1.UNIVERSAL = types$1.ATTRIBUTE = types$1.CLASS = types$1.COMBINATOR = types$1.COMMENT = types$1.ID = types$1.NESTING = types$1.PSEUDO = types$1.ROOT = types$1.SELECTOR = types$1.STRING = types$1.TAG = void 0;
 	var TAG = 'tag';
-	types.TAG = TAG;
+	types$1.TAG = TAG;
 	var STRING = 'string';
-	types.STRING = STRING;
+	types$1.STRING = STRING;
 	var SELECTOR = 'selector';
-	types.SELECTOR = SELECTOR;
+	types$1.SELECTOR = SELECTOR;
 	var ROOT = 'root';
-	types.ROOT = ROOT;
+	types$1.ROOT = ROOT;
 	var PSEUDO = 'pseudo';
-	types.PSEUDO = PSEUDO;
+	types$1.PSEUDO = PSEUDO;
 	var NESTING = 'nesting';
-	types.NESTING = NESTING;
+	types$1.NESTING = NESTING;
 	var ID = 'id';
-	types.ID = ID;
+	types$1.ID = ID;
 	var COMMENT = 'comment';
-	types.COMMENT = COMMENT;
+	types$1.COMMENT = COMMENT;
 	var COMBINATOR = 'combinator';
-	types.COMBINATOR = COMBINATOR;
+	types$1.COMBINATOR = COMBINATOR;
 	var CLASS = 'class';
-	types.CLASS = CLASS;
+	types$1.CLASS = CLASS;
 	var ATTRIBUTE = 'attribute';
-	types.ATTRIBUTE = ATTRIBUTE;
+	types$1.ATTRIBUTE = ATTRIBUTE;
 	var UNIVERSAL = 'universal';
-	types.UNIVERSAL = UNIVERSAL;
+	types$1.UNIVERSAL = UNIVERSAL;
 
 	(function (module, exports) {
 
@@ -52177,7 +52177,7 @@
 
 	var _node = _interopRequireDefault(node$1.exports);
 
-	var types$1 = _interopRequireWildcard(types);
+	var types = _interopRequireWildcard(types$1);
 
 	function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -52410,7 +52410,7 @@
 	    var _this2 = this;
 
 	    return this.walk(function (selector) {
-	      if (selector.type === types$1.ATTRIBUTE) {
+	      if (selector.type === types.ATTRIBUTE) {
 	        return callback.call(_this2, selector);
 	      }
 	    });
@@ -52420,7 +52420,7 @@
 	    var _this3 = this;
 
 	    return this.walk(function (selector) {
-	      if (selector.type === types$1.CLASS) {
+	      if (selector.type === types.CLASS) {
 	        return callback.call(_this3, selector);
 	      }
 	    });
@@ -52430,7 +52430,7 @@
 	    var _this4 = this;
 
 	    return this.walk(function (selector) {
-	      if (selector.type === types$1.COMBINATOR) {
+	      if (selector.type === types.COMBINATOR) {
 	        return callback.call(_this4, selector);
 	      }
 	    });
@@ -52440,7 +52440,7 @@
 	    var _this5 = this;
 
 	    return this.walk(function (selector) {
-	      if (selector.type === types$1.COMMENT) {
+	      if (selector.type === types.COMMENT) {
 	        return callback.call(_this5, selector);
 	      }
 	    });
@@ -52450,7 +52450,7 @@
 	    var _this6 = this;
 
 	    return this.walk(function (selector) {
-	      if (selector.type === types$1.ID) {
+	      if (selector.type === types.ID) {
 	        return callback.call(_this6, selector);
 	      }
 	    });
@@ -52460,7 +52460,7 @@
 	    var _this7 = this;
 
 	    return this.walk(function (selector) {
-	      if (selector.type === types$1.NESTING) {
+	      if (selector.type === types.NESTING) {
 	        return callback.call(_this7, selector);
 	      }
 	    });
@@ -52470,7 +52470,7 @@
 	    var _this8 = this;
 
 	    return this.walk(function (selector) {
-	      if (selector.type === types$1.PSEUDO) {
+	      if (selector.type === types.PSEUDO) {
 	        return callback.call(_this8, selector);
 	      }
 	    });
@@ -52480,7 +52480,7 @@
 	    var _this9 = this;
 
 	    return this.walk(function (selector) {
-	      if (selector.type === types$1.TAG) {
+	      if (selector.type === types.TAG) {
 	        return callback.call(_this9, selector);
 	      }
 	    });
@@ -52490,7 +52490,7 @@
 	    var _this10 = this;
 
 	    return this.walk(function (selector) {
-	      if (selector.type === types$1.UNIVERSAL) {
+	      if (selector.type === types.UNIVERSAL) {
 	        return callback.call(_this10, selector);
 	      }
 	    });
@@ -52574,7 +52574,7 @@
 
 	var _container = _interopRequireDefault(container.exports);
 
-	var _types = types;
+	var _types = types$1;
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -52638,7 +52638,7 @@
 
 	var _container = _interopRequireDefault(container.exports);
 
-	var _types = types;
+	var _types = types$1;
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -52786,7 +52786,7 @@
 
 	var _node = _interopRequireDefault(node$1.exports);
 
-	var _types = types;
+	var _types = types$1;
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -52855,7 +52855,7 @@
 
 	var _node = _interopRequireDefault(node$1.exports);
 
-	var _types = types;
+	var _types = types$1;
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -52890,7 +52890,7 @@
 
 	var _node = _interopRequireDefault(node$1.exports);
 
-	var _types = types;
+	var _types = types$1;
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -53035,7 +53035,7 @@
 
 	var _namespace = _interopRequireDefault(namespace.exports);
 
-	var _types = types;
+	var _types = types$1;
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -53070,7 +53070,7 @@
 
 	var _node = _interopRequireDefault(node$1.exports);
 
-	var _types = types;
+	var _types = types$1;
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -53105,7 +53105,7 @@
 
 	var _container = _interopRequireDefault(container.exports);
 
-	var _types = types;
+	var _types = types$1;
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -53158,7 +53158,7 @@
 
 	var _namespace = _interopRequireDefault(namespace.exports);
 
-	var _types = types;
+	var _types = types$1;
 
 	var _CSSESC_QUOTE_OPTIONS;
 
@@ -53672,7 +53672,7 @@
 
 	var _namespace = _interopRequireDefault(namespace.exports);
 
-	var _types = types;
+	var _types = types$1;
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -53708,7 +53708,7 @@
 
 	var _node = _interopRequireDefault(node$1.exports);
 
-	var _types = types;
+	var _types = types$1;
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -53743,7 +53743,7 @@
 
 	var _node = _interopRequireDefault(node$1.exports);
 
-	var _types = types;
+	var _types = types$1;
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -54190,7 +54190,7 @@
 
 	var tokens = _interopRequireWildcard(tokenTypes);
 
-	var types$1 = _interopRequireWildcard(types);
+	var types = _interopRequireWildcard(types$1);
 
 	var _util = util$1;
 
@@ -54950,7 +54950,7 @@
 	    var unbalanced = 1;
 	    this.position++;
 
-	    if (last && last.type === types$1.PSEUDO) {
+	    if (last && last.type === types.PSEUDO) {
 	      var selector = new _selector["default"]({
 	        source: {
 	          start: tokenStart(this.tokens[this.position - 1])
@@ -55718,7 +55718,7 @@
 	guards.isNamespace = isNamespace;
 	guards.isUniversal = guards.isTag = guards.isString = guards.isSelector = guards.isRoot = guards.isPseudo = guards.isNesting = guards.isIdentifier = guards.isComment = guards.isCombinator = guards.isClassName = guards.isAttribute = void 0;
 
-	var _types = types;
+	var _types = types$1;
 
 	var _IS_TYPE;
 
@@ -55777,7 +55777,7 @@
 
 	exports.__esModule = true;
 
-	var _types = types;
+	var _types = types$1;
 
 	Object.keys(_types).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -69702,6 +69702,95 @@
 
 	var writeFile$1 = writeCode;
 
+	var name = "gogocode";
+	var version = "1.0.7";
+	var description = "The simplest tool to parse/transform/generate code on ast";
+	var keywords = [
+		"babel",
+		"jscodeshift",
+		"acorn",
+		"babylon",
+		"recast",
+		"babel-generator",
+		"babel-template",
+		"babel-traverse",
+		"babel-types",
+		"esprima",
+		"html-ast-transform",
+		"htmlparser-to-html",
+		"htmlparser2",
+		"parse5",
+		"ast"
+	];
+	var main$1 = "index.js";
+	var browser = "umd/gogocode.js";
+	var types = "types/index.d.ts";
+	var scripts = {
+		test: "jest --coverage",
+		build: "rollup -c",
+		prepublishOnly: "npm run build && npm run test"
+	};
+	var repository = {
+		type: "git",
+		url: "git@github.com:thx/gogocode.git"
+	};
+	var author = "yexi";
+	var license = "ISC";
+	var devDependencies = {
+		"@rollup/plugin-commonjs": "^19.0.0",
+		"@rollup/plugin-json": "^4.1.0",
+		"@rollup/plugin-node-resolve": "^13.0.0",
+		jest: "^26.6.3",
+		lerna: "^3.22.1",
+		rollup: "^2.52.3",
+		"rollup-plugin-terser": "^7.0.2",
+		typescript: "^3.5.2"
+	};
+	var dependencies = {
+		"@babel/parser": "^7.7.7",
+		glob: "^7.1.6",
+		"hyntax-yx": "^1.0.3",
+		"indent-string": "^4.0.0",
+		recast: "^0.18.5",
+		"vue3-browser-compiler-yx": "^1.0.1"
+	};
+	var jest = {
+		collectCoverage: true,
+		coverageDirectory: "./coverage/",
+		collectCoverageFrom: [
+			"src/**/*.js",
+			"index.js",
+			"!**/node_modules/**",
+			"!src/browser.js",
+			"!src/run-html-plugin.js",
+			"!src/run-js-plugin.js",
+			"!src/serialize-node.js",
+			"!src/file-tool/read-file.js",
+			"!src/file-tool/write-file.js",
+			"!src/js-core/build-node.js",
+			"!src/js-core/get-absolute-value.js"
+		],
+		testPathIgnorePatterns: [
+			"/node_modules/"
+		]
+	};
+	var require$$7 = {
+		name: name,
+		version: version,
+		description: description,
+		keywords: keywords,
+		main: main$1,
+		browser: browser,
+		types: types,
+		scripts: scripts,
+		repository: repository,
+		author: author,
+		license: license,
+		devDependencies: devDependencies,
+		dependencies: dependencies,
+		jest: jest
+	};
+
 	const jsCore = core_1$2;
 	const htmlCore = core_1$1;
 	const vueCore = core_1;
@@ -69710,6 +69799,7 @@
 	// const build = require('./build-node');
 	const loadFile = readFile;
 	const writeFile = writeFile$1;
+	const pkg = require$$7;
 
 	const langCoreMap = {
 	    'vue': vueCore,
@@ -69785,6 +69875,8 @@
 	};
 
 	main.writeFile = writeFile;
+
+	main.version = pkg.version;
 
 	var $$1 = main;
 
