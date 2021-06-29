@@ -5,3 +5,4 @@
 test$.js
 packages/esbuild-import-plugin
 packages/transform-project
+packages/gogocode-vue-playground

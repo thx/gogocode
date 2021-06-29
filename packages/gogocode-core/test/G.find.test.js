@@ -871,3 +871,33 @@ test('$.find: find script setup', () => {
 
     expect(res.match('handle')).toBeTruthy()
 })
+
+test('$.find: match typeAnnotation', () => {
+    const res = $(`
+        export default async (
+            data: Request<{ msg: string }>
+        ): Promise<string> => {
+
+            return data.msg
+        }
+    `)
+        .find(`export default async ($$$1): $_$2 => { $$$3 }`)
+        .match[2]
+
+    expect(res[0].type == 'TSTypeReference').toBeTruthy()
+})
+
+test('$.find: match typeAnnotation', () => {
+    const res = $(`
+        export default async (
+            data: Request<{ msg: string }>
+        ): Promise<string> => {
+
+            return data.msg
+        }
+    `)
+        .find(`export default async ($$$1): $_$1<$_$2> => { $$$3 }`)
+        .match
+
+    expect(res[1][0] && res[2][0]).toBeTruthy()
+})

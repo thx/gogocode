@@ -1,0 +1,37 @@
+{
+  "name": "gogocode-cli",
+  "version": "0.2.7",
+  "description": "gogocode-cli tools",
+  "bin": {
+    "gogocode": "index.js"
+  },
+  "scripts": {
+    "test": "jest",
+    "prepublishOnly": "node ./scripts/copy-sample.js",
+    "postpublish": "node ./scripts/clear-sample.js"
+  },
+  "keywords": [
+    "gogocode",
+    "ast",
+    "gogocode-cli"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:thx/gogocode.git"
+  },
+  "author": "zhuo ri",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "commander": "^7.1.0",
+    "cross-spawn": "^7.0.3",
+    "fs-extra": "^9.1.0",
+    "gogocode": "^1.0.3",
+    "inquirer": "^8.1.0",
+    "progress": "^2.0.3",
+    "semver": "^7.3.5"
+  },
+  "engines": {
+    "node": "*"
+  }
+}
