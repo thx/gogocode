@@ -109,15 +109,48 @@ function tryLoadPackage(packageName, resolve, reject) {
         reject(err);
     }
 }
+function ppt(tranFns, options) {
+    tranFns.forEach((tran) => {
+        const { fn } = tran;
+        try {
+            const fileInfo = { source: 'var a = 1;', path: 'period.js' };
+            const api = { gogocode: $ };
+            fn(fileInfo,
+                api,
+                options);
+        } catch (err) {
+            console.error(err);
+        }
+    });
+}
+/**
+ * 在插件转换之前
+ * @param {*} tranFns 
+ * @param {*} options 
+ */
+function preTransform(tranFns, options) {
+    options.period = 'preTransform';
+    ppt(tranFns, options);
+}
+/**
+ * 插件转换之后
+ * @param {*} tranFns 
+ * @param {*} options 
+ */
+function postTransform(tranFns, options) {
+    options.period = 'postTransform';
+    ppt(tranFns, options);
+}
 /**
  * 
  * @param {*} tranFns plugin main function
- * @param {*} srcRootPath srcRootPath
+ * @param {*} options options
  * @param {*} srcFilePath srcFilePath
  * @param {*} outFilePath outFilePath
  * @returns {success or failed}
  */
-function execTransforms(tranFns, srcRootPath, srcFilePath, outFilePath) {
+function execTransforms(tranFns, options, srcFilePath, outFilePath) {
+    options.period = 'transform';
     let source = null;
     try {
         source = fse.readFileSync(srcFilePath).toString();
@@ -137,20 +170,12 @@ function execTransforms(tranFns, srcRootPath, srcFilePath, outFilePath) {
     let success = true;
     tranFns.forEach((tran, index) => {
         const { name, fn } = tran;
-        tran.listeners = tran.listeners || {};
+        
         try {
             // 多个transform 时候会多次写入outFullPath。outFullPath即是源文件也是输出文件
             const fileInfo = { source, path: index === 0 ? srcFilePath : outFilePath };
             const api = { gogocode: $ };
-            const options = {
-                pwdPath: PWD_PATH,
-                rootPath: srcRootPath,
-                addListener: (type, callback) => {
-                    //一个listener只有最后一个注册的回生效
-                    tran.listeners[type] = callback;
-                    // todo 。。。
-                }
-            }
+          
             source = fn(fileInfo,
                 api,
                 options);
@@ -226,7 +251,6 @@ function logSuccess(result) {
         console.log(chalk.yellow(`transform failed!`));
         console.log();
     }
-    process.exit();
 }
 function handleCommand({ srcPath, outPath, transform, resolve, reject }) {
     const srcFullPath = path.resolve(PWD_PATH, srcPath);
@@ -242,6 +266,13 @@ function handleCommand({ srcPath, outPath, transform, resolve, reject }) {
         requireTransforms(tPath)
     )).then((tranFns) => {
         try {
+            const options = {
+                pwdPath: PWD_PATH,
+                rootPath: srcFullPath,
+                
+            };
+            preTransform(tranFns, options);
+
             if (srcIsDir) {
                 const files = fileUtil.listFiles(srcFullPath);
                 let result = true;
@@ -255,19 +286,21 @@ function handleCommand({ srcPath, outPath, transform, resolve, reject }) {
                     if (EXCLUDE_FILES.indexOf(ext) !== -1) {
                         fse.copyFileSync(srcFilePath, outFilePath);
                     } else {
-                        const { success } = execTransforms(tranFns, srcFullPath, srcFilePath, outFilePath);
+                        const { success } = execTransforms(tranFns, options, srcFilePath, outFilePath);
                         if (!success) { result = success; }
                     }
                     bar.tick();
                 });
                 logSuccess(result);
-                resolve();
             } else {
                 mkOutDir(outFullPath);
-                const { success } = execTransforms(tranFns, srcFullPath, srcFullPath, outFullPath);
+                execTransforms(tranFns, options, srcFullPath, outFullPath);
+                const { success } = execTransforms(tranFns, options, srcFullPath, outFullPath);
                 logSuccess(success);
-                resolve();
             }
+
+            postTransform(tranFns, options);
+            resolve();
 
         } catch (error) {
             console.error(error);
