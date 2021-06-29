@@ -1,6 +1,7 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
+import nodePolyfills from 'rollup-plugin-node-polyfills';
 import { terser } from "rollup-plugin-terser";
 import pkg from './package.json';
 
@@ -15,6 +16,7 @@ export default [
         },
         plugins: [
             json(),
+            nodePolyfills(),
             resolve(), // so Rollup can find `ms`
             commonjs(), // so Rollup can convert `ms` to an ES module
         ],
@@ -28,6 +30,7 @@ export default [
         },
         plugins: [
             json(),
+            nodePolyfills(),
             resolve(), // so Rollup can find `ms`
             commonjs(), // so Rollup can convert `ms` to an ES module
             terser()
