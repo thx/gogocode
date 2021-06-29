@@ -1,3 +1,7 @@
+const path = require('path');
+const fs = require('fs')
+const prettier = require('prettier');
+
 function addCodeToLifeCycle(scriptAst, lifeCycle, code) {
     const hasLifeCycle = scriptAst.has(`${lifeCycle}() {}`);
 
@@ -77,10 +81,10 @@ function getVueName(scriptAst) {
         const match = scriptAst.find('import $_$1 from "vue"').match;
         let vueName = 'Vue';
         if (match &&
-      match[1] &&
-      match[1].length > 0 &&
-      match[1][0] &&
-      match[1][0].value) {
+            match[1] &&
+            match[1].length > 0 &&
+            match[1][0] &&
+            match[1][0].value) {
             vueName = match[1][0].value;
         }
         return vueName;
@@ -107,10 +111,10 @@ function appendEmitsProp(scriptAst, emitsArr) {
         scriptAst.find('{ emits:$_$ }').each(fAst => {
             const match = fAst.match;
             if (!match ||
-        !match[0] ||
-        match[0].length === 0 ||
-        !match[0][0] ||
-        !match[0][0].value) { return; }
+                !match[0] ||
+                match[0].length === 0 ||
+                !match[0][0] ||
+                !match[0][0].value) { return; }
             const originEmits = match[0][0].value.replace('[', '').replace(']', '').replace(/\"/g, '\'').split(',');
             const newSet = new Set(originEmits);
             emitsArr.forEach(emit => {
@@ -131,11 +135,45 @@ function appendEmitsProp(scriptAst, emitsArr) {
             })`);
     }
 }
+function addUtils(rootPath, filePath, extFunCode, $) {
+    const importFile = 'utils/gogocodeTransfer.js'
+    const inputPath = path.resolve(rootPath, importFile)
+    if (!fs.existsSync(inputPath)) {
+        inputPath.split('/').reduce((prev, curr) => {
+            if (prev && !prev.endsWith(importFile) && fs.existsSync(prev) === false) {
+                fs.mkdirSync(prev);
+            }
+            return prev + '/' + curr;
+        });
+    }
+    const code = fs.existsSync(inputPath) ? fs.readFileSync(inputPath, 'utf-8') : ''
+    let ast = $(code)
+    if (!ast.has(extFunCode)) {
+        ast.append('program.body', extFunCode)
+        try {
+            const prettierOutPut = prettier.format(ast.generate(), {
+                trailingComma: 'es5',
+                tabWidth: 4,
+                semi: false,
+                singleQuote: true,
+                printWidth: 80,
+                parser: 'typescript',
+            });
+            fs.writeFileSync(inputPath, prettierOutPut);
+        }
+        catch (ex) {
+            console.log('error ', ex);
+        }
+    }
+    return path.relative(filePath.substring(0,filePath.lastIndexOf('/')), inputPath);
+}
+
 
 module.exports = {
     addCodeToLifeCycle,
     addMethod,
     getVueName,
     addVueImport,
-    appendEmitsProp
+    appendEmitsProp,
+    addUtils
 };
