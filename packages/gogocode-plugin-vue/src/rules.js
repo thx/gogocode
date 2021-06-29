@@ -63,7 +63,7 @@ module.exports = [
         test: /\.vue$|\.js$|\.ts$/,
     },
     { name: 'globalApi', rule: globalApi, test: /\.vue$|\.js$|\.ts$/ },
-    { name: 'keyAttribute', rule: keyAttribute, test: /\.vue$/ },
+    
     { name: 'keycodeModifiers', rule: keycodeModifiers, test: /\.vue$/ },
     { name: 'listenersRemoved', rule: listenersRemoved, test: /\.vue$/ },
     {
@@ -83,10 +83,12 @@ module.exports = [
         test: /\.vue$/,
     },
     { name: 'watch', rule: watch, test: /\.vue$/ },
+    { name: 'keyAttribute', rule: keyAttribute, test: /\.vue$/ },
     {
         name: 'package-json',
         rule: packageJson,
         test: /package\.json$/,
         notParseAst: false,
     },
+
 ];
