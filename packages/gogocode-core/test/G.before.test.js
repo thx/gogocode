@@ -186,3 +186,11 @@ test('$.before: simple1 html code', () => {
     .generate();
     expect(code.indexOf('<span>before</span>') > -1).toBeTruthy();
 })
+
+test('$.before: insert decorator', () => {
+    $(`class A {
+    }`)
+    .find(`class $_$ {}`)
+    // .before(`@decorator()`)
+    .generate()
+})

@@ -58,9 +58,9 @@ function checkIsMatch(full, partial, extraData, strictSequence) {
                 }
             } else {
                 try {
-                    // 兼容某些情况例如 使用{ $_$: $_$ }匹配{ a() {} }
+                    // 例如 使用{ $_$: $_$ }匹配{ a() {} }
                     let fullProp = full[prop];
-                    if (!fullProp) {
+                    if (!fullProp && !Array.isArray(full)) {
                         if (partial[prop] && typeof partial[prop].name == 'string' && 
                             (partial[prop].name.match(Expando) || partial[prop].name.match(new RegExp(Expando.slice(0, -1) + '\\$3')))
                         ) {
@@ -86,12 +86,12 @@ function checkIsMatch(full, partial, extraData, strictSequence) {
                 return true;
             }
             if (partial[prop].match && partial[prop].match(Expando)) {
+                if (!full) return;
                 let extra = {
                     node: full
                 };
                 const expandoKey = partial[prop].replace(Expando, '') || '0';
                 extraData[expandoKey] = extraData[expandoKey] || [];
-                if (!full) return;
                 
                 switch (full.type) {
                 case 'Identifier':
