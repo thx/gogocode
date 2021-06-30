@@ -15,6 +15,6 @@ test('events-api', () => {
     transform(ast);
 
     let result = ast.find('<script></script>')
-        .has(`import emitter from 'tiny-emitter/instance'`)        
+        .has(`import tiny_emitter from 'tiny-emitter/instance'`)        
     expect(result).toBeTruthy();
 })
