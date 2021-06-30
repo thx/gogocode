@@ -901,3 +901,18 @@ test('$.find: match typeAnnotation', () => {
 
     expect(res[1][0] && res[2][0]).toBeTruthy()
 })
+
+test('$.find: match Vue.createApp', () => {
+    const find = $(`
+    import App from './App';
+    window.$vueApp.use();
+    const app = window.$vueApp = Vue.createApp(App).mount('#app');
+    window.$vueApp.config.globalProperties.routerAppend = (path, pathToAppend) => {
+        return path + (path.endsWith('/') ? '' : '/') + pathToAppend; };
+    
+    `)
+        .find(`Vue.createApp(App).mount('#app')`)
+
+
+    expect(find.length > 0).toBeTruthy()
+})

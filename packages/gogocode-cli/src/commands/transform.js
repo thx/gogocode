@@ -110,14 +110,10 @@ function tryLoadPackage(packageName, resolve, reject) {
     }
 }
 function ppt(tranFns, options) {
+    const api = { gogocode: $ };
     tranFns.forEach((tran) => {
-        const { fn } = tran;
         try {
-            const fileInfo = { source: 'var a = 1;', path: 'period.js' };
-            const api = { gogocode: $ };
-            fn(fileInfo,
-                api,
-                options);
+            tran.fn(null, api, options);
         } catch (err) {
             console.error(err);
         }
@@ -151,6 +147,8 @@ function postTransform(tranFns, options) {
  */
 function execTransforms(tranFns, options, srcFilePath, outFilePath) {
     options.period = 'transform';
+    options.outFilePath = outFilePath;
+
     let source = null;
     try {
         source = fse.readFileSync(srcFilePath).toString();
@@ -269,7 +267,7 @@ function handleCommand({ srcPath, outPath, transform, resolve, reject }) {
             const options = {
                 pwdPath: PWD_PATH,
                 rootPath: srcFullPath,
-                
+                outRootPath: outFullPath
             };
             preTransform(tranFns, options);
 
