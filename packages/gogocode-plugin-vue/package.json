@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "t": "node ./t.js"
+    "t": "node ./t.js",
+    "prepublishOnly": "npm run test"
   },
   "keywords": [
     "vue",
@@ -31,7 +32,7 @@
   },
   "devDependencies": {
     "glob": "^7.1.7",
-    "gogocode": "^1.0.3",
+    "gogocode": "^1.0.8",
     "jest": "^26.6.3"
   }
 }
