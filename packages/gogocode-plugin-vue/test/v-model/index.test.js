@@ -49,6 +49,7 @@ test('v-model: test rename value props result should be ok', () => {
             result = false;
         }
     })
+    
     expect(result).toBeTruthy();
 
 })
