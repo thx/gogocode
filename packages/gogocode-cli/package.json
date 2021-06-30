@@ -1,6 +1,6 @@
 {
   "name": "gogocode-cli",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "gogocode-cli tools",
   "bin": {
     "gogocode": "index.js"

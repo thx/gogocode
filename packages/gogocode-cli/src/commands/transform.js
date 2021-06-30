@@ -113,7 +113,7 @@ function ppt(tranFns, options) {
     tranFns.forEach((tran) => {
         const { fn } = tran;
         try {
-            const fileInfo = { source: 'var a = 1;', path: 'period.js' };
+            const fileInfo = { source: `/* this is period of ${options.period} ,do not return real source content . fileInfo.path = 'period.js' is not a real path */`, path: 'period.js' };
             const api = { gogocode: $ };
             fn(fileInfo,
                 api,

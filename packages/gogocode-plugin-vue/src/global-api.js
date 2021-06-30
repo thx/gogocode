@@ -1,6 +1,7 @@
 const scriptUtils = require('../utils/scriptUtils');
 const path = require('path');
 module.exports = function (ast, api, options) {
+   
     const vueAppName = 'window.$vueApp';
     const script =
     ast.parseOptions && ast.parseOptions.language === 'vue'
@@ -30,10 +31,9 @@ module.exports = function (ast, api, options) {
     if (isMainFile(options.rootPath, options.filePath)) {
         script.find(`new ${vueName}($_$)`).each((fAst) => {
             if (
-                !fAst.match ||
-        !fAst.match[0] ||
-        !fAst.match[0].length ||
-        !fAst.match[0][0].node
+                !fAst.match[0] ||
+                !fAst.match[0].length ||
+                !fAst.match[0][0].node
             ) {
                 return;
             }
@@ -62,7 +62,9 @@ module.exports = function (ast, api, options) {
             // add global function for router-link
             // https://next.router.vuejs.org/zh/guide/migration/index.html#%E5%88%A0%E9%99%A4-router-link-%E4%B8%AD%E7%9A%84-append-%E5%B1%9E%E6%80%A7
             position.after(`${vueAppName}.config.globalProperties.routerAppend = (path, pathToAppend) => {
-      return path + (path.endsWith('/') ? '' : '/') + pathToAppend; };`);
+                return path + (path.endsWith('/') ? '' : '/') + pathToAppend; };`);
+
+            // find appName for createApp
             let appName = '';
             fAst
                 .find([`{render:$_$=>$_$($_$1)}`, `{render:($_$)=>$_$($_$1)}`])
@@ -85,16 +87,25 @@ module.exports = function (ast, api, options) {
                     appName = value;
                 }
             });
+            //处理 https://github.com/thx/gogocode/issues/29
+            script.find(`new ${vueName}($$$).$mount($_$)`).each((ffAst) => {
+                ffAst.replace(`new ${vueName}($$$).$mount($_$)`, `${vueAppName} = ${vueName}.createApp(${appName})`);
+                if (ffAst.match[0].length) {
+                    const vuePosition = getPosition(ffAst);
+                    const value = ffAst.match[0][0].raw;
+                    vuePosition.after(`${vueAppName}.mount(${value});`);
+                }
+            });
+            fAst.replace(
+                `$mount`,
+                `mount`
+            );
             fAst.replace(
                 `new ${vueName}($_$)`,
                 `${vueAppName} = ${vueName}.createApp(${appName})`
             );
+            
         });
-
-        script.replace(
-            `$mount`,
-            `mount`
-        );
     }
 
     return ast;
@@ -106,7 +117,7 @@ function withoutExt(p) {
 
 function isMainFile(rootPath, filePath) {
     const relative = path.relative(rootPath, filePath);
-    return ['src/main', 'src/index', 'src/app'].includes(withoutExt(relative));
+    return ['src/main', 'src/index', 'src/app', 'main', 'index', 'app'].includes(withoutExt(relative));
 }
 
 function getPosition(ast) {
