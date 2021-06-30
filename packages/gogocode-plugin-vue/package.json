@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "t": "node ./t.js"
+    "t": "node ./t.js",
+    "prepublishOnly": "npm run test"
   },
   "keywords": [
     "vue",
