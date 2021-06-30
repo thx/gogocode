@@ -36,6 +36,7 @@ test('global-api: test mount', () => {
     Vue.use();
     const app = new Vue({ components:{App} }).mount('#app');
     `);
+    
     const options = { rootPath: '/test', filePath: '/test/src/main.js' };
     const newAst = transform(ast, { gogocode: $ }, options);
     const code = newAst.generate();

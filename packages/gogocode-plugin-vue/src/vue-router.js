@@ -13,7 +13,6 @@ module.exports = function (ast) {
             }
         });
         sourceAst.replace(`import $_$ from 'vue-router'`, `import * as VueRouter from 'vue-router'`);
-        sourceAst.replace(`import $_$ from "vue-router"`, `import * as VueRouter from "vue-router"`);
 
         sourceAst.replace(`new Router($_$)`, `VueRouter.createRouter($_$)`);
         sourceAst.replace(`router.onReady.bind($_$)`, `router.isReady.bind($_$)`);

@@ -1,6 +1,7 @@
 const scriptUtils = require('../utils/scriptUtils');
 const path = require('path');
 module.exports = function (ast, api, options) {
+   
     const vueAppName = 'window.$vueApp';
     const script =
     ast.parseOptions && ast.parseOptions.language === 'vue'
@@ -95,12 +96,14 @@ module.exports = function (ast, api, options) {
                 `${vueAppName} = ${vueName}.createApp(${appName})`
             );
             //处理 https://github.com/thx/gogocode/issues/29
-            script.find(`${vueName}.createApp(${appName}).mount($_$)`).each((ffAst) => {
+            script.find(`Vue.createApp(App).mount('#app')`).each((ffAst) => {
                 ffAst.replace(`${vueName}.createApp(${appName}).mount($_$)`, `${vueName}.createApp(${appName})`);
                 const value = ffAst.match[0][0];
                 position.after(`${vueAppName}.mount(${value});`)
             });
-
+            const find = api.gogocode(script.generate())
+                .find(`Vue.createApp(App).mount('#app')`)
+            console.log(find);
         });
     }
 
