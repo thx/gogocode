@@ -14,7 +14,7 @@ test('render-function-api', () => {
 test('render-function-api', () => {
     const vuePath = path.join(__dirname, 'Comp.vue');
     const ast = $.loadFile(vuePath, { parseOptions: { language: 'vue' } })
-    transform(ast);
+    transform(ast,{gogocode: $},{outRootPath:'',outFilePath:''});
     let result = true
     ast.find('<script></script>').find([`render($_$){}`, `render: ($_$) => {}`]).each(e => {
         let params = e.attr('params') || e.attr('value.params') || []
