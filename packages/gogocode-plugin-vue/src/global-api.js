@@ -117,7 +117,7 @@ function withoutExt(p) {
 
 function isMainFile(rootPath, filePath) {
     const relative = path.relative(rootPath, filePath);
-    return ['src/main', 'src/index', 'src/app'].includes(withoutExt(relative));
+    return ['src/main', 'src/index', 'src/app', 'main', 'index', 'app'].includes(withoutExt(relative));
 }
 
 function getPosition(ast) {
