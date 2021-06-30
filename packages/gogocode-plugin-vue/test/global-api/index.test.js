@@ -34,12 +34,12 @@ test('global-api: test mount', () => {
     const ast = $(`
     import App from './App';
     Vue.use();
-    const app = new Vue({ components:{App} }).mount('#app');
+    const app = new Vue({ components:{App} }).$mount('#app');
     `);
     
     const options = { rootPath: '/test', filePath: '/test/src/main.js' };
     const newAst = transform(ast, { gogocode: $ }, options);
     const code = newAst.generate();
-    const result = code.indexOf(`createApp(App).mount('#app')`) < 0;
+    const result = code.indexOf(`window.$vueApp.mount('#app')`) > -1;
     expect(result).toBeTruthy();
 })

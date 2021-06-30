@@ -19,7 +19,7 @@
 <script>
 	import Vue from 'vue';
 	import Child from './Child';
-  /* 迁移指南: https://v3.cn.vuejs.org/guide/migration/emits-option.html */
+ 
 	export default {
 		name: 'emits Option',
 		props: {

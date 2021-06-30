@@ -87,6 +87,15 @@ module.exports = function (ast, api, options) {
                     appName = value;
                 }
             });
+            //处理 https://github.com/thx/gogocode/issues/29
+            script.find(`new ${vueName}($$$).$mount($_$)`).each((ffAst) => {
+                ffAst.replace(`new ${vueName}($$$).$mount($_$)`, `${vueAppName} = ${vueName}.createApp(${appName})`);
+                if (ffAst.match[0].length) {
+                    const vuePosition = getPosition(ffAst);
+                    const value = ffAst.match[0][0].raw;
+                    vuePosition.after(`${vueAppName}.mount(${value});`);
+                }
+            });
             fAst.replace(
                 `$mount`,
                 `mount`
@@ -95,15 +104,7 @@ module.exports = function (ast, api, options) {
                 `new ${vueName}($_$)`,
                 `${vueAppName} = ${vueName}.createApp(${appName})`
             );
-            //处理 https://github.com/thx/gogocode/issues/29
-            script.find(`Vue.createApp(App).mount('#app')`).each((ffAst) => {
-                ffAst.replace(`${vueName}.createApp(${appName}).mount($_$)`, `${vueName}.createApp(${appName})`);
-                const value = ffAst.match[0][0];
-                position.after(`${vueAppName}.mount(${value});`)
-            });
-            const find = api.gogocode(script.generate())
-                .find(`Vue.createApp(App).mount('#app')`)
-            console.log(find);
+            
         });
     }
 
