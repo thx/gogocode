@@ -40,7 +40,7 @@ module.exports = function (api, options) {
             Object.assign(options, { keyCodeMap })
         });
     }
-    catch(ex){ }    
+    catch(ex){ /* do nothing */ }    
     return options
 }
 

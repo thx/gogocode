@@ -49,7 +49,7 @@ module.exports = function (ast) {
                 transform = true
             }
         }
-         // xxx.xxx.$on() 情况处理
+        // xxx.xxx.$on() 情况处理
         else if (node.attr('callee.object.object.type') == 'Identifier' && node.attr('callee.object.property.name')) {
             const tinyEmitter = `Object.assign(${node.attr('callee.object.object.name')}.${node.attr('callee.object.property.name')}, tiny_emitter_override);\n`
             if (!node.parent(1).has(tinyEmitter)) {

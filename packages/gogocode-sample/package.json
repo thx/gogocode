@@ -17,6 +17,6 @@
     "node": "*"
   },
   "devDependencies": {
-    "gogocode": "^1.0.3"
+    "gogocode": "^1.0.8"
   }
 }
