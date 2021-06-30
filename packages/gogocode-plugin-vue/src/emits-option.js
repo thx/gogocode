@@ -6,7 +6,7 @@ class EmitSet {
         this.set = new Set();
     }
     fillEmitSet(ast) {
-        ast.find(['$emit($_$,$$$)', '$_$1.$emit($_$,$$$)']).each((fAst) => {
+        ast.find(['$emit($_$,$$$)', '$_$1.$emit($_$,$$$)','$emit($_$)', '$_$1.$emit($_$)']).each((fAst) => {
             if (fAst.match && fAst.match[0] && fAst.match[0].length) {
                 let key = fAst.match[0][0].raw;
                 if (key === `'input'` || key === `"input"` || key === '`input`') {
