@@ -22,7 +22,7 @@ module.exports = function (ast, api, options) {
                 if (arg.type == 'StringLiteral' && arg.value && components.indexOf(arg.value) > -1) {
                     ast.replace(`'${arg.value}'`, `Vue.resolveComponent('${arg.value}')`)
                 }
-                else if (index == 1 && arg.type == 'ObjectExpression') {
+                else if (index == 1 && arg.type == 'ObjectExpression' && options?.outRootPath && options?.outFilePath) {
                     const plantRenderParaCode = `export function plantRenderPara(params){const transProps={staticClass:"class",staticStyle:"style",on:"",domProps:"",props:"",attrs:"",};function obj2arr(obj){return typeof obj=="string"?[obj]:Object.keys(obj).map((pk,index)=>{return{[pk]:Object.values(obj)[index]}})}let result={};for(let key in params){if(transProps[key]==null){if(typeof params[key]=="object"){result[key]=obj2arr(params[key])}else{result[key]=params[key]}}}for(let key in params){if(transProps[key]===""){if(typeof params[key]=="object"){Object.assign(result,{...params[key]})}else{result[key]=params[key]}}}for(let key in params){if(transProps[key]){result[transProps[key]]=result[transProps[key]]||[];result[transProps[key]]=result[transProps[key]].concat(obj2arr(params[key]))}}return result}`
                     try {
                         const relativePath = scriptUtils.addUtils(options.outRootPath, options.outFilePath, plantRenderParaCode, api.gogocode)

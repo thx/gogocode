@@ -35,6 +35,7 @@ test('transition', () => {
     transform(ast);
     let result = true
     let style = ast.attr('styles.0.content') || ''
+    let classNames = []
     if (style) {
         let tree = csstree.parse(style)
         csstree.walk(tree, node => {
