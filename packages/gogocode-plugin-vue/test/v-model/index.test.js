@@ -41,11 +41,9 @@ test('v-model: test rename value props result should be ok', () => {
     let result = true;
     ast.find('<script></script>').find('props:$_$').each((fAst) => {
 
-        if (!(fAst.match &&
-            fAst.match[0] &&
-            fAst.match[0].length > 0 &&
+        if (!(fAst.match[0].length > 0 &&
             fAst.match[0][0].value &&
-            fAst.match[0][0].value === '{\n  modelValue:String\n}')) {
+            fAst.match[0][0].value.indexOf('modelValue: String') > -1)) {
             result = false;
         }
     })
