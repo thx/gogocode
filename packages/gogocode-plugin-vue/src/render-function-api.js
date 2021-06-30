@@ -3,26 +3,10 @@ const scriptUtils = require('../utils/scriptUtils');
 module.exports = function (ast, api, options) {
     // 迁移指南: https://v3.cn.vuejs.org/guide/migration/render-function-api.html
     let scriptAst = ast.parseOptions && ast.parseOptions.language == 'vue' ? ast.find('<script></script>') : ast
-
     if (scriptAst.length < 1) {
         return ast
     }
-
     let components = options && Array.isArray(options.components) ? options.components : []
-
-    if (options.period == 'preTransform') {
-        // 搜集注册组件        
-        scriptAst.find(`$$$.component($_$)`).each(c => {
-            let argumentList = c.attr('arguments')
-            if (Array.isArray(argumentList) && argumentList.length > 0) {
-                if (c.attr('arguments')[0].type == 'StringLiteral' && components.indexOf(c.attr('arguments')[0].value) == -1) {
-                    components.push(c.attr('arguments')[0].value)
-                }
-            }
-        })
-        Object.assign(options,{ components })
-        return ast;
-    }
 
     let hName = ''
     scriptAst.find([`render($$$1){$$$2}`, `render: $$$1 => $$$2`, `render: function($$$1){$$$2}`]).each(node => {
