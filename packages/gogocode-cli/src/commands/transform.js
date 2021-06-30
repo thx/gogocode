@@ -151,6 +151,8 @@ function postTransform(tranFns, options) {
  */
 function execTransforms(tranFns, options, srcFilePath, outFilePath) {
     options.period = 'transform';
+    options.outFilePath = outFilePath;
+
     let source = null;
     try {
         source = fse.readFileSync(srcFilePath).toString();
@@ -269,7 +271,7 @@ function handleCommand({ srcPath, outPath, transform, resolve, reject }) {
             const options = {
                 pwdPath: PWD_PATH,
                 rootPath: srcFullPath,
-                
+                outRootPath: outFullPath
             };
             preTransform(tranFns, options);
 
