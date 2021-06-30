@@ -1,5 +1,6 @@
 const rules = require('./src/rules');
 const prettier = require('prettier');
+const collection = require('./src/collection');
 
 /**
  * 转换入口导出一个函数，按照如下函数签名
@@ -11,6 +12,10 @@ const prettier = require('prettier');
 module.exports = function (fileInfo, api, options) {
     const sourceCode = fileInfo.source;
     const $ = api.gogocode;
+
+    if (options.period == 'preTransform') {
+        collection(api, options)
+    }
 
     if (!/\.vue$|\.js$|\.ts$|\.json$|node_modules/.test(fileInfo.path)) {
         return sourceCode;

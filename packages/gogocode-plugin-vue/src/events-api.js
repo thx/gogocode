@@ -6,55 +6,54 @@ module.exports = function (ast) {
         return ast
     }
     let nodeStart = 0
-    scriptAst.find([`$_$1.$on($_$2)`, `$_$1.$off($_$2)`, `$_$1.$once($_$2)`, `$_$1.$emit($_$2)`]).each(e => {
+    scriptAst.find([`$_$1.$on($_$2)`, `$_$1.$off($_$2)`, `$_$1.$once($_$2)`, `$_$1.$emit($_$2)`]).each(node => {
         let transform = false
         // xxx.$on() 情况处理
-        if (e.attr('callee.object.name')) {
+        if (node.attr('callee.object.name')) {
             let nodes = scriptAst.find([
-                `import ${e.attr('callee.object.name')} from '$_$'`,
-                `const ${e.attr('callee.object.name')} = $_$`,
-                `let ${e.attr('callee.object.name')} = $_$`,
-                `var ${e.attr('callee.object.name')} = $_$`,
+                `import ${node.attr('callee.object.name')} from '$_$'`,
+                `const ${node.attr('callee.object.name')} = $_$`,
+                `let ${node.attr('callee.object.name')} = $_$`,
+                `var ${node.attr('callee.object.name')} = $_$`,
             ])
-            const tinyEmitter = `Object.assign(${e.attr('callee.object.name')} ,tiny_emitter_override);\n`
+            const tinyEmitter = `Object.assign(${node.attr('callee.object.name')} ,tiny_emitter_override);\n`
             // 查找eventhub定义
             nodes.each(hub => {
-                if (!scriptAst.has(tinyEmitter)) {
-                    if (hub.attr('type') == 'ImportDeclaration') {
-                        let imports = scriptAst.find(`import '$_$'`)
-                        imports.eq(imports.length - 1).after(tinyEmitter)
-                    }
-                    else {
-                        hub.after(tinyEmitter)
-                    }
+                let imports = scriptAst.find(`import '$_$'`)            
+                if (hub.attr('type') == 'ImportDeclaration' && !scriptAst.has(tinyEmitter)) {
+                    imports.eq(imports.length - 1).after(tinyEmitter)
+                    transform = true
+                }
+                else if(!hub.parent(1).has(tinyEmitter)) {
+                    hub.after(tinyEmitter)
                     transform = true
                 }
             })
             // 没找到定义的情况 
             if (!nodes.length) {                
-                if (!e.parent(1).has(tinyEmitter)) {
-                    e.before(tinyEmitter)
+                if (!node.parent(1).has(tinyEmitter)) {
+                    node.before(tinyEmitter)
                     transform = true
                 }
             }
         }
         // this.xxx.$on() 情况处理
-        else if (e.attr('callee.object.object.type') == 'ThisExpression' && e.attr('callee.object.property.name')) {
-            const tinyEmitter = `Object.assign(this.${e.attr('callee.object.property.name')} ,tiny_emitter_override);\n`
-            if (nodeStart != 0 && e.attr('start') < nodeStart) {
+        else if (node.attr('callee.object.object.type') == 'ThisExpression' && node.attr('callee.object.property.name')) {
+            const tinyEmitter = `Object.assign(this.${node.attr('callee.object.property.name')} ,tiny_emitter_override);\n`
+            if (nodeStart != 0 && node.attr('start') < nodeStart) {
                 scriptAst.remove(tinyEmitter)
             }
             if (!scriptAst.has(tinyEmitter)) {
-                nodeStart = e.attr('start')
-                e.before(tinyEmitter)
+                nodeStart = node.attr('start')
+                node.before(tinyEmitter)
                 transform = true
             }
         }
-        // xxx.xxx.$on() 情况处理
-        else if (e.attr('callee.object.object.type') == 'Identifier' && e.attr('callee.object.property.name')) {
-            const tinyEmitter = `Object.assign(${e.attr('callee.object.object.name')}.${e.attr('callee.object.property.name')}, tiny_emitter_override);\n`
-            if (!e.parents().parents().has(tinyEmitter)) {
-                e.before(tinyEmitter)
+         // xxx.xxx.$on() 情况处理
+        else if (node.attr('callee.object.object.type') == 'Identifier' && node.attr('callee.object.property.name')) {
+            const tinyEmitter = `Object.assign(${node.attr('callee.object.object.name')}.${node.attr('callee.object.property.name')}, tiny_emitter_override);\n`
+            if (!node.parent(1).has(tinyEmitter)) {
+                node.before(tinyEmitter)
                 transform = true
             }
         }
