@@ -1,6 +1,6 @@
 {
   "name": "gogocode-cli",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "gogocode-cli tools",
   "bin": {
     "gogocode": "index.js"
@@ -15,6 +15,10 @@
     "ast",
     "gogocode-cli"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:thx/gogocode.git"
+  },
   "author": "zhuo ri",
   "license": "ISC",
   "dependencies": {
