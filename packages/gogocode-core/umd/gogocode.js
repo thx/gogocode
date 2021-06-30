@@ -76387,7 +76387,7 @@
 	var writeFile$1 = writeCode;
 
 	var name = "gogocode";
-	var version = "1.0.8";
+	var version = "1.0.9";
 	var description = "The simplest tool to parse/transform/generate code on ast";
 	var keywords = [
 		"babel",
