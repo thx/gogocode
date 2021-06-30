@@ -10,8 +10,7 @@
         "Exception": "readonly"
     },
     "extends": [
-        "eslint:recommended",
-        "plugin:@typescript-eslint/recommended"
+        "eslint:recommended"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -27,6 +26,7 @@
         "@typescript-eslint/no-var-requires": 0,
         "no-inner-declarations": 0,
         "indent": ["error", 4],
-        "no-useless-escape": 0
+        "no-useless-escape": 0,
+        "no-unused-vars": 0
     }
 }

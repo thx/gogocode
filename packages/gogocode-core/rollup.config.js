@@ -1,9 +1,25 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
-import nodePolyfills from 'rollup-plugin-node-polyfills';
-import { terser } from "rollup-plugin-terser";
+import builtins from 'rollup-plugin-node-builtins';
+import replace from '@rollup/plugin-replace';
+import { terser } from 'rollup-plugin-terser';
 import pkg from './package.json';
+
+const commonPlugins = [
+    json(),
+    builtins(),
+    resolve(), // so Rollup can find `ms`
+    commonjs(), // so Rollup can convert `ms` to an ES module
+    replace({
+        'process.env.NODE_ENV': JSON.stringify('production'),
+        'process.platform': JSON.stringify('darwin'),
+        'process.env': '{}',
+        'process.stdout': 'null',
+        'global.': 'window.'
+    }),
+];
+
 
 export default [
     // browser-friendly UMD build
@@ -14,12 +30,7 @@ export default [
             file: pkg.browser,
             format: 'umd',
         },
-        plugins: [
-            json(),
-            nodePolyfills(),
-            resolve(), // so Rollup can find `ms`
-            commonjs(), // so Rollup can convert `ms` to an ES module
-        ],
+        plugins: commonPlugins,
     },
     {
         input: 'index.js',
@@ -28,13 +39,7 @@ export default [
             file: 'umd/gogocode.min.js',
             format: 'umd',
         },
-        plugins: [
-            json(),
-            nodePolyfills(),
-            resolve(), // so Rollup can find `ms`
-            commonjs(), // so Rollup can convert `ms` to an ES module
-            terser()
-        ],
+        plugins: [...commonPlugins, terser()],
     },
 
     // CommonJS (for Node) and ES module (for bundlers) build.
