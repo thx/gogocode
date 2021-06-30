@@ -40,6 +40,6 @@ test('global-api: test mount', () => {
     const options = { rootPath: '/test', filePath: '/test/src/main.js' };
     const newAst = transform(ast, { gogocode: $ }, options);
     const code = newAst.generate();
-    const result = code.indexOf('createApp(App)') > -1;
+    const result = code.indexOf(`createApp(App).mount('#app')`) < 0;
     expect(result).toBeTruthy();
 })
