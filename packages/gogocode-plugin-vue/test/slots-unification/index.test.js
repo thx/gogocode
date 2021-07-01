@@ -14,5 +14,5 @@ test('slots-unification', () => {
     const vuePath = path.join(__dirname, 'Comp.vue');
     const ast = $.loadFile(vuePath, { parseOptions: { language: 'vue' } })
     transform(ast);    
-    expect(ast.find('<script></script>').has(`$scopedSlots`)).toBeTruthy();
+    expect(!ast.find('<script></script>').has(`$scopedSlots`)).toBeTruthy();
 })

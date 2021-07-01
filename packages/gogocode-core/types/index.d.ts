@@ -30,12 +30,12 @@ declare module 'gogocode' {
       parseOptions?: any;
     }
 
-    type MatchResult = Array<
-      Array<{
+    type MatchResult = {
+      [key in string | number]: Array<{
         structure: ASTNode;
         value: string;
-      }>
-    >;
+      }>;
+    };
     type NodeAndString = string | ASTNode;
     type Selector = NodeAndString;
     type Replacer = NodeAndString;

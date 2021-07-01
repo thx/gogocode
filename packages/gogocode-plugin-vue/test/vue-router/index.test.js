@@ -72,4 +72,10 @@ test('vue-router: router-view with inner element', () => {
     const result = code.indexOf(`<component :is="Component">\n  \n  <p>`) > -1;
     expect(result).toBeTruthy();
 })
-
+test('vue-router: router-view without inner element', () => {
+    const ast = $(`<template><router-view class="view"></router-view></template>`, { parseOptions: { language: 'vue' }});
+    const outAst = transform(ast, { gogocode: $ });
+    const code = outAst.generate();
+    const result = code.indexOf(`<router-view class="view"></router-view>`) > -1;
+    expect(result).toBeTruthy();
+})
