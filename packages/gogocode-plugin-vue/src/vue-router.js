@@ -85,7 +85,9 @@ function handleInnerView(fAst) {
     fAst.find(`<router-view>`).each((ast) => {
         const attrs = ast.attr('content.attributes') || [];
         const hasVSlot = attrs.find(attr => attr.key.content === 'v-slot');
-        if (!hasVSlot) {
+        const children = ast.attr('content.children');
+        const hasEl = children && children.length > 0;
+        if (!hasVSlot && hasEl) {
             ast.replace(`<router-view $$$1>$$$2</router-view>`,
                 `<router-view v-slot="{ Component }" $$$1>
                 <component :is="Component" >$$$2</component>
