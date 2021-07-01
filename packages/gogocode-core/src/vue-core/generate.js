@@ -85,6 +85,8 @@ module.exports = function toString(sfcDescriptor, options = {}) {
                         block.startOfOpenTag - prevBlock.endOfCloseTag;
                 }
 
+                newlinesBefore = newlinesBefore || 1
+
                 return (
                     sfcCode +
                     '\n'.repeat(newlinesBefore) +

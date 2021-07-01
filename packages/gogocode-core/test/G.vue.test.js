@@ -525,4 +525,3 @@ var a = 1;
   .generate()
 expect(res.match(`var b = 1`) && res.match(`var c = 1`)).toBeTruthy();
 })
-

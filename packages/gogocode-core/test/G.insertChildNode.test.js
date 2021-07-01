@@ -7,7 +7,7 @@ test('$.insertChildNode: simple code', () => {
     expect(()=>{
        const G = $('var a = 1;');
        G.insertChildNode('','');
-    }).toThrow();
+    }).not.toThrow();
 })
 test('$.insertChildNode: this[0] is null', () => {
     expect(()=>{

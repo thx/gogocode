@@ -124,3 +124,13 @@ test('$.append: simple1 html code result should to be ok', () => {
     expect(result.indexOf(CODE) > -1).toBeTruthy();
 
 })
+
+test('$.append: append rest param', () => {
+
+    const result = 
+    $(`function a(b) {}`)
+    .append('params', `{ options = {}, ...rest }`)
+    .generate();
+    expect(result.indexOf('options') > -1).toBeTruthy();
+
+})
