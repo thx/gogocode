@@ -165,7 +165,7 @@ function addUtils(outRootPath, outFilePath, extFunCode, $) {
             console.log('error ', ex);
         }
     }
-    return path.relative(outFilePath.substring(0,outFilePath.lastIndexOf('/')), inputPath);
+    return path.relative(path.dirname(outFilePath), inputPath);
 }
 
 
