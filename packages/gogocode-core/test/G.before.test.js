@@ -188,9 +188,26 @@ test('$.before: simple1 html code', () => {
 })
 
 test('$.before: insert decorator', () => {
-    $(`class A {
+    const res = $(`class A {
     }`)
     .find(`class $_$ {}`)
-    // .before(`@decorator()`)
+    .before(`@decorator(a, b)
+    @decorator11(a, b)
+    `)
+    .root()
     .generate()
+    expect(res.match('@decorator') && res.match('@decorator11')).toBeTruthy();
+})
+
+test('$.before: insert decorator', () => {
+    const res = $(`class A {
+        a = 1
+    }`)
+    .find(`a = 1`)
+    .before(`@decorator(a, b)
+    @decorator11(a, b) 
+    `)
+    .root()
+    .generate()
+    expect(res.match('@decorator') && res.match('@decorator11')).toBeTruthy();
 })
