@@ -130,9 +130,16 @@ const core = {
                 }
             } catch(e) {
                 if (str.match(/^{(\s|.)+\}$/)) {
-                    // 对象字面量
-                    ast = parse(`var o = ${str}`);
-                    ast = ast.program.body[0].declarations[0].init;
+                    if (str.match('...') && str.match('=')) {
+                        // 解构入参
+                        ast = parse(`(${str}) => {}`)
+                        ast = ast.program.body[0].expression.params[0];
+                    } else {
+                        // 对象字面量
+                        ast = parse(`var o = ${str}`);
+                        ast = ast.program.body[0].declarations[0].init;
+                    }
+                    
                     return ast;
                 } else if (e.message.match('Missing semicolon')) {
                     // 可能是对象属性
