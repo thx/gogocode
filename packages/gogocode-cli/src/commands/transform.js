@@ -110,10 +110,14 @@ function tryLoadPackage(packageName, resolve, reject) {
     }
 }
 function ppt(tranFns, options) {
-    const api = { gogocode: $ };
     tranFns.forEach((tran) => {
+        const { fn } = tran;
         try {
-            tran.fn(null, api, options);
+            const fileInfo = { source: `/* this is period of ${options.period} ,do not return real source content . fileInfo.path = 'period.js' is not a real path */`, path: 'period.js' };
+            const api = { gogocode: $ };
+            fn(fileInfo,
+                api,
+                options);
         } catch (err) {
             console.error(err);
         }

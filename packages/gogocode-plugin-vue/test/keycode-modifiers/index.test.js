@@ -15,7 +15,7 @@ test('key-attribute', () => {
     const ast = $.loadFile(vuePath, { parseOptions: { language: 'vue' } })
     transform(ast);
     let result = ast.find('<script></script>').has(`Vue.config.keyCodes = $_$`)    
-    expect(result).toBeTruthy();
+    expect(!result).toBeTruthy();
 })
 
 test('key-attribute', () => {
@@ -25,7 +25,7 @@ test('key-attribute', () => {
     transform(ast);
     let result = true;
     ast.find('<template></template>')
-    .find(['<$_$></$_$>', '<$_$ />']).each((ast) => {       
+    .find(['<$_$></$_$>', '<$_$ />']).each((node) => {       
         if (Array.isArray(node.attr('content.attributes'))) {
             node.attr('content.attributes').forEach((attr) => {
                 for (let keyItem in keyCodeMap) {

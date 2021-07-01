@@ -14,9 +14,10 @@ module.exports = function (fileInfo, api, options) {
     const $ = api.gogocode;
 
     if (options.period == 'preTransform') {
-        collection(api, options)
+        collection(api, options);
+        return;
     }
-
+    
     if (!/\.vue$|\.js$|\.ts$|\.json$|node_modules/.test(fileInfo.path)) {
         return sourceCode;
     }
