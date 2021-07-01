@@ -17,8 +17,11 @@ module.exports = function (fileInfo, api, options) {
         collection(api, options);
         return;
     }
-    
-    if (!/\.vue$|\.js$|\.ts$|\.json$|node_modules/.test(fileInfo.path)) {
+
+    if (
+        !/\.vue$|\.js$|\.ts$|\.json$/.test(fileInfo.path) ||
+        /node_modules/.test(fileInfo.path)
+    ) {
         return sourceCode;
     }
     const ast = /\.json$/.test(fileInfo.path)
