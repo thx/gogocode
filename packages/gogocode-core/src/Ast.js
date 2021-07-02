@@ -267,6 +267,30 @@ class AST {
         setAttrValue(this[0].nodePath.node, attrMap);
         return this;
     }
+    child(arg1) {
+        if (!this[0] || !this[0].nodePath || !this[0].nodePath.node) {
+            return this;
+        }
+        function getChild(ast, attrName) {
+            const keyList = attrName.split('.');
+            let currentNode = cloneAST(ast)
+            // currentNode[0] = { nodePath, parseOptions: this.parseOptions, match }
+
+            let deep = 0;
+            keyList.forEach(attr => {
+                if (currentNode[attr]) {
+                    currentNode = currentNode[attr];
+                    deep++
+                }
+            })
+            if (deep == keyList.length) {
+                return currentNode;
+            } else {
+                return null
+            }
+        }
+        return getChild(this. arg1);
+    }
     clone() {
         if (!this[0]) {
             return this;
@@ -473,6 +497,10 @@ class AST {
         if (typeof node == 'string') {
             node = this.core.buildAstByAstStr(node)
         }
+        if (node[0] && node[0].type == 'Decorator') {
+            this.node.decorators = (this.node.decorators || []).concat(node);
+            return this;
+        }
         if (node[0] && node[0].nodePath) {
             node = node[0].nodePath.value
         }
@@ -507,9 +535,15 @@ class AST {
             // }
             if (attr == 'content.children') {
                 selfNode = selfNode.content.children;
-            } else if (attr == 'program.body' && selfNode.program && selfNode.program.body) {
-                selfNode = selfNode.program.body;
+            } else if (selfNode.program && selfNode.program.body) {
+                if (attr == 'program.body') {
+                    selfNode = selfNode.program.body;
+                } else {
+                    selfNode.program.body[0][attr] = selfNode.program.body[0][attr] || []
+                    selfNode = selfNode.program.body[0][attr]
+                }
             } else {
+                selfNode[attr] = selfNode[attr] || [];
                 selfNode = selfNode[attr];
                 if (!Array.isArray(selfNode)) {
                     selfNode = selfNode.body

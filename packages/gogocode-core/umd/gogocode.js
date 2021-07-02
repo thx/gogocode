@@ -23892,15 +23892,22 @@
 	}
 	const types$2 = {
 	  brace: new TokContext("{"),
+	  templateQuasi: new TokContext("${"),
 	  template: new TokContext("`", true)
 	};
 
 	types$1$1.braceR.updateContext = context => {
-	  context.pop();
+	  if (context.length > 1) {
+	    context.pop();
+	  }
 	};
 
-	types$1$1.braceL.updateContext = types$1$1.braceHashL.updateContext = types$1$1.dollarBraceL.updateContext = context => {
+	types$1$1.braceL.updateContext = types$1$1.braceHashL.updateContext = context => {
 	  context.push(types$2.brace);
+	};
+
+	types$1$1.dollarBraceL.updateContext = context => {
+	  context.push(types$2.templateQuasi);
 	};
 
 	types$1$1.backQuote.updateContext = context => {
@@ -25716,17 +25723,14 @@
 	    return super.parseExportDefaultExpression();
 	  }
 
-	  parseConditional(expr, startPos, startLoc, refExpressionErrors) {
+	  parseConditional(expr, startPos, startLoc, refNeedsArrowPos) {
 	    if (!this.match(types$1$1.question)) return expr;
 
-	    if (this.state.maybeInArrowParameters) {
+	    if (refNeedsArrowPos) {
 	      const result = this.tryParse(() => super.parseConditional(expr, startPos, startLoc));
 
 	      if (!result.node) {
-	        if (result.error) {
-	          super.setOptionalParametersError(refExpressionErrors, result.error);
-	        }
-
+	        refNeedsArrowPos.start = result.error.pos || this.state.start;
 	        return expr;
 	      }
 
@@ -25781,7 +25785,7 @@
 	    this.expect(types$1$1.colon);
 	    node.test = expr;
 	    node.consequent = consequent;
-	    node.alternate = this.forwardNoArrowParamsConversionAt(node, () => this.parseMaybeAssign(undefined, undefined));
+	    node.alternate = this.forwardNoArrowParamsConversionAt(node, () => this.parseMaybeAssign(undefined, undefined, undefined));
 	    return this.finishNode(node, "ConditionalExpression");
 	  }
 
@@ -26425,7 +26429,7 @@
 	    return this.match(types$1$1.colon) || super.shouldParseAsyncArrow();
 	  }
 
-	  parseMaybeAssign(refExpressionErrors, afterLeftParse) {
+	  parseMaybeAssign(refExpressionErrors, afterLeftParse, refNeedsArrowPos) {
 	    var _jsx;
 
 	    let state = null;
@@ -26433,16 +26437,15 @@
 
 	    if (this.hasPlugin("jsx") && (this.match(types$1$1.jsxTagStart) || this.isRelational("<"))) {
 	      state = this.state.clone();
-	      jsx = this.tryParse(() => super.parseMaybeAssign(refExpressionErrors, afterLeftParse), state);
+	      jsx = this.tryParse(() => super.parseMaybeAssign(refExpressionErrors, afterLeftParse, refNeedsArrowPos), state);
 	      if (!jsx.error) return jsx.node;
 	      const {
 	        context
 	      } = this.state;
-	      const curContext = context[context.length - 1];
 
-	      if (curContext === types$2.j_oTag) {
+	      if (context[context.length - 1] === types$2.j_oTag) {
 	        context.length -= 2;
-	      } else if (curContext === types$2.j_expr) {
+	      } else if (context[context.length - 1] === types$2.j_expr) {
 	        context.length -= 1;
 	      }
 	    }
@@ -26457,7 +26460,7 @@
 
 	        typeParameters = this.flowParseTypeParameterDeclaration();
 	        const arrowExpression = this.forwardNoArrowParamsConversionAt(typeParameters, () => {
-	          const result = super.parseMaybeAssign(refExpressionErrors, afterLeftParse);
+	          const result = super.parseMaybeAssign(refExpressionErrors, afterLeftParse, refNeedsArrowPos);
 	          this.resetStartLocationFromNode(result, typeParameters);
 	          return result;
 	        });
@@ -26500,7 +26503,7 @@
 	      throw this.raise(typeParameters.start, FlowErrors.UnexpectedTokenAfterTypeParameter);
 	    }
 
-	    return super.parseMaybeAssign(refExpressionErrors, afterLeftParse);
+	    return super.parseMaybeAssign(refExpressionErrors, afterLeftParse, refNeedsArrowPos);
 	  }
 
 	  parseArrow(node) {
@@ -27550,7 +27553,8 @@
 	types$1$1.jsxTagEnd = new TokenType("jsxTagEnd");
 
 	types$1$1.jsxTagStart.updateContext = context => {
-	  context.push(types$2.j_expr, types$2.j_oTag);
+	  context.push(types$2.j_expr);
+	  context.push(types$2.j_oTag);
 	};
 
 	function isFragment(object) {
@@ -28005,8 +28009,19 @@
 	      type
 	    } = this.state;
 
-	    if (type === types$1$1.slash && prevType === types$1$1.jsxTagStart) {
-	      context.splice(-2, 2, types$2.j_cTag);
+	    if (type === types$1$1.braceL) {
+	      const curContext = context[context.length - 1];
+
+	      if (curContext === types$2.j_oTag) {
+	        context.push(types$2.brace);
+	      } else if (curContext === types$2.j_expr) {
+	        context.push(types$2.templateQuasi);
+	      }
+
+	      this.state.exprAllowed = true;
+	    } else if (type === types$1$1.slash && prevType === types$1$1.jsxTagStart) {
+	      context.length -= 2;
+	      context.push(types$2.j_cTag);
 	      this.state.exprAllowed = false;
 	    } else if (type === types$1$1.jsxTagEnd) {
 	      const out = context.pop();
@@ -28311,7 +28326,6 @@
 	        } else {
 	          enforceOrder(startPos, modifier, modifier, "override");
 	          enforceOrder(startPos, modifier, modifier, "static");
-	          enforceOrder(startPos, modifier, modifier, "readonly");
 	          modified.accessibility = modifier;
 	        }
 	      } else {
@@ -29717,16 +29731,12 @@
 	    const startLoc = this.state.startLoc;
 	    let accessibility;
 	    let readonly = false;
-	    let override = false;
 
 	    if (allowModifiers !== undefined) {
-	      const modified = {};
-	      this.tsParseModifiers(modified, ["public", "private", "protected", "override", "readonly"]);
-	      accessibility = modified.accessibility;
-	      override = modified.override;
-	      readonly = modified.readonly;
+	      accessibility = this.parseAccessModifier();
+	      readonly = !!this.tsParseModifier(["readonly"]);
 
-	      if (allowModifiers === false && (accessibility || readonly || override)) {
+	      if (allowModifiers === false && (accessibility || readonly)) {
 	        this.raise(startPos, TSErrors.UnexpectedParameterModifier);
 	      }
 	    }
@@ -29735,7 +29745,7 @@
 	    this.parseAssignableListItemTypes(left);
 	    const elt = this.parseMaybeDefault(left.start, left.loc.start, left);
 
-	    if (accessibility || readonly || override) {
+	    if (accessibility || readonly) {
 	      const pp = this.startNodeAt(startPos, startLoc);
 
 	      if (decorators.length) {
@@ -29744,7 +29754,6 @@
 
 	      if (accessibility) pp.accessibility = accessibility;
 	      if (readonly) pp.readonly = readonly;
-	      if (override) pp.override = override;
 
 	      if (elt.type !== "Identifier" && elt.type !== "AssignmentPattern") {
 	        this.raise(pp.start, TSErrors.UnsupportedParameterPropertyKind);
@@ -29818,7 +29827,6 @@
 
 	  parseSubscript(base, startPos, startLoc, noCalls, state) {
 	    if (!this.hasPrecedingLineBreak() && this.match(types$1$1.bang)) {
-	      this.state.exprAllowed = false;
 	      this.next();
 	      const nonNullExpression = this.startNodeAt(startPos, startLoc);
 	      nonNullExpression.expression = base;
@@ -30103,18 +30111,15 @@
 	    return super.shouldParseExportDeclaration();
 	  }
 
-	  parseConditional(expr, startPos, startLoc, refExpressionErrors) {
-	    if (!this.state.maybeInArrowParameters || !this.match(types$1$1.question)) {
-	      return super.parseConditional(expr, startPos, startLoc, refExpressionErrors);
+	  parseConditional(expr, startPos, startLoc, refNeedsArrowPos) {
+	    if (!refNeedsArrowPos || !this.match(types$1$1.question)) {
+	      return super.parseConditional(expr, startPos, startLoc, refNeedsArrowPos);
 	    }
 
 	    const result = this.tryParse(() => super.parseConditional(expr, startPos, startLoc));
 
 	    if (!result.node) {
-	      if (result.error) {
-	        super.setOptionalParametersError(refExpressionErrors, result.error);
-	      }
-
+	      refNeedsArrowPos.start = result.error.pos || this.state.start;
 	      return expr;
 	    }
 
@@ -31050,7 +31055,7 @@
 	var _isDigit = function isDigit(code) {
 	  return code >= 48 && code <= 57;
 	};
-	const VALID_REGEX_FLAGS = new Set([103, 109, 115, 105, 121, 117, 100]);
+	const VALID_REGEX_FLAGS = new Set(["g", "m", "s", "i", "y", "u", "d"]);
 	const forbiddenNumericSeparatorSiblings = {
 	  decBinOct: [46, 66, 69, 79, 95, 98, 101, 111],
 	  hex: [46, 88, 95, 120]
@@ -31746,59 +31751,57 @@
 	  readRegexp() {
 	    const start = this.state.start + 1;
 	    let escaped, inClass;
-	    let {
-	      pos
-	    } = this.state;
 
-	    for (;; ++pos) {
-	      if (pos >= this.length) {
+	    for (;;) {
+	      if (this.state.pos >= this.length) {
 	        throw this.raise(start, ErrorMessages.UnterminatedRegExp);
 	      }
 
-	      const ch = this.input.charCodeAt(pos);
+	      const ch = this.input.charAt(this.state.pos);
 
-	      if (isNewLine(ch)) {
+	      if (lineBreak.test(ch)) {
 	        throw this.raise(start, ErrorMessages.UnterminatedRegExp);
 	      }
 
 	      if (escaped) {
 	        escaped = false;
 	      } else {
-	        if (ch === 91) {
+	        if (ch === "[") {
 	          inClass = true;
-	        } else if (ch === 93 && inClass) {
+	        } else if (ch === "]" && inClass) {
 	          inClass = false;
-	        } else if (ch === 47 && !inClass) {
+	        } else if (ch === "/" && !inClass) {
 	          break;
 	        }
 
-	        escaped = ch === 92;
+	        escaped = ch === "\\";
 	      }
+
+	      ++this.state.pos;
 	    }
 
-	    const content = this.input.slice(start, pos);
-	    ++pos;
+	    const content = this.input.slice(start, this.state.pos);
+	    ++this.state.pos;
 	    let mods = "";
 
-	    while (pos < this.length) {
-	      const cp = this.codePointAtPos(pos);
-	      const char = String.fromCharCode(cp);
+	    while (this.state.pos < this.length) {
+	      const char = this.input[this.state.pos];
+	      const charCode = this.codePointAtPos(this.state.pos);
 
-	      if (VALID_REGEX_FLAGS.has(cp)) {
-	        if (mods.includes(char)) {
-	          this.raise(pos + 1, ErrorMessages.DuplicateRegExpFlags);
+	      if (VALID_REGEX_FLAGS.has(char)) {
+	        if (mods.indexOf(char) > -1) {
+	          this.raise(this.state.pos + 1, ErrorMessages.DuplicateRegExpFlags);
 	        }
-	      } else if (isIdentifierChar(cp) || cp === 92) {
-	        this.raise(pos + 1, ErrorMessages.MalformedRegExpFlags);
+	      } else if (isIdentifierChar(charCode) || charCode === 92) {
+	        this.raise(this.state.pos + 1, ErrorMessages.MalformedRegExpFlags);
 	      } else {
 	        break;
 	      }
 
-	      ++pos;
+	      ++this.state.pos;
 	      mods += char;
 	    }
 
-	    this.state.pos = pos;
 	    this.finishToken(types$1$1.regexp, {
 	      pattern: content,
 	      flags: mods
@@ -32693,13 +32696,9 @@
 	    if (!refExpressionErrors) return false;
 	    const {
 	      shorthandAssign,
-	      doubleProto,
-	      optionalParameters
+	      doubleProto
 	    } = refExpressionErrors;
-
-	    if (!andThrow) {
-	      return shorthandAssign >= 0 || doubleProto >= 0 || optionalParameters >= 0;
-	    }
+	    if (!andThrow) return shorthandAssign >= 0 || doubleProto >= 0;
 
 	    if (shorthandAssign >= 0) {
 	      this.unexpected(shorthandAssign);
@@ -32707,10 +32706,6 @@
 
 	    if (doubleProto >= 0) {
 	      this.raise(doubleProto, ErrorMessages.DuplicateProto);
-	    }
-
-	    if (optionalParameters >= 0) {
-	      this.unexpected(optionalParameters);
 	    }
 	  }
 
@@ -32785,7 +32780,6 @@
 	  constructor() {
 	    this.shorthandAssign = -1;
 	    this.doubleProto = -1;
-	    this.optionalParameters = -1;
 	  }
 
 	}
@@ -33306,21 +33300,15 @@
 	    return expr;
 	  }
 
-	  parseMaybeAssignDisallowIn(refExpressionErrors, afterLeftParse) {
-	    return this.disallowInAnd(() => this.parseMaybeAssign(refExpressionErrors, afterLeftParse));
+	  parseMaybeAssignDisallowIn(refExpressionErrors, afterLeftParse, refNeedsArrowPos) {
+	    return this.disallowInAnd(() => this.parseMaybeAssign(refExpressionErrors, afterLeftParse, refNeedsArrowPos));
 	  }
 
-	  parseMaybeAssignAllowIn(refExpressionErrors, afterLeftParse) {
-	    return this.allowInAnd(() => this.parseMaybeAssign(refExpressionErrors, afterLeftParse));
+	  parseMaybeAssignAllowIn(refExpressionErrors, afterLeftParse, refNeedsArrowPos) {
+	    return this.allowInAnd(() => this.parseMaybeAssign(refExpressionErrors, afterLeftParse, refNeedsArrowPos));
 	  }
 
-	  setOptionalParametersError(refExpressionErrors, resultError) {
-	    var _resultError$pos;
-
-	    refExpressionErrors.optionalParameters = (_resultError$pos = resultError == null ? void 0 : resultError.pos) != null ? _resultError$pos : this.state.start;
-	  }
-
-	  parseMaybeAssign(refExpressionErrors, afterLeftParse) {
+	  parseMaybeAssign(refExpressionErrors, afterLeftParse, refNeedsArrowPos) {
 	    const startPos = this.state.start;
 	    const startLoc = this.state.startLoc;
 
@@ -33349,7 +33337,7 @@
 	      this.state.potentialArrowAt = this.state.start;
 	    }
 
-	    let left = this.parseMaybeConditional(refExpressionErrors);
+	    let left = this.parseMaybeConditional(refExpressionErrors, refNeedsArrowPos);
 
 	    if (afterLeftParse) {
 	      left = afterLeftParse.call(this, left, startPos, startLoc);
@@ -33382,7 +33370,7 @@
 	    return left;
 	  }
 
-	  parseMaybeConditional(refExpressionErrors) {
+	  parseMaybeConditional(refExpressionErrors, refNeedsArrowPos) {
 	    const startPos = this.state.start;
 	    const startLoc = this.state.startLoc;
 	    const potentialArrowAt = this.state.potentialArrowAt;
@@ -33392,10 +33380,10 @@
 	      return expr;
 	    }
 
-	    return this.parseConditional(expr, startPos, startLoc, refExpressionErrors);
+	    return this.parseConditional(expr, startPos, startLoc, refNeedsArrowPos);
 	  }
 
-	  parseConditional(expr, startPos, startLoc, refExpressionErrors) {
+	  parseConditional(expr, startPos, startLoc, refNeedsArrowPos) {
 	    if (this.eat(types$1$1.question)) {
 	      const node = this.startNodeAt(startPos, startLoc);
 	      node.test = expr;
@@ -33801,7 +33789,9 @@
 	        }
 	      }
 
-	      elts.push(this.parseExprListItem(false, refExpressionErrors, allowPlaceholder));
+	      elts.push(this.parseExprListItem(false, refExpressionErrors, {
+	        start: 0
+	      }, allowPlaceholder));
 	    }
 
 	    this.state.inFSharpPipelineDirectBody = oldInFSharpPipelineDirectBody;
@@ -34219,6 +34209,9 @@
 	    const innerStartLoc = this.state.startLoc;
 	    const exprList = [];
 	    const refExpressionErrors = new ExpressionErrors();
+	    const refNeedsArrowPos = {
+	      start: 0
+	    };
 	    let first = true;
 	    let spreadStart;
 	    let optionalCommaStart;
@@ -34227,7 +34220,7 @@
 	      if (first) {
 	        first = false;
 	      } else {
-	        this.expect(types$1$1.comma, refExpressionErrors.optionalParameters === -1 ? null : refExpressionErrors.optionalParameters);
+	        this.expect(types$1$1.comma, refNeedsArrowPos.start || null);
 
 	        if (this.match(types$1$1.parenR)) {
 	          optionalCommaStart = this.state.start;
@@ -34243,7 +34236,7 @@
 	        this.checkCommaAfterRest(41);
 	        break;
 	      } else {
-	        exprList.push(this.parseMaybeAssignAllowIn(refExpressionErrors, this.parseParenItem));
+	        exprList.push(this.parseMaybeAssignAllowIn(refExpressionErrors, this.parseParenItem, refNeedsArrowPos));
 	      }
 	    }
 
@@ -34270,6 +34263,7 @@
 	    if (optionalCommaStart) this.unexpected(optionalCommaStart);
 	    if (spreadStart) this.unexpected(spreadStart);
 	    this.checkExpressionErrors(refExpressionErrors, true);
+	    if (refNeedsArrowPos.start) this.unexpected(refNeedsArrowPos.start);
 	    this.toReferencedListDeep(exprList, true);
 
 	    if (exprList.length > 1) {
@@ -34768,7 +34762,7 @@
 	    return elts;
 	  }
 
-	  parseExprListItem(allowEmpty, refExpressionErrors, allowPlaceholder) {
+	  parseExprListItem(allowEmpty, refExpressionErrors, refNeedsArrowPos, allowPlaceholder) {
 	    let elt;
 
 	    if (this.match(types$1$1.comma)) {
@@ -34780,7 +34774,7 @@
 	    } else if (this.match(types$1$1.ellipsis)) {
 	      const spreadNodeStartPos = this.state.start;
 	      const spreadNodeStartLoc = this.state.startLoc;
-	      elt = this.parseParenItem(this.parseSpread(refExpressionErrors), spreadNodeStartPos, spreadNodeStartLoc);
+	      elt = this.parseParenItem(this.parseSpread(refExpressionErrors, refNeedsArrowPos), spreadNodeStartPos, spreadNodeStartLoc);
 	    } else if (this.match(types$1$1.question)) {
 	      this.expectPlugin("partialApplication");
 
@@ -34792,7 +34786,7 @@
 	      this.next();
 	      elt = this.finishNode(node, "ArgumentPlaceholder");
 	    } else {
-	      elt = this.parseMaybeAssignAllowIn(refExpressionErrors, this.parseParenItem);
+	      elt = this.parseMaybeAssignAllowIn(refExpressionErrors, this.parseParenItem, refNeedsArrowPos);
 	    }
 
 	    return elt;
@@ -34821,6 +34815,14 @@
 	      name = this.state.value;
 	    } else if (type.keyword) {
 	      name = type.keyword;
+
+	      if (type === types$1$1._class || type === types$1$1._function) {
+	        const curContext = this.curContext();
+
+	        if (curContext === types$2.functionStatement || curContext === types$2.functionExpression) {
+	          this.state.context.pop();
+	        }
+	      }
 	    } else {
 	      throw this.unexpected();
 	    }
@@ -37660,9 +37662,16 @@
 	                }
 	            } catch(e) {
 	                if (str.match(/^{(\s|.)+\}$/)) {
-	                    // 对象字面量
-	                    ast = parse$h(`var o = ${str}`);
-	                    ast = ast.program.body[0].declarations[0].init;
+	                    if (str.match('...') && str.match('=')) {
+	                        // 解构入参
+	                        ast = parse$h(`(${str}) => {}`);
+	                        ast = ast.program.body[0].expression.params[0];
+	                    } else {
+	                        // 对象字面量
+	                        ast = parse$h(`var o = ${str}`);
+	                        ast = ast.program.body[0].declarations[0].init;
+	                    }
+	                    
 	                    return ast;
 	                } else if (e.message.match('Missing semicolon')) {
 	                    // 可能是对象属性
@@ -51649,12 +51658,6 @@
 	var cssSyntaxError = CssSyntaxError$3;
 	CssSyntaxError$3.default = CssSyntaxError$3;
 
-	var symbols = {};
-
-	symbols.isClean = Symbol('isClean');
-
-	symbols.my = Symbol('my');
-
 	const DEFAULT_RAW = {
 	  colon: ': ',
 	  indent: '    ',
@@ -52005,6 +52008,10 @@
 
 	var stringifier = Stringifier$2;
 
+	var symbols = {};
+
+	symbols.isClean = Symbol('isClean');
+
 	let Stringifier$1 = stringifier;
 
 	function stringify$7(node, builder) {
@@ -52015,9 +52022,9 @@
 	var stringify_1$1 = stringify$7;
 	stringify$7.default = stringify$7;
 
-	let { isClean: isClean$2, my: my$2 } = symbols;
 	let CssSyntaxError$2 = cssSyntaxError;
 	let Stringifier = stringifier;
+	let { isClean: isClean$2 } = symbols;
 	let stringify$6 = stringify_1$1;
 
 	function cloneNode(obj, parent) {
@@ -52051,7 +52058,6 @@
 	  constructor(defaults = {}) {
 	    this.raws = {};
 	    this[isClean$2] = false;
-	    this[my$2] = true;
 
 	    for (let name in defaults) {
 	      if (name === 'nodes') {
@@ -55971,6 +55977,81 @@
 
 	var mapGenerator = MapGenerator$1;
 
+	class Warning$2 {
+	  constructor(text, opts = {}) {
+	    this.type = 'warning';
+	    this.text = text;
+
+	    if (opts.node && opts.node.source) {
+	      let pos = opts.node.positionBy(opts);
+	      this.line = pos.line;
+	      this.column = pos.column;
+	    }
+
+	    for (let opt in opts) this[opt] = opts[opt];
+	  }
+
+	  toString() {
+	    if (this.node) {
+	      return this.node.error(this.text, {
+	        plugin: this.plugin,
+	        index: this.index,
+	        word: this.word
+	      }).message
+	    }
+
+	    if (this.plugin) {
+	      return this.plugin + ': ' + this.text
+	    }
+
+	    return this.text
+	  }
+	}
+
+	var warning = Warning$2;
+	Warning$2.default = Warning$2;
+
+	let Warning$1 = warning;
+
+	class Result$2 {
+	  constructor(processor, root, opts) {
+	    this.processor = processor;
+	    this.messages = [];
+	    this.root = root;
+	    this.opts = opts;
+	    this.css = undefined;
+	    this.map = undefined;
+	  }
+
+	  toString() {
+	    return this.css
+	  }
+
+	  warn(text, opts = {}) {
+	    if (!opts.plugin) {
+	      if (this.lastPlugin && this.lastPlugin.postcssPlugin) {
+	        opts.plugin = this.lastPlugin.postcssPlugin;
+	      }
+	    }
+
+	    let warning = new Warning$1(text, opts);
+	    this.messages.push(warning);
+
+	    return warning
+	  }
+
+	  warnings() {
+	    return this.messages.filter(i => i.type === 'warning')
+	  }
+
+	  get content() {
+	    return this.css
+	  }
+	}
+
+	var result = Result$2;
+	Result$2.default = Result$2;
+
 	let Node$3 = node_1;
 
 	class Comment$4 extends Node$3 {
@@ -55983,8 +56064,8 @@
 	var comment$3 = Comment$4;
 	Comment$4.default = Comment$4;
 
-	let { isClean: isClean$1, my: my$1 } = symbols;
 	let Declaration$3 = declaration;
+	let { isClean: isClean$1 } = symbols;
 	let Comment$3 = comment$3;
 	let Node$2 = node_1;
 
@@ -56007,7 +56088,26 @@
 	  }
 	}
 
-	class Container$7 extends Node$2 {
+	// istanbul ignore next
+	function rebuild(node) {
+	  if (node.type === 'atrule') {
+	    Object.setPrototypeOf(node, AtRule$4.prototype);
+	  } else if (node.type === 'rule') {
+	    Object.setPrototypeOf(node, Rule$4.prototype);
+	  } else if (node.type === 'decl') {
+	    Object.setPrototypeOf(node, Declaration$3.prototype);
+	  } else if (node.type === 'comment') {
+	    Object.setPrototypeOf(node, Comment$3.prototype);
+	  }
+
+	  if (node.nodes) {
+	    node.nodes.forEach(child => {
+	      rebuild(child);
+	    });
+	  }
+	}
+
+	class Container$6 extends Node$2 {
 	  push(child) {
 	    child.parent = this;
 	    this.proxyOf.nodes.push(child);
@@ -56300,7 +56400,7 @@
 
 	    let processed = nodes.map(i => {
 	      // istanbul ignore next
-	      if (!i[my$1]) Container$7.rebuild(i);
+	      if (typeof i.markDirty !== 'function') rebuild(i);
 	      i = i.proxyOf;
 	      if (i.parent) i.parent.removeChild(i);
 	      if (i[isClean$1]) markDirtyUp(i);
@@ -56378,148 +56478,20 @@
 	  }
 	}
 
-	Container$7.registerParse = dependant => {
+	Container$6.registerParse = dependant => {
 	  parse$a = dependant;
 	};
 
-	Container$7.registerRule = dependant => {
+	Container$6.registerRule = dependant => {
 	  Rule$4 = dependant;
 	};
 
-	Container$7.registerAtRule = dependant => {
+	Container$6.registerAtRule = dependant => {
 	  AtRule$4 = dependant;
 	};
 
-	var container$1 = Container$7;
-	Container$7.default = Container$7;
-
-	// istanbul ignore next
-	Container$7.rebuild = node => {
-	  if (node.type === 'atrule') {
-	    Object.setPrototypeOf(node, AtRule$4.prototype);
-	  } else if (node.type === 'rule') {
-	    Object.setPrototypeOf(node, Rule$4.prototype);
-	  } else if (node.type === 'decl') {
-	    Object.setPrototypeOf(node, Declaration$3.prototype);
-	  } else if (node.type === 'comment') {
-	    Object.setPrototypeOf(node, Comment$3.prototype);
-	  }
-
-	  node[my$1] = true;
-
-	  if (node.nodes) {
-	    node.nodes.forEach(child => {
-	      Container$7.rebuild(child);
-	    });
-	  }
-	};
-
-	let Container$6 = container$1;
-
-	let LazyResult$4, Processor$3;
-
-	class Document$3 extends Container$6 {
-	  constructor(defaults) {
-	    // type needs to be passed to super, otherwise child roots won't be normalized correctly
-	    super({ type: 'document', ...defaults });
-
-	    if (!this.nodes) {
-	      this.nodes = [];
-	    }
-	  }
-
-	  toResult(opts = {}) {
-	    let lazy = new LazyResult$4(new Processor$3(), this, opts);
-
-	    return lazy.stringify()
-	  }
-	}
-
-	Document$3.registerLazyResult = dependant => {
-	  LazyResult$4 = dependant;
-	};
-
-	Document$3.registerProcessor = dependant => {
-	  Processor$3 = dependant;
-	};
-
-	var document$1 = Document$3;
-	Document$3.default = Document$3;
-
-	class Warning$2 {
-	  constructor(text, opts = {}) {
-	    this.type = 'warning';
-	    this.text = text;
-
-	    if (opts.node && opts.node.source) {
-	      let pos = opts.node.positionBy(opts);
-	      this.line = pos.line;
-	      this.column = pos.column;
-	    }
-
-	    for (let opt in opts) this[opt] = opts[opt];
-	  }
-
-	  toString() {
-	    if (this.node) {
-	      return this.node.error(this.text, {
-	        plugin: this.plugin,
-	        index: this.index,
-	        word: this.word
-	      }).message
-	    }
-
-	    if (this.plugin) {
-	      return this.plugin + ': ' + this.text
-	    }
-
-	    return this.text
-	  }
-	}
-
-	var warning = Warning$2;
-	Warning$2.default = Warning$2;
-
-	let Warning$1 = warning;
-
-	class Result$2 {
-	  constructor(processor, root, opts) {
-	    this.processor = processor;
-	    this.messages = [];
-	    this.root = root;
-	    this.opts = opts;
-	    this.css = undefined;
-	    this.map = undefined;
-	  }
-
-	  toString() {
-	    return this.css
-	  }
-
-	  warn(text, opts = {}) {
-	    if (!opts.plugin) {
-	      if (this.lastPlugin && this.lastPlugin.postcssPlugin) {
-	        opts.plugin = this.lastPlugin.postcssPlugin;
-	      }
-	    }
-
-	    let warning = new Warning$1(text, opts);
-	    this.messages.push(warning);
-
-	    return warning
-	  }
-
-	  warnings() {
-	    return this.messages.filter(i => i.type === 'warning')
-	  }
-
-	  get content() {
-	    return this.css
-	  }
-	}
-
-	var result = Result$2;
-	Result$2.default = Result$2;
+	var container$1 = Container$6;
+	Container$6.default = Container$6;
 
 	let Container$5 = container$1;
 
@@ -56547,7 +56519,7 @@
 
 	let Container$4 = container$1;
 
-	let LazyResult$3, Processor$2;
+	let LazyResult$4, Processor$3;
 
 	class Root$5 extends Container$4 {
 	  constructor(defaults) {
@@ -56587,17 +56559,17 @@
 	  }
 
 	  toResult(opts = {}) {
-	    let lazy = new LazyResult$3(new Processor$2(), this, opts);
+	    let lazy = new LazyResult$4(new Processor$3(), this, opts);
 	    return lazy.stringify()
 	  }
 	}
 
 	Root$5.registerLazyResult = dependant => {
-	  LazyResult$3 = dependant;
+	  LazyResult$4 = dependant;
 	};
 
 	Root$5.registerProcessor = dependant => {
-	  Processor$2 = dependant;
+	  Processor$3 = dependant;
 	};
 
 	var root$3 = Root$5;
@@ -57273,9 +57245,9 @@
 
 	var nonSecure = { nanoid: nanoid$1, customAlphabet };
 
-	let { SourceMapConsumer: SourceMapConsumer$2, SourceMapGenerator: SourceMapGenerator$2 } = sourceMap$2;
 	let { existsSync, readFileSync } = require$$0$5;
 	let { dirname, join } = require$$3;
+	let { SourceMapConsumer: SourceMapConsumer$2, SourceMapGenerator: SourceMapGenerator$2 } = sourceMap$2;
 
 	function fromBase64(str) {
 	  if (Buffer) {
@@ -57426,7 +57398,7 @@
 	let CssSyntaxError$1 = cssSyntaxError;
 	let PreviousMap$1 = previousMap;
 
-	let fromOffsetCache = Symbol('fromOffsetCache');
+	let fromOffsetCache = Symbol('fromOffset cache');
 
 	let sourceMapAvailable = Boolean(SourceMapConsumer$1 && SourceMapGenerator$1);
 	let pathAvailable = Boolean(resolve && isAbsolute);
@@ -57653,14 +57625,45 @@
 
 	Container$2.registerParse(parse$9);
 
-	let { isClean, my } = symbols;
-	let MapGenerator = mapGenerator;
-	let stringify$5 = stringify_1$1;
 	let Container$1 = container$1;
-	let Document$2 = document$1;
+
+	let LazyResult$3, Processor$2;
+
+	class Document$3 extends Container$1 {
+	  constructor(defaults) {
+	    // type needs to be passed to super, otherwise child roots won't be normalized correctly
+	    super({ type: 'document', ...defaults });
+
+	    if (!this.nodes) {
+	      this.nodes = [];
+	    }
+	  }
+
+	  toResult(opts = {}) {
+	    let lazy = new LazyResult$3(new Processor$2(), this, opts);
+
+	    return lazy.stringify()
+	  }
+	}
+
+	Document$3.registerLazyResult = dependant => {
+	  LazyResult$3 = dependant;
+	};
+
+	Document$3.registerProcessor = dependant => {
+	  Processor$2 = dependant;
+	};
+
+	var document$1 = Document$3;
+	Document$3.default = Document$3;
+
+	let MapGenerator = mapGenerator;
+	let { isClean } = symbols;
+	let stringify$5 = stringify_1$1;
 	let Result$1 = result;
 	let parse$8 = parse_1$1;
 	let Root$3 = root$3;
+	let Document$2 = document$1;
 
 	const TYPE_TO_CLASS_NAME = {
 	  document: 'Document',
@@ -57786,11 +57789,6 @@
 	      } catch (error) {
 	        this.processed = true;
 	        this.error = error;
-	      }
-
-	      if (root && !root[my]) {
-	        // istanbul ignore next
-	        Container$1.rebuild(root);
 	      }
 	    }
 
@@ -58172,12 +58170,12 @@
 	Document$2.registerLazyResult(LazyResult$2);
 
 	let LazyResult$1 = lazyResult;
-	let Document$1 = document$1;
 	let Root$2 = root$3;
+	let Document$1 = document$1;
 
 	class Processor$1 {
 	  constructor(plugins = []) {
-	    this.version = '8.3.5';
+	    this.version = '8.3.2';
 	    this.plugins = this.normalize(plugins);
 	  }
 
@@ -75600,6 +75598,8 @@
 	                        block.startOfOpenTag - prevBlock.endOfCloseTag;
 	                }
 
+	                newlinesBefore = newlinesBefore || 1;
+
 	                return (
 	                    sfcCode +
 	                    '\n'.repeat(newlinesBefore) +
@@ -76144,8 +76144,12 @@
 	            // }
 	            if (attr == 'content.children') {
 	                selfNode = selfNode.content.children;
-	            } else if (attr == 'program.body' && selfNode.program && selfNode.program.body) {
-	                selfNode = selfNode.program.body;
+	            } else if (selfNode.program && selfNode.program.body) {
+	                if (attr == 'program.body') {
+	                    selfNode = selfNode.program.body;
+	                } else {
+	                    selfNode = selfNode.program.body[0][attr];
+	                }
 	            } else {
 	                selfNode = selfNode[attr];
 	                if (!Array.isArray(selfNode)) {
@@ -76387,7 +76391,7 @@
 	var writeFile$1 = writeCode;
 
 	var name = "gogocode";
-	var version = "1.0.9";
+	var version = "1.0.10";
 	var description = "The simplest tool to parse/transform/generate code on ast";
 	var keywords = [
 		"babel",

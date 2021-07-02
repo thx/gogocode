@@ -107,7 +107,20 @@ function getSelector(selectorCode, parseOptions, expando) {
             this.abort();
         }
     });
-
+    if (selector.nodeType == 'AssignmentExpression') {
+        // class中的属性
+        try {
+            const selectorAstList = [selector]
+            const classPropSelector = { nodeType: '', structure: {} };
+            const classPropSelectorAst = parse(`class A { ${selectorCode } }`, parseOptions).program.body[0].body.body[0]
+            classPropSelector.nodeType = classPropSelectorAst.type;
+            filterProps(classPropSelectorAst, classPropSelector.structure);
+            selectorAstList.push(classPropSelector);
+            return selectorAstList;
+        } catch(e) {
+            //
+        }
+    }
     return selector;
 }
 

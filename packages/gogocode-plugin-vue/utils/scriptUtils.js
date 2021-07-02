@@ -136,14 +136,14 @@ function appendEmitsProp(scriptAst, emitsArr) {
     }
 }
 function addUtils(outRootPath, outFilePath, extFunCode, $) {
-    const importFile = 'utils/gogocodeTransfer.js'
+    const importFile = 'utils' + path.sep + 'gogocodeTransfer.js'
     const inputPath = path.resolve(outRootPath, importFile)
     if (!fs.existsSync(inputPath)) {
-        inputPath.split('/').reduce((prev, curr) => {
+        inputPath.split(path.sep).reduce((prev, curr) => {
             if (prev && !prev.endsWith(importFile) && fs.existsSync(prev) === false) {
                 fs.mkdirSync(prev);
             }
-            return prev + '/' + curr;
+            return prev + path.sep + curr;
         });
     }
     const code = fs.existsSync(inputPath) ? fs.readFileSync(inputPath, 'utf-8') : ''
@@ -165,7 +165,7 @@ function addUtils(outRootPath, outFilePath, extFunCode, $) {
             console.log('error ', ex);
         }
     }
-    return path.relative(outFilePath.substring(0,outFilePath.lastIndexOf('/')), inputPath);
+    return path.relative(path.dirname(outFilePath), inputPath);
 }
 
 

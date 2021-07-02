@@ -130,19 +130,26 @@ const core = {
                 }
             } catch(e) {
                 if (str.match(/^{(\s|.)+\}$/)) {
-                    // 对象字面量
-                    ast = parse(`var o = ${str}`);
-                    ast = ast.program.body[0].declarations[0].init;
+                    if (str.match('...') && str.match('=')) {
+                        // 解构入参
+                        ast = parse(`(${str}) => {}`).program.body[0].expression.params[0];
+                    } else {
+                        // 对象字面量
+                        ast = parse(`var o = ${str}`).program.body[0].declarations[0].init;
+                    }
+                    
                     return ast;
                 } else if (e.message.match('Missing semicolon')) {
                     // 可能是对象属性
-                    try {
-                        ast = parse(`({${str}})`, parseOptions);
-                        ast = ast.program.body[0].expression.properties[0]
-                        return ast
-                    } catch(err) {
-                        throw new Error(`buildAstByAstStr failed:${str}`);
-                    }
+                    ast = parse(`({${str}})`, parseOptions).program.body[0].expression.properties[0]
+                    return ast
+                } else if (e.message.match('Leading decorators must be attached to a class declaration')) {
+                    // 是decorator
+                    ast = parse(
+                        `${str}
+                        class A {}`)
+                        .program.body[0].decorators;
+                    return ast
                 } else {
                     throw new Error(`buildAstByAstStr failed:${str}`)
                 }
