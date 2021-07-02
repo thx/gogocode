@@ -4,6 +4,7 @@ import json from '@rollup/plugin-json';
 import builtins from 'rollup-plugin-node-builtins';
 import replace from '@rollup/plugin-replace';
 import { terser } from 'rollup-plugin-terser';
+import insert from 'rollup-plugin-insert';
 import pkg from './package.json';
 
 const commonPlugins = [
@@ -16,10 +17,11 @@ const commonPlugins = [
         'process.platform': JSON.stringify('darwin'),
         'process.env': '{}',
         'process.stdout': 'null',
-        'global.': 'window.'
     }),
+    insert.prepend(
+        `const global = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};`
+    ),
 ];
-
 
 export default [
     // browser-friendly UMD build
