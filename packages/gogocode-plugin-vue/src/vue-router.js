@@ -1,4 +1,6 @@
-module.exports = function (ast) {
+const { forceReplace } = require('../utils/scriptUtils');
+
+module.exports = function (ast, { gogocode: $ }) {
     // v3: https://router.vuejs.org/zh/installation.html
     // v4: https://next.router.vuejs.org/zh/guide/
     // https://next.router.vuejs.org/zh/guide/migration/index.html
@@ -24,7 +26,7 @@ module.exports = function (ast) {
             if (!fAst.match || !fAst.match[0] || !fAst.match[0].length || !fAst.match[0][0].node) {
                 return;
             }
-            handleMode(fAst);
+            handleMode(fAst ,$);
             handleScrollBehavior(fAst);
         });
     }
@@ -96,22 +98,22 @@ function handleInnerView(fAst) {
     });
 
 }
-function handleMode(fAst) {
+function handleMode(fAst, $) {
     const { type } = fAst.match[0][0].node;
     if (type === 'Identifier') {
         // todo
     } else if (type === 'ObjectExpression') {
         if (fAst.has(`{mode:$_$}`)) {
-            fAst.replace(`{mode:'history',$$$}`, `{history: VueRouter.createWebHistory(),$$$}`);
-            fAst.replace(`{mode:'hash',$$$}`, `{history: VueRouter.createWebHashHistory(),$$$}`);
-            fAst.replace(`{mode:'abstract',$$$}`, `{history: VueRouter.createMemoryHistory(),$$$}`);
+            forceReplace($, fAst, `mode:'history'`, `history: VueRouter.createWebHistory()`);
+            forceReplace($, fAst, `mode:'hash'`, `history: VueRouter.createWebHashHistory()`);
+            forceReplace($, fAst, `mode:'abstract'`, `history: VueRouter.createMemoryHistory()`);
         } else {
-            fAst.replace(`{routes:$_$,$$$}`, `{history: VueRouter.createWebHashHistory(),routes:$_$,$$$}`);
+            forceReplace($, fAst, `{routes:$_$,$$$}`, `{history: VueRouter.createWebHashHistory(),routes:$_$,$$$}`);
         }
 
-        fAst.replace(`{history: VueRouter.createWebHistory(), base: $_$1, $$$}`, `{history: VueRouter.createWebHistory($_$1),$$$}`);
-        fAst.replace(`{history: VueRouter.createWebHashHistory(), base: $_$1, $$$}`, `{history: VueRouter.createWebHashHistory($_$1),$$$}`);
-        fAst.replace(`{history: VueRouter.createMemoryHistory(), base: $_$1, $$$}`, `{history: VueRouter.createMemoryHistory($_$1),$$$}`);
+        forceReplace($, fAst, `{history: VueRouter.createWebHistory(), base: $_$1, $$$}`, `{history: VueRouter.createWebHistory($_$1),$$$}`);
+        forceReplace($, fAst, `{history: VueRouter.createWebHashHistory(), base: $_$1, $$$}`, `{history: VueRouter.createWebHashHistory($_$1),$$$}`);
+        forceReplace($, fAst, `{history: VueRouter.createMemoryHistory(), base: $_$1, $$$}`, `{history: VueRouter.createMemoryHistory($_$1),$$$}`);
     }
 }
 function handleScrollBehavior(fAst) {

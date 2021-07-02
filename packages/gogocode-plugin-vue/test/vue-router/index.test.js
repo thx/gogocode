@@ -16,7 +16,7 @@ test('vue-router: Vue.use should be remove', () => {
     const result = code.indexOf('Vue.use(') < 0;
     expect(result).toBeTruthy();
 })
-test('vue-router: base property should be moved to History method', () => {
+test('vue-router: base property should be moved to xxxHistory method', () => {
     const jsPath = path.join(__dirname, 'router.js');
     const ast = $.loadFile(jsPath);
     const outAst = transform(ast, { gogocode: $ });

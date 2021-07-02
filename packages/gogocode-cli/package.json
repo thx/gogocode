@@ -1,6 +1,6 @@
 {
   "name": "gogocode-cli",
-  "version": "0.2.8",
+  "version": "0.2.10",
   "description": "gogocode-cli tools",
   "bin": {
     "gogocode": "index.js"
@@ -26,10 +26,10 @@
     "commander": "^7.1.0",
     "cross-spawn": "^7.0.3",
     "fs-extra": "^9.1.0",
-    "gogocode": "^1.0.8",
     "inquirer": "^8.1.0",
     "progress": "^2.0.3",
-    "semver": "^7.3.5"
+    "semver": "^7.3.5",
+    "gogocode": "^1.0.12"
   },
   "engines": {
     "node": "*"

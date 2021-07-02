@@ -17,6 +17,9 @@ module.exports = function (fileInfo, api, options) {
         collection(api, options);
         return;
     }
+    if (options.period == 'postTransform') {
+        return;
+    }
 
     if (
         !/\.vue$|\.js$|\.ts$|\.json$/.test(fileInfo.path) ||
