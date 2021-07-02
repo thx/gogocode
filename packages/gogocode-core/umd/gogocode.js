@@ -37216,7 +37216,20 @@
 	            this.abort();
 	        }
 	    });
-
+	    if (selector.nodeType == 'AssignmentExpression') {
+	        // class中的属性
+	        try {
+	            const selectorAstList = [selector];
+	            const classPropSelector = { nodeType: '', structure: {} };
+	            const classPropSelectorAst = parse$i(`class A { ${selectorCode } }`, parseOptions).program.body[0].body.body[0];
+	            classPropSelector.nodeType = classPropSelectorAst.type;
+	            filterProps$4(classPropSelectorAst, classPropSelector.structure);
+	            selectorAstList.push(classPropSelector);
+	            return selectorAstList;
+	        } catch(e) {
+	            //
+	        }
+	    }
 	    return selector;
 	}
 
@@ -37637,24 +37650,24 @@
 	                if (str.match(/^{(\s|.)+\}$/)) {
 	                    if (str.match('...') && str.match('=')) {
 	                        // 解构入参
-	                        ast = parse$h(`(${str}) => {}`);
-	                        ast = ast.program.body[0].expression.params[0];
+	                        ast = parse$h(`(${str}) => {}`).program.body[0].expression.params[0];
 	                    } else {
 	                        // 对象字面量
-	                        ast = parse$h(`var o = ${str}`);
-	                        ast = ast.program.body[0].declarations[0].init;
+	                        ast = parse$h(`var o = ${str}`).program.body[0].declarations[0].init;
 	                    }
 	                    
 	                    return ast;
 	                } else if (e.message.match('Missing semicolon')) {
 	                    // 可能是对象属性
-	                    try {
-	                        ast = parse$h(`({${str}})`, parseOptions);
-	                        ast = ast.program.body[0].expression.properties[0];
-	                        return ast
-	                    } catch(err) {
-	                        throw new Error(`buildAstByAstStr failed:${str}`);
-	                    }
+	                    ast = parse$h(`({${str}})`, parseOptions).program.body[0].expression.properties[0];
+	                    return ast
+	                } else if (e.message.match('Leading decorators must be attached to a class declaration')) {
+	                    // 是decorator
+	                    ast = parse$h(
+	                        `${str}
+                        class A {}`)
+	                        .program.body[0].decorators;
+	                    return ast
 	                } else {
 	                    throw new Error(`buildAstByAstStr failed:${str}`)
 	                }
@@ -43032,11 +43045,12 @@
 	};
 
 	var NodePath_1 =  class NodePath {
-	    constructor(node, parent, parentPath) {
+	    constructor(node, parent, parentPath, get) {
 	        this.node = node;
 	        this.parent = parent || null;
 	        this.parentPath = parentPath || null;
 	        this.value = node;
+	        get && (this.get = get);
 	    }
 	};
 
@@ -75827,6 +75841,30 @@
 	        setAttrValue(this[0].nodePath.node, attrMap);
 	        return this;
 	    }
+	    child(arg1) {
+	        if (!this[0] || !this[0].nodePath || !this[0].nodePath.node) {
+	            return this;
+	        }
+	        function getChild(ast, attrName) {
+	            const keyList = attrName.split('.');
+	            let currentNode = cloneAST(ast);
+	            // currentNode[0] = { nodePath, parseOptions: this.parseOptions, match }
+
+	            let deep = 0;
+	            keyList.forEach(attr => {
+	                if (currentNode[attr]) {
+	                    currentNode = currentNode[attr];
+	                    deep++;
+	                }
+	            });
+	            if (deep == keyList.length) {
+	                return currentNode;
+	            } else {
+	                return null
+	            }
+	        }
+	        return getChild(this. arg1);
+	    }
 	    clone() {
 	        if (!this[0]) {
 	            return this;
@@ -76033,6 +76071,10 @@
 	        if (typeof node == 'string') {
 	            node = this.core.buildAstByAstStr(node);
 	        }
+	        if (node[0] && node[0].type == 'Decorator') {
+	            this.node.decorators = (this.node.decorators || []).concat(node);
+	            return this;
+	        }
 	        if (node[0] && node[0].nodePath) {
 	            node = node[0].nodePath.value;
 	        }
@@ -76071,9 +76113,11 @@
 	                if (attr == 'program.body') {
 	                    selfNode = selfNode.program.body;
 	                } else {
+	                    selfNode.program.body[0][attr] = selfNode.program.body[0][attr] || [];
 	                    selfNode = selfNode.program.body[0][attr];
 	                }
 	            } else {
+	                selfNode[attr] = selfNode[attr] || [];
 	                selfNode = selfNode[attr];
 	                if (!Array.isArray(selfNode)) {
 	                    selfNode = selfNode.body;
@@ -76314,7 +76358,7 @@
 	var writeFile$1 = writeCode;
 
 	var name = "gogocode";
-	var version = "1.0.9";
+	var version = "1.0.12";
 	var description = "The simplest tool to parse/transform/generate code on ast";
 	var keywords = [
 		"babel",

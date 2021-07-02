@@ -34,7 +34,7 @@ function getFiles(parentPath, fileList, excludePath) {
             if (stat.isDirectory()) {
                 getFiles(item, fileList, excludePath);
             } else if (stat.isFile()) {
-                fileList.push(item);
+                fileList.push({ path: item, size: stat.size });
             }
         } catch (error) {
             console.error(error);

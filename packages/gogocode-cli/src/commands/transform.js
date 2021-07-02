@@ -10,8 +10,8 @@ const check = require('../util/check');
 const cmd = require('../util/cmd');
 const inquirer = require('inquirer');
 let PWD_PATH, CLI_INSTALL_PATH;
-const EXCLUDE_FILES = ['.gif', '.jpg', '.png', '.jpeg', '.css', '.less'];
-
+const EXCLUDE_FILES = ['.gif', '.jpg', '.png', '.jpeg', '.css', '.less', '.map', '.ico'];
+const FILE_LIMIT_SIZE = 1024 * 200;
 function checkPath(srcPath, outPath, transform) {
     return new Promise((resolve, reject) => {
         if (!srcPath) {
@@ -129,6 +129,7 @@ function ppt(tranFns, options) {
  * @param {*} options 
  */
 function preTransform(tranFns, options) {
+    console.log(chalk.green(`preTransform operating ...`));
     options.period = 'preTransform';
     ppt(tranFns, options);
 }
@@ -138,6 +139,7 @@ function preTransform(tranFns, options) {
  * @param {*} options 
  */
 function postTransform(tranFns, options) {
+    console.log(chalk.green(`postTransform operating ...`));
     options.period = 'postTransform';
     ppt(tranFns, options);
 }
@@ -254,64 +256,110 @@ function logSuccess(result) {
         console.log();
     }
 }
+function ignoreTransformLargeFiles(files) {
+    return new Promise((resolve, reject) => {
+        //排除图片等其他类型文件。并且文件大小小于FILE_LIMIT_SIZE
+        const count = files.filter(f => (f.size > FILE_LIMIT_SIZE && EXCLUDE_FILES.indexOf(path.extname(f.path)) < 0)).length;
+        if (count > 0) {
+            inquirer.prompt([
+                {
+                    type: 'confirm',
+                    name: 'largeFiles',
+                    message: `there are ${count} files is larger than ${FILE_LIMIT_SIZE / 1024}KB, do you want to ignore them ?`,
+                    default: false,
+                }
+            ]).then(answers => {
+                resolve(answers.largeFiles);
+            }).catch(() => {
+                reject();
+            });
+        } else {
+            resolve(false);
+        }
+    });
+}
+/**
+ * 处理转换逻辑
+ * @param {*} tranFns 
+ * @param {*} srcPath 
+ * @param {*} outPath 
+ * @param {*} resolve 
+ * @param {*} reject 
+ */
+function handleTransform(tranFns, srcPath, outPath, resolve, reject) {
+    try {
+        const srcFullPath = path.resolve(PWD_PATH, srcPath);
+        const outFullPath = path.resolve(PWD_PATH, outPath);
+        const srcIsDir = fse.statSync(srcFullPath).isDirectory();
+
+        const options = {
+            pwdPath: PWD_PATH,
+            rootPath: srcFullPath,
+            outRootPath: outFullPath
+        };
+
+        if (srcIsDir) {
+            const files = fileUtil.listFiles(srcFullPath);
+            ignoreTransformLargeFiles(files).then((ignore) => {
+                preTransform(tranFns, options);
+                //ignore 是否忽略大文件转换，true：忽略
+                let result = true;
+                var bar = new ProgressBar('transform in progress: [:bar] :current/:total    ', { total: files.length });
+                files.forEach(({ path: srcFilePath, size }) => {
+                    try {
+                        let filePath = srcFilePath.substring(srcFullPath.length, srcFilePath.length);
+                        let outFilePath = path.join(outFullPath, filePath);
+                        mkOutDir(outFilePath);
+
+                        const ext = path.extname(srcFilePath);
+                        if (EXCLUDE_FILES.indexOf(ext) > -1 || (ignore && size > FILE_LIMIT_SIZE)) {
+                            fse.copyFileSync(srcFilePath, outFilePath);
+                        } else {
+                            const { success } = execTransforms(tranFns, options, srcFilePath, outFilePath);
+                            if (!success) { result = success; }
+                        }
+                    } catch (error) {
+                        console.error(error);
+                        result = false;
+                    }
+                    bar.tick();
+                });
+                logSuccess(result);
+                postTransform(tranFns, options);
+            }).catch((error) => {
+                reject(error);
+            })
+        } else {
+            //转换单个文件
+            preTransform(tranFns, options);
+            mkOutDir(outFullPath);
+            const { success } = execTransforms(tranFns, options, srcFullPath, outFullPath);
+            logSuccess(success);
+            postTransform(tranFns, options);
+        }
+        resolve();
+
+    } catch (error) {
+        console.error(error);
+        reject(error);
+    }
+}
 function handleCommand({ srcPath, outPath, transform, resolve, reject }) {
-    const srcFullPath = path.resolve(PWD_PATH, srcPath);
-    const outFullPath = path.resolve(PWD_PATH, outPath);
-    const srcIsDir = fse.statSync(srcFullPath).isDirectory();
 
     console.log();
     console.log(chalk.green(`transform start`));
     console.log();
 
     const tempArr = transform.split(',');
+
     Promise.all(tempArr.map((tPath) =>
         requireTransforms(tPath)
     )).then((tranFns) => {
-        try {
-            const options = {
-                pwdPath: PWD_PATH,
-                rootPath: srcFullPath,
-                outRootPath: outFullPath
-            };
-            preTransform(tranFns, options);
-
-            if (srcIsDir) {
-                const files = fileUtil.listFiles(srcFullPath);
-                let result = true;
-                var bar = new ProgressBar('transform in progress: [:bar] :current/:total    ', { total: files.length });
-                files.forEach((srcFilePath) => {
-                    let filePath = srcFilePath.substring(srcFullPath.length, srcFilePath.length);
-                    let outFilePath = path.join(outFullPath, filePath);
-                    mkOutDir(outFilePath);
-
-                    const ext = path.extname(srcFilePath);
-                    if (EXCLUDE_FILES.indexOf(ext) !== -1) {
-                        fse.copyFileSync(srcFilePath, outFilePath);
-                    } else {
-                        const { success } = execTransforms(tranFns, options, srcFilePath, outFilePath);
-                        if (!success) { result = success; }
-                    }
-                    bar.tick();
-                });
-                logSuccess(result);
-            } else {
-                mkOutDir(outFullPath);
-                execTransforms(tranFns, options, srcFullPath, outFullPath);
-                const { success } = execTransforms(tranFns, options, srcFullPath, outFullPath);
-                logSuccess(success);
-            }
-
-            postTransform(tranFns, options);
-            resolve();
-
-        } catch (error) {
-            console.error(error);
-            reject(error);
-        }
+        handleTransform(tranFns, srcPath, outPath, resolve, reject);
     }).catch((error) => {
         console.error(error);
         reject(error);
-    })
+    });
 }
 module.exports = ({ src: srcPath, out: outPath, transform, dry }) => {
     PWD_PATH = process.cwd();
