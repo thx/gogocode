@@ -1,7 +1,7 @@
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
-	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, window.gogocode = factory());
+	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.gogocode = factory());
 }(this, (function () { 'use strict';
 
 	var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
@@ -4512,7 +4512,7 @@
 	  return toString$3.call(arr) == '[object Array]';
 	};
 
-	/*!
+	const global$6 = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global$6 !== 'undefined' ? global$6 : typeof self !== 'undefined' ? self : {};/*!
 	 * The buffer module from node.js, for the browser.
 	 *
 	 * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
@@ -4545,8 +4545,8 @@
 	 * We detect these buggy browsers and set `Buffer.TYPED_ARRAY_SUPPORT` to `false` so they
 	 * get the Object implementation, which is slower but behaves correctly.
 	 */
-	Buffer$1.TYPED_ARRAY_SUPPORT = window.TYPED_ARRAY_SUPPORT !== undefined
-	  ? window.TYPED_ARRAY_SUPPORT
+	Buffer$1.TYPED_ARRAY_SUPPORT = global$6.TYPED_ARRAY_SUPPORT !== undefined
+	  ? global$6.TYPED_ARRAY_SUPPORT
 	  : true;
 
 	function kMaxLength () {
@@ -6279,7 +6279,7 @@
 	  return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isFastBuffer(obj.slice(0, 0))
 	}
 
-	// shim for using process in browser
+	const global$5 = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global$5 !== 'undefined' ? global$5 : typeof self !== 'undefined' ? self : {};// shim for using process in browser
 	// based off https://github.com/defunctzombie/node-process/blob/master/browser.js
 
 	function defaultSetTimout() {
@@ -6290,10 +6290,10 @@
 	}
 	var cachedSetTimeout = defaultSetTimout;
 	var cachedClearTimeout = defaultClearTimeout;
-	if (typeof window.setTimeout === 'function') {
+	if (typeof global$5.setTimeout === 'function') {
 	    cachedSetTimeout = setTimeout;
 	}
-	if (typeof window.clearTimeout === 'function') {
+	if (typeof global$5.clearTimeout === 'function') {
 	    cachedClearTimeout = clearTimeout;
 	}
 
@@ -6414,7 +6414,7 @@
 	};
 
 	// from https://github.com/kumavis/browser-process-hrtime/blob/master/index.js
-	var performance = window.performance || {};
+	var performance = global$5.performance || {};
 	performance.now        ||
 	  performance.mozNow     ||
 	  performance.msNow      ||
@@ -6447,7 +6447,7 @@
 	}
 	var inherits$1 = inherits;
 
-	// Copyright Joyent, Inc. and other Node contributors.
+	const global$4 = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global$4 !== 'undefined' ? global$4 : typeof self !== 'undefined' ? self : {};// Copyright Joyent, Inc. and other Node contributors.
 	var formatRegExp = /%[sdj%]/g;
 	function format$1(f) {
 	  if (!isString$4(f)) {
@@ -6492,7 +6492,7 @@
 	// If --no-deprecation is set, then it is a no-op.
 	function deprecate(fn, msg) {
 	  // Allow for deprecating things in the process of starting up.
-	  if (isUndefined(window.process)) {
+	  if (isUndefined(global$4.process)) {
 	    return function() {
 	      return deprecate(fn, msg).apply(this, arguments);
 	    };
@@ -7022,6 +7022,7 @@
 		'default': util$j
 	});
 
+	const global$3 = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global$3 !== 'undefined' ? global$3 : typeof self !== 'undefined' ? self : {};
 	function compare(a, b) {
 	  if (a === b) {
 	    return 0;
@@ -7072,7 +7073,7 @@
 	  if (isBuffer$1(arrbuf)) {
 	    return false;
 	  }
-	  if (typeof window.ArrayBuffer !== 'function') {
+	  if (typeof global$3.ArrayBuffer !== 'function') {
 	    return false;
 	  }
 	  if (typeof ArrayBuffer.isView === 'function') {
@@ -7517,8 +7518,6 @@
 
 	var base64$3 = {};
 
-	/* -*- Mode: js; js-indent-level: 2; -*- */
-
 	/*
 	 * Copyright 2011 Mozilla Foundation and contributors
 	 * Licensed under the New BSD license. See LICENSE or:
@@ -7585,8 +7584,6 @@
 	  // Invalid base64 digit.
 	  return -1;
 	};
-
-	/* -*- Mode: js; js-indent-level: 2; -*- */
 
 	/*
 	 * Copyright 2011 Mozilla Foundation and contributors
@@ -7729,8 +7726,6 @@
 	};
 
 	var util$h = {};
-
-	/* -*- Mode: js; js-indent-level: 2; -*- */
 
 	(function (exports) {
 	/*
@@ -8224,8 +8219,6 @@
 
 	var arraySet$1 = {};
 
-	/* -*- Mode: js; js-indent-level: 2; -*- */
-
 	/*
 	 * Copyright 2011 Mozilla Foundation and contributors
 	 * Licensed under the New BSD license. See LICENSE or:
@@ -8349,8 +8342,6 @@
 
 	var mappingList$1 = {};
 
-	/* -*- Mode: js; js-indent-level: 2; -*- */
-
 	/*
 	 * Copyright 2014 Mozilla Foundation and contributors
 	 * Licensed under the New BSD license. See LICENSE or:
@@ -8429,8 +8420,6 @@
 	};
 
 	mappingList$1.MappingList = MappingList$3;
-
-	/* -*- Mode: js; js-indent-level: 2; -*- */
 
 	/*
 	 * Copyright 2011 Mozilla Foundation and contributors
@@ -8861,8 +8850,6 @@
 
 	var binarySearch$3 = {};
 
-	/* -*- Mode: js; js-indent-level: 2; -*- */
-
 	(function (exports) {
 	/*
 	 * Copyright 2011 Mozilla Foundation and contributors
@@ -8978,8 +8965,6 @@
 
 	var quickSort$3 = {};
 
-	/* -*- Mode: js; js-indent-level: 2; -*- */
-
 	/*
 	 * Copyright 2011 Mozilla Foundation and contributors
 	 * Licensed under the New BSD license. See LICENSE or:
@@ -9093,8 +9078,6 @@
 	quickSort$3.quickSort = function (ary, comparator) {
 	  doQuickSort(ary, comparator, 0, ary.length - 1);
 	};
-
-	/* -*- Mode: js; js-indent-level: 2; -*- */
 
 	/*
 	 * Copyright 2011 Mozilla Foundation and contributors
@@ -10243,8 +10226,6 @@
 
 	var sourceNode$1 = {};
 
-	/* -*- Mode: js; js-indent-level: 2; -*- */
-
 	/*
 	 * Copyright 2011 Mozilla Foundation and contributors
 	 * Licensed under the New BSD license. See LICENSE or:
@@ -10657,12 +10638,6 @@
 	};
 
 	sourceNode$1.SourceNode = SourceNode$1;
-
-	/*
-	 * Copyright 2009-2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE.txt or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
 
 	sourceMap$3.SourceMapGenerator = sourceMapGenerator$1.SourceMapGenerator;
 	sourceMap$3.SourceMapConsumer = sourceMapConsumer$1.SourceMapConsumer;
@@ -17687,7 +17662,7 @@
 	}
 	esprima$1.parse = parse$m;
 
-	/*
+	const global$2 = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global$2 !== 'undefined' ? global$2 : typeof self !== 'undefined' ? self : {};/*
 	The MIT License (MIT)
 
 	Copyright (c) 2016 CoderPuppy
@@ -17731,8 +17706,8 @@
 	}
 
 	function hostname() {
-	  if (typeof window.location !== 'undefined') {
-	    return window.location.hostname
+	  if (typeof global$2.location !== 'undefined') {
+	    return global$2.location.hostname
 	  } else return '';
 	}
 
@@ -17761,8 +17736,8 @@
 	}
 
 	function release () {
-	  if (typeof window.navigator !== 'undefined') {
-	    return window.navigator.appVersion;
+	  if (typeof global$2.navigator !== 'undefined') {
+	    return global$2.navigator.appVersion;
 	  }
 	  return '';
 	}
@@ -37660,9 +37635,16 @@
 	                }
 	            } catch(e) {
 	                if (str.match(/^{(\s|.)+\}$/)) {
-	                    // 对象字面量
-	                    ast = parse$h(`var o = ${str}`);
-	                    ast = ast.program.body[0].declarations[0].init;
+	                    if (str.match('...') && str.match('=')) {
+	                        // 解构入参
+	                        ast = parse$h(`(${str}) => {}`);
+	                        ast = ast.program.body[0].expression.params[0];
+	                    } else {
+	                        // 对象字面量
+	                        ast = parse$h(`var o = ${str}`);
+	                        ast = ast.program.body[0].declarations[0].init;
+	                    }
+	                    
 	                    return ast;
 	                } else if (e.message.match('Missing semicolon')) {
 	                    // 可能是对象属性
@@ -39628,13 +39610,6 @@
 	  return state
 	};
 
-	/**
-	 * Parser for 'tag-name' context.
-	 * Parses tag name from 'open-tag-start' (<div)
-	 * token and save the tag name as self content.
-	 * Ignores tokens others than 'open-tag-start'.
-	 */
-
 	const parseOpenTagName = helpers.parseOpenTagName;
 	const {
 	  TOKEN_OPEN_TAG_START
@@ -40889,7 +40864,6 @@
 	  return ret;
 	};
 
-	// Copyright Joyent, Inc. and other Node contributors.
 	var isBufferEncoding = Buffer$1.isEncoding
 	  || function(encoding) {
 	       switch (encoding && encoding.toLowerCase()) {
@@ -41975,7 +41949,6 @@
 	  return -1;
 	}
 
-	// A bit simpler than readable streams.
 	Writable.WritableState = WritableState;
 	inherits$1(Writable, EventEmitter);
 
@@ -42486,7 +42459,6 @@
 	  self.end();
 	}
 
-	// a transform stream is a readable/writable stream where you do
 	inherits$1(Transform$2, Duplex);
 
 	function TransformState(stream) {
@@ -43730,7 +43702,7 @@
 
 	var compilerSfc_cjs = {};
 
-	/**
+	const global$1 = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global$1 !== 'undefined' ? global$1 : typeof self !== 'undefined' ? self : {};/**
 	 * Make a map and return a function for checking if a key
 	 * is in that map.
 	 * IMPORTANT: all calls of this function must be prefixed with
@@ -44221,8 +44193,8 @@
 	                    ? self
 	                    : typeof window !== 'undefined'
 	                        ? window
-	                        : typeof global !== 'undefined'
-	                            ? global
+	                        : typeof global$1 !== 'undefined'
+	                            ? global$1
 	                            : {}));
 	};
 
@@ -48601,7 +48573,6 @@
 
 	var hashSum = sum;
 
-	// Copyright Joyent, Inc. and other Node contributors.
 	//
 	// Permission is hereby granted, free of charge, to any person obtaining a
 	// copy of this software and associated documentation files (the
@@ -48852,9 +48823,6 @@
 	var require$$3 = /*@__PURE__*/getAugmentedNamespace(path$6);
 
 	var require$$4 = /*@__PURE__*/getAugmentedNamespace(compilerCore_esmBundler);
-
-	/*! https://mths.be/punycode v1.4.1 by @mathias */
-
 
 	/** Highest positive signed 32-bit float value */
 	var maxInt = 2147483647; // aka. 0x7FFFFFFF or 2^31-1
@@ -49142,7 +49110,6 @@
 	  });
 	}
 
-	// Copyright Joyent, Inc. and other Node contributors.
 	//
 	// Permission is hereby granted, free of charge, to any person obtaining a
 	// copy of this software and associated documentation files (the
@@ -49282,7 +49249,6 @@
 	  return obj;
 	}
 
-	// Copyright Joyent, Inc. and other Node contributors.
 	var url$1 = {
 	  parse: urlParse,
 	  resolve: urlResolve,
@@ -52365,8 +52331,6 @@
 
 	var base64$1 = {};
 
-	/* -*- Mode: js; js-indent-level: 2; -*- */
-
 	/*
 	 * Copyright 2011 Mozilla Foundation and contributors
 	 * Licensed under the New BSD license. See LICENSE or:
@@ -52433,8 +52397,6 @@
 	  // Invalid base64 digit.
 	  return -1;
 	};
-
-	/* -*- Mode: js; js-indent-level: 2; -*- */
 
 	/*
 	 * Copyright 2011 Mozilla Foundation and contributors
@@ -52577,8 +52539,6 @@
 	};
 
 	var util$7 = {};
-
-	/* -*- Mode: js; js-indent-level: 2; -*- */
 
 	(function (exports) {
 	/*
@@ -53178,8 +53138,6 @@
 
 	var arraySet = {};
 
-	/* -*- Mode: js; js-indent-level: 2; -*- */
-
 	/*
 	 * Copyright 2011 Mozilla Foundation and contributors
 	 * Licensed under the New BSD license. See LICENSE or:
@@ -53303,8 +53261,6 @@
 
 	var mappingList = {};
 
-	/* -*- Mode: js; js-indent-level: 2; -*- */
-
 	/*
 	 * Copyright 2014 Mozilla Foundation and contributors
 	 * Licensed under the New BSD license. See LICENSE or:
@@ -53383,8 +53339,6 @@
 	};
 
 	mappingList.MappingList = MappingList$1;
-
-	/* -*- Mode: js; js-indent-level: 2; -*- */
 
 	/*
 	 * Copyright 2011 Mozilla Foundation and contributors
@@ -53815,8 +53769,6 @@
 
 	var binarySearch$1 = {};
 
-	/* -*- Mode: js; js-indent-level: 2; -*- */
-
 	(function (exports) {
 	/*
 	 * Copyright 2011 Mozilla Foundation and contributors
@@ -53931,8 +53883,6 @@
 	}(binarySearch$1));
 
 	var quickSort$1 = {};
-
-	/* -*- Mode: js; js-indent-level: 2; -*- */
 
 	/*
 	 * Copyright 2011 Mozilla Foundation and contributors
@@ -54065,8 +54015,6 @@
 	  }
 	  doQuickSort(ary, comparator, start, ary.length - 1);
 	};
-
-	/* -*- Mode: js; js-indent-level: 2; -*- */
 
 	/*
 	 * Copyright 2011 Mozilla Foundation and contributors
@@ -55247,8 +55195,6 @@
 
 	var sourceNode = {};
 
-	/* -*- Mode: js; js-indent-level: 2; -*- */
-
 	/*
 	 * Copyright 2011 Mozilla Foundation and contributors
 	 * Licensed under the New BSD license. See LICENSE or:
@@ -55661,12 +55607,6 @@
 	};
 
 	sourceNode.SourceNode = SourceNode;
-
-	/*
-	 * Copyright 2009-2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE.txt or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
 
 	sourceMap$2.SourceMapGenerator = sourceMapGenerator.SourceMapGenerator;
 	sourceMap$2.SourceMapConsumer = sourceMapConsumer.SourceMapConsumer;
@@ -59347,8 +59287,6 @@
 	}(selector$1, selector$1.exports));
 
 	var className$1 = {exports: {}};
-
-	/*! https://mths.be/cssesc v3.0.0 by @mathias */
 
 	var object = {};
 	var hasOwnProperty$1 = object.hasOwnProperty;
@@ -65061,15 +64999,6 @@
 
 	var build = {exports: {}};
 
-	/**
-	 * lodash (Custom Build) <https://lodash.com/>
-	 * Build: `lodash modularize exports="npm" -o ./`
-	 * Copyright jQuery Foundation and other contributors <https://jquery.org/>
-	 * Released under MIT license <https://lodash.com/license>
-	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
-	 * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-	 */
-
 	/** Used as references for various `Number` constants. */
 	var INFINITY = 1 / 0;
 
@@ -65965,14 +65894,6 @@
 	}
 
 	var parseString_1 = parseString$1;
-
-	/*
-	 *  big.js v5.2.2
-	 *  A small, fast, easy-to-use library for arbitrary-precision decimal arithmetic.
-	 *  Copyright (c) 2018 Michael Mclaughlin <M8ch88l@gmail.com>
-	 *  https://github.com/MikeMcl/big.js/LICENCE
-	 */
-
 
 	/************************************** EDITABLE DEFAULTS *****************************************/
 
@@ -75600,6 +75521,8 @@
 	                        block.startOfOpenTag - prevBlock.endOfCloseTag;
 	                }
 
+	                newlinesBefore = newlinesBefore || 1;
+
 	                return (
 	                    sfcCode +
 	                    '\n'.repeat(newlinesBefore) +
@@ -76144,8 +76067,12 @@
 	            // }
 	            if (attr == 'content.children') {
 	                selfNode = selfNode.content.children;
-	            } else if (attr == 'program.body' && selfNode.program && selfNode.program.body) {
-	                selfNode = selfNode.program.body;
+	            } else if (selfNode.program && selfNode.program.body) {
+	                if (attr == 'program.body') {
+	                    selfNode = selfNode.program.body;
+	                } else {
+	                    selfNode = selfNode.program.body[0][attr];
+	                }
 	            } else {
 	                selfNode = selfNode[attr];
 	                if (!Array.isArray(selfNode)) {
@@ -76428,6 +76355,7 @@
 		jest: "^26.6.3",
 		lerna: "^3.22.1",
 		rollup: "^2.52.3",
+		"rollup-plugin-insert": "^1.3.2",
 		"rollup-plugin-modify": "^3.0.0",
 		"rollup-plugin-node-builtins": "^2.1.2",
 		"rollup-plugin-terser": "^7.0.2",
