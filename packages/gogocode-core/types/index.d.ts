@@ -32,7 +32,7 @@ declare module 'gogocode' {
 
     type MatchResult = {
       [key in string | number]: Array<{
-        structure: ASTNode;
+        node: ASTNode;
         value: string;
       }>;
     };
