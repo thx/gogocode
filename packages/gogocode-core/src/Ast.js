@@ -267,29 +267,34 @@ class AST {
         setAttrValue(this[0].nodePath.node, attrMap);
         return this;
     }
-    child(arg1) {
+    child(attrName) {
         if (!this[0] || !this[0].nodePath || !this[0].nodePath.node) {
             return this;
         }
-        function getChild(ast, attrName) {
-            const keyList = attrName.split('.');
-            let currentNode = cloneAST(ast)
-            // currentNode[0] = { nodePath, parseOptions: this.parseOptions, match }
-
-            let deep = 0;
-            keyList.forEach(attr => {
-                if (currentNode[attr]) {
-                    currentNode = currentNode[attr];
-                    deep++
+        const keyList = attrName.split('.');
+        let currentNode = this.node;
+        let nodePath = this[0].nodePath;
+        let parentPath = this[0].nodePath.parentPath;
+        let newNodeAST;
+        let deep = 0;
+        keyList.forEach(attr => {
+            const node = currentNode[attr];
+            if (node) {
+                if (node.type) {
+                    newNodeAST = cloneAST(this);
+                    parentPath = nodePath
+                    nodePath = new NodePath(currentNode[attr], nodePath, nodePath)
+                    newNodeAST[0] = { nodePath, parseOptions: this.parseOptions }
                 }
-            })
-            if (deep == keyList.length) {
-                return currentNode;
-            } else {
-                return null
+                currentNode = node
+                deep++
             }
+        })
+        if (deep == keyList.length) {
+            return newNodeAST;
+        } else {
+            return null
         }
-        return getChild(this. arg1);
     }
     clone() {
         if (!this[0]) {

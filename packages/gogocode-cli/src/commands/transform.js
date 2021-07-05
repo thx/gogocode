@@ -9,6 +9,8 @@ const fileUtil = require('../util/file');
 const check = require('../util/check');
 const cmd = require('../util/cmd');
 const inquirer = require('inquirer');
+const ora = require('ora');
+
 let PWD_PATH, CLI_INSTALL_PATH;
 const EXCLUDE_FILES = ['.gif', '.jpg', '.png', '.jpeg', '.css', '.less', '.map', '.ico'];
 const FILE_LIMIT_SIZE = 1024 * 200;
@@ -129,9 +131,10 @@ function ppt(tranFns, options) {
  * @param {*} options 
  */
 function preTransform(tranFns, options) {
-    console.log(chalk.green(`preTransform operating ...`));
+    const spinner = ora(chalk.green(`preTransform operating ...`)).start();
     options.period = 'preTransform';
     ppt(tranFns, options);
+    spinner.stop();
 }
 /**
  * 插件转换之后
@@ -139,9 +142,10 @@ function preTransform(tranFns, options) {
  * @param {*} options 
  */
 function postTransform(tranFns, options) {
-    console.log(chalk.green(`postTransform operating ...`));
+    const spinner = ora(chalk.green(`postTransform operating ...`)).start();
     options.period = 'postTransform';
     ppt(tranFns, options);
+    spinner.stop();
 }
 /**
  * 
@@ -256,7 +260,7 @@ function logSuccess(result) {
         console.log();
     }
 }
-function ignoreTransformLargeFiles(files) {
+function confirmTransformLargeFiles(files) {
     return new Promise((resolve, reject) => {
         //排除图片等其他类型文件。并且文件大小小于FILE_LIMIT_SIZE
         const count = files.filter(f => (f.size > FILE_LIMIT_SIZE && EXCLUDE_FILES.indexOf(path.extname(f.path)) < 0)).length;
@@ -265,7 +269,7 @@ function ignoreTransformLargeFiles(files) {
                 {
                     type: 'confirm',
                     name: 'largeFiles',
-                    message: `there are ${count} files is larger than ${FILE_LIMIT_SIZE / 1024}KB, do you want to ignore them ?`,
+                    message: `there are ${count} files is larger than ${FILE_LIMIT_SIZE / 1024}KB, do you want to transform them ?`,
                     default: false,
                 }
             ]).then(answers => {
@@ -300,9 +304,9 @@ function handleTransform(tranFns, srcPath, outPath, resolve, reject) {
 
         if (srcIsDir) {
             const files = fileUtil.listFiles(srcFullPath);
-            ignoreTransformLargeFiles(files).then((ignore) => {
+            confirmTransformLargeFiles(files).then((canTransformLargeFiles) => {
                 preTransform(tranFns, options);
-                //ignore 是否忽略大文件转换，true：忽略
+                //canTransformLargeFiles 是否大文件转换，true：转换
                 let result = true;
                 var bar = new ProgressBar('transform in progress: [:bar] :current/:total    ', { total: files.length });
                 files.forEach(({ path: srcFilePath, size }) => {
@@ -312,7 +316,7 @@ function handleTransform(tranFns, srcPath, outPath, resolve, reject) {
                         mkOutDir(outFilePath);
 
                         const ext = path.extname(srcFilePath);
-                        if (EXCLUDE_FILES.indexOf(ext) > -1 || (ignore && size > FILE_LIMIT_SIZE)) {
+                        if (EXCLUDE_FILES.indexOf(ext) > -1 || (!canTransformLargeFiles && size > FILE_LIMIT_SIZE)) {
                             fse.copyFileSync(srcFilePath, outFilePath);
                         } else {
                             const { success } = execTransforms(tranFns, options, srcFilePath, outFilePath);
@@ -324,8 +328,9 @@ function handleTransform(tranFns, srcPath, outPath, resolve, reject) {
                     }
                     bar.tick();
                 });
-                logSuccess(result);
+                
                 postTransform(tranFns, options);
+                logSuccess(result);
             }).catch((error) => {
                 reject(error);
             })
@@ -334,8 +339,9 @@ function handleTransform(tranFns, srcPath, outPath, resolve, reject) {
             preTransform(tranFns, options);
             mkOutDir(outFullPath);
             const { success } = execTransforms(tranFns, options, srcFullPath, outFullPath);
-            logSuccess(success);
+            
             postTransform(tranFns, options);
+            logSuccess(success);
         }
         resolve();
 
