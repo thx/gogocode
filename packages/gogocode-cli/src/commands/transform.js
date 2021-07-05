@@ -260,7 +260,7 @@ function logSuccess(result) {
         console.log();
     }
 }
-function ignoreTransformLargeFiles(files) {
+function confirmTransformLargeFiles(files) {
     return new Promise((resolve, reject) => {
         //排除图片等其他类型文件。并且文件大小小于FILE_LIMIT_SIZE
         const count = files.filter(f => (f.size > FILE_LIMIT_SIZE && EXCLUDE_FILES.indexOf(path.extname(f.path)) < 0)).length;
@@ -269,7 +269,7 @@ function ignoreTransformLargeFiles(files) {
                 {
                     type: 'confirm',
                     name: 'largeFiles',
-                    message: `there are ${count} files is larger than ${FILE_LIMIT_SIZE / 1024}KB, do you want to ignore them ?`,
+                    message: `there are ${count} files is larger than ${FILE_LIMIT_SIZE / 1024}KB, do you want to transform them ?`,
                     default: false,
                 }
             ]).then(answers => {
@@ -304,9 +304,9 @@ function handleTransform(tranFns, srcPath, outPath, resolve, reject) {
 
         if (srcIsDir) {
             const files = fileUtil.listFiles(srcFullPath);
-            ignoreTransformLargeFiles(files).then((ignore) => {
+            confirmTransformLargeFiles(files).then((canTransformLargeFiles) => {
                 preTransform(tranFns, options);
-                //ignore 是否忽略大文件转换，true：忽略
+                //canTransformLargeFiles 是否大文件转换，true：转换
                 let result = true;
                 var bar = new ProgressBar('transform in progress: [:bar] :current/:total    ', { total: files.length });
                 files.forEach(({ path: srcFilePath, size }) => {
@@ -316,7 +316,7 @@ function handleTransform(tranFns, srcPath, outPath, resolve, reject) {
                         mkOutDir(outFilePath);
 
                         const ext = path.extname(srcFilePath);
-                        if (EXCLUDE_FILES.indexOf(ext) > -1 || (ignore && size > FILE_LIMIT_SIZE)) {
+                        if (EXCLUDE_FILES.indexOf(ext) > -1 || (!canTransformLargeFiles && size > FILE_LIMIT_SIZE)) {
                             fse.copyFileSync(srcFilePath, outFilePath);
                         } else {
                             const { success } = execTransforms(tranFns, options, srcFilePath, outFilePath);
