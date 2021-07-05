@@ -26,10 +26,11 @@
     "commander": "^7.1.0",
     "cross-spawn": "^7.0.3",
     "fs-extra": "^9.1.0",
+    "gogocode": "^1.0.12",
     "inquirer": "^8.1.0",
+    "ora": "^5.4.1",
     "progress": "^2.0.3",
-    "semver": "^7.3.5",
-    "gogocode": "^1.0.12"
+    "semver": "^7.3.5"
   },
   "engines": {
     "node": "*"

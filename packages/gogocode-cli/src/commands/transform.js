@@ -9,6 +9,8 @@ const fileUtil = require('../util/file');
 const check = require('../util/check');
 const cmd = require('../util/cmd');
 const inquirer = require('inquirer');
+const ora = require('ora');
+
 let PWD_PATH, CLI_INSTALL_PATH;
 const EXCLUDE_FILES = ['.gif', '.jpg', '.png', '.jpeg', '.css', '.less', '.map', '.ico'];
 const FILE_LIMIT_SIZE = 1024 * 200;
@@ -129,9 +131,10 @@ function ppt(tranFns, options) {
  * @param {*} options 
  */
 function preTransform(tranFns, options) {
-    console.log(chalk.green(`preTransform operating ...`));
+    const spinner = ora(chalk.green(`preTransform operating ...`)).start();
     options.period = 'preTransform';
     ppt(tranFns, options);
+    spinner.stop();
 }
 /**
  * 插件转换之后
@@ -139,9 +142,10 @@ function preTransform(tranFns, options) {
  * @param {*} options 
  */
 function postTransform(tranFns, options) {
-    console.log(chalk.green(`postTransform operating ...`));
+    const spinner = ora(chalk.green(`postTransform operating ...`)).start();
     options.period = 'postTransform';
     ppt(tranFns, options);
+    spinner.stop();
 }
 /**
  * 
@@ -324,8 +328,9 @@ function handleTransform(tranFns, srcPath, outPath, resolve, reject) {
                     }
                     bar.tick();
                 });
-                logSuccess(result);
+                
                 postTransform(tranFns, options);
+                logSuccess(result);
             }).catch((error) => {
                 reject(error);
             })
@@ -334,8 +339,9 @@ function handleTransform(tranFns, srcPath, outPath, resolve, reject) {
             preTransform(tranFns, options);
             mkOutDir(outFullPath);
             const { success } = execTransforms(tranFns, options, srcFullPath, outFullPath);
-            logSuccess(success);
+            
             postTransform(tranFns, options);
+            logSuccess(success);
         }
         resolve();
 
