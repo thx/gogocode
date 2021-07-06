@@ -6,6 +6,8 @@ const program = require('commander');
 const pkg = require('./package.json');
 const check = require('./src/util/check');
 const transform = require('./src/commands/transform');
+
+
 (async () => {
 
     await check.checkUpdate();
@@ -35,6 +37,8 @@ const transform = require('./src/commands/transform');
     if (process.argv && process.argv.length < 3) {
         program.help();
     }
-
+   
     program.parse(process.argv);
+
+   
 })();
