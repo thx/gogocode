@@ -18,15 +18,18 @@ module.exports = function (ast, { gogocode: $ }) {
         }
 
         script.find('{ functional: true }').each((ast) => {
-            if (ast.has('render() {}')) {
-                const renderFunction = ast.find('render() {}');
+            let renderFunction = scriptUtils.findAnyOf(script, ['render() {}', 'render: () => {}']);
+            if (renderFunction) {
+                if(!renderFunction.attr('params')) {
+                    // render: () => {} 拿到 function 结构体
+                    renderFunction = $(renderFunction.attr('value'))
+                }
                 const hName = renderFunction.attr('params.0.name');
                 renderFunction.replace(`${hName}($$$)`, 'Vue.h($$$)');
                 const contextName = renderFunction.attr('params.1.name') || 'context';
 
                 const propsStr = $(renderFunction.attr('params.1')).generate();
-                const hasDestructContext =
-          renderFunction.attr('params.1.type') === 'ObjectPattern';
+                const hasDestructContext = renderFunction.attr('params.1.type') === 'ObjectPattern';
                 renderFunction.attr('params', []);
                 renderFunction.append('params', '_props');
                 renderFunction.append('params', '_context');
