@@ -9,17 +9,9 @@ const collection = require('./src/collection');
  * @param {*} options 其他 option 由此传入
  * @returns {string} 返回转换后的代码
  */
-module.exports = function (fileInfo, api, options) {
+const transform = function (fileInfo, api, options) {
     const sourceCode = fileInfo.source;
     const $ = api.gogocode;
-
-    if (options.period == 'preTransform') {
-        collection(api, options);
-        return;
-    }
-    if (options.period == 'postTransform') {
-        return;
-    }
 
     if (
         !/\.vue$|\.js$|\.ts$|\.json$/.test(fileInfo.path) ||
@@ -58,3 +50,7 @@ module.exports = function (fileInfo, api, options) {
             parser: /\.vue$/.test(fileInfo.path) ? 'vue' : 'typescript',
         });
 };
+const preTransform = function (api, options) {
+    collection(api, options);
+}
+module.exports = { preTransform, transform };

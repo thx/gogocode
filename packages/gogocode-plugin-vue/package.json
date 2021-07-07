@@ -1,6 +1,6 @@
 {
   "name": "gogocode-plugin-vue",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "glob": "^7.1.7",
-    "gogocode": "^1.0.8",
+    "gogocode": "^1.0.14",
     "jest": "^26.6.3"
   }
 }

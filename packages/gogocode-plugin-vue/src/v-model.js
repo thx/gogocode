@@ -30,7 +30,7 @@ module.exports = function (sourceAst, { gogocode: $ }, options) {
 
                 const value = attr.value.content;
 
-                if (value.indexOf('value') > -1 && key.indexOf('v-model') > -1) {
+                if (value.trim() === 'value' && key.indexOf('v-model') > -1) {
                     attr.value.content = value.replace(/value/g, 'modelValue');
                 } else {
                     attr.value.content = value.replace(`$emit('input'`, `$emit('update:modelValue'`);

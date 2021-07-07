@@ -916,3 +916,13 @@ test('$.find: match Vue.createApp', () => {
 
     expect(find.length > 0).toBeTruthy()
 })
+
+test('$.find: match typeAnnotation', () => {
+    const res = $(`const c = () => x;
+    const d = function () {
+        console.log('ddd');
+    }`)
+    .find(`() => $_$`)
+
+    expect(res.match[0][0].value == 'x').toBeTruthy()
+})

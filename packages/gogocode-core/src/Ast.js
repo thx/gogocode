@@ -277,10 +277,18 @@ class AST {
         let parentPath = this[0].nodePath.parentPath;
         let newNodeAST;
         let deep = 0;
+        if (this.node.program) {
+            nodePath = nodePath.get('program', 'body', '0')
+            currentNode = currentNode.program.body[0];
+        }
         keyList.forEach(attr => {
             const node = currentNode[attr];
             if (node) {
-                if (node.type) {
+                if (this.language == 'js') {
+                    newNodeAST = cloneAST(this);
+                    nodePath = nodePath.get(attr)
+                    newNodeAST[0] = { nodePath, parseOptions: this.parseOptions }
+                } else {
                     newNodeAST = cloneAST(this);
                     parentPath = nodePath
                     nodePath = new NodePath(currentNode[attr], nodePath, nodePath)
@@ -364,7 +372,7 @@ class AST {
                 // JSON.parse(JSON.stringify(this[0].nodePath.node)), 
                 JSON.parse(JSON.stringify(node)), 
                 this[0].nodePath.parent, 
-                this[0].nodePath.parentPath 
+                this[0].nodePath.parentPath
             )
         }
         const { match } = this[0]

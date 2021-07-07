@@ -19,7 +19,10 @@ module.exports = function handleSpecific({ full, partial, prop, extraData, Expan
                     const expandoKey = name.replace(Expando, '') || '0';
                     extraData[expandoKey] = extraData[expandoKey] || [];
                     // 去掉首尾花括号
-                    const bodyStr = generate(full.body) ? generate(full.body).slice(1, -2) : '';
+                    let bodyStr = generate(full.body) || '';
+                    if (bodyStr.trim()[0] == '{') {
+                        bodyStr = bodyStr.slice(1, -2);
+                    }
                     extraData[expandoKey].push({ node: full.body, value: bodyStr });
                     specific = 'body';
                     result = true;

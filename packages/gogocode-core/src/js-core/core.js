@@ -2,7 +2,8 @@ const getSelector = require('./get-selector');
 const { find, visit } = require('./find/general');
 const parse = require('./parse');
 const generate = require('./generate');
-const nodeLinkMap = require('./node-link-map')
+const nodeLinkMap = require('./node-link-map');
+const buildMap = require('./build-map');
 
 const core = {
     // 通过选择器获取，返回ast片段
@@ -101,7 +102,7 @@ const core = {
         try {
             let ast;
             try {
-                const ast = parse(str, parseOptions);
+                ast = parse(str, parseOptions);
                 const program = core.replaceStrByAst(ast, astPatialMap);
                 if (program) {
                     if (isProgram) {
@@ -132,26 +133,22 @@ const core = {
                 if (str.match(/^{(\s|.)+\}$/)) {
                     if (str.match('...') && str.match('=')) {
                         // 解构入参
-                        ast = parse(`(${str}) => {}`).program.body[0].expression.params[0];
+                        ast = buildMap.DestructuringParam(str)
                     } else {
                         // 对象字面量
-                        ast = parse(`var o = ${str}`).program.body[0].declarations[0].init;
+                        ast = buildMap.ObjectExpression(str)
                     }
-                    
                     return ast;
                 } else if (e.message.match('Missing semicolon')) {
                     // 可能是对象属性
-                    ast = parse(`({${str}})`, parseOptions).program.body[0].expression.properties[0]
+                    ast = buildMap.ObjectProperty(str)
                     return ast
                 } else if (e.message.match('Leading decorators must be attached to a class declaration')) {
                     // 是decorator
-                    ast = parse(
-                        `${str}
-                        class A {}`)
-                        .program.body[0].decorators;
+                    ast = buildMap.Decorators(str)
                     return ast
                 } else {
-                    throw new Error(`buildAstByAstStr failed:${str}`)
+                    throw new Error(str)
                 }
             }
         } catch(error) {
@@ -255,10 +252,14 @@ const core = {
                     core.removePathSafe(path)
                 } else {
                     let replacerAst = core.buildAstByAstStr(newReplacer);
-                    if (path.node.type == 'ClassMethod') {
-                        replacerAst = core.buildAstByAstStr(`class a$ {
-                            ${newReplacer}
-                        }`, { isProgram: false }).body.body[0]
+                    if (buildMap[path.node.type]) {
+                        try {
+                            if (buildMap[path.node.type](newReplacer)) {
+                                replacerAst = buildMap[path.node.type](newReplacer)
+                            }
+                        } catch(e) {
+                            //
+                        }
                     }
                     if (replacerAst.expression && replacerAst.expression.type != 'AssignmentExpression' && path.parentPath.name != 'body') {
                         replacerAst = replacerAst.expression
@@ -270,10 +271,14 @@ const core = {
                     core.removePathSafe(path);
                 } else if (typeof replacer == 'string') {
                     let replacerAst = replacer.type ? replacer : core.buildAstByAstStr(replacer);
-                    if (!replacer.type && path.node.type == 'ClassMethod') {
-                        replacerAst = core.buildAstByAstStr(`class a$ {
-                            ${replacer}
-                        }`, { isProgram: false }).body.body[0]
+                    if (!replacer.type && buildMap[path.node.type]) {
+                        try {
+                            if (buildMap[path.node.type](replacer)) {
+                                replacerAst = buildMap[path.node.type](replacer)
+                            }
+                        } catch(e) {
+                            //
+                        }
                     }
                     if (replacerAst.expression && replacerAst.expression.type != 'AssignmentExpression' && path.parentPath.name != 'body') {
                         replacerAst = replacerAst.expression
