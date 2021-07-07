@@ -12,8 +12,9 @@ const inquirer = require('inquirer');
 const ora = require('ora');
 
 let PWD_PATH, CLI_INSTALL_PATH;
-const EXCLUDE_FILES = ['.gif', '.jpg', '.png', '.jpeg', '.css', '.less', '.map', '.ico'];
+const EXCLUDE_FILES = ['.gif', '.jpg', '.png', '.jpeg', '.css', '.less', '.map', '.ico', '.ttf', '.woff', '.woff2'];
 const FILE_LIMIT_SIZE = 1024 * 200;
+
 function checkPath(srcPath, outPath, transform) {
     return new Promise((resolve, reject) => {
         if (!srcPath) {
@@ -111,18 +112,20 @@ function tryLoadPackage(packageName, resolve, reject) {
         reject(err);
     }
 }
-function ppt(tranFns, options) {
+function prePostTransform(tranFns, period, options) {
     tranFns.forEach((tran) => {
         const { fn } = tran;
+        if (typeof fn === 'function' || !fn[period]) {
+            return;
+        }
+        const spinner = ora(chalk.green(`${period} operating ...`)).start();
         try {
-            const fileInfo = { source: `/* this is period of ${options.period} ,do not return real source content . fileInfo.path = 'period.js' is not a real path */`, path: 'period.js' };
             const api = { gogocode: $ };
-            fn(fileInfo,
-                api,
-                options);
+            fn[period](api, options);
         } catch (err) {
             console.error(err);
         }
+        spinner.stop();
     });
 }
 /**
@@ -131,10 +134,8 @@ function ppt(tranFns, options) {
  * @param {*} options 
  */
 function preTransform(tranFns, options) {
-    const spinner = ora(chalk.green(`preTransform operating ...`)).start();
-    options.period = 'preTransform';
-    ppt(tranFns, options);
-    spinner.stop();
+    prePostTransform(tranFns, 'preTransform', options);
+   
 }
 /**
  * 插件转换之后
@@ -142,10 +143,7 @@ function preTransform(tranFns, options) {
  * @param {*} options 
  */
 function postTransform(tranFns, options) {
-    const spinner = ora(chalk.green(`postTransform operating ...`)).start();
-    options.period = 'postTransform';
-    ppt(tranFns, options);
-    spinner.stop();
+    prePostTransform(tranFns, 'postTransform', options);
 }
 /**
  * 
@@ -156,7 +154,7 @@ function postTransform(tranFns, options) {
  * @returns {success or failed}
  */
 function execTransforms(tranFns, options, srcFilePath, outFilePath) {
-    options.period = 'transform';
+    
     options.outFilePath = outFilePath;
 
     let source = null;
@@ -178,13 +176,24 @@ function execTransforms(tranFns, options, srcFilePath, outFilePath) {
     let success = true;
     tranFns.forEach((tran, index) => {
         const { name, fn } = tran;
-        
+        let transform;
+        if (typeof fn === 'function') {
+            //插件导出的是函数，则直接调用
+            transform = fn;
+        } else {
+            //插件导出的是对象，则调用里面的transform方法，支持生命周期
+            transform = fn['transform'];
+            if (!transform) {
+                console.error(`can not find transform function for ${name}`);
+                return;
+            }
+        }
         try {
             // 多个transform 时候会多次写入outFullPath。outFullPath即是源文件也是输出文件
             const fileInfo = { source, path: index === 0 ? srcFilePath : outFilePath };
             const api = { gogocode: $ };
           
-            source = fn(fileInfo,
+            source = transform(fileInfo,
                 api,
                 options);
             if (typeof source === 'string') {
@@ -202,8 +211,6 @@ function execTransforms(tranFns, options, srcFilePath, outFilePath) {
 }
 
 function requireTransforms(transform) {
-
-
     return new Promise((resolve, reject) => {
         const tranFullPath = path.resolve(PWD_PATH, transform);
 
@@ -269,7 +276,7 @@ function confirmTransformLargeFiles(files) {
                 {
                     type: 'confirm',
                     name: 'largeFiles',
-                    message: `there are ${count} files is larger than ${FILE_LIMIT_SIZE / 1024}KB, do you want to transform them ?`,
+                    message: `there ${count > 1 ? 'are' : 'is'} ${count} ${count > 1 ? 'files' : 'file'} larger than ${FILE_LIMIT_SIZE / 1024}KB, do you want to transform ${count > 1 ? 'them' : 'it'} ?`,
                     default: false,
                 }
             ]).then(answers => {
@@ -305,10 +312,11 @@ function handleTransform(tranFns, srcPath, outPath, resolve, reject) {
         if (srcIsDir) {
             const files = fileUtil.listFiles(srcFullPath);
             confirmTransformLargeFiles(files).then((canTransformLargeFiles) => {
-                preTransform(tranFns, options);
                 //canTransformLargeFiles 是否大文件转换，true：转换
+                preTransform(tranFns, options);
+
                 let result = true;
-                var bar = new ProgressBar('transform in progress: [:bar] :current/:total    ', { total: files.length });
+                const bar = new ProgressBar('transform in progress: [:bar] :current/:total    ', { total: files.length });
                 files.forEach(({ path: srcFilePath, size }) => {
                     try {
                         let filePath = srcFilePath.substring(srcFullPath.length, srcFilePath.length);
@@ -338,6 +346,7 @@ function handleTransform(tranFns, srcPath, outPath, resolve, reject) {
             //转换单个文件
             preTransform(tranFns, options);
             mkOutDir(outFullPath);
+
             const { success } = execTransforms(tranFns, options, srcFullPath, outFullPath);
             
             postTransform(tranFns, options);
