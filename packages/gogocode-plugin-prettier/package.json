@@ -3,9 +3,7 @@
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
-  "scripts": {
-
-  },
+  "scripts": {},
   "keywords": [
     "vue",
     "gogocode",
@@ -15,8 +13,5 @@
   "license": "ISC",
   "dependencies": {
     "prettier": "^2.2.1"
-  },
-  "devDependencies": {
-    
   }
 }
