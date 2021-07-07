@@ -1,6 +1,11 @@
 {
   "packages": [
-    "packages/*"
+    "packages/gogocode-cli",
+    "packages/gogocode-core",
+    "packages/gogocode-plugin-prettier",
+    "packages/gogocode-plugin-sample",
+    "packages/gogocode-plugin-vue",
+    "packages/gogocode-starter"
   ],
   "version": "1.0.14",
   "npmClient": "npm"
