@@ -7,6 +7,11 @@ module.exports = function (api, options) {
     try{
         const files = listFiles(options.rootPath);
         files.forEach(filePath => {
+            if (
+                !/\.vue$|\.js$|\.ts$/.test(filePath) || /node_modules/.test(filePath)
+            ) {
+                return;
+            }
             const source = fse.readFileSync(filePath).toString();
             const ast = /\.vue$/.test(filePath)
                 ? $(source, { parseOptions: { language: 'vue' } })
