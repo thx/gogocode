@@ -6,7 +6,7 @@ export default {
     msg: String,
   },
   functional: true,
-  render: (h, { props }) => {
+  render: function (h, { props })  {
     return h('p', `render by h: ${props.msg}`);
   },
 };

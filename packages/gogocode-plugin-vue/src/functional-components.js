@@ -16,16 +16,11 @@ module.exports = function (ast, { gogocode: $ }) {
                 delete tAttr.functional;
             }
         }
-
         script.find('{ functional: true }').each((ast) => {
-            let renderFunction = scriptUtils.findAnyOf(script, ['render() {}', 'render: () => {}']);
+            script.replace('render: ($$$1) => { $$$2 }', 'render($$$1) { $$$2 }')
+            script.replace('render: function ($$$1) { $$$2 }', 'render($$$1) { $$$2 }')
+            let renderFunction = script.find('render() { }')
             if (renderFunction) {
-                let isArrowFn = false
-                if(!renderFunction.attr('params')) {
-                    // render: () => {} 拿到 function 结构体
-                    renderFunction = renderFunction.child('value')
-                    isArrowFn = true
-                }
                 const hName = renderFunction.attr('params.0.name');
                 renderFunction.replace(`${hName}($$$)`, 'Vue.h($$$)');
                 const contextName = renderFunction.attr('params.1.name') || 'context';
