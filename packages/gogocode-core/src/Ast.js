@@ -106,7 +106,9 @@ class AST {
                 let theNodePath = nodePath;
                 while(theNodePath.parentPath) {
                     if (theNodePath.parentPath && theNodePath.parentPath.name == 'root') {
-                        theNodePath.parentPath = this[0].nodePath;
+                        if (theNodePath.parentPath.node.type != 'File') {
+                            theNodePath.parentPath = this[0].nodePath;
+                        }
                         break;
                     }
                     theNodePath = theNodePath.parentPath;
