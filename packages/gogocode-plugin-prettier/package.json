@@ -1,0 +1,17 @@
+{
+  "name": "gogocode-plugin-prettier",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [
+    "vue",
+    "gogocode",
+    "prettier"
+  ],
+  "author": "chibing.fy",
+  "license": "ISC",
+  "dependencies": {
+    "prettier": "^2.2.1"
+  }
+}

@@ -645,3 +645,18 @@ test('$.replace: replace arguments should not throw error', () => {
     .replace(`Vue.set($_$1,$_$2,$_$3)`, `$_$1[$_$2] = $_$3`).generate()
     expect(res == 'state.items[item.id] = item;').toBeTruthy();
 })
+
+test('$.replace: replace object', () => {
+    const code = `
+    VueRouter.createRouter({
+        routes,
+        history: VueRouter.createWebHistory(),
+        base: '/root'
+    })`;
+    const res = $(code)
+    .replace(`{history: VueRouter.createWebHistory(), base: $_$,$$$}`,
+    `{history: VueRouter.createWebHistory($_$),$$$}`)
+    .root()
+    .generate()
+    expect(res.indexOf('({history') > -1).toBeTruthy();
+})

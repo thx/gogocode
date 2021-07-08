@@ -12,11 +12,10 @@
   "main": "transform.js",
   "author": "chibing",
   "license": "ISC",
-  "dependencies": {},
   "engines": {
     "node": "*"
   },
   "devDependencies": {
-    "gogocode": "^1.0.12"
+    "gogocode": "^1.0.17"
   }
 }

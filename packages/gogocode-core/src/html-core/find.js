@@ -99,6 +99,9 @@ function checkIsMatch(full, partial, extraData, strictSequence) {
                 if (partial[prop].trim().match(new RegExp(Expando))) {
                     return true; 
                 } else {
+                    if (partial.type == 'token:attribute-key') {
+                        return full ? full[prop] == partial[prop].trim() : false;
+                    }
                     return full ? !!full[prop].match(partial[prop].trim()) : false;
                 }
             } else {

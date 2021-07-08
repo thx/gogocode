@@ -2,6 +2,16 @@ const path = require('path');
 const fs = require('fs')
 const prettier = require('prettier');
 
+function findAnyOf(scriptAst, rules) {
+    for(let i = 0; i < rules.length; ++i) {
+        const res = scriptAst.find(rules[i])
+        if(res.length) {
+            return res
+        }
+    }
+    return false;
+}
+
 function addCodeToLifeCycle(scriptAst, lifeCycle, code) {
     const hasLifeCycle = scriptAst.has(`${lifeCycle}() {}`);
 
@@ -179,6 +189,7 @@ function forceReplace($, ast, selector, replacer) {
 }
 
 module.exports = {
+    findAnyOf,
     addCodeToLifeCycle,
     addMethod,
     getVueName,

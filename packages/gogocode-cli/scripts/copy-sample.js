@@ -6,7 +6,7 @@ const path = require('path');
 
 const rootPath = process.cwd();
 const tempPath = path.join(rootPath, 'temp');
-const samplePath = path.join(rootPath, '../gogocode-sample');
+const samplePath = path.join(rootPath, '../gogocode-plugin-sample');
 const nodeModulePath = path.join(tempPath, 'node_modules');
 
 if (fse.existsSync(tempPath)) {
