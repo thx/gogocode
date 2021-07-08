@@ -12,6 +12,7 @@ export default function render(_props, _context) {
   return Vue.h('p', `render by h: ${props.msg}`)
 }
 </script>
+
 <style scoped>
 h1 {
   color: #64b587;

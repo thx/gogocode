@@ -16,17 +16,17 @@ module.exports = function (ast, { gogocode: $ }) {
                 delete tAttr.functional;
             }
         }
-
         script.find('{ functional: true }').each((ast) => {
-            if (ast.has('render() {}')) {
-                const renderFunction = ast.find('render() {}');
+            script.replace('render: ($$$1) => { $$$2 }', 'render($$$1) { $$$2 }')
+            script.replace('render: function ($$$1) { $$$2 }', 'render($$$1) { $$$2 }')
+            let renderFunction = script.find('render() { }')
+            if (renderFunction) {
                 const hName = renderFunction.attr('params.0.name');
                 renderFunction.replace(`${hName}($$$)`, 'Vue.h($$$)');
                 const contextName = renderFunction.attr('params.1.name') || 'context';
 
                 const propsStr = $(renderFunction.attr('params.1')).generate();
-                const hasDestructContext =
-          renderFunction.attr('params.1.type') === 'ObjectPattern';
+                const hasDestructContext = renderFunction.attr('params.1.type') === 'ObjectPattern';
                 renderFunction.attr('params', []);
                 renderFunction.append('params', '_props');
                 renderFunction.append('params', '_context');

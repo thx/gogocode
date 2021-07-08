@@ -525,3 +525,20 @@ var a = 1;
   .generate()
 expect(res.match(`var b = 1`) && res.match(`var c = 1`)).toBeTruthy();
 })
+
+
+test('test tag', () => {
+  const res = $(`
+  <template>
+    <Notice
+      v-for="notice in notices"
+      :prefix-cls="prefixCls"
+    >
+    </Notice>
+  </template>
+  `, { parseOptions: { language: 'vue' }})
+    .find('<template></template>')
+    .has('<$_$ v-for="$_$1" ref="$_$2" $$$1>$$$2</$_$>')
+
+  expect(!res).toBeTruthy();
+})
