@@ -660,3 +660,19 @@ test('$.replace: replace object', () => {
     .generate()
     expect(res.indexOf('({history') > -1).toBeTruthy();
 })
+
+test('$.replace: html tag replace should be ok', () => {
+
+    const G = $(`<a v="1"></a>`, { parseOptons: { language: 'html' }});
+    const res = G.replace('<$_$1 $$$1>$$$2</$_$1>', '<$_$1 $$$1>$$$2 ssssss</$_$1>').generate()
+    expect(res.indexOf('ssssss') > -1).toBeTruthy();
+
+})
+
+test('$.replace: html attr replace should be ok', () => {
+
+    const G = $(`<a v="1"></a>`, { parseOptons: { language: 'html' }});
+    const res = G.replace('<$_$1 v="$_$2" $$$1>$$$2</$_$1>', '<$_$1 v="$_$2" v2="$_$2" $$$1>$$$2 ssssss</$_$1>').generate()
+    expect(res.indexOf("v2='1'") > -1).toBeTruthy();
+
+})
