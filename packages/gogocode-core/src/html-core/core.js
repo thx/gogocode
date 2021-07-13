@@ -202,7 +202,7 @@ const core = {
                         let wildCardCode = extra[key][0].value;
                         key == '0' && (key = '');
                         newReplacer = newReplacer
-                            .replace('$_$' + key, wildCardCode);
+                            .replace(new RegExp(`\\$_\\$${key}`, 'g'), wildCardCode);
                         // 通过选择器替换ast，返回完整ast
                     }
                 }
