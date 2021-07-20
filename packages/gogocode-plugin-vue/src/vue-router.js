@@ -108,7 +108,7 @@ function handleMode(fAst, $) {
             forceReplace($, fAst, `mode:'hash'`, `history: VueRouter.createWebHashHistory()`);
             forceReplace($, fAst, `mode:'abstract'`, `history: VueRouter.createMemoryHistory()`);
         } else {
-            forceReplace($, fAst, `{routes:$_$,$$$}`, `{history: VueRouter.createWebHashHistory(),routes:$_$,$$$}`);
+            forceReplace($, fAst, `({routes:$_$,$$$})`, `({history: VueRouter.createWebHashHistory(),routes:$_$,$$$})`);
         }
 
         forceReplace($, fAst, `{history: VueRouter.createWebHistory(), base: $_$1, $$$}`, `{history: VueRouter.createWebHistory($_$1),$$$}`);
