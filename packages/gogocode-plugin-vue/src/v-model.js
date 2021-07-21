@@ -33,7 +33,7 @@ module.exports = function (sourceAst, { gogocode: $ }, options) {
                 if (value.trim() === 'value' && key.indexOf('v-model') > -1) {
                     attr.value.content = value.replace(/value/g, 'modelValue');
                 } else {
-                    attr.value.content = value.replace(`$emit('input'`, `$emit('update:modelValue'`);
+                    attr.value.content = value.replace(`$emit('input',$$$)`, `$emit('update:modelValue',$$$)`);
                 }
             });
         });

@@ -111,14 +111,14 @@ function handleMode(fAst, $) {
             forceReplace($, fAst, `({routes:$_$,$$$})`, `({history: VueRouter.createWebHashHistory(),routes:$_$,$$$})`);
         }
 
-        forceReplace($, fAst, `{history: VueRouter.createWebHistory(), base: $_$1, $$$}`, `{history: VueRouter.createWebHistory($_$1),$$$}`);
-        forceReplace($, fAst, `{history: VueRouter.createWebHashHistory(), base: $_$1, $$$}`, `{history: VueRouter.createWebHashHistory($_$1),$$$}`);
-        forceReplace($, fAst, `{history: VueRouter.createMemoryHistory(), base: $_$1, $$$}`, `{history: VueRouter.createMemoryHistory($_$1),$$$}`);
+        forceReplace($, fAst, `({history: VueRouter.createWebHistory(), base: $_$1, $$$})`, `({history: VueRouter.createWebHistory($_$1),$$$})`);
+        forceReplace($, fAst, `({history: VueRouter.createWebHashHistory(), base: $_$1, $$$})`, `({history: VueRouter.createWebHashHistory($_$1),$$$})`);
+        forceReplace($, fAst, `({history: VueRouter.createMemoryHistory(), base: $_$1, $$$})`, `({history: VueRouter.createMemoryHistory($_$1),$$$})`);
     }
 }
 function handleScrollBehavior(fAst) {
     fAst.find('{scrollBehavior:$_$}').each(ast => {
-        ast.replace(`{y:$_$,$$$}`, `{top:$_$,$$$}`);
-        ast.replace(`{x:$_$,$$$}`, `{left:$_$,$$$}`);
+        ast.replace(`({y:$_$,$$$})`, `({top:$_$,$$$})`);
+        ast.replace(`({x:$_$,$$$})`, `({left:$_$,$$$})`);
     });
 }
