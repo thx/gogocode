@@ -14,7 +14,7 @@ module.exports = function (ast, { gogocode: $ }) {
                 sourceAst.remove(`Vue.use(${fAst.match[0][0].value})`);
             }
         });
-        sourceAst.replace(`import $_$ from 'vue-router'`, `import * as VueRouter from 'vue-router'`);
+        sourceAst.replace(`import $_$ from 'vue-router'`, `import * as VueRouter from 'vue-router';`);
 
         sourceAst.replace(`new Router($_$)`, `VueRouter.createRouter($_$)`);
         sourceAst.replace(`router.onReady.bind($_$)`, `router.isReady.bind($_$)`);
