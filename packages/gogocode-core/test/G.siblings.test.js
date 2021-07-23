@@ -117,3 +117,25 @@ test('$: simple1 html code result should be ok', () => {
     const code = s.generate();
     expect(code).toBe('\n        ');
 })
+
+test('$: simple1 html code result should be ok', () => {
+    const res = $(`
+    //a
+function foo(){
+    console.log('foo')
+}
+function foo1(){
+    console.log('foo1')
+}
+//b
+function foo2(){
+    console.log('foo2')
+}
+`)
+    .find('//b')
+    .parent(1)
+    .siblings()
+    .generate();
+
+    expect(!!res.match('a')).toBeTruthy();
+})
