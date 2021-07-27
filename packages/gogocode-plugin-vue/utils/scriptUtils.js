@@ -200,7 +200,8 @@ function addUtils($, extFunCode, outRootPath, outFilePath, utilsName) {
             console.log('error ', ex);
         }
     }
-    return path.relative(path.dirname(outFilePath), inputPath);
+    let relativePath = path.relative(path.dirname(outFilePath), inputPath);
+    return relativePath.startsWith('.') ? relativePath : (`./${ relativePath }`)
 }
 /**
  * 强制替换ast对象，避免ast结构异常情况出现

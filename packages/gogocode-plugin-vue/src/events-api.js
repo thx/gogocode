@@ -7,17 +7,53 @@ module.exports = function (ast, api, options) {
     if (scriptAst.length < 1) {
         return ast
     }
-
+    let nodeStart = 0
     scriptAst.find([`$_$1.$on($_$2)`, `$_$1.$off($_$2)`, `$_$1.$once($_$2)`, `$_$1.$emit($_$2)`]).each(node => {
-        
+        let transform = false
 
-        node.replace('$on', 'vueOn')
-            .replace('$once', 'vueOnce')
-            .replace('$off', 'vueOff')
-            .replace('$emit', 'vueEmit')
-        /*
+        // this.$on 处理
+        if (node.attr('callee.object.type') == 'ThisExpression' && !node.attr('callee.object.property.name')) {
+            node.replace('$on', 'vueOn')
+                .replace('$once', 'vueOnce')
+                .replace('$off', 'vueOff')
+                .replace('$emit', 'vueEmit')
+            try {
+                const relativePath = scriptUtils.addUtils(
+                    api.gogocode,
+                    `import tiny_emitter from 'tiny-emitter/instance'
+                    export default {
+                      methods: {
+                        vueOn(...args) {
+                          tiny_emitter.on(...args)
+                        },
+                        vueOnce(...args) {
+                          tiny_emitter.once(...args)
+                        },
+                        vueOff(...args) {
+                          tiny_emitter.off(...args)
+                        },
+                        vueEmit(...args) {
+                          this.$emit(...args)
+                          tiny_emitter.emit(...args)
+                        },
+                      },
+                    }
+                        `,
+                    options.outRootPath,
+                    options.outFilePath,
+                    'tinyEmitterBus.js'
+                )
+                if (!scriptAst.has(`import TinyEmmitterBus from '${relativePath}'`)) {
+                    scriptAst.before(`import TinyEmmitterBus from '${relativePath}';\n`)
+                }
+                scriptUtils.addMixin(scriptAst, 'TinyEmmitterBus')
+            }
+            catch (ex) {
+                console.log('writeFile error', ex)
+            }
+        }
         // xxx.$on() 情况处理
-        if (node.attr('callee.object.name')) {
+        else if (node.attr('callee.object.name')) {
             let nodes = scriptAst.find([
                 `import ${node.attr('callee.object.name')} from '$_$'`,
                 `const ${node.attr('callee.object.name')} = $_$`,
@@ -29,7 +65,9 @@ module.exports = function (ast, api, options) {
             nodes.each(hub => {
                 let imports = scriptAst.find(`import '$_$'`)
                 if (hub.attr('type') == 'ImportDeclaration' && !scriptAst.has(tinyEmitter)) {
+                    imports.eq(imports.length - 1).after(`let ${node.attr('callee.object.name')} = {}`)
                     imports.eq(imports.length - 1).after(tinyEmitter)
+                    hub.remove()
                     transform = true
                 }
                 else if (!hub.parent(1).has(tinyEmitter)) {
@@ -65,41 +103,16 @@ module.exports = function (ast, api, options) {
                 transform = true
             }
         }
-        */
         // 转换后增加tiny-emitter引用
-        try {
-            const relativePath = scriptUtils.addUtils(
-                api.gogocode,
-                `import tiny_emitter from 'tiny-emitter/instance'
-                export default {
-                  methods: {
-                    vueOn(...args) {
-                      tiny_emitter.on(...args)
-                    },
-                    vueOnce(...args) {
-                      tiny_emitter.once(...args)
-                    },
-                    vueOff(...args) {
-                      tiny_emitter.off(...args)
-                    },
-                    vueEmit(...args) {
-                      this.$emit(...args)
-                      tiny_emitter.emit(...args)
-                    },
-                  },
-                }
-                    `,
-                options.outRootPath,
-                options.outFilePath,
-                'tiny-emitter-bus.js'
-            )
-            if (!scriptAst.has(`import TinyEmmitterBus from './${relativePath}'`)) {
-                scriptAst.before(`import TinyEmmitterBus from './${relativePath}';\n`)
-            }
-            scriptUtils.addMixin(scriptAst, 'TinyEmmitterBus')
-        }
-        catch (ex) {
-            console.log('writeFile error', ex)
+        if (transform && !scriptAst.has(`import tiny_emitter from 'tiny-emitter/instance'`)) {
+            scriptAst.prepend(`import tiny_emitter from 'tiny-emitter/instance';\n`)
+            let imports = scriptAst.find(`import '$_$'`)
+            imports.eq(imports.length - 1).after(`const tiny_emitter_override = {
+                $on: (...args) => tiny_emitter.on(...args),
+                $once: (...args) => tiny_emitter.once(...args),
+                $off: (...args) => tiny_emitter.off(...args),
+                $emit: (...args) => tiny_emitter.emit(...args),
+              };\n`)
         }
     })
     return ast
