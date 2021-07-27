@@ -121,7 +121,7 @@ function withoutExt(p) {
 }
 
 function isMainFile(rootPath, filePath) {
-    const isDir = fse.statSync(rootPath).isDirectory()
+    const isDir = fse.existsSync(rootPath) && fse.statSync(rootPath).isDirectory();
     const relative = isDir ? path.relative(rootPath, filePath) : path.basename(filePath);
     return ['src/main', 'src/index', 'src/app', 'main', 'index', 'app'].includes(withoutExt(relative));
 }
