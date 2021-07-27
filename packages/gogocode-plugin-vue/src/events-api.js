@@ -1,4 +1,6 @@
-module.exports = function (ast) {
+const scriptUtils = require('../utils/scriptUtils');
+
+module.exports = function (ast, api, options) {
     // 迁移指南: https://v3.cn.vuejs.org/guide/migration/events-api.html
 
     let scriptAst = ast.parseOptions && ast.parseOptions.language == 'vue' ? ast.find('<script></script>') : ast
@@ -8,6 +10,7 @@ module.exports = function (ast) {
     let nodeStart = 0
     scriptAst.find([`$_$1.$on($_$2)`, `$_$1.$off($_$2)`, `$_$1.$once($_$2)`, `$_$1.$emit($_$2)`]).each(node => {
         let transform = false
+        
         // xxx.$on() 情况处理
         if (node.attr('callee.object.name')) {
             let nodes = scriptAst.find([
@@ -57,17 +60,36 @@ module.exports = function (ast) {
                 transform = true
             }
         }
+
+        
         // 转换后增加tiny-emitter引用
-        if (transform && !scriptAst.has(`import tiny_emitter from 'tiny-emitter/instance'`)) {
-            scriptAst.prepend(`import tiny_emitter from 'tiny-emitter/instance';\n`)
-            let imports = scriptAst.find(`import '$_$'`)
-            imports.eq(imports.length - 1).after(`const tiny_emitter_override = {
-                $on: (...args) => tiny_emitter.on(...args),
-                $once: (...args) => tiny_emitter.once(...args),
-                $off: (...args) => tiny_emitter.off(...args),
-                $emit: (...args) => tiny_emitter.emit(...args),
-              };\n`)
+        if (transform) {
+            try {
+                const relativePath = scriptUtils.addUtils(
+                    api.gogocode,
+                    `import tiny_emitter from 'tiny-emitter/instance';
+                    export default {
+                      methods: {
+                        vueOn: (...args) => tiny_emitter.on(...args),
+                        vueOnce: (...args) => tiny_emitter.once(...args),
+                        vueOff: (...args) => tiny_emitter.off(...args),
+                        vueEmit: (...args) => tiny_emitter.emit(...args),
+                      },
+                    }
+                    `, 
+                    options.outRootPath, 
+                    options.outFilePath, 
+                    'tiny-emitter-bus.js'
+                )               
+                if (!scriptAst.has(`import TinyEmmitterBus from '${relativePath}'`)) {
+                    scriptAst.before(`import TinyEmmitterBus from '${relativePath}';\n`)
+                }
+                scriptUtils.addMixin(scriptAst,'TinyEmmitterBus')
+            }
+            catch (ex) {
+                console.log('writeFile error', ex)
+            }           
         }
     })
-    return ast
+       return ast
 }

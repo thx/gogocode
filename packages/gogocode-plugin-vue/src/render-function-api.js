@@ -31,7 +31,13 @@ module.exports = function (ast, api, options) {
                       result[transProps[key]]=result[transProps[key]].concat(obj2arr(params[key]))}}
                     return result}`
                     try {
-                        const relativePath = scriptUtils.addUtils(options.outRootPath, options.outFilePath, plantRenderParaCode, api.gogocode)
+                        const relativePath = scriptUtils.addUtils(
+                            api.gogocode,
+                            plantRenderParaCode, 
+                            options.outRootPath, 
+                            options.outFilePath, 
+                            'gogocodeTransfer.js'
+                        )
                         let para = ast.find(`${hName}(${args.map(() => '$_$').join()})`).match[0][1].value
                         ast.replace(para, `plantRenderPara(${para})`)
                         if (!scriptAst.has(`import { plantRenderPara } from '${relativePath}'`)) {
