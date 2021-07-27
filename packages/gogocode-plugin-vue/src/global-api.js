@@ -1,5 +1,7 @@
 const scriptUtils = require('../utils/scriptUtils');
 const path = require('path');
+const fse = require('fs-extra');
+
 module.exports = function (ast, api, options) {
    
     const vueAppName = 'window.$vueApp';
@@ -27,8 +29,8 @@ module.exports = function (ast, api, options) {
         `${vueAppName}.config.globalProperties`
     );
 
-
-    if (isMainFile(options.rootPath, options.filePath)) {
+    const isMFile = isMainFile(options.rootPath, options.filePath);
+    if (isMFile) {
         script.find(`new ${vueName}($_$)`).each((fAst) => {
             if (
                 !fAst.match[0] ||
@@ -45,6 +47,9 @@ module.exports = function (ast, api, options) {
             } else if (type === 'ObjectExpression') {
                 properties.forEach((prop) => {
                     const key = prop.key.name;
+                    if (!prop.value) {
+                        return;
+                    }
                     let value = prop.value.name;
                     if (key === 'router') {
                         position.after(`${vueAppName}.use(${value});`);
@@ -116,7 +121,8 @@ function withoutExt(p) {
 }
 
 function isMainFile(rootPath, filePath) {
-    const relative = path.relative(rootPath, filePath);
+    const isDir = fse.statSync(rootPath).isDirectory()
+    const relative = isDir ? path.relative(rootPath, filePath) : path.basename(filePath);
     return ['src/main', 'src/index', 'src/app', 'main', 'index', 'app'].includes(withoutExt(relative));
 }
 
