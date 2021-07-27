@@ -926,3 +926,24 @@ test('$.find: match typeAnnotation', () => {
 
     expect(res.match[0][0].value == 'x').toBeTruthy()
 })
+
+test('$.find: replace html tag result should be ok', () => {
+    const res = $(`
+    var e;
+        var a = 1, b=2, d, c=3;
+
+        function xxx(){
+            return a = 5, b=6, c=7, 8;
+        }
+
+        if(a=5,b=6,c=7,d){
+            
+        }
+    `)
+    .find(`var $_$1 = $_$2`)
+    .each(item => {
+        item.match
+    })
+    expect(!!res).toBeTruthy();
+
+})

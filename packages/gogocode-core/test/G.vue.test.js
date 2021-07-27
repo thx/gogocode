@@ -542,3 +542,41 @@ test('test tag', () => {
 
   expect(!res).toBeTruthy();
 })
+
+
+
+test('test tag attr buttons', () => {
+  const res = $(`
+  <template>
+    <Layout :key="\`buttons\`+ buttons + a.buttons + a.buttons.b + a.b.buttons">
+    <div v-if="buttons.length">{{ 测试buttons }}</div>
+    <div v-for="(item, index) in buttons">{{ buttonsbuttons }}</div>
+    <div>哈哈哈</div>
+  </Layout>
+</template>
+<script>
+
+</script>
+  `, { parseOptions: { language: 'vue' }})
+  .find('<template></template>')
+  .find('<$_$1 $_$2="$_$3"></$_$1>')
+  .each(tag => {
+    tag.match[3].forEach(m => {
+      if (!m.node.content.match('buttons')) return; // 不包含buttons就return
+      m.node.content =  // 给属性值赋新值
+      $(m.node.content).find('buttons') // 将属性值处理为js表达式
+      .each(item => {
+        if (item.parent().node.type == 'MemberExpression' && item.parent().node.property.name == 'buttons') {
+          // 如果buttons是被调用方，不改变
+          return;
+        }
+        // 改变buttons变量为abc
+        item.attr('name', 'abc')
+      })
+      .root()
+      .generate()
+    })
+  })
+  .generate()
+  expect(res.match(/abc/g).length == 3).toBeTruthy();
+})

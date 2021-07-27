@@ -64,7 +64,16 @@ function checkIsMatch(full, partial, extraData, strictSequence) {
                         if (partial[prop] && typeof partial[prop].name == 'string' && 
                             (partial[prop].name.match(Expando) || partial[prop].name.match(new RegExp(Expando.slice(0, -1) + '\\$3')))
                         ) {
-                            fullProp = full;
+                            if (full.type == 'VariableDeclarator' && prop == 'init' && partial[prop].name.match(Expando)) {
+                                // var $_$ = $_$匹配 var a这种;
+                                const expandoKey = partial[prop].name.replace(Expando, '') || '0';
+                                extraData[expandoKey] = extraData[expandoKey] || [];
+                                extraData[expandoKey].push({ node: null, value: null })
+                                return true;
+                            } else {
+                                fullProp = full;
+                            }
+                            
                         }
                     }
                     res =

@@ -104,3 +104,18 @@ test('$.attr: simple1 html code set attr result should be ok', () => {
     expect(result).toBeTruthy();
 
 })
+
+test('$.attr: simple1 html code set attr result should be ok', () => {
+
+    const result = $(`<div v-model="a"></div>`, config.html)
+    .find(`<$_$1 v-model="$_$2"></$_$1>`)
+    .each(item => {
+        item.attr('content.attributes').push({
+            key: { type: "token:attribute-key", content: 'newAttr'},
+            value: { type: 'token:attribute-value', content: '1'}
+        })
+    })
+    .root()
+    .generate()
+    expect(result.match('newAttr')).toBeTruthy();
+})

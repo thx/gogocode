@@ -135,3 +135,9 @@ test('$.generate: selfclose tag generate should be ok', () => {
     expect(str.indexOf(`<!-- sdd -->`) > -1).toBeTruthy();
 })
 
+// test('$.generate: import generate should be ok', () => {
+//     const res = $(`const baseUrl = import.meta.env.VITE_APP_WEB_API_URL;`)
+//     .generate();
+//     expect(res.indexOf(`import`) > -1).toBeTruthy();
+// todo
+// })
