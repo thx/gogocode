@@ -1,4 +1,4 @@
-const { isObject, hasOwn } = require('../util')
+const { isObject, hasOwn, escapeRegExp } = require('../util')
 // 通过简单ast结构查找ast节点
 const filterProps = require('./filter-prop.js');
 const traverse = require('./html-traverse')
@@ -102,7 +102,7 @@ function checkIsMatch(full, partial, extraData, strictSequence) {
                     if (partial.type == 'token:attribute-key') {
                         return full ? full[prop] == partial[prop].trim() : false;
                     }
-                    return full ? !!full[prop].match(partial[prop].trim()) : false;
+                    return full ? !!full[prop].match(escapeRegExp(partial[prop].trim())) : false;
                 }
             } else {
                 return full ? full[prop] == partial[prop] : false;
