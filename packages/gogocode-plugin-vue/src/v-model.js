@@ -1,6 +1,7 @@
 const scriptUtils = require('../utils/scriptUtils');
 
 const { appendEmitsProp } = scriptUtils;
+const nativeInput = ['input', 'textarea','select'];
 
 module.exports = function (sourceAst, { gogocode: $ }, options) {
     // 迁移指南: https://v3.cn.vuejs.org/guide/migration/v-model.html
@@ -27,9 +28,11 @@ module.exports = function (sourceAst, { gogocode: $ }, options) {
                 if (!attr.value || !attr.value.content) {
                     return;
                 }
+                
+                const compName = ast.attr('content.name');
                 // 处理key是 :value 的情况
-                if (key === ':value') {
-                    attr.key.content = 'v-model';
+                if (!nativeInput.includes(compName) && key === ':value') {
+                    attr.key.content = ':modelValue';
                 }
 
                 const value = attr.value.content;

@@ -3,7 +3,5 @@ module.exports = function (sourceAst) {
     sourceAst.replace(`import Vuex from 'vuex'`, `import * as Vuex from 'vuex';`);
     sourceAst.remove('Vue.use(Vuex)');
     sourceAst.replace(`new Vuex.Store($_$)`, `Vuex.createStore($_$)`);
-    sourceAst.replace(`Vue.set($_$1,$_$2,$_$3)`, `$_$1[$_$2] = $_$3`);
-    sourceAst.replace(`Vue.delete($_$)`, `delete $_$`);
     return sourceAst
 }

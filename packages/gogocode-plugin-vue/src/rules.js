@@ -1,3 +1,4 @@
+const api = require('./api');
 const arrayRefs = require('./array-refs');
 const asyncComponents = require('./async-components');
 const customDirectives = require('./custom-directives');
@@ -26,6 +27,7 @@ const vuex = require('./vue-vuex');
 const packageJson = require('./package-json');
 
 module.exports = [
+    { name: 'api', rule: api, test: /\.vue$|\.js$|\.ts$/ },
     { name: 'router', rule: router, test: /\.vue$|\.js$|\.ts$/ },
     { name: 'vuex', rule: vuex, test: /\.js$|\.ts$/ },
     {
