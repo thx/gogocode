@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>迁移：{{ name }}</p>
-    <p>Vue版本：{{ version }}</p>
+    
     <A />
     <B />
   </div>
@@ -20,8 +20,7 @@ export default {
   },
   data() {
     return {
-      name: '事件 API',
-      version: Vue.version,
+      name: '事件 API',      
     };
   },
 };

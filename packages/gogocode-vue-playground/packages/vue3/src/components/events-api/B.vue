@@ -5,16 +5,23 @@
 <script>
 
 import tiny_emitter from 'tiny-emitter/instance';
-import eventHub from './EventHub';
+
+
 export default {
     
     name: 'B',
     data: {
+        picker:{
+
+        },
         num: 0,
     },
     data() {
         return {
             num: 0,
+            picker:{
+
+            },
         };
     },
     mounted() {
@@ -23,6 +30,8 @@ export default {
 
         // picker.$on => this.vueOn
         // this.$on
+
+        let eventHub = {}
 
         const tiny_emitter_override = {
             $on: (...args) => tiny_emitter.on(...args),
