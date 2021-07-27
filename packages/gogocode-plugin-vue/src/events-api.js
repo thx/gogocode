@@ -7,10 +7,15 @@ module.exports = function (ast, api, options) {
     if (scriptAst.length < 1) {
         return ast
     }
-    let nodeStart = 0
+
     scriptAst.find([`$_$1.$on($_$2)`, `$_$1.$off($_$2)`, `$_$1.$once($_$2)`, `$_$1.$emit($_$2)`]).each(node => {
-        let transform = false
         
+
+        node.replace('$on', 'vueOn')
+            .replace('$once', 'vueOnce')
+            .replace('$off', 'vueOff')
+            .replace('$emit', 'vueEmit')
+        /*
         // xxx.$on() 情况处理
         if (node.attr('callee.object.name')) {
             let nodes = scriptAst.find([
@@ -22,18 +27,18 @@ module.exports = function (ast, api, options) {
             const tinyEmitter = `Object.assign(${node.attr('callee.object.name')} ,tiny_emitter_override);\n`
             // 查找eventhub定义
             nodes.each(hub => {
-                let imports = scriptAst.find(`import '$_$'`)            
+                let imports = scriptAst.find(`import '$_$'`)
                 if (hub.attr('type') == 'ImportDeclaration' && !scriptAst.has(tinyEmitter)) {
                     imports.eq(imports.length - 1).after(tinyEmitter)
                     transform = true
                 }
-                else if(!hub.parent(1).has(tinyEmitter)) {
+                else if (!hub.parent(1).has(tinyEmitter)) {
                     hub.after(tinyEmitter)
                     transform = true
                 }
             })
             // 没找到定义的情况 
-            if (!nodes.length) {                
+            if (!nodes.length) {
                 if (!node.parent(1).has(tinyEmitter)) {
                     node.before(tinyEmitter)
                     transform = true
@@ -60,36 +65,42 @@ module.exports = function (ast, api, options) {
                 transform = true
             }
         }
-
-        
+        */
         // 转换后增加tiny-emitter引用
-        if (transform) {
-            try {
-                const relativePath = scriptUtils.addUtils(
-                    api.gogocode,
-                    `import tiny_emitter from 'tiny-emitter/instance';
-                    export default {
-                      methods: {
-                        vueOn: (...args) => tiny_emitter.on(...args),
-                        vueOnce: (...args) => tiny_emitter.once(...args),
-                        vueOff: (...args) => tiny_emitter.off(...args),
-                        vueEmit: (...args) => tiny_emitter.emit(...args),
-                      },
-                    }
-                    `, 
-                    options.outRootPath, 
-                    options.outFilePath, 
-                    'tiny-emitter-bus.js'
-                )               
-                if (!scriptAst.has(`import TinyEmmitterBus from '${relativePath}'`)) {
-                    scriptAst.before(`import TinyEmmitterBus from '${relativePath}';\n`)
+        try {
+            const relativePath = scriptUtils.addUtils(
+                api.gogocode,
+                `import tiny_emitter from 'tiny-emitter/instance'
+                export default {
+                  methods: {
+                    vueOn(...args) {
+                      tiny_emitter.on(...args)
+                    },
+                    vueOnce(...args) {
+                      tiny_emitter.once(...args)
+                    },
+                    vueOff(...args) {
+                      tiny_emitter.off(...args)
+                    },
+                    vueEmit(...args) {
+                      this.$emit(...args)
+                      tiny_emitter.emit(...args)
+                    },
+                  },
                 }
-                scriptUtils.addMixin(scriptAst,'TinyEmmitterBus')
+                    `,
+                options.outRootPath,
+                options.outFilePath,
+                'tiny-emitter-bus.js'
+            )
+            if (!scriptAst.has(`import TinyEmmitterBus from './${relativePath}'`)) {
+                scriptAst.before(`import TinyEmmitterBus from './${relativePath}';\n`)
             }
-            catch (ex) {
-                console.log('writeFile error', ex)
-            }           
+            scriptUtils.addMixin(scriptAst, 'TinyEmmitterBus')
+        }
+        catch (ex) {
+            console.log('writeFile error', ex)
         }
     })
-       return ast
+    return ast
 }

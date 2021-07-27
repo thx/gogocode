@@ -8,15 +8,12 @@
 </template>
 
 <script>
-import { version } from 'vue';
-import A from './A';
-import B from './B';
+import Vue from 'vue';
+import A from './A.vue';
+import B from './B.vue';
 /* 迁移指南: https://v3.cn.vuejs.org/guide/migration/events-api.html */
 export default {
-  components: {
-    A,
-    B,
-  },
+  components: { A, B },
   name: 'events-api',
   props: {
     msg: String,
@@ -24,7 +21,7 @@ export default {
   data() {
     return {
       name: '事件 API',
-      version: version,
+      version: Vue.version,
     };
   },
 };

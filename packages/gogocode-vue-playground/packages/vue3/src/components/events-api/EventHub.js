@@ -1,5 +1,2 @@
-import mitt from 'mitt';
-
-const emitter = mitt();
-
-export default emitter;
+import Vue from 'vue'
+export default new Vue()

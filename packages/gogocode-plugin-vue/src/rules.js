@@ -55,7 +55,7 @@ module.exports = [
     //   test:  /\.vue$|\.js$|\.ts$/,
     // },
     { name: 'emitsOptions', rule: emitsOptions, test: /\.vue$|\.js$|\.ts$/ },
-    { name: 'eventsApi', rule: eventsApi, test: /\.vue$|\.js$|\.ts$/ },
+   
     { name: 'filters', rule: filters, test: /\.vue$|\.js$|\.ts$/ },
     {
         name: 'functionalComponents',
@@ -90,5 +90,6 @@ module.exports = [
         test: /package\.json$/,
         notParseAst: false,
     },
+    { name: 'eventsApi', rule: eventsApi, test: /\.vue$|\.js$|\.ts$/ },
 
 ];

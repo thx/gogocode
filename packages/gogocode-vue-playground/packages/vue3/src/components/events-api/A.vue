@@ -1,24 +1,29 @@
 <template>
-  <div>
-    A:
-    <button @click="inc">inc</button>
-  </div>
+    <div>
+        A:
+        <button @click="inc">inc</button>
+    </div>
 </template>
 <script>
-import emitter from 'tiny-emitter/instance'
+import eventHub from './EventHub';
 
-const eventHub = {
-  $on: (...args) => emitter.on(...args),
-  $once: (...args) => emitter.once(...args),
-  $off: (...args) => emitter.off(...args),
-  $emit: (...args) => emitter.emit(...args),
-}
+import tiny_emitter from 'tiny-emitter/instance';
 
 export default {
-  methods: {
-    inc() {
-      eventHub.$emit('inc');
+    
+    methods: {
+        inc() {
+            const tiny_emitter_override = {
+                $on: (...args) => tiny_emitter.on(...args),
+                $once: (...args) => tiny_emitter.once(...args),
+                $off: (...args) => tiny_emitter.off(...args),
+                $emit: (...args) => tiny_emitter.emit(...args),
+            };
+
+            Object.assign(eventHub, tiny_emitter_override);
+
+            eventHub.$emit('inc');
+        },
     },
-  },
 };
 </script>

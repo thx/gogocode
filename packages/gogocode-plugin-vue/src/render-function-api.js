@@ -9,14 +9,14 @@ module.exports = function (ast, api, options) {
     let components = options && Array.isArray(options.components) ? options.components : []
 
     let hName = ''
-    scriptAst.find([`render($$$1){$$$2}`, `render: $$$1 => $$$2`, `render: function($$$1){$$$2}`]).each(node => {
+    scriptAst.find([`render($$$1){$$$2}`, `render: $$$1 => $$$2`, `render: function($$$1){$$$2}`, `function render($$$1){$$$2}`]).each(node => {
         let params = node.attr('params') || node.attr('value.params') || []
         if(params.length){
             hName = params[0].name
             params.splice(0, 1);
             scriptUtils.addVueImport(scriptAst)
         }
-        node.find([`${hName}($$$)`,`${hName}`]).each(ast => {
+        node.find([`${hName}($$$)`,`${hName}`,'h']).each(ast => {
             let args = ast.attr('arguments') || []
             args.forEach((arg, index) => {
                 if (arg.type == 'StringLiteral' && arg.value && components.indexOf(arg.value) > -1) {

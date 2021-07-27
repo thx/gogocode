@@ -1,37 +1,45 @@
 <template>
-  <div>
-    B:{{num}}
-  </div>
+    <div>B:{{ num }}</div>
 </template>
+
 <script>
-import emitter from 'tiny-emitter/instance'
 
-const eventHub = {
-  $on: (...args) => emitter.on(...args),
-  $once: (...args) => emitter.once(...args),
-  $off: (...args) => emitter.off(...args),
-  $emit: (...args) => emitter.emit(...args),
-}
-
+import tiny_emitter from 'tiny-emitter/instance';
+import eventHub from './EventHub';
 export default {
-  name: 'B',
-  data() {
-    return {
-      num: 0,
-    };
-  },
-  mounted() {
-     // 添加 eventHub 监听器
-    eventHub.$on('inc', () => {
-      this.num += 1;
-    });
-    // 添加 eventHub 监听器
-    eventHub.$once('inc', () => {
-      this.num * 100;
-    });
-  },
-  beforeUnmount() {
-    eventHub.$off('inc');
-  },
+    
+    name: 'B',
+    data: {
+        num: 0,
+    },
+    data() {
+        return {
+            num: 0,
+        };
+    },
+    mounted() {
+        // this.picker.$on('inc') => this.picker.vueOn('inc')
+        // that.picker.$on('inc') => that.picker.vueOn('inc')
+
+        // picker.$on => this.vueOn
+        // this.$on
+
+        const tiny_emitter_override = {
+            $on: (...args) => tiny_emitter.on(...args),
+            $once: (...args) => tiny_emitter.once(...args),
+            $off: (...args) => tiny_emitter.off(...args),
+            $emit: (...args) => tiny_emitter.emit(...args),
+        };
+
+        Object.assign(eventHub,tiny_emitter_override)
+
+        // 添加 eventHub 监听器
+        eventHub.$on('inc', () => {
+            this.num += 10;
+        });
+    },
+    beforeUnmount() {
+        eventHub.$off('inc');
+    },
 };
 </script>
