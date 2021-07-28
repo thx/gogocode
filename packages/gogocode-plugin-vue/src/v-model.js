@@ -28,7 +28,7 @@ module.exports = function (sourceAst, { gogocode: $ }, options) {
                 if (!attr.value || !attr.value.content) {
                     return;
                 }
-                
+
                 const compName = ast.attr('content.name');
                 // 处理key是 :value 的情况
                 if (!nativeInput.includes(compName) && key === ':value') {
@@ -104,14 +104,13 @@ module.exports = function (sourceAst, { gogocode: $ }, options) {
     scriptAST.find('watch: { $_$ }').each((ast) => {
         const props = ast.attr('value.properties');
         props.forEach((prop) => {
-            if (!prop.key || !prop.value || !prop.value.properties) {
+            if (!prop.key) {
                 return;
             }
-            const innerProps = prop.value.properties;
-            const immediateProp = innerProps.find(ip => (ip.key.name === 'immediate'));
+            //const innerProps = prop.value.properties;
+            // const immediateProp = innerProps.find(ip => (ip.key.name === 'immediate'));
 
-            if (immediateProp && prop.key.name === 'value') {
-                prop.key.value = 'modelValue';
+            if (prop.key.name === 'value') {
                 prop.key.name = 'modelValue';
             }
         });

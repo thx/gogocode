@@ -6,9 +6,6 @@ module.exports = function (sourceAst) {
     const scriptAST = sourceAst.parseOptions && sourceAst.parseOptions.language === 'vue'
         ? sourceAst.find('<script></script>')
         : sourceAst;
-    if (scriptAST.length === 0) {
-        return scriptAST.root();
-    }
 
     scriptAST.replace(`Vue.set($_$1,$_$2,$_$3)`, `$_$1[$_$2] = $_$3`);
     scriptAST.replace(`Vue.delete($_$)`, `delete $_$`);
