@@ -10,10 +10,9 @@ module.exports = function (ast, api, options) {
     let nodeStart = 0
     scriptAst.find([`$_$1.$on($_$2)`, `$_$1.$off($_$2)`, `$_$1.$once($_$2)`, `$_$1.$emit($_$2)`]).each(node => {
         let transform = false
-
         // this.$on 处理
-        if (node.attr('callee.object.type') == 'ThisExpression' && !node.attr('callee.object.property.name')) {
-            node.replace('$on', 'vueOn')
+        if (node.attr('callee.object.type') == 'ThisExpression' && !node.attr('callee.object.property.name') && scriptAst.has(`mixins: $$$`)) {
+            node.parent().replace('$on', 'vueOn')
                 .replace('$once', 'vueOnce')
                 .replace('$off', 'vueOff')
                 .replace('$emit', 'vueEmit')
@@ -45,8 +44,8 @@ module.exports = function (ast, api, options) {
                 )
                 if (!scriptAst.has(`import TinyEmmitterBus from '${relativePath}'`)) {
                     scriptAst.before(`import TinyEmmitterBus from '${relativePath}';\n`)
-                }
-                scriptUtils.addMixin(scriptAst, 'TinyEmmitterBus')
+                    scriptUtils.addMixin(scriptAst, 'TinyEmmitterBus')
+                }                
             }
             catch (ex) {
                 console.log('writeFile error', ex)
