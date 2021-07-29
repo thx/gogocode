@@ -22,7 +22,7 @@ module.exports = function (ast, { gogocode: $ }) {
             let renderFunction = script.find('render() { }')
             if (renderFunction.length) {
                 const hName = renderFunction.attr('params.0.name');
-                renderFunction.replace(`${hName}($$$)`, 'Vue.h($$$)');
+                renderFunction.replace(`${hName}`, 'Vue.h');
                 const contextName = renderFunction.attr('params.1.name') || 'context';
 
                 const propsStr = $(renderFunction.attr('params.1')).generate();
