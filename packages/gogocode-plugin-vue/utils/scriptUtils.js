@@ -183,7 +183,8 @@ function addUtils(outRootPath, outFilePath, extFunCode, $) {
             console.log('error ', ex);
         }
     }
-    return withoutExt(path.relative(path.dirname(outFilePath), inputPath));
+    let path = withoutExt(path.relative(path.dirname(outFilePath), inputPath));
+    return path === 'gogocodeTransfer' ? './gogocodeTransfer' : path
 }
 /**
  * 强制替换ast对象，避免ast结构异常情况出现
