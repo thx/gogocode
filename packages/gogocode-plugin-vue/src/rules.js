@@ -2,7 +2,7 @@ const arrayRefs = require('./array-refs');
 const asyncComponents = require('./async-components');
 const customDirectives = require('./custom-directives');
 const attrsIncludesClassStyle = require('./attrs-includes-class-style');
-const dataOption = require('./data-option');
+const children = require('./children');
 const emitsOptions = require('./emits-option');
 const eventsApi = require('./events-api');
 const filters = require('./filters');
@@ -49,11 +49,7 @@ module.exports = [
         rule: attrsIncludesClassStyle,
         test: /\.vue$/,
     },
-    // {
-    //   name: 'dataOption',
-    //   rule: dataOption,
-    //   test:  /\.vue$|\.js$|\.ts$/,
-    // },
+    { name: 'children', rule: children, test: /\.vue$|\.js$|\.ts$/ },
     { name: 'emitsOptions', rule: emitsOptions, test: /\.vue$|\.js$|\.ts$/ },
     { name: 'eventsApi', rule: eventsApi, test: /\.vue$|\.js$|\.ts$/ },
     { name: 'filters', rule: filters, test: /\.vue$|\.js$|\.ts$/ },
