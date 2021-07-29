@@ -39,16 +39,19 @@ const transform = function (fileInfo, api, options) {
             return ast;
         }
     }, ast);
+    // 命令行的params参数没有配置format=true 则默认格式化代码，如果命令行的params配置了format参数则使用该配置
+    const format = options.format === undefined || options.format === true;
+
     return /\.json$/.test(fileInfo.path)
         ? outAst
-        : prettier.format(outAst.generate(), {
+        : (format ? prettier.format(outAst.generate(), {
             trailingComma: 'es5',
             tabWidth: 2,
             semi: false,
             singleQuote: true,
             printWidth: 80,
             parser: /\.vue$/.test(fileInfo.path) ? 'vue' : 'typescript',
-        });
+        }) : outAst.generate());
 };
 const preTransform = function (api, options) {
     collection(api, options);

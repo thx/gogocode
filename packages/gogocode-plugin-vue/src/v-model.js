@@ -1,6 +1,7 @@
 const scriptUtils = require('../utils/scriptUtils');
 
 const { appendEmitsProp } = scriptUtils;
+const nativeInput = ['input', 'textarea','select'];
 
 module.exports = function (sourceAst, { gogocode: $ }, options) {
     // 迁移指南: https://v3.cn.vuejs.org/guide/migration/v-model.html
@@ -28,22 +29,32 @@ module.exports = function (sourceAst, { gogocode: $ }, options) {
                     return;
                 }
 
+                const compName = ast.attr('content.name');
+                // 处理key是 :value 的情况
+                if (!nativeInput.includes(compName) && key === ':value') {
+                    attr.key.content = ':modelValue';
+                }
+
                 const value = attr.value.content;
 
                 if (value.trim() === 'value' && key.indexOf('v-model') > -1) {
                     attr.value.content = value.replace(/value/g, 'modelValue');
                 } else {
-                    attr.value.content = value.replace(`$emit('input'`, `$emit('update:modelValue'`);
+                    attr.value.content = value.replace(`$emit('input',$$$)`, `$emit('update:modelValue',$$$)`);
                 }
+               
             });
         });
     }
   
-
-    const scriptAST = sourceAst.find('<script></script>');
+    //开始处理js逻辑
+    const scriptAST = sourceAst.parseOptions && sourceAst.parseOptions.language === 'vue'
+        ? sourceAst.find('<script></script>')
+        : sourceAst;
     if (scriptAST.length === 0) {
         return scriptAST.root();
     }
+
     let needAddEmits = false;
 
     scriptAST.find([`$_$1.$emit('input',$$$)`, `$_$1.$emit("input",$$$)`]).each((fAst) => {
@@ -51,7 +62,7 @@ module.exports = function (sourceAst, { gogocode: $ }, options) {
             fAst.node &&
             fAst.node.arguments &&
             fAst.node.arguments.length > 0) {
-            const newArg0 = $(`let a = 'modelValue'`).node.program.body[0].declarations[0].init;
+            const newArg0 = $(`let a = 'update:modelValue'`).node.program.body[0].declarations[0].init;
             fAst.node.arguments[0] = newArg0;
         }
         needAddEmits = true;
@@ -93,14 +104,13 @@ module.exports = function (sourceAst, { gogocode: $ }, options) {
     scriptAST.find('watch: { $_$ }').each((ast) => {
         const props = ast.attr('value.properties');
         props.forEach((prop) => {
-            if (!prop.key || !prop.value || !prop.value.properties) {
+            if (!prop.key) {
                 return;
             }
-            const innerProps = prop.value.properties;
-            const immediateProp = innerProps.find(ip => (ip.key.name === 'immediate'));
+            //const innerProps = prop.value.properties;
+            // const immediateProp = innerProps.find(ip => (ip.key.name === 'immediate'));
 
-            if (immediateProp && prop.key.name === 'value') {
-                prop.key.value = 'modelValue';
+            if (prop.key.name === 'value') {
                 prop.key.name = 'modelValue';
             }
         });
@@ -112,6 +122,10 @@ module.exports = function (sourceAst, { gogocode: $ }, options) {
 
     appendEmitsProp(scriptAST,[`'update:modelValue'`]);
 
+    scriptAST.replace(`const {value,$$$} = this`,`const {modelValue,$$$} = this`);
+    scriptAST.replace(`let {value,$$$} = this`,`let {modelValue,$$$} = this`);
+    scriptAST.replace(`var {value,$$$} = this`,`var {modelValue,$$$} = this`);
+    scriptAST.replace(`this.value`,'this.modelValue');
 
     return scriptAST.root();
 

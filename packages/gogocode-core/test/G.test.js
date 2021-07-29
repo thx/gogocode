@@ -770,3 +770,24 @@ test('parse decorator 3', () => {
         // .find(`@Form.create()`)
     }).not.toThrow()
 })
+
+
+test('parse html contains & ', () => {
+    expect(() => {
+        let res = $(`
+        <template>
+            <div>
+                ss
+                <div v-if="true && true">
+                    <a>wer{{ss}}qwre<i></i></a>
+                </div>
+            </div>
+        </template>
+        `, { parseOptions: { language: 'vue' } })
+        .find('<template></template>')
+        .find('<div></div>')
+        .eq(1)
+        .generate()
+        var a = 1
+    }).not.toThrow()
+})

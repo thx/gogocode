@@ -151,8 +151,11 @@ function withoutExt(p) {
 }
 
 function addUtils(outRootPath, outFilePath, extFunCode, $) {
+    
     const importFile = 'utils' + path.sep + 'gogocodeTransfer.js'
-    const inputPath = path.resolve(outRootPath, importFile)
+    let outRootDirPath = outRootPath.indexOf('.') > -1 ? path.dirname(outRootPath): outRootPath
+
+    const inputPath = path.resolve(outRootDirPath, importFile)
     if (!fs.existsSync(inputPath)) {
         inputPath.split(path.sep).reduce((prev, curr) => {
             if (prev && !prev.endsWith(importFile) && fs.existsSync(prev) === false) {
@@ -168,7 +171,7 @@ function addUtils(outRootPath, outFilePath, extFunCode, $) {
         try {
             const prettierOutPut = prettier.format(ast.generate(), {
                 trailingComma: 'es5',
-                tabWidth: 4,
+                tabWidth: 2,
                 semi: false,
                 singleQuote: true,
                 printWidth: 80,

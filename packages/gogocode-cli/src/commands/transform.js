@@ -290,6 +290,34 @@ function confirmTransformLargeFiles(files) {
     });
 }
 /**
+ * 将命令行工具的自定义参数传入到plugin的options参数里面
+ */
+function paramsToOptions(params, options) {
+    if (!params) {
+        return;
+    }
+    const arr = params.split('&');
+    arr.forEach(kv => {
+        const kvArr = kv.split('=');
+        if (kvArr.length === 1) {
+            const key = kvArr[0];
+            options[key] = '';
+        } else if (kvArr.length === 2) {
+            const key = kvArr[0];
+            const value = kvArr[1].trim();
+            if (typeof value === 'boolean') {
+                options[key] = value;
+            } else if (value === 'true') {
+                options[key] = true;
+            } else if (value === 'false') {
+                options[key] = false;
+            } else {
+                options[key] = value;
+            }
+        }
+    });
+}
+/**
  * 处理转换逻辑
  * @param {*} tranFns 
  * @param {*} srcPath 
@@ -297,7 +325,7 @@ function confirmTransformLargeFiles(files) {
  * @param {*} resolve 
  * @param {*} reject 
  */
-function handleTransform(tranFns, srcPath, outPath, resolve, reject) {
+function handleTransform(tranFns, srcPath, outPath, params, resolve, reject) {
     try {
         const srcFullPath = path.resolve(PWD_PATH, srcPath);
         const outFullPath = path.resolve(PWD_PATH, outPath);
@@ -308,6 +336,8 @@ function handleTransform(tranFns, srcPath, outPath, resolve, reject) {
             rootPath: srcFullPath,
             outRootPath: outFullPath
         };
+
+        paramsToOptions(params, options);
 
         if (srcIsDir) {
             const files = fileUtil.listFiles(srcFullPath);
@@ -359,7 +389,7 @@ function handleTransform(tranFns, srcPath, outPath, resolve, reject) {
         reject(error);
     }
 }
-function handleCommand({ srcPath, outPath, transform, resolve, reject }) {
+function handleCommand({ srcPath, outPath, transform, params, resolve, reject }) {
 
     console.log();
     console.log(chalk.green(`transform start`));
@@ -370,13 +400,13 @@ function handleCommand({ srcPath, outPath, transform, resolve, reject }) {
     Promise.all(tempArr.map((tPath) =>
         requireTransforms(tPath)
     )).then((tranFns) => {
-        handleTransform(tranFns, srcPath, outPath, resolve, reject);
+        handleTransform(tranFns, srcPath, outPath, params ,resolve, reject);
     }).catch((error) => {
         console.error(error);
         reject(error);
     });
 }
-module.exports = ({ src: srcPath, out: outPath, transform, dry }) => {
+module.exports = ({ src: srcPath, out: outPath, transform, dry, params }) => {
     PWD_PATH = process.cwd();
     CLI_INSTALL_PATH = path.resolve(__dirname, '../../');
     // 临时目录，dry==true 的时候使用
@@ -389,7 +419,7 @@ module.exports = ({ src: srcPath, out: outPath, transform, dry }) => {
     }
     return new Promise((resolve, reject) => {
         checkPath(srcPath, outPath, transform).then(() => {
-            handleCommand({ srcPath, outPath, transform, resolve, reject });
+            handleCommand({ srcPath, outPath, transform, params ,resolve, reject });
         }).catch(() => {
             reject();
         });

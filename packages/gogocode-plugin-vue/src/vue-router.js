@@ -9,21 +9,23 @@ module.exports = function (ast, { gogocode: $ }) {
             ? ast.find('<script></script>')
             : ast;
     if (sourceAst.length > 0) {
+        let routerName = 'Router';
         sourceAst.find(`import $_$ from 'vue-router'`).each((fAst) => {
-            if (fAst.match && fAst.match[0] && fAst.match[0].length > 0 && fAst.match[0][0].value) {
-                sourceAst.remove(`Vue.use(${fAst.match[0][0].value})`);
+            if (fAst.match[0] && fAst.match[0].length > 0 && fAst.match[0][0].value) {
+                routerName = fAst.match[0][0].value;
+                sourceAst.remove(`Vue.use(${routerName})`);
             }
         });
-        sourceAst.replace(`import $_$ from 'vue-router'`, `import * as VueRouter from 'vue-router'`);
+        sourceAst.replace(`import $_$ from 'vue-router'`, `import * as VueRouter from 'vue-router';`);
 
-        sourceAst.replace(`new Router($_$)`, `VueRouter.createRouter($_$)`);
+        sourceAst.replace(`new ${routerName}($_$)`, `VueRouter.createRouter($_$)`);
         sourceAst.replace(`router.onReady.bind($_$)`, `router.isReady.bind($_$)`);
         sourceAst.replace(`router.onReady($_$)`, `router.isReady().then($_$)`);
         sourceAst.replace(`router.onReady($_$1,$_$2)`, `router.isReady().then($_$1).catch($_$2)`);
         sourceAst.remove('router.app = $_$');
 
         sourceAst.find(`VueRouter.createRouter($_$)`).each((fAst) => {
-            if (!fAst.match || !fAst.match[0] || !fAst.match[0].length || !fAst.match[0][0].node) {
+            if (!fAst.match[0] || !fAst.match[0].length || !fAst.match[0][0].node) {
                 return;
             }
             handleMode(fAst ,$);
@@ -108,17 +110,17 @@ function handleMode(fAst, $) {
             forceReplace($, fAst, `mode:'hash'`, `history: VueRouter.createWebHashHistory()`);
             forceReplace($, fAst, `mode:'abstract'`, `history: VueRouter.createMemoryHistory()`);
         } else {
-            forceReplace($, fAst, `{routes:$_$,$$$}`, `{history: VueRouter.createWebHashHistory(),routes:$_$,$$$}`);
+            forceReplace($, fAst, `({routes:$_$,$$$})`, `({history: VueRouter.createWebHashHistory(),routes:$_$,$$$})`);
         }
 
-        forceReplace($, fAst, `{history: VueRouter.createWebHistory(), base: $_$1, $$$}`, `{history: VueRouter.createWebHistory($_$1),$$$}`);
-        forceReplace($, fAst, `{history: VueRouter.createWebHashHistory(), base: $_$1, $$$}`, `{history: VueRouter.createWebHashHistory($_$1),$$$}`);
-        forceReplace($, fAst, `{history: VueRouter.createMemoryHistory(), base: $_$1, $$$}`, `{history: VueRouter.createMemoryHistory($_$1),$$$}`);
+        forceReplace($, fAst, `({history: VueRouter.createWebHistory(), base: $_$1, $$$})`, `({history: VueRouter.createWebHistory($_$1),$$$})`);
+        forceReplace($, fAst, `({history: VueRouter.createWebHashHistory(), base: $_$1, $$$})`, `({history: VueRouter.createWebHashHistory($_$1),$$$})`);
+        forceReplace($, fAst, `({history: VueRouter.createMemoryHistory(), base: $_$1, $$$})`, `({history: VueRouter.createMemoryHistory($_$1),$$$})`);
     }
 }
 function handleScrollBehavior(fAst) {
     fAst.find('{scrollBehavior:$_$}').each(ast => {
-        ast.replace(`{y:$_$,$$$}`, `{top:$_$,$$$}`);
-        ast.replace(`{x:$_$,$$$}`, `{left:$_$,$$$}`);
+        ast.replace(`({y:$_$,$$$})`, `({top:$_$,$$$})`);
+        ast.replace(`({x:$_$,$$$})`, `({left:$_$,$$$})`);
     });
 }
