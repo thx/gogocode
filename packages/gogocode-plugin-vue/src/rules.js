@@ -12,6 +12,7 @@ const globalApiTreeshaking = require('./global-api-treeshaking');
 const globalApi = require('./global-api');
 const keyAttribute = require('./key-attribute');
 const keycodeModifiers = require('./keycode-modifiers');
+const lifeCycle = require('./life-cycle');
 const listenersRemoved = require('./listeners-removed');
 const renderFunctionApi = require('./render-function-api');
 const slotsUnification = require('./slots-unification');
@@ -63,6 +64,7 @@ module.exports = [
     { name: 'globalApi', rule: globalApi, test: /\.vue$|\.js$|\.ts$/ },
     
     { name: 'keycodeModifiers', rule: keycodeModifiers, test: /\.vue$/ },
+    { name: 'lifeCycle', rule: lifeCycle, test: /\.vue$|\.js$|\.ts$/ },
     { name: 'listenersRemoved', rule: listenersRemoved, test: /\.vue$/ },
     {
         name: 'renderFunctionApi',
