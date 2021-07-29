@@ -25,17 +25,20 @@ module.exports = function (ast, api, options) {
       }
     `;
 
-    const relativePath = scriptUtils.addUtils(
-        options.outRootPath,
-        options.outFilePath,
-        $childrenFuncCode,
-        api.gogocode
-    );
+    if (script.find('$_$.$children').length) {
+        const relativePath = scriptUtils.addUtils(
+            options.outRootPath,
+            options.outFilePath,
+            $childrenFuncCode,
+            api.gogocode
+        );
 
-    script.replace('$_$.$children', '$children($_$)').generate()
+        script.replace('$_$.$children', '$children($_$)').generate()
 
-    if (!script.has(`import { $children } from '${relativePath}'`)) {
-        script.before(`import { $children } from '${relativePath}';\n`);
+        if (!script.has(`import { $children } from '${relativePath}'`)) {
+            script.before(`import { $children } from '${relativePath}';\n`);
+        }
     }
+
     return ast
 };
