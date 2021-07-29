@@ -49,8 +49,14 @@ module.exports = function (ast, api, options) {
                     }
                 }
             })
-            ast.attr('callee.name', 'Vue.h')
+            if(ast.parent().generate() != 'Vue.h'){
+                ast.attr('callee.name', 'Vue.h')
+            }            
         })
     })
+    if(scriptAst.has('this.$createElement($$$)')){
+        scriptUtils.addVueImport(scriptAst)
+        scriptAst.replace('this.$createElement($$$)','Vue.h($$$)')
+    }
     return ast
 }
