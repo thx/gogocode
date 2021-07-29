@@ -43,8 +43,14 @@ function run() {
 
         const rules = [globalApiTreeshaking, rule];
 
-        const options = { gogocode: $ };
-        const outAst = rules.reduce((ast, rule) => rule(ast, options), ast);
+        const api = { gogocode: $ };
+        const outAst = rules.reduce((ast, rule) => rule(ast, api, {
+            outFilePath: inputPath,
+            outRootPath: path.resolve(
+                __dirname,
+                `../gogocode-vue-playground/packages/vue3/src/`
+            )
+        }), ast);
 
         const outputCode = outAst.root().generate();
 

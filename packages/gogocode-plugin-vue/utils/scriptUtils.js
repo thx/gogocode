@@ -145,6 +145,11 @@ function appendEmitsProp(scriptAst, emitsArr) {
             })`);
     }
 }
+
+function withoutExt(p) {
+    return p.replace(/\.[^/.]+$/, '');
+}
+
 function addUtils(outRootPath, outFilePath, extFunCode, $) {
     const importFile = 'utils' + path.sep + 'gogocodeTransfer.js'
     const inputPath = path.resolve(outRootPath, importFile)
@@ -175,7 +180,7 @@ function addUtils(outRootPath, outFilePath, extFunCode, $) {
             console.log('error ', ex);
         }
     }
-    return path.relative(path.dirname(outFilePath), inputPath);
+    return withoutExt(path.relative(path.dirname(outFilePath), inputPath));
 }
 /**
  * 强制替换ast对象，避免ast结构异常情况出现
