@@ -150,8 +150,8 @@ function withoutExt(p) {
     return p.replace(/\.[^/.]+$/, '');
 }
 
-function addUtils(outRootPath, outFilePath, extFunCode, $) {    
-    const importFile = 'utils' + path.sep + 'gogocodeTransfer.js'
+function addUtils( $ ,extFunCode, outRootPath, outFilePath, fileName) {    
+    const importFile = 'utils' + path.sep + (fileName || 'gogocodeTransfer.js')
     let outRootDirPath = outRootPath.indexOf('.') > -1 ? path.dirname(outRootPath): outRootPath
 
     const inputPath = path.resolve(outRootDirPath, importFile)

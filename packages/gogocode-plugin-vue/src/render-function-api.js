@@ -35,8 +35,7 @@ module.exports = function (ast, api, options) {
                             api.gogocode,
                             plantRenderParaCode, 
                             options.outRootPath, 
-                            options.outFilePath, 
-                            'gogocodeTransfer.js'
+                            options.outFilePath
                         )
                         let para = ast.find(`${hName}(${args.map(() => '$_$').join()})`).match[0][1].value
                         ast.replace(para, `plantRenderPara(${para})`)
