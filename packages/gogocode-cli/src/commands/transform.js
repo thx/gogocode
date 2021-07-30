@@ -9,9 +9,8 @@ const fileUtil = require('../util/file');
 const check = require('../util/check');
 const cmd = require('../util/cmd');
 const inquirer = require('inquirer');
-const ora = require('ora');
 
-let PWD_PATH, CLI_INSTALL_PATH;
+let PWD_PATH, CLI_INSTALL_PATH, SHOW_INFO;
 const EXCLUDE_FILES = ['.gif', '.jpg', '.png', '.jpeg', '.css', '.less', '.map', '.ico', '.ttf', '.woff', '.woff2'];
 const FILE_LIMIT_SIZE = 1024 * 200;
 
@@ -118,14 +117,13 @@ function prePostTransform(tranFns, period, options) {
         if (typeof fn === 'function' || !fn[period]) {
             return;
         }
-        const spinner = ora(chalk.green(`${period} operating ...`)).start();
+        console.log(chalk.green(`${period} operating ...`));
         try {
             const api = { gogocode: $ };
             fn[period](api, options);
         } catch (err) {
             console.error(err);
         }
-        spinner.stop();
     });
 }
 /**
@@ -135,7 +133,6 @@ function prePostTransform(tranFns, period, options) {
  */
 function preTransform(tranFns, options) {
     prePostTransform(tranFns, 'preTransform', options);
-   
 }
 /**
  * 插件转换之后
@@ -346,13 +343,16 @@ function handleTransform(tranFns, srcPath, outPath, params, resolve, reject) {
                 preTransform(tranFns, options);
 
                 let result = true;
-                const bar = new ProgressBar('transform in progress: [:bar] :current/:total    ', { total: files.length });
-                files.forEach(({ path: srcFilePath, size }) => {
+                const total = files.length;
+                const bar = SHOW_INFO ? undefined : new ProgressBar('transform in progress: [:bar] :current/:total    ', { total });
+                files.forEach(({ path: srcFilePath, size }, index) => {
                     try {
                         let filePath = srcFilePath.substring(srcFullPath.length, srcFilePath.length);
                         let outFilePath = path.join(outFullPath, filePath);
                         mkOutDir(outFilePath);
-
+                        if (SHOW_INFO) {
+                            console.log(`${chalk.blue(`${index}/${total}`)} ${srcFilePath} ${chalk.green(`${size} B`)}`);
+                        }
                         const ext = path.extname(srcFilePath);
                         if (EXCLUDE_FILES.indexOf(ext) > -1 || (!canTransformLargeFiles && size > FILE_LIMIT_SIZE)) {
                             fse.copyFileSync(srcFilePath, outFilePath);
@@ -364,7 +364,7 @@ function handleTransform(tranFns, srcPath, outPath, params, resolve, reject) {
                         console.error(error);
                         result = false;
                     }
-                    bar.tick();
+                    bar && bar.tick();
                 });
                 
                 postTransform(tranFns, options);
@@ -406,9 +406,12 @@ function handleCommand({ srcPath, outPath, transform, params, resolve, reject })
         reject(error);
     });
 }
-module.exports = ({ src: srcPath, out: outPath, transform, dry, params }) => {
+module.exports = ({ src: srcPath, out: outPath, transform, dry, params, info }) => {
+
     PWD_PATH = process.cwd();
     CLI_INSTALL_PATH = path.resolve(__dirname, '../../');
+    SHOW_INFO = info !== undefined;
+
     // 临时目录，dry==true 的时候使用
     const tempPath = path.resolve(CLI_INSTALL_PATH, './temp_out');
     if (fse.existsSync(tempPath)) {
