@@ -791,3 +791,27 @@ test('parse html contains & ', () => {
         var a = 1
     }).not.toThrow()
 })
+
+
+test('parse closing tag', () => {
+    expect(() => {
+        let res = $(`
+        <template>
+        <div class="todoList full-screen">
+          <div class="todoList_tips" v-if="taskTotalInfo.noHandle > 0">
+            <template v-if="searchType == 0">
+              <span
+                >还有<i>{{ taskTotalInfo.noHandle }}</i
+                >笔工单尚未指派</span
+              >
+            </template>
+          </div>
+        </div>
+        </template>
+      
+        `, { parseOptions: { language: 'vue' } })
+        .find('<template></template>')
+        .generate()
+      res
+    }).not.toThrow()
+})
