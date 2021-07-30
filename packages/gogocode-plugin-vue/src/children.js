@@ -27,10 +27,10 @@ module.exports = function (ast, api, options) {
 
     if (script.find('$_$.$children').length) {
         const relativePath = scriptUtils.addUtils(
-          api.gogocode,
-          $childrenFuncCode,
-          options.outRootPath,
-          options.outFilePath
+            api.gogocode,
+            $childrenFuncCode,
+            options.outRootPath,
+            options.outFilePath
         );
 
         script.replace('$_$.$children', '$children($_$)').generate()
