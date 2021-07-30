@@ -15,7 +15,7 @@ const checkUtil = {
      */
     getNpmPackage(packageName) {
         try {
-            const output = cmdUtil.getCmdOutput('npm', ['view', packageName, 'version']);
+            const output = cmdUtil.execCommandSync(`npm view ${packageName} version`);
             return output;
         } catch (error) {
             console.error(error);
@@ -24,7 +24,7 @@ const checkUtil = {
     },
     getGlobalPath() {
         try {
-            const output = cmdUtil.getCmdOutput('npm', ['root', '-g']);
+            const output = cmdUtil.execCommandSync(`npm root -g`);
             return output.trim();
         } catch (error) {
             console.error(error);

@@ -1,5 +1,5 @@
-'use strict'
 const spawn = require('cross-spawn');
+const { execSync } = require('child_process');
 
 function resolveRun(exitCode, stdout, stderr) {
     stdout = stdout && stdout.toString();
@@ -20,35 +20,33 @@ function resolveRun(exitCode, stdout, stderr) {
 }
 
 module.exports = {
-    getCmdOutput(cmd, args) {
-        const { stdout, stderr } = this.runSync(cmd, args);
-        if (stderr && stderr.indexOf('Debugger attached') < 0) {
-            throw new Error(stderr);
+    /**
+    * 多行命令行的间隔符号，win用'&'，mac用';'
+    * @return {[string]}
+    */
+    getCommandSplit() {
+        let split = ';'
+        if (process.platform === 'win32') {
+            split = "&"
         }
-        return stdout;
+
+        return split
     },
     /**
-     * 同步执行命令
-     * @param {*} command 
-     * @param {*} args 
-     * @param {*} options {stdio: 'inherit'}, 类似真实环境执行命令，可保留控制台颜色
-     * @returns 
-     */
-    runSync(command, args, options) {
-        const { error, status, stdout, stderr } = spawn.sync(command, args, options);
-
-        if (error) {
-            throw error;
+   * 执行commandline
+   * @return {[type]} [description]
+   */
+    execCommandSync(commands, options) {
+        if (Object.prototype.toString.call(commands) === '[object String]') {
+            commands = [commands]
         }
 
-        const resolved = resolveRun(status, stdout, stderr);
-
-        if (resolved instanceof Error) {
-            throw resolved;
-        }
-
-        return resolved;
+        const commandSplit = this.getCommandSplit()
+        const buffer = execSync(commands.join(commandSplit), options);
+        return buffer.toString();
     },
+  
+   
     /**
      * 异步执行命令
      * @param {*} command 

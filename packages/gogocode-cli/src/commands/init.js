@@ -22,7 +22,7 @@ module.exports = async () => {
     async function installPackage() {
         console.log(chalk.cyan('🕑  start install npm packages，waiting...'));
         try {
-            cmd.runSync('npm', ['install'], {
+            cmd.execCommandSync('npm install', {
                 cwd: rootPath,
                 stdio: 'inherit'
             })
