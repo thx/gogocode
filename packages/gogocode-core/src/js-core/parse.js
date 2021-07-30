@@ -1,4 +1,4 @@
-const recast = require('recast');
+const recast = require('recast-yx');
 const babelParse = require('@babel/parser');
 module.exports = function(code, options) {
     options = options || global.parseOptions;

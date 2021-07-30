@@ -517,12 +517,14 @@ test('$.replace: class replace should be ok', () => {
         import * as ctx from '@ali/midway-hooks';
         import { useContext } from '@ali/midway-hooks';
         import ctx2 from '@ali/midway-hooks'
+        import a, { b, c } from '@ali/midway-hooks'
     `)
     .replace(`import $_$ from "@ali/midway-hooks"`, `import $_$ from "@al/hooks"`)
     .replace(`import * as $_$ from "@ali/midway-hooks"`, `import * as $_$ from "@al/hooks"`)
     .replace(`import { $$$ } from "@ali/midway-hooks"`, `import { $$$ } from "@al/hooks"`)
     .generate();
-    expect(res.match(/\@al\/hooks/g).length == 3).toBeTruthy();
+    // TODO
+    expect(res.match(/\@al\/hooks/g).length == 4).toBeTruthy();
 })
 
 test('$.replace: class replace should be ok', () => {
@@ -686,4 +688,44 @@ test('$.replace: this replace should be ok', () => {
     .replace('this.$_$', 'ggg.$_$')
     .generate();
     expect(res.match(/ggg/g).length == 1).toBeTruthy();
+})
+
+test('$.replace: scope replace should be ok', () => {
+    const res = $(`
+    var n = {};
+    n.n = square(10);
+
+    function ajax(){
+        console.log(n)
+        const {a, n} = obj;
+        console.log("没想到吧，我又来了", n)
+        $.ajax({
+            url:"",
+            success:function(n){
+                console.log(n)
+            }
+        })
+    }
+
+    function test(n) {
+        n = 5
+    }
+
+    function test2() {
+        n = 5
+    }
+
+    function square(n) {
+        return n * n;
+    }
+    `)
+    .find('n')
+    .each(n => {
+        if (n[0].nodePath.scope.lookup('n') && n[0].nodePath.scope.lookup('n').isGlobal && n[0].nodePath.name !== 'property') {
+            n.replaceBy('x')
+        }
+    })
+    .root()
+    .generate()
+    expect(res.match(/x/g).length == 5).toBeTruthy();
 })

@@ -1,6 +1,6 @@
 // 把简单的api转换成ast
 // todo await 
-const recast = require('recast');
+const recast = require('recast-yx');
 const parse = require('./parse');
 const visit = recast.types.visit;
 const filterProps = require('./filter-prop.js');
