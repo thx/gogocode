@@ -3,9 +3,30 @@ module.exports = function (ast) {
     let scriptAst = ast.find('<script></script>')
     scriptAst.replace(`$scopedSlots`, `$slots`)
     scriptAst.find([`$_$1.$slots.$_$2`, `$slots.$_$2`]).each(node => {
-        if (!node.parent().generate().startsWith(node.generate())) {
-            node.attr('property.name', node.attr('property.name') + '()')
+        if (!node.parent().generate().endsWith('()')) {
+            //node.attr('property.name', node.attr('property.name') + '()')
+            node.replaceBy(` (${ node.generate() } && ${ node.generate() }()) `  )
         }
+    })
+    let templateAst = ast.find('<template></template>')
+    templateAst.find('<$_$ slot="$_$">').each(cast => {        
+        if(cast.attr('content.name') != 'template'){
+            let attrList = cast.attr('content.attributes') || []
+            let valueContent = ''
+            attrList.forEach((attr, index) => {
+                valueContent = attr.value && attr.value.content || ''
+                if (attr.value && attr.key && attr.key.content == 'slot') {                  
+                    attrList.splice(index, 1);                    
+                }                
+            })
+            if(valueContent){
+                cast.replaceBy(
+                    `<template v-slot:${ valueContent }>
+                    ${ cast.generate() }
+                    </template>`
+                );
+            }            
+        }       
     })
     return ast
 }

@@ -1,8 +1,9 @@
+const api = require('./api');
 const arrayRefs = require('./array-refs');
 const asyncComponents = require('./async-components');
 const customDirectives = require('./custom-directives');
 const attrsIncludesClassStyle = require('./attrs-includes-class-style');
-const dataOption = require('./data-option');
+const children = require('./children');
 const emitsOptions = require('./emits-option');
 const eventsApi = require('./events-api');
 const filters = require('./filters');
@@ -11,6 +12,7 @@ const globalApiTreeshaking = require('./global-api-treeshaking');
 const globalApi = require('./global-api');
 const keyAttribute = require('./key-attribute');
 const keycodeModifiers = require('./keycode-modifiers');
+const lifeCycle = require('./life-cycle');
 const listenersRemoved = require('./listeners-removed');
 const renderFunctionApi = require('./render-function-api');
 const slotsUnification = require('./slots-unification');
@@ -26,6 +28,7 @@ const vuex = require('./vue-vuex');
 const packageJson = require('./package-json');
 
 module.exports = [
+    { name: 'api', rule: api, test: /\.vue$|\.js$|\.ts$/ },
     { name: 'router', rule: router, test: /\.vue$|\.js$|\.ts$/ },
     { name: 'vuex', rule: vuex, test: /\.js$|\.ts$/ },
     {
@@ -49,13 +52,9 @@ module.exports = [
         rule: attrsIncludesClassStyle,
         test: /\.vue$/,
     },
-    // {
-    //   name: 'dataOption',
-    //   rule: dataOption,
-    //   test:  /\.vue$|\.js$|\.ts$/,
-    // },
+    { name: 'children', rule: children, test: /\.vue$|\.js$|\.ts$/ },
     { name: 'emitsOptions', rule: emitsOptions, test: /\.vue$|\.js$|\.ts$/ },
-    { name: 'eventsApi', rule: eventsApi, test: /\.vue$|\.js$|\.ts$/ },
+   
     { name: 'filters', rule: filters, test: /\.vue$|\.js$|\.ts$/ },
     {
         name: 'functionalComponents',
@@ -65,6 +64,7 @@ module.exports = [
     { name: 'globalApi', rule: globalApi, test: /\.vue$|\.js$|\.ts$/ },
     
     { name: 'keycodeModifiers', rule: keycodeModifiers, test: /\.vue$/ },
+    { name: 'lifeCycle', rule: lifeCycle, test: /\.vue$|\.js$|\.ts$/ },
     { name: 'listenersRemoved', rule: listenersRemoved, test: /\.vue$/ },
     {
         name: 'renderFunctionApi',
@@ -76,13 +76,13 @@ module.exports = [
     { name: 'transitionGroup', rule: transitionGroup, test: /\.vue$/ },
     { name: 'vBind', rule: vBind, test: /\.vue$/ },
     { name: 'vIfvFor', rule: vIfvFor, test: /\.vue$/ },
-    { name: 'vModel', rule: vModel, test: /\.vue$/ },
+    { name: 'vModel', rule: vModel, test: /\.vue$|\.js$|\.ts$/ },
     {
         name: 'vOnNativeModifierRemoved',
         rule: vOnNativeModifierRemoved,
         test: /\.vue$/,
     },
-    { name: 'watch', rule: watch, test: /\.vue$/ },
+    { name: 'watch', rule: watch, test: /\.vue$|\.js$|\.ts$/ },
     { name: 'keyAttribute', rule: keyAttribute, test: /\.vue$/ },
     {
         name: 'package-json',
@@ -90,5 +90,6 @@ module.exports = [
         test: /package\.json$/,
         notParseAst: false,
     },
+    { name: 'eventsApi', rule: eventsApi, test: /\.vue$|\.js$|\.ts$/ },
 
 ];

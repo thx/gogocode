@@ -38,7 +38,7 @@ const routes = [
     path: '/children',
     name: 'children',
     component: () =>
-      import(/* webpackChunkName: "children" */ '@/components/children/Comp.vue'),
+      import(/* webpackChunkName: "children" */ '@/components/children/Comp-out.vue'),
   },
   {
     path: '/custom-directives',

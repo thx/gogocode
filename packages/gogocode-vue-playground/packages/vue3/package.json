@@ -13,7 +13,8 @@
     "mitt": "^2.1.0",
     "vue": "^3.0.9",
     "vue-router": "^4.0.0-beta.11",
-    "vuex": "^4.0.0-beta.4"
+    "vuex": "^4.0.0-beta.4",
+    "tiny-emitter": "^2.1.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
@@ -22,8 +23,7 @@
     "@vue/compiler-sfc": "^3.0.9",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.23.0",
-    "eslint-plugin-vue": "^7.8.0",
-    "tiny-emitter": "^2.1.0"
+    "eslint-plugin-vue": "^7.8.0"
   },
   "eslintConfig": {
     "root": true,

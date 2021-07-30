@@ -43,8 +43,9 @@ module.exports = function (sourceAst, { gogocode: $ }, options) {
         });
     }
 
-
-    const scriptAST = sourceAst.find('<script></script>');
+    const scriptAST = sourceAst.parseOptions && sourceAst.parseOptions.language === 'vue'
+        ? sourceAst.find('<script></script>')
+        : sourceAst;
 
     if (scriptAST.length !== 0) {
         emitSet.fillEmitSet(scriptAST);

@@ -20,7 +20,7 @@ module.exports = function (ast, { gogocode: $ }) {
             script.replace('render: ($$$1) => { $$$2 }', 'render($$$1) { $$$2 }')
             script.replace('render: function ($$$1) { $$$2 }', 'render($$$1) { $$$2 }')
             let renderFunction = script.find('render() { }')
-            if (renderFunction) {
+            if (renderFunction.length) {
                 const hName = renderFunction.attr('params.0.name');
                 renderFunction.replace(`${hName}($$$)`, 'Vue.h($$$)');
                 const contextName = renderFunction.attr('params.1.name') || 'context';
