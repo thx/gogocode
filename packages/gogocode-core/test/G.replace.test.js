@@ -676,3 +676,14 @@ test('$.replace: html attr replace should be ok', () => {
     expect(res.indexOf("v2='1'") > -1).toBeTruthy();
 
 })
+
+test('$.replace: this replace should be ok', () => {
+    let res = $(`
+        this.ddd = 2
+        sss.ddd = 3
+        xxx.ddd = 4
+    `)
+    .replace('this.$_$', 'ggg.$_$')
+    .generate();
+    expect(res.match(/ggg/g).length == 1).toBeTruthy();
+})

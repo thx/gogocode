@@ -54,7 +54,7 @@ module.exports = [
     },
     { name: 'children', rule: children, test: /\.vue$|\.js$|\.ts$/ },
     { name: 'emitsOptions', rule: emitsOptions, test: /\.vue$|\.js$|\.ts$/ },
-    { name: 'eventsApi', rule: eventsApi, test: /\.vue$|\.js$|\.ts$/ },
+   
     { name: 'filters', rule: filters, test: /\.vue$|\.js$|\.ts$/ },
     {
         name: 'functionalComponents',
@@ -76,13 +76,13 @@ module.exports = [
     { name: 'transitionGroup', rule: transitionGroup, test: /\.vue$/ },
     { name: 'vBind', rule: vBind, test: /\.vue$/ },
     { name: 'vIfvFor', rule: vIfvFor, test: /\.vue$/ },
-    { name: 'vModel', rule: vModel, test: /\.vue$/ },
+    { name: 'vModel', rule: vModel, test: /\.vue$|\.js$|\.ts$/ },
     {
         name: 'vOnNativeModifierRemoved',
         rule: vOnNativeModifierRemoved,
         test: /\.vue$/,
     },
-    { name: 'watch', rule: watch, test: /\.vue$/ },
+    { name: 'watch', rule: watch, test: /\.vue$|\.js$|\.ts$/ },
     { name: 'keyAttribute', rule: keyAttribute, test: /\.vue$/ },
     {
         name: 'package-json',
@@ -90,5 +90,6 @@ module.exports = [
         test: /package\.json$/,
         notParseAst: false,
     },
+    { name: 'eventsApi', rule: eventsApi, test: /\.vue$|\.js$|\.ts$/ },
 
 ];
