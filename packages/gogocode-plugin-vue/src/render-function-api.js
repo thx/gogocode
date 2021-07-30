@@ -6,17 +6,9 @@ module.exports = function (ast, api, options) {
     if (scriptAst.length < 1) {
         return ast
     }
-    let components = options && Array.isArray(options.components) ? options.components : []
-
-    let hName = ''
+    let components = options && Array.isArray(options.components) ? options.components : []    
     scriptAst.find([`render($$$1){$$$2}`, `render: $$$1 => $$$2`, `render: function($$$1){$$$2}`, `function render($$$1){$$$2}`]).each(node => {
-        let params = node.attr('params') || node.attr('value.params') || []
-        if(params.length){
-            hName = params[0].name
-            params.splice(0, 1);
-            scriptUtils.addVueImport(scriptAst)
-        }
-        node.find([`${hName}($$$)`,`${hName}`,'h']).each(ast => {
+        node.find(`Vue.h($$$)`).each(ast => {
             let args = ast.attr('arguments') || []
             args.forEach((arg, index) => {
                 if (arg.type == 'StringLiteral' && arg.value && components.indexOf(arg.value) > -1) {
@@ -47,15 +39,8 @@ module.exports = function (ast, api, options) {
                         console.log('writeFile error', ex)
                     }
                 }
-            })
-            if(ast.parent().generate() != 'Vue.h'){
-                ast.attr('callee.name', 'Vue.h')
-            }            
+            })                 
         })
-    })
-    if(scriptAst.has('this.$createElement($$$)')){
-        scriptUtils.addVueImport(scriptAst)
-        scriptAst.replace('this.$createElement($$$)','Vue.h($$$)')
-    }
+    })   
     return ast
 }
