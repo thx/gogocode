@@ -17,6 +17,12 @@ module.exports = function (ast, { gogocode: $ }) {
             }
         }
         script.find('{ functional: true }').each((ast) => {
+
+            if(script.has('this.$createElement($$$)')){
+                scriptUtils.addVueImport(script)
+                script.replace('this.$createElement($$$)','Vue.h($$$)')
+            }
+
             script.replace('render: ($$$1) => { $$$2 }', 'render($$$1) { $$$2 }')
             script.replace('render: function ($$$1) { $$$2 }', 'render($$$1) { $$$2 }')
             let renderFunction = script.find('render() { }')
