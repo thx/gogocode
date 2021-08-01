@@ -29,7 +29,7 @@ module.exports = function (ast, api, options) {
                             options.outRootPath, 
                             options.outFilePath
                         )
-                        let para = ast.find(`${hName}(${args.map(() => '$_$').join()})`).match[0][1].value
+                        let para = ast.find(`Vue.h(${args.map(() => '$_$').join()})`).match[0][1].value
                         ast.replace(para, `plantRenderPara(${para})`)
                         if (!scriptAst.has(`import { plantRenderPara } from '${relativePath}'`)) {
                             scriptAst.before(`import { plantRenderPara } from '${relativePath}';\n`)
