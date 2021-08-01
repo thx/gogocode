@@ -1,7 +1,7 @@
 const { isObject, hasOwn } = require('../../util')
 // 通过简单ast结构查找ast节点
 
-const recast = require('recast');
+const recast = require('recast-yx');
 const visit = recast.types.visit;
 const filterProps = require('../filter-prop.js');
 const generate = require('../generate')

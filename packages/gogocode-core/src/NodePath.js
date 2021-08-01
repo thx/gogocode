@@ -1,4 +1,4 @@
-const recast = require('recast');
+const recast = require('recast-yx');
 const visit = recast.types.visit;
 module.exports =  class NodePath {
     constructor(node, parent, parentPath) {

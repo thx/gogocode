@@ -111,10 +111,10 @@ const core = {
         }
         return ast;
     },
-    replaceAstByAst(oldAst, newAst) {
+    replaceAstByAst(oldAst, newAst, _index) {
         if (oldAst.parent && oldAst.parent.node && oldAst.parent.node.content) {
             oldAst.parent.node.content.children.splice(
-                oldAst.node._index,
+                _index,
                 1,
                 newAst
             );

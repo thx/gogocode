@@ -1,4 +1,5 @@
-const $ = require('../index');
+// const $ = require('../index');
+const $ = require('../umd/gogocode')
 const config = require('./config');
 const jc1 = require('./code/simple1');
 const jc2 = require('./code/simple2');
@@ -787,7 +788,7 @@ test('parse html contains & ', () => {
         .find('<template></template>')
         .find('<div></div>')
         .eq(1)
-        .generate()
+        .attr('content.attributes.0.value.content')
         var a = 1
     }).not.toThrow()
 })

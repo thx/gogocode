@@ -143,3 +143,26 @@ test('$.replaceBy: simple1 html code  use find result should be ok', () => {
         .generate();
     expect(!!res.match('function render')).toBeTruthy();
 })
+
+
+test('$.replaceBy: replace use $_$ result should be ok', () => {
+    const CODE = `
+    <view>打酱油</view>
+    
+    <view>不会被替换的节点</view>
+    
+    `;
+    const res = 
+    $(CODE, { parseOptions: { language: 'html'}})
+        .find(`<view>不会被替换的节点</view>`)
+        .each((item) => {
+        item.before(`<!-- 我是注释我是注释 -->
+        `)
+
+        //不加这行，上面的注释可以加上去
+        item.replaceBy('<view>我是新来的</view>')
+        })
+        .root()
+        .generate()
+    expect(res.match('我是注释我是注释') && res.match('我是新来的')).toBeTruthy(); 
+})

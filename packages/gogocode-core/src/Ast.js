@@ -405,7 +405,7 @@ class AST {
         }
         let i = 0;
         while(this[i]) {
-            this.core.replaceAstByAst(this[i].nodePath, replacer)
+            this.core.replaceAstByAst(this[i].nodePath, replacer, this._index)
             i++
         }
         
