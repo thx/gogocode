@@ -55,6 +55,12 @@ module.exports = function (sourceAst, { gogocode: $ }, options) {
         return scriptAST.root();
     }
 
+    scriptAST.replace(`this.value`,'this.modelValue');
+
+    scriptAST.replace(`const {value,$$$} = this`,`const {modelValue:value,$$$} = this`);
+    scriptAST.replace(`let {value,$$$} = this`,`let {modelValue:value,$$$} = this`);
+    scriptAST.replace(`var {value,$$$} = this`,`var {modelValue:value,$$$} = this`);
+    
     let needAddEmits = false;
 
     scriptAST.find([`$_$1.$emit('input',$$$)`, `$_$1.$emit("input",$$$)`]).each((fAst) => {
@@ -122,10 +128,10 @@ module.exports = function (sourceAst, { gogocode: $ }, options) {
 
     appendEmitsProp(scriptAST,[`'update:modelValue'`]);
 
-    scriptAST.replace(`const {value,$$$} = this`,`const {modelValue,$$$} = this`);
-    scriptAST.replace(`let {value,$$$} = this`,`let {modelValue,$$$} = this`);
-    scriptAST.replace(`var {value,$$$} = this`,`var {modelValue,$$$} = this`);
-    scriptAST.replace(`this.value`,'this.modelValue');
+    
+
+
+    
 
     return scriptAST.root();
 
