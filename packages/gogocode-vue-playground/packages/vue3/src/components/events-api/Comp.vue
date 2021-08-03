@@ -9,8 +9,8 @@
 
 <script>
 import Vue from 'vue';
-import A from './A.vue';
-import B from './B.vue';
+import A from './A-out';
+import B from './B-out';
 /* 迁移指南: https://v3.cn.vuejs.org/guide/migration/events-api.html */
 export default {
   components: { A, B },

@@ -1,32 +1,83 @@
-module.exports = function (ast) {
-    // 迁移指南: https://v3.cn.vuejs.org/guide/migration/events-api.html
+const scriptUtils = require('../utils/scriptUtils');
+module.exports = function (ast, api, options) {
+    const script = ast.parseOptions && ast.parseOptions.language === 'vue' ? ast.find('<script></script>') : ast;
 
-    let scriptAst = ast.parseOptions && ast.parseOptions.language == 'vue' ? ast.find('<script></script>') : ast
-    if (scriptAst.length < 1) {
-        return ast
+    const emitterCode = `
+    const eventRegistryMap = new WeakMap();
+    function getRegistry(instance) {
+        let events = eventRegistryMap.get(instance);
+        if (!events) {
+            eventRegistryMap.set(instance, (events = Object.create(null)));
+        }
+        return events;
     }
-    scriptAst.find([`$_$1.$on($_$2)`, `$_$1.$off($_$2)`, `$_$1.$once($_$2)`, `$_$1.$emit($_$2)`]).each(node => {
-        const isThisEmit = node.attr('callee.object.type') == 'ThisExpression' && node.generate().startsWith('this.$emit')
-        // this.$on 处理
-        if (isThisEmit && scriptAst.has(`mixins: $$$`)) {
-            node.replace('this.$emit($$$)', `tiny_emitter.emit($$$)`)
-                .replace('this.$on($$$)', `tiny_emitter.on($$$)`)
-                .replace('this.$off($$$)', `tiny_emitter.off($$$)`)
-                .replace('this.$once($$$)', `tiny_emitter.once($$$)`)
-            if (!scriptAst.has(`import tiny_emitter from 'tiny-emitter/instance'`)) {
-                scriptAst.prepend(`import tiny_emitter from 'tiny-emitter/instance';\n`)
-            }
+    export function $on(instance, event, fn) {
+        if (Array.isArray(event)) {
+            event.forEach(e => $on(instance, e, fn));
         }
-        // xxx.$on() 情况处理
-        else if(!isThisEmit) {
-            node.replace('$$$.$emit($$$)', `tiny_emitter.emit($$$)`)
-                .replace('$$$.$on($$$)', `tiny_emitter.on($$$)`)
-                .replace('$$$.$off($$$)', `tiny_emitter.off($$$)`)
-                .replace('$$$.$once($$$)', `tiny_emitter.once($$$)`)
-            if (!scriptAst.has(`import tiny_emitter from 'tiny-emitter/instance'`)) {
-                scriptAst.prepend(`import tiny_emitter from 'tiny-emitter/instance';\n`)
-            }
+        else {
+            const events = getRegistry(instance);
+            (events[event] || (events[event] = [])).push(fn);
         }
-    })
-    return ast
-}
+        return instance.proxy;
+    }
+    export function $once(instance, event, fn) {
+        const wrapped = (...args) => {
+            off(instance, event, wrapped);
+            fn.call(instance.proxy, ...args);
+        };
+        wrapped.fn = fn;
+        $on(instance, event, wrapped);
+        return instance.proxy;
+    }
+    export function $off(instance, event, fn) {
+        const vm = instance.proxy;
+        // all
+        if (!event) {
+            eventRegistryMap.set(instance, Object.create(null));
+            return vm;
+        }
+        // array of events
+        if (Array.isArray(event)) {
+            event.forEach(e => off(instance, e, fn));
+            return vm;
+        }
+        // specific event
+        const events = getRegistry(instance);
+        const cbs = events[event];
+        if (!cbs) {
+            return vm;
+        }
+        if (!fn) {
+            events[event] = undefined;
+            return vm;
+        }
+        events[event] = cbs.filter(cb => !(cb === fn || cb.fn === fn));
+        return vm;
+    }
+    export function $emit(instance, event, ...args) {
+        instance.proxy && instance.proxy.$emit && instance.proxy.$emit(event, ...args);
+        const cbs = getRegistry(instance)[event];
+        if (cbs) {
+            cbs.map(cb => cb.apply(instance.proxy, args));
+        }
+        return instance.proxy;
+    }
+    `;
+
+    if (script.find(['$_$1.$emit($$$)', '$_$1.$on($$$)', '$_$1.$off($$$)', '$_$1.$once($$$)']).length) {
+        const relativePath = scriptUtils.addUtils(api.gogocode, emitterCode, options.outRootPath, options.outFilePath);
+
+        script
+            .replace('$_$1.$emit($$$)', `$emit($_$1, $$$)`)
+            .replace('$_$1.$on($$$)', `$on($_$1, $$$)`)
+            .replace('$_$1.$off($$$)', `$off($_$1, $$$)`)
+            .replace('$_$1.$once($$$)', `$once($_$1, $$$)`);
+
+        if (!script.has(`import { $on, $off, $once, $emit } from '${relativePath}'`)) {
+            script.before(`import { $on, $off, $once, $emit } from '${relativePath}';\n`);
+        }
+    }
+
+    return ast;
+};

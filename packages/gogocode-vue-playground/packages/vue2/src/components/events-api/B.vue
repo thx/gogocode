@@ -4,7 +4,6 @@
 
 <script>
 import TinyEmmitterBus from './utils/tiny-emitter-bus.js';
-import tiny_emitter from 'tiny-emitter/instance';
 import eventHub from './EventHub';
 export default {
     mixins: [TinyEmmitterBus],
@@ -23,16 +22,6 @@ export default {
 
         // picker.$on => this.vueOn
         // this.$on
-
-        const tiny_emitter_override = {
-            $on: (...args) => tiny_emitter.on(...args),
-            $once: (...args) => tiny_emitter.once(...args),
-            $off: (...args) => tiny_emitter.off(...args),
-            $emit: (...args) => tiny_emitter.emit(...args),
-        };
-
-        Object.assign(eventHub,tiny_emitter_override)
-
         // 添加 eventHub 监听器
         eventHub.$on('inc', () => {
             this.num += 10;
