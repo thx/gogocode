@@ -114,15 +114,15 @@ module.exports = function (ast, api, options) {
     } else {
         script.replace(
             `new ${vueName}($_$)`,
-            `$_$`
+            `($_$)`
         );
         script.replace(
             `new ${vueName}()`,
-            `{}`
+            `({})`
         );
         script.replace(
             `${vueName}.extend($_$)`,
-            `$_$`
+            `($_$)`
         );
     }
 
