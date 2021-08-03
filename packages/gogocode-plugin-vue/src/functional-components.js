@@ -16,7 +16,7 @@ module.exports = function (ast, { gogocode: $ }) {
                 delete tAttr.functional;
             }
         }
-        script.find('{ functional: true }').each((ast) => {
+        script.find('{ render: $_$ }').each((ast) => {
 
             if(script.has('this.$createElement($$$)')){
                 scriptUtils.addVueImport(script)
