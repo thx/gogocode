@@ -84,11 +84,14 @@ const core = {
                 if (isProgram) {
                     return program;
                 } else {
-                    if (
-                        program.content.children &&
-                        program.content.children[0]
-                    ) {
-                        return program.content.children[0];
+                    if (program.content.children && program.content.children[0]) {
+                        if (program.content.children.length > 1) {
+                            return program.content.children
+                        } else if (program.content.children.length == 1) {
+                            return program.content.children[0];
+                        } else {
+                            return null
+                        }
                     }
                 }
             } else {

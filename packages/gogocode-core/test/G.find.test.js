@@ -947,3 +947,13 @@ test('$.find: replace html tag result should be ok', () => {
     expect(!!res).toBeTruthy();
 
 })
+
+test('$.find: match string', () => {
+    let res = '';
+    $('`/aa/bb/${cc}/cccccc/${s}`')
+        .find('`$_$1\${$_$2}`')
+        .each(item => {
+            res = item.match[1].length + item.match[2].length
+        })
+    expect(res == 5).toBeTruthy()
+})

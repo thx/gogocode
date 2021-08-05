@@ -52,3 +52,29 @@ test('$.empty: simple1 html code', () => {
     const newG = G.find('<span>$_$</span>').empty();
     expect(newG.generate() == '');
 })
+
+test('$.empty: simple1 html code', () => {
+    const G = $(`
+    <view class="abc">
+        <view> {{ message }} </view>
+        <view> {{ message }} </view>
+        <view> {{ message }} </view>
+        <view> {{ message }} </view>
+    </view>
+    `, config.html);
+    const newG = G.find('<view class="abc"></view>').empty();
+    expect(newG.generate().match('message')).not.toBeTruthy();
+})
+
+test('$.empty: simple1 html code', () => {
+    const G = $(`
+    <view class="abc">
+        <view> {{ message }} </view>
+        <view> {{ message }} </view>
+        <view> {{ message }} </view>
+        <view> {{ message }} </view>
+    </view>
+    `, config.html);
+    const newG = G.empty();
+    expect(newG.generate() == '').toBeTruthy();
+})

@@ -9,10 +9,11 @@ const Props = [
     'raw',
     'start',
     'end',
-    'leadingComments',
     'shorthand',
     'extra',
-    'static'
+    'static',
+    'trailing',
+    'leading'
 ]
 
 const ignoreTypeList = [
@@ -26,7 +27,7 @@ const filterProps = function (node, structure, propList, expando) {
     const props = propList || Props;
     for (const key in node) {
         // 过滤值为空的字段
-        if ((key === 'type' && ignoreTypeList.indexOf(node[key]) > -1) || (props.indexOf(key) == -1 && node[key])) {
+        if ((key === 'type' && ignoreTypeList.indexOf(node[key]) > -1) || (props.indexOf(key) == -1 && (node[key] !== undefined && node[key] !== null))) {
             if (isObject(node[key])) {
                 if (Array.isArray(node[key])) {
                     structure[key] = [];

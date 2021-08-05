@@ -630,11 +630,19 @@ class AST {
         return this;
     }
     empty() {
-        if (Array.isArray(this[0].nodePath.value)) {
-            this[0].nodePath.value = [];
-        } else if (this.node.type == 'File') {
-            this.attr('program.body', [])
-        }
+        this.each(item => {
+            if (item.language == 'html') {
+                if (Array.isArray(item.attr('content.children'))) {
+                    item.attr('content.children', []);
+                }
+            } else if (item.language == 'js') {
+                if (Array.isArray(item[0].nodePath.value)) {
+                    item[0].nodePath.value = [];
+                } else if (item.node.type == 'File') {
+                    item.attr('program.body', [])
+                }
+            }
+        })
         return this
     }
     remove(selector, options = {}) {

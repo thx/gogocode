@@ -729,3 +729,13 @@ test('$.replace: scope replace should be ok', () => {
     .generate()
     expect(res.match(/x/g).length == 5).toBeTruthy();
 })
+
+test('$.replace: this replace should be ok', () => {
+    let res = $(`
+        var isTrue = !0;
+        var isFalse = !1;
+    `)
+    .replace('!0', 'true')
+    .generate();
+    expect(res.match(/true/g).length == 1).toBeTruthy();
+})

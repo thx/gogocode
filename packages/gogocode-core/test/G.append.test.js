@@ -134,3 +134,27 @@ test('$.append: append rest param', () => {
     expect(result.indexOf('options') > -1).toBeTruthy();
 
 })
+
+
+test('$.empty: simple1 html code', () => {
+    const G = $(`
+    <view class="abc">
+        <view> {{ message }} </view>
+        <view> {{ message }} </view>
+        <view> {{ message }} </view>
+        <view> {{ message }} </view>
+    </view>
+    `, config.html);
+    const newG = G.find('<$_$tag class="abc"></$_$tag>')
+    .each(function (item) {
+
+      var list = 
+        `<view>1111</view>
+        <view>1111</view>
+        <view>1111</view>`
+      item.append(list)
+    })
+    .root()
+    .generate()
+    expect(newG.match(/1111/g).length == 3).toBeTruthy();
+})
