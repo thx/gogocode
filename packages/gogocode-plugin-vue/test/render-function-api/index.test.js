@@ -6,7 +6,7 @@ test('render-function-api', () => {
     expect(() => {
         const vuePath = path.join(__dirname, 'Comp.vue');
         const ast = $.loadFile(vuePath, { parseOptions: { language: 'vue' } });
-        transform(ast);
+        transform(ast, $, {});
     }).not.toThrow();
 })
 //render(h)

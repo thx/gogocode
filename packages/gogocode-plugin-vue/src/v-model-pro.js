@@ -1,7 +1,6 @@
 const scriptUtils = require('../utils/scriptUtils');
 
 const { appendEmitsProp } = scriptUtils;
-const nativeInput = ['input', 'textarea', 'select'];
 
 module.exports = function (sourceAst, { gogocode: $ }, options) {
     // 找到 .sync 属性

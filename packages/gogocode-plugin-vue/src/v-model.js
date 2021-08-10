@@ -1,3 +1,4 @@
+//这个转换逻辑作废了，使用v-model-pro 替代
 const scriptUtils = require('../utils/scriptUtils');
 
 const { appendEmitsProp } = scriptUtils;
