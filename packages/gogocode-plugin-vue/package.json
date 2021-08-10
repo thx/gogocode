@@ -1,6 +1,6 @@
 {
   "name": "gogocode-plugin-vue",
-  "version": "1.0.14",
+  "version": "1.0.16",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -8,6 +8,11 @@
     "t": "node ./t.js",
     "prepublishOnly": "npm run test"
   },
+  "files": [
+    "index.js",
+    "utils",
+    "src"
+  ],
   "keywords": [
     "vue",
     "gogocode"
