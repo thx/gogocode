@@ -1,13 +1,11 @@
-//这个转换逻辑作废了，使用v-model-pro 替代
 const scriptUtils = require('../utils/scriptUtils');
 
 const { appendEmitsProp } = scriptUtils;
-const nativeInput = ['input', 'textarea','select'];
 
 module.exports = function (sourceAst, { gogocode: $ }, options) {
-    // 迁移指南: https://v3.cn.vuejs.org/guide/migration/v-model.html
     // 找到 .sync 属性
     // 删除 .sync 属性，使用:title 和 @update:title 替代
+    // 不需要将props 里面的 value 替换成modelValue，只需要将v-model="" 替换成 v-model:value=""
     const templateAst = sourceAst.find('<template></template>');
     if (templateAst.length !== 0) {
         templateAst.find('<$_$>').each(function (ast) {
@@ -19,9 +17,13 @@ module.exports = function (sourceAst, { gogocode: $ }, options) {
                     const mIndex = key.indexOf(':');
                     if (mIndex > -1) {
                         //有 : 代表有参数绑定
-                        attr.key.content = `v-model${key.replace('.sync', '')}`;
+                        attr.key.content = `v-model:value${key.replace('.sync', '')}`;
                     } else {
-                        attr.key.content = 'v-model';
+                        attr.key.content = 'v-model:value';
+                    }
+                } else {
+                    if (key === 'v-model') {
+                        attr.key.content = 'v-model:value';
                     }
                 }
 
@@ -30,24 +32,13 @@ module.exports = function (sourceAst, { gogocode: $ }, options) {
                     return;
                 }
 
-                const compName = ast.attr('content.name');
-                // 处理key是 :value 的情况
-                if (!nativeInput.includes(compName) && key === ':value') {
-                    attr.key.content = ':modelValue';
-                }
-
                 const value = attr.value.content;
+                attr.value.content = value.replace(`$emit('input',$$$)`, `$emit('update:value',$$$)`);
 
-                if (value.trim() === 'value' && key.indexOf('v-model') > -1) {
-                    attr.value.content = value.replace(/value/g, 'modelValue');
-                } else {
-                    attr.value.content = value.replace(`$emit('input',$$$)`, `$emit('update:modelValue',$$$)`);
-                }
-               
             });
         });
     }
-  
+
     //开始处理js逻辑
     const scriptAST = sourceAst.parseOptions && sourceAst.parseOptions.language === 'vue'
         ? sourceAst.find('<script></script>')
@@ -56,12 +47,6 @@ module.exports = function (sourceAst, { gogocode: $ }, options) {
         return scriptAST.root();
     }
 
-    scriptAST.replace(`this.value`,'this.modelValue');
-
-    scriptAST.replace(`const {value,$$$} = this`,`const {modelValue:value,$$$} = this`);
-    scriptAST.replace(`let {value,$$$} = this`,`let {modelValue:value,$$$} = this`);
-    scriptAST.replace(`var {value,$$$} = this`,`var {modelValue:value,$$$} = this`);
-    
     let needAddEmits = false;
 
     scriptAST.find([`$_$1.$emit('input',$$$)`, `$_$1.$emit("input",$$$)`]).each((fAst) => {
@@ -69,7 +54,7 @@ module.exports = function (sourceAst, { gogocode: $ }, options) {
             fAst.node &&
             fAst.node.arguments &&
             fAst.node.arguments.length > 0) {
-            const newArg0 = $(`let a = 'update:modelValue'`).node.program.body[0].declarations[0].init;
+            const newArg0 = $(`let a = 'update:value'`).node.program.body[0].declarations[0].init;
             fAst.node.arguments[0] = newArg0;
         }
         needAddEmits = true;
@@ -84,14 +69,10 @@ module.exports = function (sourceAst, { gogocode: $ }, options) {
             const arr = fAst.match[0][0].value.replace('[', '').replace(']', '').replace(/\"/g, '\'').split(',');
             for (let i = 0; i < arr.length; i++) {
                 if (arr[i] === `'value'`) {
-                    arr[i] = `'modelValue'`;
                     needAddEmits = true;
                 }
             }
-            if (needAddEmits) {
-                const emitsArrCode = arr.join(',');
-                fAst.replace(`props:$_$`, `props:[${emitsArrCode}]`);
-            }
+
         } else if (fAst.match[0][0].node.type === 'ObjectExpression') {
             const props = fAst.match[0][0].node.properties;
             props.forEach((prop) => {
@@ -99,40 +80,18 @@ module.exports = function (sourceAst, { gogocode: $ }, options) {
                     return;
                 }
                 if (prop.key.name === 'value') {
-                    prop.key.value = 'modelValue';
-                    prop.key.name = 'modelValue';
+                    needAddEmits = true;
                 }
             });
         }
-        
-    });
 
-    //replace watch properties which key is 'value'
-    scriptAST.find('watch: { $_$ }').each((ast) => {
-        const props = ast.attr('value.properties');
-        props.forEach((prop) => {
-            if (!prop.key) {
-                return;
-            }
-            //const innerProps = prop.value.properties;
-            // const immediateProp = innerProps.find(ip => (ip.key.name === 'immediate'));
-
-            if (prop.key.name === 'value') {
-                prop.key.name = 'modelValue';
-            }
-        });
     });
 
     if (!needAddEmits) {
         return scriptAST.root();
     }
 
-    appendEmitsProp(scriptAST,[`'update:modelValue'`]);
-
-    
-
-
-    
+    appendEmitsProp(scriptAST, [`'update:value'`]);
 
     return scriptAST.root();
 

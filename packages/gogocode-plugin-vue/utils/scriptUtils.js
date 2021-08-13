@@ -183,7 +183,8 @@ function addUtils( $ ,extFunCode, outRootPath, outFilePath, fileName) {
         }
     }
     let modulePath = withoutExt(path.relative(path.dirname(outFilePath), inputPath));
-    return modulePath === 'gogocodeTransfer' ? './gogocodeTransfer' : modulePath
+    
+    return modulePath === 'gogocodeTransfer' ? './gogocodeTransfer' : modulePath.replace(/\\/g,'/');
 }
 
 function addMixin(scriptAst, mixin) {

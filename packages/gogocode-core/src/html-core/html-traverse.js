@@ -1,3 +1,4 @@
+const { escapeRegExp } = require('../util');
 module.exports = (ast, transformMap = {}, filePath, deleteComment) => {
     if (ast.nodeType) {
         handleNode(ast)
@@ -96,13 +97,13 @@ module.exports = (ast, transformMap = {}, filePath, deleteComment) => {
                 let isContain = false;
                 switch (h.type) {
                 case 'containOne':
-                    isContain = h.value.some(v => node.content.value.content.match(v))
+                    isContain = h.value.some(v => node.content.value.content.match(escapeRegExp(v)))
                     if (isContain) {
                         h.handle(node, extra);
                     }
                     break;
                 case 'containAll':
-                    isContain = h.value.every(v => node.content.value.content.match(v))
+                    isContain = h.value.every(v => node.content.value.content.match(escapeRegExp(v)))
                     if (isContain) {
                         h.handle(node, extra);
                     }

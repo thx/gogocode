@@ -1,5 +1,11 @@
 const scriptUtils = require('../utils/scriptUtils');
 module.exports = function (ast, api, options) {
+
+    // gogocodeTransfer.js 文件不需要转换
+    if (options.filePath && options.filePath.includes('gogocodeTransfer.js')) {
+        return ast;
+    }
+
     const script = ast.parseOptions && ast.parseOptions.language === 'vue' ? ast.find('<script></script>') : ast;
 
     const $childrenFuncCode = `
