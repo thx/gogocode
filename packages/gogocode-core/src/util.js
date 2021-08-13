@@ -5,7 +5,7 @@ function isObject(value) {
 const hasOwn = Object.prototype.hasOwnProperty.call.bind(Object.prototype.hasOwnProperty);
 
 function escapeRegExp(string) {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); 
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); 
 }
 
 module.exports = {
