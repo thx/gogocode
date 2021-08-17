@@ -549,6 +549,7 @@ class AST {
             //     }
             // }
             if (attr == 'content.children') {
+                selfNode.content.children = selfNode.content.children || [];
                 selfNode = selfNode.content.children;
             } else if (selfNode.program && selfNode.program.body) {
                 if (attr == 'program.body') {

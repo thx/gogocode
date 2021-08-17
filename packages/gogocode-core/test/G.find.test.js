@@ -957,3 +957,23 @@ test('$.find: match string', () => {
         })
     expect(res == 5).toBeTruthy()
 })
+
+
+test('$.find: $$$ match ObjectMethod', () => {
+    let res =
+    $(`
+    Component({
+        mixins: [],
+        methods: {
+            b() {
+    
+            }
+        }
+    });
+    `)
+    .find(`Component({
+        $$$1,
+        methods: { $$$2 }
+      })`)
+    expect(res.length == 1).toBeTruthy()
+})

@@ -13,7 +13,8 @@ const Props = [
     'extra',
     'static',
     'trailing',
-    'leading'
+    'leading',
+    'method'
 ]
 
 const ignoreTypeList = [
