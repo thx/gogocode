@@ -142,15 +142,18 @@ function isMainFile(rootPath, filePath) {
 function getPosition(ast) {
     let newAst = ast;
     let level = 0;
-    while (
-        newAst.node &&
-    newAst.node.type !== 'VariableDeclarator' &&
-    level < 10
-    ) {
+    while (level < 10) {
         newAst = newAst.parent();
+        if (newAst.node && (newAst.node.type === 'VariableDeclaration' || newAst.node.type === 'ExpressionStatement')) {
+            break;
+        }
+        if (!newAst.parent().node) {
+            break;
+        }
         level++;
     }
-    return newAst.parent();
+  
+    return newAst;
 }
 function pickValue(ast, m, n) {
     if (ast.match &&

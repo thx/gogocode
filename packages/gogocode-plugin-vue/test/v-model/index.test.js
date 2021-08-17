@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const $ = require('gogocode');
-const transform = require('../../src/v-model');
+const transform = require('../../src/v-model-pro');
 test('v-model: test remove .sync attr', () => {
     expect(() => {
         const vuePath = path.join(__dirname,'Comp.vue');
@@ -43,7 +43,7 @@ test('v-model: test rename value props result should be ok', () => {
 
         if (!(fAst.match[0].length > 0 &&
             fAst.match[0][0].value &&
-            fAst.match[0][0].value.indexOf('modelValue: String') > -1)) {
+            fAst.match[0][0].value.indexOf('value: String') > -1)) {
             result = false;
         }
     })

@@ -14,8 +14,8 @@ module.exports = function (ast) {
             let attrList = cast.attr('content.attributes') || []
             let valueContent = ''
             attrList.forEach((attr, index) => {
-                valueContent = attr.value && attr.value.content || ''
-                if (attr.value && attr.key && attr.key.content == 'slot') {                  
+                if (attr.value && attr.key && attr.key.content == 'slot') {    
+                    valueContent = attr.value && attr.value.content || ''              
                     attrList.splice(index, 1);                    
                 }                
             })

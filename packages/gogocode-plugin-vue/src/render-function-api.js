@@ -1,6 +1,10 @@
 const scriptUtils = require('../utils/scriptUtils');
 
 module.exports = function (ast, api, options) {
+    // gogocodeTransfer.js 文件不需要转换
+    if (options.filePath && options.filePath.includes('gogocodeTransfer.js')) {
+        return ast;
+    }
     // 迁移指南: https://v3.cn.vuejs.org/guide/migration/render-function-api.html
     let scriptAst = ast.parseOptions && ast.parseOptions.language == 'vue' ? ast.find('<script></script>') : ast
     if (scriptAst.length < 1) {

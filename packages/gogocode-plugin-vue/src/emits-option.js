@@ -11,7 +11,7 @@ class EmitSet {
                 let key = fAst.match[0][0].raw;
                 if (key === `'input'` || key === `"input"` || key === '`input`') {
                     //https://v3.cn.vuejs.org/guide/migration/v-model.html#%E8%BF%81%E7%A7%BB%E7%AD%96%E7%95%A5
-                    key = `'update:modelValue'`;
+                    key = `'update:value'`;
                 }
                 this.set.add(key);
             }

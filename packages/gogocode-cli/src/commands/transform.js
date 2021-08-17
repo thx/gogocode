@@ -244,11 +244,13 @@ function requireTransforms(transform) {
         }
     });
 }
-function mkOutDir(outDir) {
-    //如果是文件，取最后一个路径
-    if (outDir.indexOf('.') > 0) {
-        outDir = path.dirname(outDir);
+function mkDirForFile(outFile) {
+    let outDir = outFile;
+    const lastSepIndex = outFile.lastIndexOf(path.sep);
+    if (lastSepIndex > -1) {
+        outDir = outFile.substring(0, lastSepIndex);
     }
+
     if (!fse.existsSync(outDir)) {
         fse.mkdirsSync(outDir);
     }
@@ -349,7 +351,7 @@ function handleTransform(tranFns, srcPath, outPath, params, resolve, reject) {
                     try {
                         let filePath = srcFilePath.substring(srcFullPath.length, srcFilePath.length);
                         let outFilePath = path.join(outFullPath, filePath);
-                        mkOutDir(outFilePath);
+                        mkDirForFile(outFilePath);
                         if (SHOW_INFO) {
                             console.log(`${chalk.blue(`${index}/${total}`)} ${srcFilePath} ${chalk.green(`${size} B`)}`);
                         }
@@ -375,7 +377,7 @@ function handleTransform(tranFns, srcPath, outPath, params, resolve, reject) {
         } else {
             //转换单个文件
             preTransform(tranFns, options);
-            mkOutDir(outFullPath);
+            mkDirForFile(outFullPath);
 
             const { success } = execTransforms(tranFns, options, srcFullPath, outFullPath);
             
