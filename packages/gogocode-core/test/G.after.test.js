@@ -188,3 +188,21 @@ test('$.after: simple1 html code', () => {
     .generate();
     expect(code.indexOf('<span>after</span>') > -1).toBeTruthy();
 })
+
+test('$.after: simple1 html code', () => {
+    const code = $(`var a = 1;
+    var b = 1;`)
+        .find(`var a = 1`)
+        .after('// aaaaaaaa')
+        .root()
+        .generate()
+    expect(code.indexOf('// aaaaaa') > -1).toBeTruthy();
+})
+
+test('$.after: simple1 html code', () => {
+    const code = $(`var a = 1;
+    var b = 1;`)
+        .after('// aaaaaaaa')
+        .generate()
+    expect(code.indexOf('// aaaaaa') > -1).toBeTruthy();
+})

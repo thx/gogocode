@@ -93,7 +93,8 @@ class AST {
             selector, {
                 strictSequence: options.ignoreSequence === false,
                 parseOptions: pOptions,
-                expando: this.expando
+                expando: this.expando,
+                deep: options.deep
             }
         );
         const newAST = cloneAST(this)
@@ -418,6 +419,21 @@ class AST {
         if (!node.type && !node.nodeType) {
             throw new Error('insert failed! Unexpected node for insert!')
         }
+
+        if (node.type && node.type.match('Comment')) {
+            // 处理注释
+            let targetNode = this;
+            // if (this.node.type == 'File') {
+            //     targetNode = $(this.node.program.body)
+            // }
+            node.trailing = type == 'after';
+            node.leading = type == 'before';
+            this.insertChildNode(
+                'comments', 
+                node, 
+                type == 'after' ? 'append' : 'prepend')
+            return;
+        }
         // if (!this[0].parentList) {
         initParent(this)
         // }
@@ -542,6 +558,7 @@ class AST {
             return;
         }
         let selfNode = this[0].nodePath.value;
+        let bodyIndex = selfNode.program && type == 'append' ? selfNode.program.body.length - 1 : 0
         if (!Array.isArray(selfNode)) {
             // for(let key in selfNode) {
             //     if (Array.isArray(selfNode[key])) {
@@ -555,8 +572,8 @@ class AST {
                 if (attr == 'program.body') {
                     selfNode = selfNode.program.body;
                 } else {
-                    selfNode.program.body[0][attr] = selfNode.program.body[0][attr] || []
-                    selfNode = selfNode.program.body[0][attr]
+                    selfNode.program.body[bodyIndex][attr] = selfNode.program.body[bodyIndex][attr] || []
+                    selfNode = selfNode.program.body[bodyIndex][attr]
                 }
             } else {
                 selfNode[attr] = selfNode[attr] || [];
@@ -569,7 +586,7 @@ class AST {
         }
 
         if (node.type == 'File' && node.program.body) {
-            node = node.program.body[0]
+            node = node.program.body[bodyIndex]
             if (!node) return;
         }
         if (selfNode) {

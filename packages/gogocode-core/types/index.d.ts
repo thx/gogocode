@@ -28,6 +28,8 @@ declare module 'gogocode' {
       ignoreSequence?: boolean;
       /** 基本与babel/parse的options一致，唯一区别是解析html时需要定义为{html: true} */
       parseOptions?: any;
+      /** 遍历深度 默认'nn'，匹配所有层级符合条件的，'n'只匹配最外层，'1' 匹配到一个即停止匹配 */
+      deep?: 'nn' | 'n' | 1
     }
 
     type MatchResult = {

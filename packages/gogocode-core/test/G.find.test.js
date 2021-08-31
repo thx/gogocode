@@ -8,6 +8,7 @@ const tc1 = require('./code/simple-ts-1');
 const hc1 = require('./code/simple1.html');
 const hc2 = require('./code/simple2.html');
 const jTryout = require('./code/simple-tryout');
+const glob = require('glob');
 
 const SIMPLE_CODE = `var a = 1;`;
 const CODE = `
@@ -976,4 +977,30 @@ test('$.find: $$$ match ObjectMethod', () => {
         methods: { $$$2 }
       })`)
     expect(res.length == 1).toBeTruthy()
+})
+
+test('$.find: match string', () => {
+    let res = $(`function a () {
+        function b () {
+
+        }
+    }
+    function c() {
+
+    }`)
+        .find('function $_$() {}')
+    expect(res.length == 3).toBeTruthy()
+})
+
+test('$.find: match string', () => {
+    let res = $(`function a () {
+        function b () {
+
+        }
+    }
+    function c() {
+
+    }`)
+        .find('function $_$() {}', { deep: 'n' })
+    expect(res.length == 2).toBeTruthy()
 })
