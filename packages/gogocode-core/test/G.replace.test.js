@@ -739,3 +739,24 @@ test('$.replace: this replace should be ok', () => {
     .generate();
     expect(res.match(/true/g).length == 1).toBeTruthy();
 })
+
+test('$.replace: this replace should be ok', () => {
+    let res = $(`
+        export default {
+            init() {
+            let strMap = {
+                borrowCDBMoney: ['押金', '$元'],
+                gratisTime: ['免费时间', '$'],
+                borrowPay: ['起步收费', '$'],
+                hourPay: ['超时收费', '$'],
+                buyLinePay: ['充电线', '$元/条'],
+                presentLineType: ['购线券', '$'],
+                dayMaxPay: ['每日上限', '$元'],
+                chargeType: ['收费模式', '$']
+            }
+            },
+        }
+    `)
+    .replace(`export default {$$$}`, `export default {$$$,emits:['remark']}`).generate()
+    expect(res.match(/remark/g).length == 1).toBeTruthy();
+})

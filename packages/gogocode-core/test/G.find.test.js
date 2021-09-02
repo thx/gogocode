@@ -993,14 +993,14 @@ test('$.find: match string', () => {
 })
 
 test('$.find: match string', () => {
-    let res = $(`function a () {
+    let res = $(`{function a () {
         function b () {
 
         }
     }
     function c() {
 
-    }`)
+    }}`)
         .find('function $_$() {}', { deep: 'n' })
     expect(res.length == 2).toBeTruthy()
 })

@@ -195,16 +195,13 @@ function find(nodeType, structure, strictSequence, deep = 'nn', expando = 'g123o
     visit(this, {
         [`visit${nodeType}`](path) {
             const extraData = {};
-            if (deep != 'n' || path.parent.name == 'program') {
-                isMatch = checkIsMatch(
-                    path.value,
-                    structure,
-                    extraData,
-                    strictSequence
-                );
-            } else {
-                isMatch = false;
-            }
+            
+            isMatch = checkIsMatch(
+                path.value,
+                structure,
+                extraData,
+                strictSequence
+            );
             if (isMatch) {
                 nodePathList.push(path);
                 matchWildCardList.push(extraData);

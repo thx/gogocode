@@ -221,9 +221,12 @@ const core = {
                             }
                             nodeLinkMap[item.type] && (join = nodeLinkMap[item.type])
                             return codeStr
-                        }).join(join);
+                            // 
+                        }).join(join)
                         // 不能都用,连接，还是需要找到$_$
-                        newReplacer = newReplacer.replace('$$$' + key$$$, wildCardCode);
+
+                        newReplacer = newReplacer.replace('$$$' + key$$$, wildCardCode.replace(/\$/g,'$$$$'));
+                        // 如果wildCardCode存在`$'`，会被命中替换，因此对$进行处理(https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace)
                     } else {
                         let realKey = key == '0' ? '' : key;
                         const matchLength = (newReplacer.match(new RegExp(`\\$_\\$${realKey}`, 'g')) || []).length;
@@ -239,12 +242,14 @@ const core = {
                             // 删除代码块外部{},find里前置处理了，不需要在这里做了
                             let wildCardCode = extra[key].map(item => 
                                 typeof item.value !== 'object' ? (item.raw || item.value) : ``
-                            ).join(', ');
+                            ).join(', ')
+
                             newReplacer = newReplacer
-                                .replace(new RegExp(`'\\$_\\$${realKey}'`, 'g'), wildCardCode)
-                                .replace(new RegExp(`"\\$_\\$${realKey}"`, 'g'), wildCardCode)
-                                .replace(new RegExp(`\\$_\\$${realKey}`, 'g'), wildCardCode);
+                                .replace(new RegExp(`'\\$_\\$${realKey}'`, 'g'), wildCardCode.replace(/\$/g,'$$$$'))
+                                .replace(new RegExp(`"\\$_\\$${realKey}"`, 'g'), wildCardCode.replace(/\$/g,'$$$$'))
+                                .replace(new RegExp(`\\$_\\$${realKey}`, 'g'), wildCardCode.replace(/\$/g,'$$$$'));
                             // 通过选择器替换ast，返回完整ast
+                            // 如果wildCardCode存在`$'`，会被命中替换，因此对$进行处理(https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace)
                         }
                     }
                 }
