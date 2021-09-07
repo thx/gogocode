@@ -760,3 +760,24 @@ test('$.replace: this replace should be ok', () => {
     .replace(`export default {$$$}`, `export default {$$$,emits:['remark']}`).generate()
     expect(res.match(/remark/g).length == 1).toBeTruthy();
 })
+
+test('$.replace: this replace should be ok', () => {
+    let res = $(`
+    <td class="abc"><td>
+    `, { parseOptions: { language: 'html' } })
+    .replace('<td class="abc"><td>', '<tag>xxx</tag>')
+    .generate()
+    expect(res.match(/tag/g).length == 2).toBeTruthy();
+})
+
+test('$.replace: this replace should be ok', () => {
+    let res = $(`
+        enum TYPE {
+            A = 1,
+            B = 2,
+            C = 3
+        }`)
+    .replace('enum TYPE { $$$ }', 'enum TYPE { $$$, D = 4 }')
+    .generate()
+    expect(res.match('D = 4')).toBeTruthy()
+})

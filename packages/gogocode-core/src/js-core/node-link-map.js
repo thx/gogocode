@@ -6,5 +6,6 @@ module.exports = {
     'Identifier': ',',
     'StringLiteral': ',',
     'JSXElement': '\n',
-    'ImportSpecifier': ','
+    'ImportSpecifier': ',',
+    'TSEnumMember': ','
 }
