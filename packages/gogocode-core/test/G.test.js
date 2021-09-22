@@ -1,5 +1,5 @@
-// const $ = require('../index');
-const $ = require('../umd/gogocode')
+const $ = require('../index');
+// const $ = require('../umd/gogocode')
 const config = require('./config');
 const jc1 = require('./code/simple1');
 const jc2 = require('./code/simple2');
@@ -815,4 +815,15 @@ test('parse closing tag', () => {
         .generate()
       res
     }).not.toThrow()
+})
+
+
+test('parse html contains > ', () => {
+    let res = $(`
+    <dd>1<5</dd> <view>我是打酱油</view>
+    `, { parseOptions: { language: 'html' } })
+        .replace(`<dd>1<5</dd>`, `<dd test="zpzpzpzp">1<5</dd>`)
+        .generate()
+    console.log(res)
+    expect(!!res.match('1<5</dd>')).toBeTruthy()
 })
