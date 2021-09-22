@@ -822,7 +822,8 @@ test('parse html contains > ', () => {
     let res = $(`
     <dd>1<5</dd> <view>我是打酱油</view>
     `, { parseOptions: { language: 'html' } })
-        .replace(`<dd>1<5</dd>`, `<dd test="zpzpzpzp">1<5</dd>`)
+        .replace(`<dd $$$1>$$$2</dd>`,
+        `<dd test="zpzpzpzp" $$$1>$$$2</dd>`)
         .generate()
     console.log(res)
     expect(!!res.match('1<5</dd>')).toBeTruthy()
