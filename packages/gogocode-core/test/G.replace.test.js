@@ -804,3 +804,15 @@ test('parse html  data-id', () => {
     console.log(res)
     expect(!res.match('data-id')).toBeTruthy()
 })
+
+
+test('parse html replace comments', () => {
+    let res = $(`
+        <div class="a">1</div>
+        <div class="a">2</div>
+        <!-- <view>TEST</view> -->
+    `, { parseOptions: { language: 'html' } })
+        .replace('<view></view>', '<div>也替换了嘛？算正常不？</div>')
+        .generate()
+    expect(!!res.match('view')).toBeTruthy()
+})
