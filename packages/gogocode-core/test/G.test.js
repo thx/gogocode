@@ -828,3 +828,25 @@ test('parse html contains > ', () => {
     console.log(res)
     expect(!!res.match('1<5</dd>')).toBeTruthy()
 })
+
+test('parse html attr contains > ', () => {
+    let res = $(`
+    <dd class="1<a">1<5</dd> <view>我是打酱油</view>
+    `, { parseOptions: { language: 'html' } })
+        .replace(`<dd $$$1>$$$2</dd>`,
+        `<dd test="zpzpzpzp" $$$1>$$$2</dd>`)
+        .generate()
+    console.log(res)
+    expect(!!res.match('1<5</dd>')).toBeTruthy()
+})
+
+test('parse html attr contains > ', () => {
+    let res = $(`
+    <dd class="1<5">1<5</dd> <view>我是打酱油</view>
+    `, { parseOptions: { language: 'html' } })
+        .replace(`<dd $$$1>$$$2</dd>`,
+        `<dd test="zpzpzpzp" $$$1>$$$2</dd>`)
+        .generate()
+    console.log(res)
+    expect(!!res.match('1<5</dd>')).toBeTruthy()
+})
