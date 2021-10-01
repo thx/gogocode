@@ -117,13 +117,13 @@ $(code)
 <br>
 下图是选择器通过find匹配到的整句代码对应的AST节点：  
 
-![img](https://alp.alicdn.com/1615836728401-2250-646.png)
+<img src="http://alp.alicdn.com/1615836728401-2250-646.png" />
 
 <br>
 
 下图是是 `$_$1` 和 `$_$2` 分别匹配到的节点以及对应的输出
 
-![img](https://alp.alicdn.com/1615836725013-1244-520.png)  
+<img src="http://alp.alicdn.com/1615836725013-1244-520.png"/>
 
 
 ### .parent(level)
