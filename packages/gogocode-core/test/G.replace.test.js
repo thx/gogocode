@@ -816,3 +816,21 @@ test('parse html replace comments', () => {
         .generate()
     expect(!!res.match('view')).toBeTruthy()
 })
+
+test('parse html replace SpreadElement', () => {
+    let res = $(`
+    ({
+        methods: {
+            ...a({
+                f: 'f'
+            }),
+            ...b({
+                d: 'd'
+            })
+        }
+    })
+    `)
+        .replace(`methods: { $$$ }`, `methods: { $$$, c: 'c', ...d() }`)
+        .generate()
+    expect(res.match('...d') && res.match(`'c'`)).toBeTruthy()
+})

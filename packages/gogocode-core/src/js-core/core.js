@@ -148,7 +148,7 @@ const core = {
                     ast = buildMap.Decorators(str)
                     return ast
                 } else {
-                    throw new Error(str)
+                    throw new Error(`buildAstByAstStr failed:${str}`)
                 }
             }
         } catch(error) {
@@ -214,7 +214,7 @@ const core = {
                             let codeStr = generate(item);
                             try {
                                 // 嵌套replace
-                                const childAst = core.buildAstByAstStr(generate(item));
+                                const childAst = core.buildAstByAstStr(codeStr);
                                 core.replaceSelBySel(childAst, selector, replacer, strictSequence, parseOptions, expando);
                                 codeStr = generate(childAst)
                             } catch(e) { // 
@@ -256,7 +256,12 @@ const core = {
                 if (!replacer) {
                     core.removePathSafe(path)
                 } else {
-                    let replacerAst = core.buildAstByAstStr(newReplacer);
+                    let replacerAst = null;
+                    try {
+                        replacerAst = core.buildAstByAstStr(newReplacer);
+                    } catch(e) { 
+                        //
+                    }
                     if (buildMap[path.node.type]) {
                         try {
                             if (buildMap[path.node.type](newReplacer)) {
@@ -265,6 +270,9 @@ const core = {
                         } catch(e) {
                             //
                         }
+                    }
+                    if (!replacerAst) {
+                        throw new Error(`replace failed: ${newReplacer} cannot be parsed!`)
                     }
                     if (replacerAst.expression && replacerAst.expression.type != 'AssignmentExpression' && path.parentPath.name != 'body') {
                         replacerAst = replacerAst.expression
