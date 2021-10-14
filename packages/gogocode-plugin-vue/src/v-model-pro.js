@@ -3,6 +3,7 @@ const scriptUtils = require('../utils/scriptUtils');
 const { appendEmitsProp } = scriptUtils;
 
 module.exports = function (sourceAst, { gogocode: $ }, options) {
+    // 迁移指南: https://v3.cn.vuejs.org/guide/migration/v-model.html
     // 找到 .sync 属性
     // 删除 .sync 属性，使用:title 和 @update:title 替代
     // 不需要将props 里面的 value 替换成modelValue，只需要将v-model="" 替换成 v-model:value=""
