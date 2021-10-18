@@ -31,7 +31,8 @@ const core = {
             }
             return sel;
         });
-        const posStrList = [];
+        // const posStrList = [];
+        const reachedNodeList = [];
         selectorAst.forEach((item) => {
             const res = find.call(
                 ast,
@@ -42,17 +43,22 @@ const core = {
                 expando
             );
             res.nodePathList.forEach((p, i) => {
-                let posStr = '';
-                if (p.node.content.openStart) {
-                    posStr = `${p.node.content.openStart.startPosition},${p.node.content.openEnd.endPosition}`;
-                } else if (p.node.content.value) {
-                    posStr = `${p.node.content.value.startPosition},${p.node.content.value.endPosition}`;
-                }
-                if (posStrList.indexOf(posStr) == -1) {
-                    // 去重
+                // let posStr = '';
+                // if (p.node.content.openStart) {
+                //     posStr = `${p.node.content.openStart.startPosition},${p.node.content.openEnd.endPosition}`;
+                // } else if (p.node.content.value) {
+                //     posStr = `${p.node.content.value.startPosition},${p.node.content.value.endPosition}`;
+                // }
+                // if (posStrList.indexOf(posStr) == -1) {
+                //     // 去重
+                //     nodePathList.push(p);
+                //     matchWildCardList.push(res.matchWildCardList[i]);
+                //     posStrList.push(posStr);
+                // }
+                if (reachedNodeList.indexOf(p.node.content) == -1) {
                     nodePathList.push(p);
                     matchWildCardList.push(res.matchWildCardList[i]);
-                    posStrList.push(posStr);
+                    reachedNodeList.push(p.node.content)
                 }
             });
         });

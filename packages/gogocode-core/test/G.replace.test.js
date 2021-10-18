@@ -781,3 +781,56 @@ test('$.replace: this replace should be ok', () => {
     .generate()
     expect(res.match('D = 4')).toBeTruthy()
 })
+
+test('parse html  data-id', () => {
+    let res = $(`
+        <div>
+            <block class="zpzp" data-id="zpid">我是内容</block>
+
+            <block class="zp" data-id="zpid">我也是内容</block>
+
+            <block class="zp" data-id="zpid">打酱油的来了</block>
+        </div>
+    `, { parseOptions: { language: 'html' } })
+        .replace(
+            '<$_$1 class="$_$2" $$$1>$$$2</$_$1>',
+            '<$_$1 $$$1>$$$2</$_$1>'
+        )
+        .replace(
+            '<$_$1 data-id="$_$2" $$$1>$$$2</$_$1>',
+            '<$_$1 $$$1>$$$2</$_$1>'
+        )
+        .generate()
+    console.log(res)
+    expect(!res.match('data-id')).toBeTruthy()
+})
+
+
+test('parse html replace comments', () => {
+    let res = $(`
+        <div class="a">1</div>
+        <div class="a">2</div>
+        <!-- <view>TEST</view> -->
+    `, { parseOptions: { language: 'html' } })
+        .replace('<view></view>', '<div>也替换了嘛？算正常不？</div>')
+        .generate()
+    expect(!!res.match('view')).toBeTruthy()
+})
+
+test('parse html replace SpreadElement', () => {
+    let res = $(`
+    ({
+        methods: {
+            ...a({
+                f: 'f'
+            }),
+            ...b({
+                d: 'd'
+            })
+        }
+    })
+    `)
+        .replace(`methods: { $$$ }`, `methods: { $$$, c: 'c', ...d() }`)
+        .generate()
+    expect(res.match('...d') && res.match(`'c'`)).toBeTruthy()
+})

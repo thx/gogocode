@@ -24,8 +24,8 @@ export default {
     return {
       name: 'v-model',
       version: Vue.version,
-	  pageTitle: '',
-	  pageTitle2: ''
+	    pageTitle: '',
+	    pageTitle2: ''
     };
   },
   components: {
