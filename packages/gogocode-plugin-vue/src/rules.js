@@ -83,6 +83,7 @@ module.exports = [
         test: /\.vue$/,
     },
     { name: 'watch', rule: watch, test: /\.vue$|\.js$|\.ts$/ },
+    //keyAttribute 规则要放到 vIfvFor 后面执行
     { name: 'keyAttribute', rule: keyAttribute, test: /\.vue$/ },
     {
         name: 'package-json',
