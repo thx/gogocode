@@ -7,5 +7,6 @@ module.exports = {
     'StringLiteral': ',',
     'JSXElement': '\n',
     'ImportSpecifier': ',',
-    'TSEnumMember': ','
+    'TSEnumMember': ',',
+    'SpreadElement': ','
 }

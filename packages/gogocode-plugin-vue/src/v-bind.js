@@ -1,5 +1,5 @@
 module.exports = function (sourceAst) {
-    // 迁移指南: https://v3.cn.vuejs.org/guide/migration/v-if-v-for.html
+    // 迁移指南: https://v3.cn.vuejs.org/guide/migration/v-bind.html
     const templateAst = sourceAst.find('<template></template>');
     if (templateAst.length === 0) {
         return sourceAst;

@@ -12,6 +12,7 @@ function getSelector(selectorCode, parseOptions, expando = 'g123o456g789o') {
         return selector;
     } else {
         selectorCode = selectorCode
+            .trim()
             .replace(/\$_\$/g, expando)
             .replace(/\$\$\$/g, expando.slice(0, -1) + '$3')
     }
