@@ -16,8 +16,8 @@
       ></el-slider>
     </div>
     <div class="audio-player-time">
-      {{ duration_filter(displayTime * 1000) }}/{{
-        $filters.date(duration_filter((duration * 1000) | duration))
+      {{ duration_filter(3 || false) }}/{{
+        $filters.date(duration_filter(duration * 1000))
       }}
     </div>
     <audio
@@ -33,7 +33,10 @@
     ></audio>
   </div>
 </template>
+
 <script>
+import * as Vue from 'vue'
+Vue.filter('ff')('ss')
 export default {
   props: ['src'],
   data() {
@@ -115,6 +118,7 @@ export default {
   },
 }
 </script>
+
 <style scoped>
 h1 {
   color: #64b587;

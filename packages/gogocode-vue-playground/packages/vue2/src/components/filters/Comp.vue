@@ -16,7 +16,7 @@
       ></el-slider>
     </div>
     <div class="audio-player-time">
-      {{ (displayTime * 1000) | duration }}/{{ (duration * 1000) | duration | date}}
+      {{ (3 || false) | duration }}/{{ (duration * 1000) | duration | date}}
     </div>
     <audio
       :src="src"

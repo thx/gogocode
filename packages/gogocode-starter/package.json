@@ -30,6 +30,6 @@
   "author": "zhuori",
   "license": "ISC",
   "dependencies": {
-    "gogocode": "^1.0.14"
+    "gogocode": "^1.0.37"
   }
 }

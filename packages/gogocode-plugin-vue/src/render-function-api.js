@@ -11,7 +11,7 @@ module.exports = function (ast, api, options) {
         return ast
     }
     let components = options && Array.isArray(options.components) ? options.components : []    
-    scriptAst.find([`render($$$1){$$$2}`, `render: $$$1 => $$$2`, `render: function($$$1){$$$2}`, `function render($$$1){$$$2}`]).each(node => {
+    scriptAst.find([`render(){$$$}`, `render: () => $$$`, `render: function(){$$$}`, `function render(){$$$}`]).each(node => {
         node.find(`Vue.h($$$)`).each(ast => {
             let args = ast.attr('arguments') || []
             args.forEach((arg, index) => {

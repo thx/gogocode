@@ -7,19 +7,18 @@ function callSeq(scopedFilterList, arr, index) {
     }
 
     if (scopedFilterList.includes(arr[index])) {
-        return `${scopedFilterList.includes(arr[index]) ? '' : '$filters.'}${
-            arr[index]
-        }_filter(${callSeq(scopedFilterList, arr, index + 1)})`;
-    } else {
-        return `$filters.${arr[index]}(${callSeq(
+        return `${scopedFilterList.includes(arr[index]) ? '' : '$filters.'}${arr[index]}_filter(${callSeq(
             scopedFilterList,
             arr,
             index + 1
         )})`;
+    } else {
+        return `$filters.${arr[index]}(${callSeq(scopedFilterList, arr, index + 1)})`;
     }
 }
 
-module.exports = function (ast) {
+module.exports = function (ast, api) {
+    const $ = api.gogocode;
     const vueAppName = 'window.$vueApp';
     const isVueFile = ast.parseOptions && ast.parseOptions.language === 'vue';
     const script = isVueFile ? ast.find('<script></script>') : ast;
@@ -33,12 +32,11 @@ module.exports = function (ast) {
 
         const filterName = match[1][0].value;
 
-        if(match[2]) {
-            const functionStr = match[2][0].value;   
+        if (match[2]) {
+            const functionStr = match[2][0].value;
             filterAst.replaceBy(
                 `(${vueAppName}.config.globalProperties.$filters || (${vueAppName}.config.globalProperties.$filters = {})).${filterName} = ${functionStr}`
             );
-
         }
     });
 
@@ -56,10 +54,7 @@ module.exports = function (ast) {
                 if (functionStr.indexOf(filterName) === 0) {
                     scriptUtils.addMethod(
                         script,
-                        `${functionStr.replace(
-                            new RegExp(`^${filterName}`),
-                            `${filterName}_filter`
-                        )}`
+                        `${functionStr.replace(new RegExp(`^${filterName}`), `${filterName}_filter`)}`
                     );
                 } else {
                     scriptUtils.addMethod(script, `${filterName}_filter: ${functionStr}`);
@@ -78,21 +73,19 @@ module.exports = function (ast) {
                 const html = _.get(node, 'content.value.content', '');
                 if (node.nodeType === 'text' && html) {
                     const html = _.get(node, 'content.value.content');
-                    const reg = /\{\{\s*([^{}]+)(?:\s+\|\s+([^{}]+))+\s*\}\}/g;
-                    const innerReg = /\s+\|\s+(\w+)/g;
-                    const newHtml = html.replace(reg, (mustacheHtml, firstElemnt) => {
-                        const matchArr = [firstElemnt];
-                        let res;
-                        while ((res = innerReg.exec(mustacheHtml))) {
-                            matchArr.push(res[1]);
-                        }
-                        matchArr.reverse();
+                    const reg = /\{\{\s*[^{}]+(?:\s+\|\s+([^{}]+))+\s*\}\}/g;
 
-                        const newMustacheHtml = `{{ ${callSeq(
-                            scopedFilterList,
-                            matchArr,
-                            0
-                        )} }}`;
+                    const newHtml = html.replace(reg, (mustacheHtml) => {
+                        const res = $(mustacheHtml).find(`$_$1 | $_$2`);
+                        const matchArr = []
+                        res.each((item, index) => {
+                            matchArr.push(item.match[2][0].value);
+                            if (res.length - 1 == index) {
+                                matchArr.push(item.match[1][0].value);
+                            }
+                        });
+
+                        const newMustacheHtml = `{{ ${callSeq(scopedFilterList, matchArr, 0)} }}`;
                         return newMustacheHtml;
                     });
                     node.content.value.content = newHtml;

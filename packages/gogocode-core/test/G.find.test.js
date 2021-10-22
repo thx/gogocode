@@ -1004,3 +1004,12 @@ test('$.find: match string', () => {
         .find('function $_$() {}', { deep: 'n' })
     expect(res.length == 2).toBeTruthy()
 })
+
+test('$.find: match string', () => {
+    let res = $(`<div>
+        <p v-if=""></p>
+    </div>`, { parseOptions: { language: 'html'}})
+        .find(`
+        <p></p>`)
+    expect(res.length == 1).toBeTruthy()
+})
