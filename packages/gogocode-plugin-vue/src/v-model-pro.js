@@ -1,6 +1,7 @@
 const scriptUtils = require('../utils/scriptUtils');
 
 const { appendEmitsProp } = scriptUtils;
+const nativeInput = ['input', 'textarea', 'select'];
 
 module.exports = function (sourceAst, { gogocode: $ }, options) {
     // 迁移指南: https://v3.cn.vuejs.org/guide/migration/v-model.html
@@ -14,6 +15,7 @@ module.exports = function (sourceAst, { gogocode: $ }, options) {
             attrs.forEach((attr) => {
                 let key = attr.key.content;
                 const syncIndex = key.indexOf('.sync');
+                const compName = (ast.attr('content.name') || '').toLowerCase();
                 if (syncIndex > -1) {
                     const mIndex = key.indexOf(':');
                     if (mIndex > -1) {
@@ -23,7 +25,7 @@ module.exports = function (sourceAst, { gogocode: $ }, options) {
                         attr.key.content = 'v-model:value';
                     }
                 } else {
-                    if (key === 'v-model') {
+                    if (key === 'v-model' && nativeInput.indexOf(compName) < 0) {
                         attr.key.content = 'v-model:value';
                     }
                 }
