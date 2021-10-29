@@ -49,7 +49,7 @@ Try this demo out at our [Playground](https://play.gogocode.io/#code/N4IglgdgDgr
 
 ## Support
 
-- [issues](/issues)
+- [issues](https://github.com/thx/gogocode/issues)
 - Ding Group：34266233
 - QQ Group：735216094
 
