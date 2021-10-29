@@ -6,15 +6,14 @@
 
 GoGoCode is a transformer for JavaScript/Typescript/HTML based on AST but providing a more intuitive API:
 
-- A jQuery-like API to navigate and transform the AST.
-- A Regex-like syntax to match and modify code.
+- A jQuery-like API to select and transform the AST.
+- A Regex-like syntax to match and replace code.
 
 Learn more at the [GoGoCode.io](https://gogocode.io)
 
-
 ## Intro
 
-Let's show you both select and modify API useage:
+Let's show you both select and modify API usage:
 
 ### In
 
@@ -50,9 +49,9 @@ Try this demo out at our [Playground](https://play.gogocode.io/#code/N4IglgdgDgr
 
 ## Support
 
+- [issues](/issues)
 - Ding Group：34266233
 - QQ Group：735216094
-
 
 ## License
 
