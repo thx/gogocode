@@ -7,16 +7,16 @@
 
 [中文 README](README-cn.md)
 
-GoGoCode is a transformer for JavaScript/Typescript/HTML based on AST but providing a more intuitive API:
+GoGoCode is a transformer for JavaScript/Typescript/HTML based on AST but providing an intuitive API:
 
--   A jQuery-like API to select and transform the AST.
+-   A jQuery-like API to select and transform AST.
 -   A Regex-like syntax to match and replace code.
 
-Learn more at the [GoGoCode.io](https://gogocode.io)
+Learn more at [GoGoCode.io](https://gogocode.io)
 
 ## Intro
 
-Let's show you both select and modify API usage:
+Let's show you how to select and modify code with our API
 
 ### In
 
@@ -32,10 +32,10 @@ const $ = require('gogocode');
 const script = $(source);
 // use $_$ as a wildcard to match AST element at any position you want
 const aAssignment = script.find('const a = $_$');
-// get the matched AST element value
+// get matched AST element value
 const aValue = aAssignment.match?.[0]?.[0]?.value;
 // replace AST as same as replace a string
-// but ignore the code format (space、indent or linebreak)
+// but ignore code format (space、indent or linebreak)
 script.replace('const b = $_$', `const b = ${aValue}`);
 // generate ast to string
 const outCode = script.generate();
