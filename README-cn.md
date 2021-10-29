@@ -40,7 +40,7 @@ script.replace('const b = $_$', `const b = ${aValue}`);
 const outCode = script.generate();
 ```
 
-### Out
+### 转换后代码
 
 ```javascript
 const a = 1;
