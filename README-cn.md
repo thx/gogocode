@@ -1,4 +1,4 @@
-[![Code transform has never been easier: GoGoCode](https://img.alicdn.com/imgextra/i4/O1CN01HAapvL1mOrGHZwJN3_!!6000000004945-2-tps-1949-552.png)](https://gogocode.io)
+[![Code transform has never been easier: GoGoCode](https://img.alicdn.com/imgextra/i3/O1CN01mosd7H1tHiOY3uxB2_!!6000000005877-2-tps-1949-552.png)](https://gogocode.io)
 
 [![npm version](https://img.shields.io/npm/v/gogocode.svg)](https://www.npmjs.com/package/gogocode) [![license](https://img.shields.io/npm/l/gogocode.svg)](LICENSE)
 
