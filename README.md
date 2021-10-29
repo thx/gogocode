@@ -14,7 +14,7 @@ Learn more at the [GoGoCode.io](https://gogocode.io)
 
 ## Intro
 
-Let's show you both select and modify API useage w
+Let's show you both select and modify API useage:
 
 ### In
 
