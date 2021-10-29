@@ -2,31 +2,10 @@
   <div>
     <p>迁移：{{ name }}</p>
     <p>Vue版本：{{ version }}</p>
-    <input type="button" @click.prevent="tag_class" value="button" />
-    <a-select
-          placeholder="请选择市"
-          :disabled="true"
-          @blur="saveToSession"
-          v-model="domain.cityName"
-          style="width: 200px;margin-right:20px"
-          allowClear
-        >
-          <a-select-option v-for="city in domain.cities" :key="city.id" :value="city.name">
-            {{ city.name }}
-          </a-select-option>
-        </a-select>
+    <input type="button" @click.prevent="tag_class" value="button" />    
     <transition>
       <h1 v-if="clobj">this is h1</h1>
     </transition>
-
-    <transition name="slide">
-      <div class="z-10">z10</div>
-    </transition>
-
-    <transition name="menina-nav-fade" appear>
-      <div class="z-20">z20</div>
-    </transition>
-   
   </div>
 </template>
 
