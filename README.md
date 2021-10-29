@@ -1,6 +1,6 @@
 [![Code transform has never been easier: GoGoCode](https://img.alicdn.com/imgextra/i4/O1CN01HAapvL1mOrGHZwJN3_!!6000000004945-2-tps-1949-552.png)](https://gogocode.io)
 
-[![npm version](https://img.shields.io/npm/v/gogocode.svg)](https://www.npmjs.com/package/svelte) [![license](https://img.shields.io/npm/l/gogocode.svg)](LICENSE.md) 
+[![npm version](https://img.shields.io/npm/v/gogocode.svg)](https://www.npmjs.com/package/gogocode) [![license](https://img.shields.io/npm/l/gogocode.svg)](LICENSE) 
 
 
 ## What is GoGoCode?
