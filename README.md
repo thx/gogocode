@@ -32,7 +32,8 @@ const script = $(source)
 const aAssignment = script.find('const a = $_$')
 // get the matched AST element value
 const aValue = aAssignment.match?.[0]?.[0]?.value
-// replace AST as same as replace a string but ignore the code format (space、indent or linebreak)
+// replace AST as same as replace a string 
+// but ignore the code format (space、indent or linebreak)
 script.replace('const b = $_$', `const b = ${aValue}`)
 // generate ast to string
 const outCode = script.generate()
