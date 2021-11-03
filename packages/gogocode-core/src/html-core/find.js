@@ -159,7 +159,7 @@ function find(nodeType, structure, strictSequence, deep, expando = 'g123o456g789
     let isMatch = false;
     Expando = expando
     const traverseMap = {
-        tag: nodeType == 'tag' ? [{
+        tag: (nodeType == 'tag' || nodeType == 'script') ? [{
             value: (structure.content.name || '').match(Expando) ? '' : structure.content.name,
             handle(tagContent, { attrMap, parentRef, nodeRef } = {}) {
                 tagContent, attrMap, parentRef
@@ -181,7 +181,7 @@ function find(nodeType, structure, strictSequence, deep, expando = 'g123o456g789
             }
         }]: []
     }
-    if (nodeType != 'tag' && nodeType != 'text') {
+    if (nodeType != 'tag' && nodeType != 'script' && nodeType != 'text') {
         traverseMap[nodeType] = [{
             handle(node) {
                 nodePathList.push(linkParentPath(node));
