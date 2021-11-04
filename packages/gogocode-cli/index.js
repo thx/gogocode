@@ -20,7 +20,7 @@ const transform = require('./src/commands/transform');
         });
 
     program.option('-t, --transform <package name or path>', 'plugin path or npm package name, supports multiple plugins, separated by commas')
-        .option('-o, --out <path>', 'output file path')
+        .option('-o, --out <path>', 'output file path, if not input use src path instead')
         .option('-s, --src <path>', 'source file path')
         .option('-d, --dry', 'dry run (no changes are made to files)')
         .option('-p, --params <key=value>','params direct to plugin, eg: format=true&test=false')
