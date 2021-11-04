@@ -22,7 +22,7 @@ module.exports = (ast, transformMap = {}, filePath, deleteComment) => {
             parentRef: node.parentRef,
             filePath
         }
-        if (node.nodeType == 'tag') {  // 标签处理
+        if (node.nodeType == 'tag' || node.nodeType == 'script') {  // 标签处理
             // 属性处理
             const attrs = node.content.attributes || [];
             const attrMap = {};

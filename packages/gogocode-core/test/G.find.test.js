@@ -619,7 +619,7 @@ test('$.find: script code result should be ok', () => {
     const G = $(hc1, config.html);
     const result = G.find('<script>$_$</script>');
     const match = result.match;
-    expect(match).toBe(` var a = '1';`);
+    expect(match[0][0].value).toBe(` var a = '1';`);
 })
 test('$.find: style code result should be ok', () => {
     const G = $(hc1, config.html);
@@ -1012,4 +1012,10 @@ test('$.find: match string', () => {
         .find(`
         <p></p>`)
     expect(res.length == 1).toBeTruthy()
+})
+
+test('$.find: match string', () => {
+    let res = $(`<script attr="5" data="10" ></script> `, { parseOptions: { language: 'html'}})
+        .find(`<script attr="$_$1" $$$1></script>`)
+    expect(res.match[1] && res.match['$$$1']).toBeTruthy()
 })
