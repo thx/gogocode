@@ -86,3 +86,10 @@ test('$.parent: simple1 html code result should be ok', () => {
     const psCode = parent.generate();
     expect(psCode.indexOf('<head>' >  -1)).toBeTruthy();
 })
+
+test('$.parent: simple1 html code result should be ok', () => {
+    let res = $(`that.fun('test').fun1().fun2()`)
+    .find(`fun`)
+    .parent({ type: 'MemberExpression'})
+    expect(res.length == 3).toBeTruthy();
+})

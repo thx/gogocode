@@ -22,7 +22,8 @@ const ignoreTypeList = [
     'Import',
     'ImportSpecifier', 'ImportDefaultSpecifier', 'ImportNamespaceSpecifier',
     'exportSpecifier', 'exportDefaultSpecifier', 'exportNamespaceSpecifier',
-    'ThisExpression'
+    'ThisExpression',
+    'ReturnStatement'
 ];
 const filterProps = function (node, structure, propList, expando) {
     const props = propList || Props;

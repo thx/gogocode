@@ -223,8 +223,12 @@ const core = {
                             return codeStr
                             // 
                         }).join(join)
-                        // 不能都用,连接，还是需要找到$_$
+                        // 不能都用,连接，需要找到$_$
 
+                        if (!wildCardCode) {
+                            // 通配符匹配为空时，去掉通配符后面可能出现的逗号
+                            newReplacer = newReplacer.replace(new RegExp(`\\$\\$\\$${key$$$}\\s*,`), '')
+                        }
                         newReplacer = newReplacer.replace('$$$' + key$$$, wildCardCode.replace(/\$/g,'$$$$'));
                         // 如果wildCardCode存在`$'`，会被命中替换，因此对$进行处理(https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace)
                     } else {

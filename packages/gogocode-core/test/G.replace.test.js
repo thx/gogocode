@@ -856,3 +856,28 @@ test('$.replace: multi script replace', () => {
         .generate()
     expect(res.match('newattr="newvalue"') && res.match('var b = 1')).toBeTruthy()
 })
+
+test('$.replace: multi script replace', () => {
+    let res = $(`export default {};`)
+    .replace('export default {$$$}', 'export default {$$$, data:{}}').generate()
+    expect(res.match('data')).toBeTruthy()
+})
+
+test('$.replace: template $$$ replace', () => {
+    let res = $(`  <div>
+    hello, 
+    <span>{{ name }}</span>
+    <span>{{ id }}</span>
+  </div>`, { parseOptions: { language: 'html'} })
+    .replace('<div>hello, $$$1</div>', '<div>bye, $$$1</div>').generate()
+    expect(!res.match('hello')).toBeTruthy()
+})
+
+test('$.replace: template $$$ replace', () => {
+    let res = $(`  <div>
+    <span>hello, </span>
+    <span>{{ name }}</span>
+  </div>`, { parseOptions: { language: 'html'} })
+    .replace('<div><span>hello, </span>$$$1</div>', '<div>bye, $$$1</div>').generate()
+    expect(!res.match('hello')).toBeTruthy()
+})
