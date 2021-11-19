@@ -211,3 +211,14 @@ test('$.before: insert decorator', () => {
     .generate()
     expect(res.match('@decorator') && res.match('@decorator11')).toBeTruthy();
 })
+
+test('$.before: insert decorator', () => {
+    let res = $(`that.fun('test')
+    `)
+    .find('that.fun($_$)').parent()
+
+    res.before("\n//before\n")
+    res.after("\n//after\n")
+    res = res.root().generate()
+    expect(res.match('after')).toBeTruthy();
+})

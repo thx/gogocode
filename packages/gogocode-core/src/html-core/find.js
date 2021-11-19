@@ -115,23 +115,42 @@ function find$$$(partial, full, extraData, strictSequence) {
     // 先考虑strctSequence = false的情况
     let key$$$;
     let index$$$ = -1;
-    partial.forEach((p, i) => {
+    let i = 0;
+    while(partial[i]) {
+        const p = partial[i];
         for (const key in p) {
             // 属性中包含$$$
-            let value = null;
+            let value = '';
             if (p[key] && p[key].value && p[key].value.content) {
                 value = p[key].value.content
             } else if (p[key] && p[key].content) {
                 value = p[key].content
             }
+            if (p.nodeType == 'text') {
+                const start = value.indexOf(Expando.slice(0, -1) + '$3')
+                if (start > -1 && value.slice(0, start).trim()) {
+                    p.content.value.content = value.slice(0, start)
+                    partial[i + 1] = {
+                        nodeType: 'text',
+                        content: {
+                            value: {
+                                content: value.slice(start),
+                                type:'token:text'
+                            }
+                        }
+                    }
+                    value = p.content.value.content
+                }
+            }
             if (value && value.match && value.match(new RegExp(Expando.slice(0, -1) + '\\$3'))) {
-                key$$$ = value.replace(new RegExp(Expando.slice(0, -1) + '\\$3'), '') || '$'
+                key$$$ = value.match(new RegExp(`(?<=${Expando.slice(0, -1)}\\$3)([0-9]|[a-z]|[A-Z])*`))[0] || '$'
                 index$$$ = i;
-          
+
                 break;
             }
         }
-    })
+        i++
+    }
     if (!key$$$) {
         return false;
     }
@@ -159,7 +178,7 @@ function find(nodeType, structure, strictSequence, deep, expando = 'g123o456g789
     let isMatch = false;
     Expando = expando
     const traverseMap = {
-        tag: nodeType == 'tag' ? [{
+        tag: (nodeType == 'tag' || nodeType == 'script') ? [{
             value: (structure.content.name || '').match(Expando) ? '' : structure.content.name,
             handle(tagContent, { attrMap, parentRef, nodeRef } = {}) {
                 tagContent, attrMap, parentRef
@@ -181,7 +200,7 @@ function find(nodeType, structure, strictSequence, deep, expando = 'g123o456g789
             }
         }]: []
     }
-    if (nodeType != 'tag' && nodeType != 'text') {
+    if (nodeType != 'tag' && nodeType != 'script' && nodeType != 'text') {
         traverseMap[nodeType] = [{
             handle(node) {
                 nodePathList.push(linkParentPath(node));

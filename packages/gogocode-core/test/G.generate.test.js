@@ -135,6 +135,41 @@ test('$.generate: selfclose tag generate should be ok', () => {
     expect(str.indexOf(`<!-- sdd -->`) > -1).toBeTruthy();
 })
 
+test('$.generate: selfclose tag generate should be ok', () => {
+    const str = $(`<a-table :columns="columns"></a-table>`, { parseOptions: { language: 'html' } })
+    .find('<$_$ $_$1=$_$2></$_$>')
+    .each((item) => {
+        const attrs = item.attr('content.attributes')
+        attrs.forEach((attr, index) => {
+          if (attr.key && attr.key.content && attr.key.content.startsWith(':')) {
+            attr.key.content = attr.key.content.slice('1')
+            attr.value.content = `{${attr.value.content}}`
+            delete attr.startWrapper
+            delete attr.endWrapper
+          }
+        })
+    })
+    .generate();
+    expect(str.indexOf(`columns={columns}`) > -1).toBeTruthy();
+})
+
+test('$.generate: selfclose tag generate should be ok', () => {
+    const str = $(`<a-table :columns="columns"></a-table>`, { parseOptions: { language: 'html' } })
+    .find('<$_$ $_$1=$_$2></$_$>')
+    .each((item) => {
+        const attrs = item.attr('content.attributes')
+        attrs.forEach((attr, index) => {
+          if (attr.key && attr.key.content && attr.key.content.startsWith(':')) {
+            attr.key.content = attr.key.content.slice('1')
+            attr.startWrapper.content = '{'
+            attr.endWrapper.content = '}'
+          }
+        })
+    })
+    .generate();
+    expect(str.indexOf(`columns={columns}`) > -1).toBeTruthy();
+})
+
 // test('$.generate: import generate should be ok', () => {
 //     const res = $(`const baseUrl = import.meta.env.VITE_APP_WEB_API_URL;`)
 //     .generate();

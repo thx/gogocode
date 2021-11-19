@@ -122,17 +122,45 @@ class AST {
         }
         return newAST;
     }
-    parent(level = 0) {
+    parent(option) {
+        let level = 0;
+        if (typeof option == 'number') {
+            level = option
+        }
         if (!this[0]) {
             return this;
         }
         // if (!this[0].parentList) {
         initParent(this)
         // }
-        const parent = this[0].parentList[level]
+
+        let parent = [this[0].parentList[level]]
+        function parentMatch (full, partial) {
+            return Object.keys(partial).every(prop => {
+                if (!full || !partial) return false
+                if (!full[prop]) return false;
+                if (isObject(partial[prop])) {
+                    return parentMatch(full[prop], partial[prop])
+                } else {
+                    return full[prop] == partial[prop]
+                }
+            })
+        }
+
+        if (isObject(option)) {
+            parent = [];
+            this[0].parentList.forEach(p => {
+                if (parentMatch(p.node, option)) {
+                    parent.push(p)
+                }
+            })
+        }
+        
         const newAST = cloneAST(this)
-        if (parent) {
-            newAST[0] = { nodePath: parent, parseOptions: this.parseOptions };
+        if (parent[0]) {
+            parent.forEach((p, i) => {
+                newAST[i] = { nodePath: p, parseOptions: this.parseOptions };
+            })
             return newAST;
         } else {
             return this;

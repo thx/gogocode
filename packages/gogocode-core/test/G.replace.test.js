@@ -834,3 +834,50 @@ test('parse html replace SpreadElement', () => {
         .generate()
     expect(res.match('...d') && res.match(`'c'`)).toBeTruthy()
 })
+
+test('$.replace: script replace', () => {
+    let res = $(`<script attr="5" data="10" >var a = 1;
+    var b = 1</script> `, { parseOptions: { language: 'html'}})
+        .replace(`<script attr="$_$1" $$$1>$_$2</script>`, `<script newattr="newvalue" $$$1>$_$2</script>`)
+        .generate()
+    expect(res.match('newattr="newvalue"') && res.match('var a = 1')).toBeTruthy()
+})
+
+test('$.replace: multi script replace', () => {
+    let res = $(`
+    <script attr="5" data="10" >
+        var a = 1;
+        var b = 1
+    </script>
+    <script attr="6" >
+        var b = 1
+    </script> `, { parseOptions: { language: 'html'}})
+        .replace(`<script attr="$_$1" $$$1>$_$2</script>`, `<script newattr="newvalue" $$$1>$_$2</script>`)
+        .generate()
+    expect(res.match('newattr="newvalue"') && res.match('var b = 1')).toBeTruthy()
+})
+
+test('$.replace: multi script replace', () => {
+    let res = $(`export default {};`)
+    .replace('export default {$$$}', 'export default {$$$, data:{}}').generate()
+    expect(res.match('data')).toBeTruthy()
+})
+
+test('$.replace: template $$$ replace', () => {
+    let res = $(`  <div>
+    hello, 
+    <span>{{ name }}</span>
+    <span>{{ id }}</span>
+  </div>`, { parseOptions: { language: 'html'} })
+    .replace('<div>hello, $$$1</div>', '<div>bye, $$$1</div>').generate()
+    expect(!res.match('hello')).toBeTruthy()
+})
+
+test('$.replace: template $$$ replace', () => {
+    let res = $(`  <div>
+    <span>hello, </span>
+    <span>{{ name }}</span>
+  </div>`, { parseOptions: { language: 'html'} })
+    .replace('<div><span>hello, </span>$$$1</div>', '<div>bye, $$$1</div>').generate()
+    expect(!res.match('hello')).toBeTruthy()
+})

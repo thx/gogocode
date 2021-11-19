@@ -90,3 +90,24 @@ test('$.match: match params', () => {
     .find(`foo($_$1, $_$2)`)
     expect(!res.length).toBeTruthy();
 })
+
+test('$.match: match params', () => {
+    const res = $(`
+    function xx(){
+        var a =5;
+        return 6666
+    }`)
+    .find([
+        'function $_$xx(){return $_$return}',
+    ])
+    
+    expect(res.match['return'].length == 1).toBeTruthy();
+})
+
+// test('$.match: match params', () => {
+//     const res = $(`
+//     var tt = this, a = 1;`)
+//     .find('var $_$thisName = this')
+    
+//     expect(res.match['thisName'].length == 1).toBeTruthy();
+// })

@@ -17,6 +17,7 @@ const FILE_LIMIT_SIZE = 1024 * 200;
 function checkPath(srcPath, outPath, transform) {
     return new Promise((resolve, reject) => {
         if (!srcPath) {
+            console.error(`command error: need -s or --src`);
             reject();
             return;
         }
@@ -408,8 +409,15 @@ function handleCommand({ srcPath, outPath, transform, params, resolve, reject })
         reject(error);
     });
 }
-module.exports = ({ src: srcPath, out: outPath, transform, dry, params, info }) => {
-
+module.exports = ({ src: srcPath, out, transform, dry, params, info }) => {
+    // 没有输出路径，使用输入路径代替。做替换操作
+    let outPath = out || srcPath;
+    if (!out && srcPath) {
+        console.log();
+        console.log(chalk.yellow('warn: --out or -o not input , use src path instead'));
+        console.log();
+    }
+    
     PWD_PATH = process.cwd();
     CLI_INSTALL_PATH = path.resolve(__dirname, '../../');
     SHOW_INFO = info !== undefined;

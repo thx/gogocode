@@ -53,19 +53,31 @@ function serializeTagAttributes (attributes = []) {
   
         if (item.value !== undefined) {
         // 处理属性中的引号
-            let quota = '"';
-            if (item.value.content && item.value.content.match && item.value.content.match(quota)) {
-                quota = "'";
+            let quota = ['"', '"'];
+            if (item.startWrapper && item.startWrapper.content) {
+                quota[0] = item.startWrapper.content
+            } else {
+                quota[0] = ''
             }
+            if (item.endWrapper && item.endWrapper.content) {
+                quota[1] = item.endWrapper.content
+            } else {
+                quota[1] = ''
+            }
+            if (item.value.content && item.value.content.match && item.value.content.match(quota)) {
+                quota = ["'", "'"];
+            }
+
             if (item.value.content && item.value.content.trim && item.value.content.trim()[0] == '=') {
                 // 处理属性中的if语句{{#if(xx == bb)}}xxx{{/if(xx == bb)}}
-                serialized += `=${ item.value.content }`
+                quota = ['', '']
+                // serialized += `=${ item.value.content }`
             } else if (item.value.content && item.value.content.match && item.value.content.match(/\(/) && item.value.content.match(/\)/) && item.key.content.match(/\{\{/)) {
                 // 处理属性中的function语句{{ = body_updateState(this,crowd) }}
-                serialized += `=${ item.value.content }`
-            } else {
-                serialized += `=${quota}${ item.value.content }${quota}`
+                quota = ['', '']
+                // serialized += `=${ item.value.content }`
             }
+            serialized += `=${quota[0]}${ item.value.content }${quota[1]}`
         }
   
         return serialized
