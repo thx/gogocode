@@ -204,6 +204,6 @@ declare module 'gogocode' {
       writeFile(code: string, filename: string): void;
     }
   }
-  const $: GoGoCode.$;
-  export = $;
+  const GoGoCode: GoGoCode.$;
+  export = GoGoCode;
 }
