@@ -237,8 +237,8 @@ const core = {
                         if (matchLength == extra[key].length) {
                             extra[key].forEach(ext => {
                                 newReplacer = newReplacer
-                                    .replace(`'$_$${realKey}'`, ext.raw || ext.value)
-                                    .replace(`"$_$${realKey}"`, ext.raw || ext.value)
+                                    .replace(`'$_$${realKey}'`, `'${ext.value}'`)
+                                    .replace(`"$_$${realKey}"`, `"${ext.value}"`)
                                     .replace('$_$' + realKey, ext.raw || ext.value);
                             })
                         } else {
@@ -248,9 +248,13 @@ const core = {
                                 typeof item.value !== 'object' ? (item.raw || item.value) : ``
                             ).join(', ')
 
+                            let wildCardCodeNoQuot = extra[key].map(item => 
+                                typeof item.value !== 'object' ? (item.value) : ``
+                            ).join(', ')
+
                             newReplacer = newReplacer
-                                .replace(new RegExp(`'\\$_\\$${realKey}'`, 'g'), wildCardCode.replace(/\$/g,'$$$$'))
-                                .replace(new RegExp(`"\\$_\\$${realKey}"`, 'g'), wildCardCode.replace(/\$/g,'$$$$'))
+                                .replace(new RegExp(`'\\$_\\$${realKey}'`, 'g'), `'` + wildCardCodeNoQuot.replace(/\$/g,'$$$$') + `'`)
+                                .replace(new RegExp(`"\\$_\\$${realKey}"`, 'g'), `"` + wildCardCodeNoQuot.replace(/\$/g,'$$$$') + `"`)
                                 .replace(new RegExp(`\\$_\\$${realKey}`, 'g'), wildCardCode.replace(/\$/g,'$$$$'));
                             // 通过选择器替换ast，返回完整ast
                             // 如果wildCardCode存在`$'`，会被命中替换，因此对$进行处理(https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace)

@@ -390,14 +390,12 @@ class AST {
             filterProp(this[0].nodePath.node, node, [
                 'computed',
                 'range',
-                'loc',
-                'start',
-                'end',
                 'leadingComments',
                 'shorthand',
                 'extra',
                 'static',
-                'typeParameters'
+                'typeParameters',
+                'tokens'
             ]);
             nodePath = new NodePath(
                 // JSON.parse(JSON.stringify(this[0].nodePath.node)), 
