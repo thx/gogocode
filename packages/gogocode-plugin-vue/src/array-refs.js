@@ -3,7 +3,7 @@ module.exports = function(ast, api) {
 
     const template = ast.find('<template></template>')
 
-    if(!template.has('<$_$ v-for="$_$1" ref="$_$2" $$$1>$$$2</$_$>')) {
+    if(!template.has('<$_$1 v-for="$_$2" ref="$_$3" $$$1>$$$2</$_$1>')) {
         return ast;
     }
 
@@ -11,8 +11,8 @@ module.exports = function(ast, api) {
     template
     // 对带有v-for且有ref属性的标签，把ref属性名改为:ref,属性值改为函数调用getRefSetter(）传入之前的值
         .replace(
-            `<$_$ v-for="$_$1" ref="$_$2" $$$1>$$$2</$_$>`,
-            `<$_$ v-for="$_$1" :ref="getRefSetter('$_$2')" $$$1>$$$2</$_$>`
+            `<$_$1 v-for="$_$2" ref="$_$3" $$$1>$$$2</$_$1>`,
+            `<$_$1 v-for="$_$2" :ref="getRefSetter('$_$3')" $$$1>$$$2</$_$1>`
         );
 
     const scriptRes = ast // gennerate会返回完整的sfc
