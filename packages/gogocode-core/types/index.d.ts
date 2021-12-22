@@ -38,7 +38,7 @@ declare module 'gogocode' {
         value: string;
       }>;
     };
-    type NodeAndString = string | ASTNode;
+    type NodeAndString = string | Partial<ASTNode>;
     type Selector = NodeAndString;
     type Replacer = NodeAndString;
 
@@ -129,7 +129,7 @@ declare module 'gogocode' {
        * 修改多个属性名称对应的节点或属性值
        * @param attrMap { attrPath: attrValue }
        */
-      attr(attrMap: { [k: string]: ASTNode | string }): GoGoAST;
+      attr(attrMap: { [k: string]: NodeAndString }): GoGoAST;
       /**
        * 判断是否有某个子节点
        * @param selector 代码选择器，可以是代码也可以将代码中的部分内容挖空替换为通配符
