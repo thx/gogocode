@@ -35,13 +35,13 @@ class AST {
         this.parseOptions = parseOptions;
     }
     get node() {
-        return this[0].nodePath.node
+        return this[0] ? this[0].nodePath.node : null
     }
     get value() {
-        return this[0].nodePath.value
+        return this[0] ? this[0].nodePath.value : null
     }
     get match() {
-        return this[0].match
+        return this[0] ? this[0].match : []
     }
     get isHtml() {
         return this.parseOptions && (this.parseOptions.html || this.parseOptions.language == 'html');

@@ -66,3 +66,12 @@ test('$.clone: test vue', () => {
             });
     }).not.toThrow();
 })
+
+test('$.clone: test vue', () => {
+    const newAst = $(`const a = {
+        age: 22,
+        some: 'foo'
+        }`)
+        .clone()
+    expect(newAst.find('const a = { $$$ }').generate().match('age')).toBeTruthy()
+})
