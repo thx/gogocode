@@ -193,7 +193,10 @@ class AST {
             } else if (option == 'script') {
                 newAST[0] = { nodePath: this.rootNode.node.scriptAst }
             } else {
-                newAST.parseOptions = { language: 'vue' };
+                newAST.parseOptions = Object.assign(
+                    {}, 
+                    this.parseOptions, 
+                    { language: 'vue', rootLanguage: undefined });
             }
         }
         return newAST;
