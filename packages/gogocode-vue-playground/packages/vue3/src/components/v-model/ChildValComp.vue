@@ -1,21 +1,26 @@
 <template>
-  <input type="text" v-on:input="handleInput" />
+  	<input type="text" :value="text" />
 </template>
-
 <script>
 export default {
-  name: 'ChildValComp',
-  props: {
-    modelValue: String,
-  },
-  emits: ['update:modelValue'],
-  data() {
-    return {};
-  },
-  methods:{
-    handleInput:function(e){
-      this.$emit('update:modelValue', e.target.value);
-    }
-  }
+  	name: "ChildValComp",
+  	props: [value],
+  	data: function () {
+    	return {
+      	text: "",
+    	};
+  	},
+  	methods: {
+    	handleInput: function (e) {
+      	const { value } = this;
+      	const val = this.value;
+      	this.$emit("input", e.target.value);
+    	},
+  	},
+  	watch: {
+		value: {
+			handler(val, oldVal) {},
+		},
+  	},
 };
 </script>
