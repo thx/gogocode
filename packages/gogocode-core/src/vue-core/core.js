@@ -64,7 +64,10 @@ const core = {
         if (content) {
             const script = jsCore.buildAstByAstStr(
                 content, {},
-                { isProgram: true }
+                {
+                    isProgram: true,
+                    parseOptions: core.parseOptions
+                }
             );
             return new NodePath(script);
         } else {
@@ -74,6 +77,7 @@ const core = {
     buildAstByAstStr(str, astPatialMap = {}, { isProgram = false, parseOptions } = {}) {
         try {
             const program = parse(str, parseOptions);
+            core.parseOptions = parseOptions;
             if (program) {
                 if (isProgram) {
                     return program;
