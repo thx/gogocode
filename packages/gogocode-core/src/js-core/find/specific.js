@@ -1,5 +1,5 @@
 const generate = require('../generate')
-module.exports = function handleSpecific({ full, partial, prop, extraData, Expando } = {}) {
+module.exports = function handleSpecific({ full, partial, prop, extraData, Expando, find$$$ } = {}) {
     let specific, result;
     if (prop == 'body') {
         // 匹配一块代码
@@ -39,6 +39,12 @@ module.exports = function handleSpecific({ full, partial, prop, extraData, Expan
             extraData[expandoKey] = extraData[expandoKey] || [];
             extraData[expandoKey].push(full);
             result = true;
+        }
+    }
+    if (prop == 'specifiers') {
+        if ((!full[prop] || full[prop].length == 0) && partial[prop].length > 0) {
+            specific = 'specifiers',
+            result = false;
         }
     }
     return { specific, result }

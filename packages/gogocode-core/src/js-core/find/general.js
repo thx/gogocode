@@ -12,7 +12,7 @@ let Expando = 'g123o456g789o';
 
 function checkIsMatch(full, partial, extraData, strictSequence) {
     return Object.keys(partial).every((prop) => {
-        const { specific, result } = handleSpecific({ full, partial, prop, extraData, Expando });
+        const { specific, result } = handleSpecific({ full, partial, prop, extraData, Expando, find$$$ });
         if (specific) {
             return result;
         }

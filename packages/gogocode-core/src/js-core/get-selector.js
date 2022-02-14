@@ -20,7 +20,7 @@ function getSelector(selectorCode, parseOptions, expando) {
             .replace(/\/\$_\/\$/g, '$_$')
             .replace(/\/\$\/\$\/\$/g, '$$$$$$')
     }
-    if (selectorCode.match(/^{((.|\s)+:(.|\s)+)+}$/)) {
+    if (selectorCode.match(/^{((.|\s)+(:|\(\))(.|\s)+)+}$/)) {
         // 如果是对象字面量
         let ast = parse(`var o = ${selectorCode}`);
         ast = ast.program.body[0].declarations[0].init;

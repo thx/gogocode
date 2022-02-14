@@ -622,3 +622,16 @@ test('test vue parseoptions', () => {
   const res = script.generate()
   expect(res.match('import.meta.env.VITE_APP_BASE_URL')).toBeTruthy()
 })
+
+test('test vue parseoptions', () => {
+  const ast = $(
+    `<template>
+  <div v-if="a && b > 1">
+      foo
+  </div>
+</template>`,
+    { parseOptions: { language: 'vue' } }
+  )
+  const res = ast.generate()
+  expect(res.match('&&')).toBeTruthy()
+})

@@ -1019,3 +1019,47 @@ test('$.find: match string', () => {
         .find(`<script attr="$_$1" $$$1></script>`)
     expect(res.match[1] && res.match['$$$1']).toBeTruthy()
 })
+
+// test('$.find: match string', () => {
+//     let res = $(`const car1 = {
+//         size: 'small',
+//         color: 'red',
+//         init(a, b) {
+          
+//         }
+//       } `)
+//         .find(`{
+//             init() {}
+//           }`)
+//     expect(res.length == 1).toBeTruthy()
+// })
+
+test('$.find: match string', () => {
+    let res = $(`const car1 = {
+        size: 'small',
+        color: 'red',
+        init(a, b) {
+          
+        }
+      } `)
+        .find(`{
+            color: 'red'
+          }`)
+    expect(res.length == 1).toBeTruthy()
+})
+
+
+test('$.find: match string', () => {
+    let res = $(`import 'foo.css';
+    import { a } from 'bar';
+    import b from 'baz';
+    import c, { d } from 'far';`)
+        .find(`import { $$$ } from '$_$';`)
+    expect(res.length == 2).toBeTruthy()
+})
+
+test('$.find: match string', () => {
+    let res = $(`import 'foo.css';`)
+        .find(`import { $$$ } from '$_$';`)
+    expect(res.length == 0).toBeTruthy()
+})
