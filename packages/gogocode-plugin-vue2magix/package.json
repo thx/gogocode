@@ -1,0 +1,21 @@
+{
+  "name": "gogocode-plugin-vue2magix",
+  "version": "0.0.1",
+  "description": "gogocode-plugin-sample",
+  "scripts": {
+    "start": "gogocode -s input -t transform.js -o output"
+  },
+  "keywords": [
+    "gogocode",
+    "ast"
+  ],
+  "main": "transform.js",
+  "author": "chibing",
+  "license": "ISC",
+  "engines": {
+    "node": "*"
+  },
+  "devDependencies": {
+    "gogocode": "^1.0.17"
+  }
+}
