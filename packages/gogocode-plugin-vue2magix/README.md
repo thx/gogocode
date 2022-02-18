@@ -1,27 +1,27 @@
-作为 npm 包，项目根目录的 transform.js 会被 gogocode-cli 调用
+### 启动命令
 
-fileInfo 会包括 source 和 path 作为单个代码文件的内容和路径
-api 目前只有 gogocode 作为转换库注入
-options 将透传命令行的 options
 
-```javascript
+```
+npm start
+```
 
-module.exports = function(fileInfo, api, options) {
-  const sourceCode = fileInfo.source;
-  const $ = api.gogocode;
-  return $(sourceCode)
-    .replace('const a = $_$', 'const a = 2')
-    .generate();
+将 input 文件夹内的 html 和 js 转换并写入 output 文件夹
+
+### 开发注意
+
+在 rules 文件夹中编写转换规则，格式为
+
+```
+module.exports = function (ast) {
+    return ast
+        <!--      对 ast 进行操作    -->
+        .find()
+        .each()
+        .replace()
+        .root()
 };
-
 ```
 
-命令行调用方式：
+> 基础教程：https://gogocode.io/zh/docs/specification/basic
 
-
-```
-
-gogogcode --src script.js --out script-compiled.js --transform=transform.js
-
-
-```
+> api：https://gogocode.io/zh/docs/specification/category/get
