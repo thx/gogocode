@@ -10,9 +10,13 @@
     "start:vue2": "yarn workspace vue2 run start",
     "start:vue3": "yarn workspace vue3 run start"
   },
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": {
+    "packages": ["packages/*"],
+    "nohoist": ["**/vue", "**/vue/**", 
+                "**/vuex", "**/vuex/**",
+                "**/vue-router", "**/vue-router/**",
+                "**/@vue/cli-service", "**/@vue/cli-service/**"]
+  },
   "repository": "git@gitlab.alibaba-inc.com:mm/gogocode-vue-playground.git",
   "author": "chibing.fy",
   "license": "MIT",

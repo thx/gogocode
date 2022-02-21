@@ -28,26 +28,22 @@ new Vue({
   },
 });
 
-const vue2App = loadMicroApp({
-  name: 'vue2',
-  entry: '//localhost:7102',
-  container: '#vue2',
-});
+// const vue2App = loadMicroApp({
+//   name: 'vue2',
+//   entry: '//localhost:7102',
+//   container: '#vue2',
+// }, {
+//   sandbox: {
+//     strictStyleIsolation: true
+//   }
+// });
 
-const vue3App = loadMicroApp({
-  name: 'vue3',
-  entry: '//localhost:7103',
-  container: '#vue3',
-});
-
-class TestEle extends HTMLElement {
-  constructor() {
-    super();
-  }
-  connectedCallback() {
-    const div = document.createElement('div');
-    div.innerText = 'haha';
-    this.append(div);
-  }
-}
-window.customElements.define('test-ele', TestEle);
+// const vue3App = loadMicroApp({
+//   name: 'vue3',
+//   entry: '//localhost:7103',
+//   container: '#vue3',
+// }, {
+//   sandbox: {
+//     strictStyleIsolation: true
+//   }
+// });

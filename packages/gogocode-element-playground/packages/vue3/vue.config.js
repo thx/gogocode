@@ -14,12 +14,7 @@ module.exports = {
   lintOnSave: false,
   devServer: {
     hot: true,
-    disableHostCheck: true,
     port,
-    overlay: {
-      warnings: false,
-      errors: true,
-    },
     headers: {
       'Access-Control-Allow-Origin': '*',
     },
@@ -35,7 +30,6 @@ module.exports = {
       // 把子应用打包成 umd 库格式
       library: `${name}-[name]`,
       libraryTarget: 'umd',
-      jsonpFunction: `webpackJsonp_${name}`,
     },
   },
   chainWebpack: config => {

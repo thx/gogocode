@@ -9,18 +9,19 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@element-plus/icons": "^0.0.11",
     "core-js": "^3.6.5",
+    "element-plus": "^2.0.2",
     "mitt": "^2.1.0",
-    "vue": "^3.0.9",
-    "vue-router": "^4.0.0-beta.11",
-    "vuex": "^4.0.0-beta.4",
-    "tiny-emitter": "^2.1.0"
+    "tiny-emitter": "^2.1.0",
+    "vue": "^3.2.31",
+    "vue-router": "^4.0.12",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.9",
+    "@vue/cli-plugin-babel": "5.0.1",
+    "@vue/cli-plugin-eslint": "5.0.1",
+    "@vue/cli-service": "5.0.1",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.23.0",
     "eslint-plugin-vue": "^7.8.0"

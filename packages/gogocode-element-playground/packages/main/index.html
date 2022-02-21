@@ -50,10 +50,14 @@
           >
         </div>
       </div>
-    </div>
-    <div class="compare">
-      <div id="vue2">Vue2 loading...</div>
-      <div id="vue3">Vue3 loading...</div>
+      <div class="compare">
+        <div id="vue2">
+          <iframe :src="'//localhost:7102'+ selected" frameborder="0"></iframe>
+        </div>
+        <div id="vue3">
+          <iframe :src="'//localhost:7103'+ selected" frameborder="0"></iframe>
+        </div>
+      </div>
     </div>
   </body>
 </html>

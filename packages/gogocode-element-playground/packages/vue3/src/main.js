@@ -1,5 +1,7 @@
 import './public-path';
 import { createApp } from 'vue';
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
 import { createRouter, createWebHistory } from 'vue-router';
 import App from './App.vue';
 import routes from './router';
@@ -22,6 +24,7 @@ function render(props = {}) {
   window.$vueApp = instance;
   instance.use(router);
   instance.use(store);
+  instance.use(ElementPlus);
   instance.mount(container ? container.querySelector('#app') : '#app');
 }
 

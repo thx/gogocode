@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest",
     "t": "node ./t.js",
+    "start": "gogocode -s input -t transform.js -o output",
     "prepublishOnly": "npm run test"
   },
   "files": [
