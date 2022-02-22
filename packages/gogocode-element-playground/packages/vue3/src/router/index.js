@@ -32,8 +32,14 @@ const routes = [
     {
         path: '/date-time-pickers',
         name: 'date-time-pickers',
-        component: () => import(/* webpackChunkName: "date-time-pickers" */ '@/components/date-time-pickers/Comp-out.vue'),
+        component: () =>
+            import(/* webpackChunkName: "date-time-pickers" */ '@/components/date-time-pickers/Comp-out.vue'),
     },
+    {
+        path: '/tool-tip',
+        name: 'tool-tip',
+        component: () => import(/* webpackChunkName: "tool-tip" */ '@/components/tool-tip/Comp-out.vue'),
+      },
 ];
 
 export default routes;

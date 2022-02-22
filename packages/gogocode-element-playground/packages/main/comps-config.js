@@ -6,4 +6,5 @@ export const CompsConfig = [
   { link: '/sub-menu', text: 'sub-menu' },
   { link: '/pop-confirm', text: 'pop-confirm' },
   { link: '/date-time-pickers', text: 'date-time-pickers' },
+  { link: '/tool-tip', text: 'tool-tip' },
 ];
