@@ -20,8 +20,7 @@ module.exports = function (ast) {
             const attrs = ast.attr('content.attributes') || [];
 
             attrs.forEach((kv) => {
-                const key = kv.key.content;
-                const value = kv.value.content;
+                const key = kv?.key?.content;
 
                 if (tagName === 'el-dialog') {
                     switch (key) {
