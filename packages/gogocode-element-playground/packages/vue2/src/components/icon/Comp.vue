@@ -3,7 +3,7 @@
     <p>迁移：{{ name }}</p>
     <p>Vue版本：{{ version }}</p>
     <el-button type="primary" icon="el-icon-search" @click="open">Search</el-button>
-    <i class="el-icon-edit mr5" style="font-size: 20px;"></i>
+    <i class="el-icon-circle-plus mr5" style="font-size: 20px;"></i>
     <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick" icon-class="el-icon-circle-plus"></el-tree>
 
   </div>

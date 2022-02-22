@@ -1,5 +1,6 @@
 const scriptUtils = require('../utils/scriptUtils');
 const templateUtils = require('../utils/templateUtils');
+const _ = require('lodash')
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -28,7 +29,7 @@ function addIconImport(scriptAst, icons) {
 module.exports = function (ast) {
     const script = ast.parseOptions && ast.parseOptions.language === 'vue' ? ast.find('<script></script>') : ast;
     const template = ast.find('<template></template>');
-    const icons = [];
+    let icons = [];
 
     template.find('<$_$></$_$>').each((ast) => {
         const tagName = ast?.node?.content?.name;
@@ -43,9 +44,9 @@ module.exports = function (ast) {
                 const key = clsAttr.key.content;
                 const value = clsAttr.value.content;
                 if (key === 'class' && value.indexOf('el-icon-') !== -1) {
-                    const iconClass = value?.match(/el-icon-\w+/)?.[0] || '';
-                    const restClass = value.replace(/el-icon-\w+/, '').trim();
-                    const iconName = capitalizeFirstLetter(iconClass.replace(/^el-icon-/, ''));
+                    const iconClass = value?.match(/el-icon[-\w]+/)?.[0] || '';
+                    const restClass = value.replace(/el-icon[-\w]+/, '').trim();
+                    const iconName = capitalizeFirstLetter(scriptUtils.toCamelCase(iconClass.replace(/^el-icon-/, '')));
                     icons.push(iconName);
                     ast.replaceBy(
                         `<el-icon ${restClass ? `class="${restClass}"` : ''} ${
@@ -73,6 +74,7 @@ module.exports = function (ast) {
         }
     });
 
+    icons = _.uniq(icons)
     addIconImport(script, icons);
     let kv = {};
     icons.forEach((icon) => {

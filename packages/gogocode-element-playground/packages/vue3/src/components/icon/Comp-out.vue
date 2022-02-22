@@ -5,7 +5,9 @@
     <el-button type="primary" :icon="ElIconSearch" @click="open"
       >Search</el-button
     >
-    <el-icon class="mr5" style="font-size: 20px"><el-icon-edit /></el-icon>
+    <el-icon class="mr5" style="font-size: 20px"
+      ><el-icon-circle-plus
+    /></el-icon>
     <el-tree
       :data="data"
       :props="defaultProps"
@@ -18,14 +20,12 @@
 <script>
 import {
   Search as ElIconSearch,
-  Edit as ElIconEdit,
   CirclePlus as ElIconCirclePlus,
 } from '@element-plus/icons'
 import * as Vue from 'vue'
 export default {
   components: {
     ElIconSearch,
-    ElIconEdit,
     ElIconCirclePlus,
   },
   data() {
@@ -94,7 +94,6 @@ export default {
         label: 'label',
       },
       ElIconSearch,
-      ElIconEdit,
       ElIconCirclePlus,
     }
   },
