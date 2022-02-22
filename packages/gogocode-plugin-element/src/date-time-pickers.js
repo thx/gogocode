@@ -50,10 +50,6 @@ module.exports = function (ast) {
             '<el-time-select :start="$_$1 && $_$1.start" :end="$_$1 && $_$1.end" :step="$_$1 && $_$1.step" :min-time="$_$1 && $_$1.minTime" :max-time="$_$1 && $_$1.maxTime" $$$1>$$$2</el-time-select>'
         );
     }
-    // template.replace(
-    //     '<el-date-picker :picker-options="$_$1" $$$1>$$$2</el-date-picker>',
-    //     '<el-date-picker :shortcuts="$_$1 && $_$1.shortcuts" :disabled-date="$_$1 && $_$1.disabledDate" :cell-class-name="$_$1 && $_$1.cellClassName" $$$1>$$$2</el-date-picker>'
-    // );
 
     return ast;
 };

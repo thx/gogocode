@@ -1,10 +1,5 @@
 /* eslint-disable indent */
-const scriptUtils = require('../utils/scriptUtils');
-const templateUtils = require('../utils/templateUtils');
-const _ = require('lodash');
-
 module.exports = function (ast) {
-    const script = ast.parseOptions && ast.parseOptions.language === 'vue' ? ast.find('<script></script>') : ast;
     const template = ast.find('<template></template>');
 
     // vue转换插件会把 :visible.sync 改成 v-model:visible, :visible 和 visible 则保持不变
