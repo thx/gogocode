@@ -1,7 +1,7 @@
 module.exports = function (ast) {
     const template = ast
         .find('<template></template>')
-    const script = ast.find('<script></script>')
+    const script = ast.parseOptions && ast.parseOptions.language === 'vue' ? ast.find('<script></script>') : ast;
 
     let scrollBarRefNameList = []
     template
