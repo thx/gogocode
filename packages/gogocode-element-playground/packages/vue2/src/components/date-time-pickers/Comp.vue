@@ -49,6 +49,18 @@
             >
             </el-date-picker>
         </div>
+
+        <div class="block">
+            <p>组件值：{{ valueDefaultTime }}</p>
+            <el-date-picker
+                v-model="valueDefaultTime"
+                type="daterange"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                :default-time="['00:00:00', '23:59:59']"
+            >
+            </el-date-picker>
+        </div>
         <el-time-select
             placeholder="起始时间"
             v-model="startTime"
@@ -91,6 +103,7 @@ export default {
             value4: '',
             value5: '',
             value6: '',
+            valueDefaultTime: '',
             startTime: '',
             endTime: '',
             pickerOptions: {

@@ -1,4 +1,4 @@
-const templateUtils = require('../utils/templateUtils');
+const scriptUtils = require('../utils/scriptUtils');
 
 module.exports = function (ast) {
     const script = ast.parseOptions && ast.parseOptions.language === 'vue' ? ast.find('<script></script>') : ast;
@@ -10,6 +10,18 @@ module.exports = function (ast) {
             '<el-date-picker :picker-options="$_$1" $$$1>$$$2</el-date-picker>',
             '<el-date-picker :shortcuts="$_$1 && $_$1.shortcuts" :disabled-date="$_$1 && $_$1.disabledDate" :cell-class-name="$_$1 && $_$1.cellClassName" $$$1>$$$2</el-date-picker>'
         );
+
+        if(template.has('<el-date-picker :default-time="$_$1" $$$1>$$$2</el-date-picker>')) {
+            scriptUtils.addDayjsImport(script);
+            scriptUtils.addData(script, {
+                dayjs: 'dayjs',
+            });
+            template.replace(
+                '<el-date-picker :default-time="$_$1" $$$1>$$$2</el-date-picker>',
+                `<el-date-picker :default-time="$_$1.map(d => dayjs(d, 'hh:mm:ss').toDate())" $$$1>$$$2</el-date-picker>`
+            );
+        }
+
     }
 
     // 修改 shortcuts

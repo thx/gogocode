@@ -9,7 +9,9 @@
       </template>
     </el-calendar>
     <el-calendar
-      :range="['2019-03-04', '2019-03-24'].map((d) => dayjs(d).toDate())"
+      :range="
+        ['2019-03-04', '2019-03-24'].map((d) => dayjs(d, 'YYYY-MM-DD').toDate())
+      "
     ></el-calendar>
   </div>
 </template>

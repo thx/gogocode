@@ -66,6 +66,20 @@
       >
       </el-date-picker>
     </div>
+
+    <div class="block">
+      <p>组件值：{{ valueDefaultTime }}</p>
+      <el-date-picker
+        :default-time="
+          ['00:00:00', '23:59:59'].map((d) => dayjs(d, 'hh:mm:ss').toDate())
+        "
+        v-model="valueDefaultTime"
+        type="daterange"
+        start-placeholder="开始日期"
+        end-placeholder="结束日期"
+      >
+      </el-date-picker>
+    </div>
     <el-time-select
       :start="
         {
@@ -210,6 +224,7 @@
 </template>
 
 <script>
+import * as dayjs from 'dayjs'
 import {
   $on,
   $off,
@@ -218,10 +233,6 @@ import {
 } from '../../../../vue3/src/utils/gogocodeTransfer'
 import * as Vue from 'vue'
 export default {
-  name: 'date-time-pickers',
-  props: {
-    msg: String,
-  },
   data() {
     return {
       name: 'date-time-pickers',
@@ -233,6 +244,7 @@ export default {
       value4: '',
       value5: '',
       value6: '',
+      valueDefaultTime: '',
       startTime: '',
       endTime: '',
       pickerOptions: {
@@ -264,7 +276,12 @@ export default {
           },
         ],
       },
+      dayjs,
     }
+  },
+  name: 'date-time-pickers',
+  props: {
+    msg: String,
   },
   methods: {
     handleSelect(key, keyPath) {
