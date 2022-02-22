@@ -28,7 +28,7 @@ export default {
     },
     data() {
         return {
-            name: 'v-model-ele',
+            name: 'sub-menu',
             version: Vue.version,
             activeIndex: '1',
             Submenu

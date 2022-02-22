@@ -4,4 +4,5 @@ export const CompsConfig = [
   { link: '/icon', text: 'icon' },
   { link: '/v-model-ele', text: 'v-model-ele' },
   { link: '/sub-menu', text: 'sub-menu' },
+  { link: '/pop-confirm', text: 'pop-confirm' },
 ];

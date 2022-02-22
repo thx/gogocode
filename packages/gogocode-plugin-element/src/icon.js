@@ -1,5 +1,4 @@
 const scriptUtils = require('../utils/scriptUtils');
-const templateUtils = require('../utils/templateUtils');
 const _ = require('lodash')
 
 function capitalizeFirstLetter(string) {

@@ -29,6 +29,11 @@ const routes = [
     name: 'sub-menu',
     component: () => import(/* webpackChunkName: "sub-menu" */ '@/components/sub-menu/Comp.vue'),
   },
+  {
+    path: '/pop-confirm',
+    name: 'pop-confirm',
+    component: () => import(/* webpackChunkName: "pop-confirm" */ '@/components/pop-confirm/Comp.vue'),
+  },
 ];
 
 export default routes;
