@@ -2,10 +2,8 @@ const $ = require('gogocode');
 const path = require('path');
 const prettier = require('prettier');
 const fs = require('fs');
-
-const globalApiTreeshaking = require('./src/global-api-treeshaking');
-const globalApi = require('./src/global-api');
-
+const vuePlugin = require('gogocode-plugin-vue');
+const vueTransform = vuePlugin.transform
 const CompFileMap = {
     'attrs-includes-class-style': 'Child',
     'slots-unification': 'ScopedSlots',
@@ -29,11 +27,11 @@ function execRule(ruleName) {
     compFileNames.forEach((compFileName) => {
         const inputPath = path.resolve(
             __dirname,
-            `../gogocode-vue-playground/packages/vue2/src/components/${ruleName}/${compFileName}.vue`
+            `../gogocode-element-playground/packages/vue2/src/components/${ruleName}/${compFileName}.vue`
         );
         const outputPath = path.resolve(
             __dirname,
-            `../gogocode-vue-playground/packages/vue3/src/components/${ruleName}/${compFileName}-out.vue`
+            `../gogocode-element-playground/packages/vue3/src/components/${ruleName}/${compFileName}-out.vue`
         );
         const rule = require(`./src/${ruleName}`);
 
@@ -42,19 +40,27 @@ function execRule(ruleName) {
                 throw err;
             }
 
-            const sourceCode = code.toString();
+            let sourceCode = code.toString();
+
+            sourceCode = vueTransform({
+                path: inputPath,
+                source: sourceCode,
+            }, {
+                gogocode: $,
+            }, {})
+
             const ast = $(sourceCode, { parseOptions: { language: 'vue' } });
 
-            const rules = [globalApi, globalApiTreeshaking, rule];
+            const rules = [rule];
 
             const api = { gogocode: $ };
             const outAst = rules.reduce(
                 (ast, rule) =>
                     rule(ast, api, {
                         filePath: inputPath,
-                        rootPath:  path.resolve(__dirname, `../gogocode-vue-playground/packages/vue2/src/`),
+                        rootPath:  path.resolve(__dirname, `../gogocode-element-playground/packages/vue2/src/`),
                         outFilePath: inputPath,
-                        outRootPath: path.resolve(__dirname, `../gogocode-vue-playground/packages/vue3/src/`),
+                        outRootPath: path.resolve(__dirname, `../gogocode-element-playground/packages/vue3/src/`),
                     }),
                 ast
             );

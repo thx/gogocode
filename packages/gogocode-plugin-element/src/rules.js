@@ -1,5 +1,5 @@
-
+const icon = require('./icon')
 
 module.exports = [
-    // { name: 'api', rule: api, test: /\.vue$|\.js$|\.ts$/ },
+    { name: 'icon', rule: icon, test: /\.vue$|\.js$|\.ts$/ },
 ];

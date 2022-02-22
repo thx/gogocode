@@ -1,6 +1,5 @@
 const rules = require('./src/rules');
 const prettier = require('prettier');
-const collection = require('./src/collection');
 
 /**
  * 转换入口导出一个函数，按照如下函数签名
@@ -53,7 +52,5 @@ const transform = function (fileInfo, api, options) {
             parser: /\.vue$/.test(fileInfo.path) ? 'vue' : 'typescript',
         }) : outAst.generate());
 };
-const preTransform = function (api, options) {
-    collection(api, options);
-}
-module.exports = { preTransform, transform };
+
+module.exports = { transform };

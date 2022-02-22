@@ -5,6 +5,7 @@
     "packages/gogocode-plugin-prettier",
     "packages/gogocode-plugin-sample",
     "packages/gogocode-plugin-vue",
+    "packages/gogocode-plugin-element",
     "packages/gogocode-starter"
   ],
   "version": "1.0.14",
