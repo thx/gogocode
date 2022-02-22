@@ -211,45 +211,18 @@ function addVueImport(scriptAst) {
     return scriptAst;
 }
 
+function addDayjsImport(scriptAst) {
+    if (!scriptAst.has([`import $_$ from 'dayjs';`, `import * as dayjs from 'dayjs'`])) {
+        scriptAst.prepend(`import * as dayjs from 'dayjs';`);
+    }
+
+    return scriptAst;
+}
+
 function withoutExt(p) {
     return p.replace(/\.[^/.]+$/, '');
 }
 
-function addUtils($, extFunCode, outRootPath, outFilePath, fileName) {
-    const importFile = 'utils' + path.sep + (fileName || 'gogocodeTransfer.js');
-    let outRootDirPath = outRootPath.indexOf('.') > -1 ? path.dirname(outRootPath) : outRootPath;
-
-    const inputPath = path.resolve(outRootDirPath, importFile);
-    if (!fs.existsSync(inputPath)) {
-        inputPath.split(path.sep).reduce((prev, curr) => {
-            if (prev && !prev.endsWith(importFile) && fs.existsSync(prev) === false) {
-                fs.mkdirSync(prev);
-            }
-            return prev + path.sep + curr;
-        });
-    }
-    const code = fs.existsSync(inputPath) ? fs.readFileSync(inputPath, 'utf-8') : '';
-    let ast = $(code);
-    if (!ast.has(extFunCode)) {
-        ast.append('program.body', extFunCode);
-        try {
-            const prettierOutPut = prettier.format(ast.generate(), {
-                trailingComma: 'es5',
-                tabWidth: 2,
-                semi: false,
-                singleQuote: true,
-                printWidth: 80,
-                parser: 'typescript',
-            });
-            fs.writeFileSync(inputPath, prettierOutPut);
-        } catch (ex) {
-            console.log('error ', ex);
-        }
-    }
-    let modulePath = withoutExt(path.relative(path.dirname(outFilePath), inputPath));
-
-    return modulePath === 'gogocodeTransfer' ? './gogocodeTransfer' : modulePath.replace(/\\/g, '/');
-}
 
 function addMixin(scriptAst, mixin) {
     const minin = `export default {
@@ -289,13 +262,13 @@ function forceReplace($, ast, selector, replacer) {
 module.exports = {
     toCamelCase,
     findAnyOf,
+    addDayjsImport,
     addCodeToLifeCycle,
     addMethod,
     addComponents,
     addData,
     getVueName,
     addVueImport,
-    addUtils,
     forceReplace,
     addMixin,
 };

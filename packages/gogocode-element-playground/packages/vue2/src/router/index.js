@@ -44,6 +44,11 @@ const routes = [
     name: 'tool-tip',
     component: () => import(/* webpackChunkName: "tool-tip" */ '@/components/tool-tip/Comp.vue'),
   },
+  {
+    path: '/calendar',
+    name: 'calendar',
+    component: () => import(/* webpackChunkName: "calendar" */ '@/components/calendar/Comp.vue'),
+  },
 ];
 
 export default routes;
