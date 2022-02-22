@@ -3,12 +3,13 @@
     <p>迁移：{{ name }}</p>
     <p>Vue版本：{{ version }}</p>
     <el-button type="primary" :icon="ElIconSearch">Search</el-button>
+    <el-icon><el-icon-coffee /></el-icon>
   </div>
 </template>
 
 <script>
 import { version } from 'vue';
-import { Search as ElIconSearch } from '@element-plus/icons'
+import { Search as ElIconSearch, Coffee as ElIconCoffee } from '@element-plus/icons'
 
 export default {
   name: 'icon',
@@ -19,9 +20,13 @@ export default {
     return {
       name: 'icon',
       version: version,
-      ElIconSearch,
+      ElIconCoffee,
     };
   },
+  components: {
+    ElIconSearch,
+    ElIconCoffee
+  }
 };
 </script>
 

@@ -8,7 +8,7 @@ const routes = [
     path: '/icon',
     name: 'icon',
     component: () =>
-      import(/* webpackChunkName: "icon" */ '@/components/icon/Comp.vue'),
+      import(/* webpackChunkName: "icon" */ '@/components/icon/Comp-out.vue'),
   },
 ];
 

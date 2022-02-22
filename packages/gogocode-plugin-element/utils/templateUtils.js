@@ -2,7 +2,7 @@ function isNil(value) {
     return value === undefined || value === null;
 }
 
-function modifyAttr(templateAst, oldKV = {}, newKV = {}) {
+function modifyElementAttr(templateAst, oldKV = {}, newKV = {}) {
     templateAst.find('<$_$>').each(function (ast) {
         const attrs = ast.attr('content.attributes') || [];
         attrs.every((attr) => {
@@ -18,4 +18,17 @@ function modifyAttr(templateAst, oldKV = {}, newKV = {}) {
     });
 }
 
-module.exports = {};
+function findElmentTags(templateAst) {
+    const tags = [];
+    templateAst.find('<$_$>').each(function (ast) {
+        if(ast?.node?.content?.name?.indexOf('el-') === 0) {
+            tags.push(ast)
+        }
+    });
+    return tags;
+}
+
+module.exports = {
+    modifyElementAttr,
+    findElmentTags
+};
