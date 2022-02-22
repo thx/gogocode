@@ -5,4 +5,5 @@ export const CompsConfig = [
   { link: '/v-model-ele', text: 'v-model-ele' },
   { link: '/sub-menu', text: 'sub-menu' },
   { link: '/pop-confirm', text: 'pop-confirm' },
+  { link: '/date-time-pickers', text: 'date-time-pickers' },
 ];

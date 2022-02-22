@@ -4,9 +4,10 @@ const prettier = require('prettier');
 const fs = require('fs');
 const vuePlugin = require('gogocode-plugin-vue');
 const importRule = require('./src/import');
-const vueTransform = vuePlugin.transform
+const vModelEleRule = require('./src/v-model-ele');
+const vueTransform = vuePlugin.transform;
 const CompFileMap = {
-    'v-model-ele': ''
+
 };
 
 function execRule(ruleName) {
@@ -38,23 +39,31 @@ function execRule(ruleName) {
 
             let sourceCode = code.toString();
 
-            sourceCode = vueTransform({
-                path: inputPath,
-                source: sourceCode,
-            }, {
-                gogocode: $,
-            }, {})
+            sourceCode = vueTransform(
+                {
+                    path: inputPath,
+                    source: sourceCode,
+                },
+                {
+                    gogocode: $,
+                },
+                {
+                    rootPath: path.resolve(__dirname, `../gogocode-element-playground/packages/vue2/src/`),
+                    outFilePath: inputPath,
+                    outRootPath: path.resolve(__dirname, `../gogocode-element-playground/packages/vue3/src/`),
+                }
+            );
 
             const ast = $(sourceCode, { parseOptions: { language: 'vue' } });
 
-            const rules = [importRule, rule];
+            const rules = [importRule, vModelEleRule, rule];
 
             const api = { gogocode: $ };
             const outAst = rules.reduce(
                 (ast, rule) =>
                     rule(ast, api, {
                         filePath: inputPath,
-                        rootPath:  path.resolve(__dirname, `../gogocode-element-playground/packages/vue2/src/`),
+                        rootPath: path.resolve(__dirname, `../gogocode-element-playground/packages/vue2/src/`),
                         outFilePath: inputPath,
                         outRootPath: path.resolve(__dirname, `../gogocode-element-playground/packages/vue3/src/`),
                     }),
@@ -84,7 +93,7 @@ function execRule(ruleName) {
 
 function run() {
     process.argv.slice(2).forEach((ruleName) => {
-        console.log(ruleName)
+        console.log(ruleName);
         execRule(ruleName);
     });
 }

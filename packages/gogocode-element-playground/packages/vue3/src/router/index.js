@@ -29,6 +29,11 @@ const routes = [
         name: 'pop-confirm',
         component: () => import(/* webpackChunkName: "pop-confirm" */ '@/components/pop-confirm/Comp-out.vue'),
     },
+    {
+        path: '/date-time-pickers',
+        name: 'date-time-pickers',
+        component: () => import(/* webpackChunkName: "date-time-pickers" */ '@/components/date-time-pickers/Comp-out.vue'),
+    },
 ];
 
 export default routes;
