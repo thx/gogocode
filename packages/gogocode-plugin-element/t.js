@@ -3,6 +3,7 @@ const path = require('path');
 const prettier = require('prettier');
 const fs = require('fs');
 const vuePlugin = require('gogocode-plugin-vue');
+const importRule = require('./src/import');
 const vueTransform = vuePlugin.transform
 const CompFileMap = {
     'v-model-ele': ''
@@ -46,7 +47,7 @@ function execRule(ruleName) {
 
             const ast = $(sourceCode, { parseOptions: { language: 'vue' } });
 
-            const rules = [rule];
+            const rules = [importRule, rule];
 
             const api = { gogocode: $ };
             const outAst = rules.reduce(
