@@ -20,7 +20,7 @@ module.exports = function (sourceAst, { gogocode: $ }, options) {
                     const mIndex = key.indexOf(':');
                     if (mIndex > -1) {
                         //有 : 代表有参数绑定
-                        attr.key.content = `v-model:value${key.replace('.sync', '')}`;
+                        attr.key.content = `v-model${key.replace('.sync', '')}`;
                     } else {
                         attr.key.content = 'v-model:value';
                     }

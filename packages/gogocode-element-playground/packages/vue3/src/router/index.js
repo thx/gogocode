@@ -11,10 +11,10 @@ const routes = [
       import(/* webpackChunkName: "icon" */ '@/components/icon/Comp-out.vue'),
   },
   {
-    path: '/dialog',
-    name: 'dialog',
+    path: '/v-model-ele',
+    name: 'v-model-ele',
     component: () =>
-      import(/* webpackChunkName: "dialog" */ '@/components/dialog/Comp.vue'),
+      import(/* webpackChunkName: "v-model-ele" */ '@/components/v-model-ele/Comp-out.vue'),
   },
 ];
 

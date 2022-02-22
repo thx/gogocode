@@ -22,13 +22,13 @@ import * as Vue from 'vue';
 
 
 export default {
-  name: 'dialog',
+  name: 'v-model-ele',
   props: {
     msg: String,
   },
   data() {
     return {
-      name: 'dialog',
+      name: 'v-model-ele',
       version: Vue.version,
       dialogVisible: false,
     };

@@ -15,9 +15,9 @@ const routes = [
     component: () => import(/* webpackChunkName: "icon" */ '@/components/icon/Comp.vue'),
   },
   {
-    path: '/dialog',
-    name: 'dialog',
-    component: () => import(/* webpackChunkName: "dialog" */ '@/components/dialog/Comp.vue'),
+    path: '/v-model-ele',
+    name: 'v-model-ele',
+    component: () => import(/* webpackChunkName: "v-model-ele" */ '@/components/v-model-ele/Comp.vue'),
   },
 ];
 

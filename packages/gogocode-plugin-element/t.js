@@ -5,12 +5,7 @@ const fs = require('fs');
 const vuePlugin = require('gogocode-plugin-vue');
 const vueTransform = vuePlugin.transform
 const CompFileMap = {
-    'attrs-includes-class-style': 'Child',
-    'slots-unification': 'ScopedSlots',
-    'listeners-removed': 'ButtonWithLable',
-    'render-function-api': 'VNodeTemp',
-    'events-api': ['A', 'B', 'EventHub'],
-    'functional-components': 'HComp',
+    'v-model-ele': ''
 };
 
 function execRule(ruleName) {
