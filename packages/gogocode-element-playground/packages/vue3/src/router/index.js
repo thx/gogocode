@@ -45,6 +45,21 @@ const routes = [
         name: 'calendar',
         component: () => import(/* webpackChunkName: "calendar" */ '@/components/calendar/Comp-out.vue'),
     },
+    {
+        path: '/popover',
+        name: 'popover',
+        component: () => import(/* webpackChunkName: "popover" */ '@/components/popover/Comp-out.vue'),
+    },
+    {
+        path: '/scrollbar',
+        name: 'scrollbar',
+        component: () => import(/* webpackChunkName: "scrollbar" */ '@/components/scrollbar/Comp-out.vue'),
+    },
+    {
+        path: '/form',
+        name: 'form',
+        component: () => import(/* webpackChunkName: "form" */ '@/components/form/Comp-out.vue'),
+    },
 ];
 
 export default routes;

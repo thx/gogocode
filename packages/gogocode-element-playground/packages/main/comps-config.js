@@ -8,4 +8,7 @@ export const CompsConfig = [
   { link: '/date-time-pickers', text: 'date-time-pickers' },
   { link: '/tool-tip', text: 'tool-tip' },
   { link: '/calendar', text: 'calendar' },
+  { link: '/popover', text: 'popover' },
+  { link: '/scrollbar', text: 'scrollbar' },
+  { link: '/form', text: 'form' },
 ];

@@ -57,7 +57,6 @@ function execRule(ruleName) {
             const ast = $(sourceCode, { parseOptions: { language: 'vue' } });
 
             const rules = [importRule, vModelEleRule, rule];
-
             const api = { gogocode: $ };
             const outAst = rules.reduce(
                 (ast, rule) =>

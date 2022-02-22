@@ -48,6 +48,19 @@ const routes = [
     path: '/calendar',
     name: 'calendar',
     component: () => import(/* webpackChunkName: "calendar" */ '@/components/calendar/Comp.vue'),
+    path: '/popover',
+    name: 'popover',
+    component: () => import(/* webpackChunkName: "popover" */ '@/components/popover/Comp.vue'),
+  },
+  {
+    path: '/scrollbar',
+    name: 'scrollbar',
+    component: () => import(/* webpackChunkName: "scrollbar" */ '@/components/scrollbar/Comp.vue'),
+  },
+  {
+    path: '/form',
+    name: 'form',
+    component: () => import(/* webpackChunkName: "form" */ '@/components/form/Comp.vue'),
   },
 ];
 
