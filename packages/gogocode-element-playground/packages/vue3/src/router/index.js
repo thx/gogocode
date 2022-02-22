@@ -10,6 +10,12 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "icon" */ '@/components/icon/Comp-out.vue'),
   },
+  {
+    path: '/dialog',
+    name: 'dialog',
+    component: () =>
+      import(/* webpackChunkName: "dialog" */ '@/components/dialog/Comp.vue'),
+  },
 ];
 
 export default routes;
