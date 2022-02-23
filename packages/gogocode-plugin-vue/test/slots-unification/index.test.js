@@ -6,13 +6,13 @@ test('slots-unification', () => {
     expect(() => {
         const vuePath = path.join(__dirname, 'Comp.vue');
         const ast = $.loadFile(vuePath, { parseOptions: { html: true } });
-        transform(ast);
+        transform(ast, { gogocode: $ });
     }).not.toThrow();
-})
+});
 
 test('slots-unification', () => {
     const vuePath = path.join(__dirname, 'Comp.vue');
-    const ast = $.loadFile(vuePath, { parseOptions: { language: 'vue' } })
-    transform(ast);    
+    const ast = $.loadFile(vuePath, { parseOptions: { language: 'vue' } });
+    transform(ast, { gogocode: $ });
     expect(!ast.find('<script></script>').has(`$scopedSlots`)).toBeTruthy();
-})
+});
