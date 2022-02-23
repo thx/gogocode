@@ -18,8 +18,8 @@
       width="200"
       trigger="hover"
       content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
-      open-delay=500
-      close-delay=500
+      :open-delay="500"
+      :close-delay="500"
       >
       <el-button slot="reference">hover 激活</el-button>
     </el-popover>
