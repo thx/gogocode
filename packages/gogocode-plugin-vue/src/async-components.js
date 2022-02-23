@@ -11,19 +11,19 @@ module.exports = function (ast) {
         ])
     ) {
         scriptUtils.addVueImport(script);
+        script.replace('() => import($_$)', 'Vue.defineAsyncComponent(() => import($_$))').replace(
+            `
+            () => ({
+              component: import($_$1),
+              $$$
+            })`,
+            `
+          Vue.defineAsyncComponent({
+            loader: () => import($_$1),
+            $$$
+          })
+            `
+        );
     }
-    script.replace('() => import($_$)', 'Vue.defineAsyncComponent(() => import($_$))').replace(
-        `
-        () => ({
-          component: import($_$1),
-          $$$
-        })`,
-        `
-      Vue.defineAsyncComponent({
-        loader: () => import($_$1),
-        $$$
-      })
-        `
-    );
     return ast;
 };
