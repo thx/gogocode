@@ -10,6 +10,16 @@
       <template v-slot:footer>
         <div>slot: footer</div>
       </template>
+      <template v-slot:body>
+        <div>
+          <template v-slot:templateBody> </template>
+        </div>
+      </template>
+      <template v-slot:body>
+        <template v-slot:templateBody>
+          <div></div>
+        </template>
+      </template>
     </ScopedSlots>
   </div>
 </template>

@@ -40,7 +40,7 @@ module.exports = function (ast, api) {
         } else {
             // 如果是其它标签那么需要其插入 template 标签，把原来标签中 slot 相关的属性滤掉
             cast.attr('content.attributes', newAttrList); 
-            newAstTag.replace('<holder/>', cast.generate());
+            newAstTag.replace('<holder/>', cast);
             cast.replaceBy(newAstTag);
         }
     });

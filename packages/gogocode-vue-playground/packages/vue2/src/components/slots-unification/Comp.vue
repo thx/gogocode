@@ -6,6 +6,16 @@
       <div slot="header">slot: header</div>
       <div>slot: default</div>
       <div slot="footer">slot: footer</div>
+      <!-- <div slot="body">
+        <template slot="templateBody">
+
+        </template>
+      </div>
+      <template slot="body">
+        <div slot="templateBody">
+
+        </div>
+      </template> -->
     </ScopedSlots>
   </div>
 </template>
