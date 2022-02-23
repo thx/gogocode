@@ -673,9 +673,17 @@ test('$.replace: html tag replace should be ok', () => {
 
 test('$.replace: html attr replace should be ok', () => {
 
-    const G = $(`<a v="1"></a>`, { parseOptons: { language: 'html' }});
+    const G = $(`<a v="1"></a>`, { parseOptions: { language: 'html' }});
     const res = G.replace('<$_$1 v="$_$2" $$$1>$$$2</$_$1>', '<$_$1 v="$_$2" v2="$_$2" $$$1>$$$2 ssssss</$_$1>').generate()
-    expect(res.indexOf("v2='1'") > -1).toBeTruthy();
+    expect(res.indexOf('v2="1"') > -1).toBeTruthy();
+
+})
+
+test('$.replace: html attr replace should be ok', () => {
+
+    const G = $(`<a v="1"></a>`);
+    const res = G.replace('<$_$1 v="$_$2" $$$1>$$$2</$_$1>', '<$_$1 v="$_$2" v2="$_$2" $$$1>$$$2 ssssss</$_$1>').generate()
+    expect(res.indexOf('v2="1"') > -1).toBeTruthy();
 
 })
 
@@ -881,3 +889,22 @@ test('$.replace: template $$$ replace', () => {
     .replace('<div><span>hello, </span>$$$1</div>', '<div>bye, $$$1</div>').generate()
     expect(!res.match('hello')).toBeTruthy()
 })
+
+test('$.replace: template $_$ string replace', () => {
+    let res = $(`console.log(a)`)
+        .replace('console.log($_$1)', `console.log("$_$1", $_$1)`).generate()
+    expect(res == `console.log("a", a)`).toBeTruthy()
+})
+
+test('$.replace: function replace', () => {
+    let findLength = $(`console.log(a, b, c)`)
+        .find(`console.log($_$1)`)
+        .match[1].length
+    let replaceLength = 0;
+    $(`console.log(a, b, c)`)
+        .replace(`console.log($_$1)`, (match) => {
+            replaceLength = match[1].length
+        })
+    expect(findLength == replaceLength).toBeTruthy()
+})
+

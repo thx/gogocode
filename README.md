@@ -1,4 +1,4 @@
-[![Code transform has never been easier: GoGoCode](https://img.alicdn.com/imgextra/i4/O1CN01HAapvL1mOrGHZwJN3_!!6000000004945-2-tps-1949-552.png)](https://gogocode.io)
+[![Code transform has never been easier: GoGoCode](https://img.alicdn.com/imgextra/i1/O1CN01KMiK8i1uEL75yOSuc_!!6000000006005-2-tps-1949-552.png)](https://gogocode.io)
 
 [![npm version](https://img.shields.io/npm/v/gogocode.svg)](https://www.npmjs.com/package/gogocode) [![license](https://img.shields.io/npm/l/gogocode.svg)](LICENSE) 
 
@@ -12,7 +12,7 @@ GoGoCode is a transformer for JavaScript/Typescript/HTML based on AST but provid
 -   A jQuery-like API to select and transform AST.
 -   A Regex-like syntax to match and replace code.
 
-Learn more at [GoGoCode.io](https://gogocode.io)
+Learn more at [GoGoCode.io](https://gogocode.io) and [GoGoCode: Yet Another Automated Refactor Tool for Web Developers](https://medium.com/@fengyuhere/gogocode-yet-another-automatic-refactor-tool-for-web-developers-df8a6a3560da)
 
 ## Intro
 

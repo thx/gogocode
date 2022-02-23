@@ -14,7 +14,9 @@ const Props = [
     'static',
     'trailing',
     'leading',
-    'method'
+    'method',
+    '__clone',
+    '__proto__'
 ]
 
 const ignoreTypeList = [

@@ -21,7 +21,7 @@ const core = {
             if (ast.scriptAst) {
                 newAst = ast.scriptAst;
             } else {
-                ast.scriptAst = core.getScript(ast);
+                ast.scriptAst = core.getScript(ast, { parseOptions });
                 newAst = ast.scriptAst;
             }
         } else if (selector == '<script setup></script>') {
@@ -30,7 +30,7 @@ const core = {
             if (ast.scriptSetupAst) {
                 newAst = ast.scriptSetupAst;
             } else {
-                ast.scriptSetupAst = core.getScript(ast, { isSetup: true });
+                ast.scriptSetupAst = core.getScript(ast, { isSetup: true, parseOptions });
                 newAst = ast.scriptSetupAst;
             }
         }
@@ -52,7 +52,7 @@ const core = {
             return undefined;
         }
     },
-    getScript(ast, { isSetup = false } = {} ) {
+    getScript(ast, { isSetup = false, parseOptions } = {} ) {
         // 仅针对vue，取script，后续通过jscore处理
         let content;
         if (isSetup && ast.scriptSetup) {
@@ -64,7 +64,10 @@ const core = {
         if (content) {
             const script = jsCore.buildAstByAstStr(
                 content, {},
-                { isProgram: true }
+                {
+                    isProgram: true,
+                    parseOptions
+                }
             );
             return new NodePath(script);
         } else {
@@ -74,6 +77,7 @@ const core = {
     buildAstByAstStr(str, astPatialMap = {}, { isProgram = false, parseOptions } = {}) {
         try {
             const program = parse(str, parseOptions);
+            core.parseOptions = parseOptions;
             if (program) {
                 if (isProgram) {
                     return program;

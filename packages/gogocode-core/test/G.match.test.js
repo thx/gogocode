@@ -111,3 +111,11 @@ test('$.match: match params', () => {
     
 //     expect(res.match['thisName'].length == 1).toBeTruthy();
 // })
+
+test('$.match: match params', () => {
+    expect(() => {
+        const AST = $('iii');
+        const b = AST.find('a')
+        console.log(b.match)
+    }).not.toThrow()
+})

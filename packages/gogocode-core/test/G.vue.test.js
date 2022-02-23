@@ -580,3 +580,58 @@ test('test tag attr buttons', () => {
   .generate()
   expect(res.match(/abc/g).length == 3).toBeTruthy();
 })
+
+
+test('test tag', () => {
+  const ast = $(`
+      <template>
+      <div class="a">1</div>
+      <div class="a">2</div>
+    </template>
+
+    <script>
+    function getAbsoluteUrl(url) {
+      import.meta.env.VITE_APP_BASE_URL
+      console.log(url)
+      if (!url) return ''
+    }
+    </script>`, { parseOptions: { language: 'vue', sourceType: 'module' } })
+  const script = ast.find('<script></script>')
+  script.replace('const a = $_$', 'const a = 2').generate()
+  const res = ast.generate()
+  expect(res.match('import.meta.env.VITE_APP_BASE_URL')).toBeTruthy()
+})
+
+test('test vue parseoptions', () => {
+  const ast = $(`
+      <template>
+      <div class="a">1</div>
+      <div class="a">2</div>
+    </template>
+
+    <script>
+    function getAbsoluteUrl(url) {
+      import.meta.env.VITE_APP_BASE_URL
+      console.log(url)
+      if (!url) return ''
+    }
+    </script>`, { parseOptions: { language: 'vue', sourceType: 'module' } })
+  const script = ast
+  .find('<template></template>').root()
+  .find('<script></script>')
+  const res = script.generate()
+  expect(res.match('import.meta.env.VITE_APP_BASE_URL')).toBeTruthy()
+})
+
+test('test vue parseoptions', () => {
+  const ast = $(
+    `<template>
+  <div v-if="a && b > 1">
+      foo
+  </div>
+</template>`,
+    { parseOptions: { language: 'vue' } }
+  )
+  const res = ast.generate()
+  expect(res.match('&&')).toBeTruthy()
+})

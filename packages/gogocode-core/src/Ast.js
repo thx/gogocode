@@ -35,13 +35,13 @@ class AST {
         this.parseOptions = parseOptions;
     }
     get node() {
-        return this[0].nodePath.node
+        return this[0] ? this[0].nodePath.node : null
     }
     get value() {
-        return this[0].nodePath.value
+        return this[0] ? this[0].nodePath.value : null
     }
     get match() {
-        return this[0].match
+        return this[0] ? this[0].match : []
     }
     get isHtml() {
         return this.parseOptions && (this.parseOptions.html || this.parseOptions.language == 'html');
@@ -193,7 +193,10 @@ class AST {
             } else if (option == 'script') {
                 newAST[0] = { nodePath: this.rootNode.node.scriptAst }
             } else {
-                newAST.parseOptions = { language: 'vue' };
+                newAST.parseOptions = Object.assign(
+                    {}, 
+                    this.parseOptions, 
+                    { language: 'vue', rootLanguage: undefined });
             }
         }
         return newAST;
@@ -390,14 +393,12 @@ class AST {
             filterProp(this[0].nodePath.node, node, [
                 'computed',
                 'range',
-                'loc',
-                'start',
-                'end',
                 'leadingComments',
                 'shorthand',
                 'extra',
                 'static',
-                'typeParameters'
+                'typeParameters',
+                'tokens'
             ]);
             nodePath = new NodePath(
                 // JSON.parse(JSON.stringify(this[0].nodePath.node)), 
