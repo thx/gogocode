@@ -908,3 +908,9 @@ test('$.replace: function replace', () => {
     expect(findLength == replaceLength).toBeTruthy()
 })
 
+test('$.replace: empty attr replace', () => {
+    let res = $(`<div class="">2</div>
+    `, { parseOptions: { language: 'html'} })
+    .replace('<div class="$_$1">$$$2</div>', '<div className="$_$1">$$$2</div>')
+    expect(res.generate().match('className=""')).toBeTruthy()
+})
