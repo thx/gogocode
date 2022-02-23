@@ -15,8 +15,9 @@
         size="mini"
       ></el-slider>
     </div>
-    <div class="audio-player-time">
+    <div class="audio-player-time" :type="row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}') | duration">
       {{ (3 || false) | duration }}/{{ (duration * 1000) | duration | date}}
+      {{ row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}') }}
     </div>
     <audio
       :src="src"

@@ -15,10 +15,18 @@
         size="mini"
       ></el-slider>
     </div>
-    <div class="audio-player-time">
+    <div
+      class="audio-player-time"
+      :type="
+        duration_filter(
+          $filters.parseTime(row.timestamp, '{y}-{m}-{d} {h}:{i}')
+        )
+      "
+    >
       {{ duration_filter(3 || false) }}/{{
         $filters.date(duration_filter(duration * 1000))
       }}
+      {{ $filters.parseTime(row.timestamp, '{y}-{m}-{d} {h}:{i}') }}
     </div>
     <audio
       :src="src"
@@ -52,21 +60,6 @@ export default {
     },
     dragging() {
       return this.$refs.slider.dragging
-    },
-  },
-  filters: {
-    duration(ms) {
-      if (!ms) {
-        return '00:00'
-      }
-      const v = (ms / 1000).toFixed(0)
-      const ss = v % 60
-      const mm = parseInt(v / 60) % 60
-      const hh = parseInt(v / 60 / 60)
-      return [hh, mm, ss]
-        .map((item) => String(item).padStart(2, '0'))
-        .join(':')
-        .replace(/^0+:/, '')
     },
   },
   methods: {
