@@ -8,7 +8,7 @@ const globalApi = require('./src/global-api');
 
 const CompFileMap = {
     'attrs-includes-class-style': 'Child',
-    'slots-unification': 'ScopedSlots',
+    'slots-unification': ['Comp', 'ScopedSlots'],
     'listeners-removed': 'ButtonWithLable',
     'render-function-api': 'VNodeTemp',
     'events-api': ['A', 'B', 'EventHub'],

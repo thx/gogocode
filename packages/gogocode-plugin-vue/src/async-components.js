@@ -1,9 +1,10 @@
+const scriptUtils = require('../utils/scriptUtils');
 module.exports = function(ast) {
     const script =
     ast.parseOptions && ast.parseOptions.language === 'vue'
         ? ast.find('<script></script>')
         : ast;
-
+    scriptUtils.addVueImport(script);
     script
         .replace('() => import($_$)', 'Vue.defineAsyncComponent(() => import($_$))')
         .replace(
