@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "glob": "^7.1.7",
-    "gogocode": "^1.0.46",
+    "gogocode": "^1.0.48",
     "jest": "^26.6.3"
   }
 }
