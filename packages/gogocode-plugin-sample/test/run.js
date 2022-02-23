@@ -18,7 +18,11 @@ fs.readFile(inputPath, function read(err, code) {
         {
             gogocode: $
         },
-        {}
+        {
+            rootPath: __dirname,
+            outFilePath: outputPath,
+            outRootPath: __dirname,
+        }
     );
 
     fs.writeFile(outputPath, outputCode, function (err) {

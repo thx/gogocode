@@ -49,7 +49,7 @@ function execRule(ruleName) {
                 },
                 {
                     rootPath: path.resolve(__dirname, `../gogocode-element-playground/packages/vue2/src/`),
-                    outFilePath: inputPath,
+                    outFilePath: outputPath,
                     outRootPath: path.resolve(__dirname, `../gogocode-element-playground/packages/vue3/src/`),
                 }
             );
@@ -63,7 +63,7 @@ function execRule(ruleName) {
                     rule(ast, api, {
                         filePath: inputPath,
                         rootPath: path.resolve(__dirname, `../gogocode-element-playground/packages/vue2/src/`),
-                        outFilePath: inputPath,
+                        outFilePath: outputPath,
                         outRootPath: path.resolve(__dirname, `../gogocode-element-playground/packages/vue3/src/`),
                     }),
                 ast
