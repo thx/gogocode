@@ -84,8 +84,8 @@ function checkIsMatch(full, partial, extraData, strictSequence) {
                 const expandoKey = partial[prop].replace(Expando, '') || '0';
                 extraData[expandoKey] = extraData[expandoKey] || [];
                 if (!full) return;
-                if (full[prop]) {
-                    extra.value = full[prop];
+                if (full[prop] !== undefined) {
+                    extra.value = full[prop] || '';
                 } else {
                     extra.value = {};
                     filterProps(full, extra.value);
