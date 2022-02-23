@@ -1,20 +1,12 @@
 <script>
-/* 迁移指南: https://v3.cn.vuejs.org/guide/migration/functional-components.html */
 export default {
-  name: 'HComp',
-  props: {
-    msg: String,
+  created() {
+    const { params, query } = this.$route
+    const { path } = params
+    this.$router.replace({ path: '/' + path, query })
   },
-  functional: true,
-  render: function (h, { props })  {
-    return h('p', `render by h: ${props.msg}`);
+  render: function (h) {
+    return h() // avoid warning message
   },
-};
-</script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1 {
-  color: #64b587;
 }
-</style>
+</script>

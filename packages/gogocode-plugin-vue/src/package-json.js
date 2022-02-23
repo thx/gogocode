@@ -33,8 +33,11 @@ module.exports = function (source, api, options) {
         updateDepVersion(pkg, 'dependencies', 'vuex', '^4.0.2');
         removeDep(pkg, 'dependencies', 'vue-template-compiler');
         removeDep(pkg, 'devDependencies', 'vue-template-compiler');
-        addDep(pkg, 'devDependencies', '@vue/compiler-sfc', '^3.0.0');
+        addDep(pkg, 'devDependencies', '@vue/cli-service', '^5.0.1');
+        addDep(pkg, 'devDependencies', '@vue/cli-plugin-babel', '^5.0.1');
+        addDep(pkg, 'devDependencies', '@babel/core', '^7.12.16');
         addDep(pkg, 'dependencies', 'tiny-emitter', '^2.1.0');
+        addDep(pkg, 'dependencies', 'core-js', '^3.8.3');
         return JSON.stringify(pkg, null, 2);
     } catch (error) {
         return source;

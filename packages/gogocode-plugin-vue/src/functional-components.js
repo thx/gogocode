@@ -4,15 +4,15 @@ module.exports = function (ast, { gogocode: $ }) {
     const isVueFile = ast.parseOptions && ast.parseOptions.language === 'vue';
     const script = isVueFile ? ast.find('<script></script>') : ast;
 
-    const isFunctional = script.has('{ functional: true }');
-
-    if (isFunctional && isVueFile) {
+    if (isVueFile && ast.attr('template.attrs.functional')) {
         // <template functional> => <template>
-        const tAttr = ast.attr('template.attr');
+        const tAttr = ast.attr('template.attrs');
         if (tAttr) {
             delete tAttr.functional;
         }
     }
+
+    const isFunctional = script.has('{ functional: true }');
 
     if (script.find('{ render: $_$ }').length) {
         scriptUtils.addVueImport(script);
@@ -21,8 +21,8 @@ module.exports = function (ast, { gogocode: $ }) {
             script.replace('this.$createElement($$$)', 'Vue.h($$$)');
         }
 
-        script.replace('render: ($$$1) => { $$$2 }', 'render($$$1) { $$$2 }');
-        script.replace('render: function ($$$1) { $$$2 }', 'render($$$1) { $$$2 }');
+        script.replace('render: ($$$1) => { $$$2 }', 'render($$$1) { $$$2 \n}');
+        script.replace('render: function ($$$1) { $$$2 }', 'render($$$1) { $$$2 \n}');
         let renderFunction = script.find('render() { }');
         if (renderFunction.length) {
             const hName = renderFunction.attr('params.0.name');
