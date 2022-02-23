@@ -4,11 +4,11 @@
     <p>Vue版本：{{ version }}</p>
     <ScopedSlots>
       <template v-slot:header>
-        <div slot="header">slot: header</div>
+        <div>slot: header</div>
       </template>
       <div>slot: default</div>
       <template v-slot:footer>
-        <div slot="footer">slot: footer</div>
+        <div>slot: footer</div>
       </template>
     </ScopedSlots>
   </div>

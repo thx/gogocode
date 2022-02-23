@@ -26,23 +26,23 @@ module.exports = function (ast, api) {
             newAstTag = $(`<template v-slot:${slotValue}>\n<holder/>\n</template>`, { parseOptions: { language: 'html' } })
         } else if(slotScopeValue) {
             newAstTag = $(`<template v-slot="${slotScopeValue}">\n<holder/>\n</template>`, { parseOptions: { language: 'html' } })
+        } else {
+            return;
         }
 
         newAstTag = newAstTag.find('<template></template>');
 
-        if(newAstTag) {
-            newAttrList = [...newAttrList, ...newAstTag.attr('content.attributes') || []];
-        }
 
-        // 如果直接就是 template 标签那么修改其属性即可
         if (cast.attr('content.name') === 'template') {
+            // 如果直接就是 template 标签那么修改其属性即可
+            newAttrList = [...newAttrList, ...newAstTag.attr('content.attributes') || []];
             cast.attr('content.attributes', newAttrList); 
         } else {
-        // 如果是其它标签那么需要其插入 template 标签
+            // 如果是其它标签那么需要其插入 template 标签，把原来标签中 slot 相关的属性滤掉
+            cast.attr('content.attributes', newAttrList); 
             newAstTag.replace('<holder/>', cast.generate());
             cast.replaceBy(newAstTag);
         }
-        // }
     });
     return ast;
 };
