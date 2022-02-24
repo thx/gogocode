@@ -23,7 +23,11 @@ export default {
   },
   methods: {
     getScrollRef() {
-      alert(this.$refs.scrollBarRef.wrap$ + this.$refs['scrollBarRef'].wrap$)
+      alert(
+        this.$refs.scrollBarRef.wrap$ +
+          this.$refs['scrollBarRef'].wrap$ +
+          this.$refs.scrollBarRef.$ref.wrap$
+      )
     },
   },
 }
