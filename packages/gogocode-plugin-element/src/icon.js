@@ -1,5 +1,5 @@
 const scriptUtils = require('../utils/scriptUtils');
-const _ = require('lodash')
+const _ = require('lodash');
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -16,7 +16,7 @@ const iconMap = {
 const iconKeys = Object.keys(iconMap);
 
 function addIconImport(scriptAst, icons) {
-    if(icons.length) {
+    if (icons.length) {
         scriptAst.prepend(
             `import { ${icons
                 .map((icon) => `${capitalizeFirstLetter(icon)} as ElIcon${capitalizeFirstLetter(icon)}`)
@@ -30,11 +30,12 @@ function addIconImport(scriptAst, icons) {
 module.exports = function (ast) {
     const script = ast.parseOptions && ast.parseOptions.language === 'vue' ? ast.find('<script></script>') : ast;
     const template = ast.find('<template></template>');
-    let icons = [];
-
+    let compIcons = [];
+    let dataIcons = [];
     template.find('<$_$></$_$>').each((ast) => {
         const tagName = ast?.node?.content?.name;
-        // 是 icon 组件 <i class="el-icon-edit"></i>
+        // 是 icon 组件
+        //  <i class="el-icon-edit"></i> => <el-icon><el-icon-edit></el-icon>
         if (tagName === 'i') {
             const attrs = ast.attr('content.attributes') || [];
             const clsAttr = attrs.find(
@@ -48,7 +49,7 @@ module.exports = function (ast) {
                     const iconClass = value?.match(/el-icon[-\w]+/)?.[0] || '';
                     const restClass = value.replace(/el-icon[-\w]+/, '').trim();
                     const iconName = capitalizeFirstLetter(scriptUtils.toCamelCase(iconClass.replace(/^el-icon-/, '')));
-                    icons.push(iconName);
+                    compIcons.push(iconName);
                     ast.replaceBy(
                         `<el-icon ${restClass ? `class="${restClass}"` : ''} ${
                             styleAttr ? `style="${styleAttr.value.content}"` : ''
@@ -58,6 +59,7 @@ module.exports = function (ast) {
             }
         }
         // 是 element 组件
+        // <button icon="el-icon-edit"></button> => <el-button :icon="ElIconEdit"></el-button>
         else if (tagName.indexOf('el-') === 0) {
             const attrs = ast.attr('content.attributes') || [];
             attrs.every((attr) => {
@@ -65,7 +67,7 @@ module.exports = function (ast) {
                 const value = attr?.value?.content;
                 if (value && iconKeys.includes(key)) {
                     const iconName = capitalizeFirstLetter(scriptUtils.toCamelCase(value.replace(/^el-icon-/, '')));
-                    icons.push(iconName);
+                    dataIcons.push(iconName);
                     attr.key.content = iconMap[key];
                     attr.value.content = `ElIcon${iconName}`;
                     return false;
@@ -75,14 +77,17 @@ module.exports = function (ast) {
         }
     });
 
-    icons = _.uniq(icons)
-    addIconImport(script, icons);
-    let kv = {};
-    icons.forEach((icon) => {
-        kv[`ElIcon${icon}`] = `ElIcon${icon}`;
+    addIconImport(script, _.uniq([...compIcons, ...dataIcons]));
+    let compKV = {};
+    compIcons.forEach((icon) => {
+        compKV[`ElIcon${icon}`] = `ElIcon${icon}`;
     });
-    scriptUtils.addData(script, kv);
-    scriptUtils.addComponents(script, kv);
+    scriptUtils.addComponents(script, compKV);
+    let dataKV = {};
+    dataIcons.forEach((icon) => {
+        dataKV[`ElIcon${icon}`] = `ElIcon${icon}`;
+    });
+    scriptUtils.addData(script, dataKV);
 
     return ast;
 };

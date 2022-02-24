@@ -1,87 +1,121 @@
 <template>
-  <div>
-    <p>迁移：{{ name }}</p>
-    <p>Vue版本：{{ version }}</p>
-    <el-button type="primary" icon="el-icon-search" @click="open">Search</el-button>
-    <i class="el-icon-circle-plus mr5" style="font-size: 20px;"></i>
-    <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick" icon-class="el-icon-circle-plus"></el-tree>
-
+  <div class="upload-container">
+    <el-button
+      :style="{ background: color, borderColor: color }"
+      icon="el-icon-upload"
+      size="mini"
+      type="primary"
+      @click="dialogVisible = true"
+    >
+      upload
+    </el-button>
+    <el-dialog v-model:visible="dialogVisible">
+      <el-upload
+        :multiple="true"
+        :file-list="fileList"
+        :show-file-list="true"
+        :on-remove="handleRemove"
+        :on-success="handleSuccess"
+        :before-upload="beforeUpload"
+        class="editor-slide-upload"
+        action="https://httpbin.org/post"
+        list-type="picture-card"
+      >
+        <el-button size="small" type="primary"> Click upload </el-button>
+      </el-upload>
+      <el-button @click="dialogVisible = false"> Cancel </el-button>
+      <el-button type="primary" @click="handleSubmit"> Confirm </el-button>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import Vue from 'vue';
-/* 迁移指南: https://v3.cn.vuejs.org/guide/migration/watch.html */
-// vue2 https://cn.vuejs.org/v2/guide/list.html#%E6%95%B0%E7%BB%84%E6%9B%B4%E6%96%B0%E6%A3%80%E6%B5%8B
+import { $on, $off, $once, $emit } from '../../../utils/gogocodeTransfer'
+import * as Vue from 'vue'
 export default {
-  name: 'icon',
+  name: 'EditorSlideUpload',
   props: {
-    msg: String,
+    color: {
+      type: String,
+      default: '#1890ff',
+    },
   },
   data() {
     return {
-      name: 'icon',
-      version: Vue.version,
-      data: [{
-          label: '一级 1',
-          children: [{
-            label: '二级 1-1',
-            children: [{
-              label: '三级 1-1-1'
-            }]
-          }]
-        }, {
-          label: '一级 2',
-          children: [{
-            label: '二级 2-1',
-            children: [{
-              label: '三级 2-1-1'
-            }]
-          }, {
-            label: '二级 2-2',
-            children: [{
-              label: '三级 2-2-1'
-            }]
-          }]
-        }, {
-          label: '一级 3',
-          children: [{
-            label: '二级 3-1',
-            children: [{
-              label: '三级 3-1-1'
-            }]
-          }, {
-            label: '二级 3-2',
-            children: [{
-              label: '三级 3-2-1'
-            }]
-          }]
-        }],
-        defaultProps: {
-          children: 'children',
-          label: 'label'
-        }
-    };
+      dialogVisible: false,
+      listObj: {},
+      fileList: [],
+    }
   },
   methods: {
-      open() {
-        this.$alert('这是一段内容', '标题名称', {
-          confirmButtonText: '确定',
-          callback: action => {
-            this.$message({
-              type: 'info',
-              message: `action: ${ action }`
-            });
-          }
-        });
+    checkAllSuccess() {
+      return Object.keys(this.listObj).every(
+        (item) => this.listObj[item].hasSuccess
+      )
+    },
+    handleSubmit() {
+      const arr = Object.keys(this.listObj).map((v) => this.listObj[v])
+      if (!this.checkAllSuccess()) {
+        this.$message(
+          'Please wait for all images to be uploaded successfully. If there is a network problem, please refresh the page and upload again!'
+        )
+        return
       }
-    }
-};
+      $emit(this, 'successCBK', arr)
+      this.listObj = {}
+      this.fileList = []
+      this.dialogVisible = false
+    },
+    handleSuccess(response, file) {
+      const uid = file.uid
+      const objKeyArr = Object.keys(this.listObj)
+      for (let i = 0, len = objKeyArr.length; i < len; i++) {
+        if (this.listObj[objKeyArr[i]].uid === uid) {
+          this.listObj[objKeyArr[i]].url = response.files.file
+          this.listObj[objKeyArr[i]].hasSuccess = true
+          return
+        }
+      }
+    },
+    handleRemove(file) {
+      const uid = file.uid
+      const objKeyArr = Object.keys(this.listObj)
+      for (let i = 0, len = objKeyArr.length; i < len; i++) {
+        if (this.listObj[objKeyArr[i]].uid === uid) {
+          delete this.listObj[objKeyArr[i]]
+          return
+        }
+      }
+    },
+    beforeUpload(file) {
+      const _self = this
+      const _URL = window.URL || window.webkitURL
+      const fileName = file.uid
+      this.listObj[fileName] = {}
+      return new Promise((resolve, reject) => {
+        const img = new Image()
+        img.src = _URL.createObjectURL(file)
+        img.onload = function () {
+          _self.listObj[fileName] = {
+            hasSuccess: false,
+            uid: file.uid,
+            width: this.width,
+            height: this.height,
+          }
+        }
+        resolve(true)
+      })
+    },
+  },
+  emits: ['successCBK'],
+}
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1 {
-  color: #64b587;
+<style lang="scss" scoped>
+.editor-slide-upload {
+  margin-bottom: 20px;
+  ::v-deep .el-upload--picture-card {
+    width: 100%;
+  }
 }
 </style>
