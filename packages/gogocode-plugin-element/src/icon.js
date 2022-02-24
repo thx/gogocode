@@ -16,11 +16,13 @@ const iconMap = {
 const iconKeys = Object.keys(iconMap);
 
 function addIconImport(scriptAst, icons) {
-    scriptAst.prepend(
-        `import { ${icons
-            .map((icon) => `${capitalizeFirstLetter(icon)} as ElIcon${capitalizeFirstLetter(icon)}`)
-            .join(',')} } from '@element-plus/icons'`
-    );
+    if(icons.length) {
+        scriptAst.prepend(
+            `import { ${icons
+                .map((icon) => `${capitalizeFirstLetter(icon)} as ElIcon${capitalizeFirstLetter(icon)}`)
+                .join(',')} } from '@element-plus/icons'`
+        );
+    }
 
     return scriptAst;
 }
@@ -59,9 +61,9 @@ module.exports = function (ast) {
         else if (tagName.indexOf('el-') === 0) {
             const attrs = ast.attr('content.attributes') || [];
             attrs.every((attr) => {
-                const key = attr.key.content;
-                const value = attr.value.content;
-                if (iconKeys.includes(key)) {
+                const key = attr?.key?.content;
+                const value = attr?.value?.content;
+                if (value && iconKeys.includes(key)) {
                     const iconName = capitalizeFirstLetter(scriptUtils.toCamelCase(value.replace(/^el-icon-/, '')));
                     icons.push(iconName);
                     attr.key.content = iconMap[key];

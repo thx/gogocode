@@ -61,30 +61,38 @@ function addCodeToLifeCycle(scriptAst, lifeCycle, code) {
 function addData(script, kv) {
     const hasData = script.has(`data() {}`);
 
-    const kvStr = Object.keys(kv)
+    if (Object.keys(kv).length === 0) {
+        return script;
+    }
+
+    let kvStr = Object.keys(kv)
         .map((key) => (key === kv[key] ? key : `${key}: ${kv[key]}`))
         .join(',');
+
+    kvStr = kvStr.length ? kvStr + ',' : '';
 
     if (hasData) {
         script.replace(
             `
     export default {
       data() {
+        $$$1
         return {
-            $$$1
+            $$$2
         }
       },
-      $$$2
+      $$$3
     }`,
             `
     export default {
         data() {
-            return {
-                $$$1,
-                ${kvStr},
-            }
+          $$$1
+          return {
+              $$$2,
+              ${kvStr}
+          }
         },
-        $$$2
+        $$$3
     }`
         );
     } else {
@@ -97,7 +105,7 @@ function addData(script, kv) {
       export default {
         data() {
           return {
-            ${kvStr},
+            ${kvStr}
           }
         },
         $$$1
@@ -111,9 +119,15 @@ function addData(script, kv) {
 function addComponents(script, kv) {
     const hasComponents = script.has(`components: {}`);
 
-    const kvStr = Object.keys(kv)
+    if (!Object.keys(kv).length) {
+        return script;
+    }
+
+    let kvStr = Object.keys(kv)
         .map((key) => (key === kv[key] ? key : `${key}: ${kv[key]}`))
         .join(',');
+    
+    kvStr = kvStr.length ? kvStr + ',' : '';
 
     if (hasComponents) {
         script.replace(
@@ -128,7 +142,7 @@ function addComponents(script, kv) {
     export default {
       components: {
         $$$1,
-        ${kvStr},
+        ${kvStr}
       },
       $$$2
     }`
@@ -142,7 +156,7 @@ function addComponents(script, kv) {
             `
       export default {
         components: {
-          ${kvStr},
+          ${kvStr}
         },
         $$$1
       }
@@ -222,7 +236,6 @@ function addDayjsImport(scriptAst) {
 function withoutExt(p) {
     return p.replace(/\.[^/.]+$/, '');
 }
-
 
 function addMixin(scriptAst, mixin) {
     const minin = `export default {

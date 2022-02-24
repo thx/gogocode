@@ -69,7 +69,7 @@ function execRule(ruleName) {
                 ast
             );
 
-            const outputCode = outAst.root().generate();
+            const outputCode = outAst.generate();
 
             const prettierOutPut = prettier.format(outputCode, {
                 trailingComma: 'es5',
