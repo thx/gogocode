@@ -10,8 +10,12 @@ module.exports = function (ast) {
             scrollBarRefNameList.push(item.match[1][0].value)
         })
     scrollBarRefNameList.forEach(refName => {
-        script.replace(`$_$1.${refName}.wrap`, `$_$1.${refName}.wrap$`)
-        script.replace(`$_$1['${refName}'].wrap`, `$_$1['${refName}'].wrap$`)
+        script.find(['$_$1.wrap', '$_$1["wrap"]'])
+            .each(item => {
+                if (item.match[1][0].value.match(refName)) {
+                    item.replaceBy(`${item.match[1][0].value}.wrap$`)
+                }
+            })
     })
 
     return ast
