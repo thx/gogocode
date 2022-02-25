@@ -7,6 +7,7 @@ const globalApiTreeshaking = require('./src/global-api-treeshaking');
 const globalApi = require('./src/global-api');
 
 const CompFileMap = {
+    'array-refs': ['Comp-ele', 'Comp'],
     'attrs-includes-class-style': 'Child',
     'slots-unification': ['Comp', 'ScopedSlots'],
     'listeners-removed': 'ButtonWithLable',

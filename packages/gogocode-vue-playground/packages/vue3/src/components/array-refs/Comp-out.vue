@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>迁移：{{ name }} out</p>
+    <p>迁移：{{ name }}</p>
     <p>Vue版本：{{ version }}</p>
     <div>
       <div>arr:</div>
@@ -20,6 +20,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import * as Vue from 'vue'
 export default {
@@ -27,14 +28,18 @@ export default {
     getRefSetter(refKey) {
       return (ref) => {
         !this.$arrRefs && (this.$arrRefs = {})
-        !this.$arrRefs[refKey] && (this.$arrRefs.arr = [])
+        !this.$arrRefs[refKey] && (this.$arrRefs[refKey] = [])
         ref && this.$arrRefs[refKey].push(ref)
       }
     },
   },
 
   name: 'v-for 中的 Ref 数组',
-  props: { msg: String },
+
+  props: {
+    msg: String,
+  },
+
   data() {
     return {
       name: 'array-refs',
@@ -43,15 +48,17 @@ export default {
       arrFromRef: [],
     }
   },
+
   mounted() {
-    this.arrFromRef = this.$refs.arr
+    this.arrFromRef = this.$arrRefs.arr
   },
 
   beforeUpdate() {
-    this.$arrRefs && (this.$arrRefs.arr = [])
+    this.$arrRefs && (this.$arrRefs = {})
   },
 }
 </script>
+
 <style scoped>
 h1 {
   color: #64b587;
