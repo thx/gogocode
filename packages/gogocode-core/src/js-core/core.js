@@ -214,7 +214,7 @@ const core = {
                             let codeStr = generate(item);
                             try {
                                 // 嵌套replace
-                                const childAst = core.buildAstByAstStr(codeStr);
+                                const childAst = core.buildAstByAstStr(codeStr, {}, { parseOptions });
                                 core.replaceSelBySel(childAst, selector, replacer, strictSequence, parseOptions, expando);
                                 codeStr = generate(childAst)
                             } catch(e) { // 
@@ -266,7 +266,7 @@ const core = {
                 } else {
                     let replacerAst = null;
                     try {
-                        replacerAst = core.buildAstByAstStr(newReplacer);
+                        replacerAst = core.buildAstByAstStr(newReplacer, {}, { parseOptions });
                     } catch(e) { 
                         //
                     }
@@ -291,7 +291,7 @@ const core = {
                 if (!replacer) {
                     core.removePathSafe(path);
                 } else if (typeof replacer == 'string') {
-                    let replacerAst = replacer.type ? replacer : core.buildAstByAstStr(replacer);
+                    let replacerAst = replacer.type ? replacer : core.buildAstByAstStr(replacer, { }, { parseOptions });
                     if (!replacer.type && buildMap[path.node.type]) {
                         try {
                             if (buildMap[path.node.type](replacer)) {

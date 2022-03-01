@@ -914,3 +914,11 @@ test('$.replace: empty attr replace', () => {
     .replace('<div class="$_$1">$$$2</div>', '<div className="$_$1">$$$2</div>')
     expect(res.generate().match('className=""')).toBeTruthy()
 })
+
+test('$.replace: import. replace', () => {
+    let res = $(`const req = require.context('./', true, /\.svg$/)`, { parseOptions: {
+        sourceType: 'module'
+    }})
+        .replace('const $_$ = require.context($$$)', `const $_$ = import.meta.glob('./**/*.svg')`)
+    expect(res.generate().match('import.meta')).toBeTruthy()
+})
