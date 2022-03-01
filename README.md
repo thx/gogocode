@@ -52,14 +52,16 @@ Try this demo out at our [Playground](https://play.gogocode.io/#code/N4IglgdgDgr
 
 ## Related Project
 
-| Project               | Description                                   |
-| --------------------- | --------------------------------------------- |
-| [gogocode-plugin-vue] | transform a project from vue2 to vue3         |
-| [gogocode-cli]        | command-line tool for gogocode                |
-| [gogocode-playground] | test gogocode at browser instantly            |
-| [gogocode-vscode]     | refactor your project with gogocode in vscode |
+| Project                   | Description                                       |
+| ------------------------- | ------------------------------------------------- |
+| [gogocode-plugin-vue]     | transform a project from vue2 to vue3             |
+| [gogocode-plugin-element] | transform a project from ElementUI to ElementPlus |
+| [gogocode-cli]            | command-line tool for gogocode                    |
+| [gogocode-playground]     | test gogocode at browser instantly                |
+| [gogocode-vscode]         | refactor your project with gogocode in vscode     |
 
 [gogocode-plugin-vue]: https://github.com/thx/gogocode/tree/main/packages/gogocode-plugin-vue
+[gogocode-plugin-element]: https://github.com/thx/gogocode/tree/main/packages/gogocode-plugin-element
 [gogocode-cli]: https://github.com/thx/gogocode/tree/main/packages/gogocode-cli
 [gogocode-playground]: https://play.gogocode.io
 [gogocode-vscode]: https://marketplace.visualstudio.com/items?itemName=mmfe.vscode-gogocode
