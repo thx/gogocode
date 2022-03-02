@@ -24,8 +24,18 @@ const transform = function (fileInfo, api, options) {
         : /\.vue$/.test(fileInfo.path)
             ? $(sourceCode, { parseOptions: { language: 'vue' } })
             : $(sourceCode);
+    
+    const rulesToBeApplied = options.rule ? rules.filter(rule => rule.name === options.rule) : rules
 
-    const outAst = rules.reduce((ast, ruleCfg) => {
+    if(!rulesToBeApplied.length) {
+        throw Error(`rule:${options.rule} not found`);
+    }
+
+    if(options.rule) {
+        console.log(`applying rule: ${options.rule}`);
+    }
+
+    const outAst = rulesToBeApplied.reduce((ast, ruleCfg) => {
         if (!ruleCfg.test.test(fileInfo.path)) {
             return ast;
         }
