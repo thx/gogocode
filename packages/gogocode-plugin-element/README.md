@@ -33,6 +33,26 @@ gogocode -s ./src -t gogocode-plugin-element -o ./src-out
 
 另外，由于是静态的代码转换，可能你的代码里会有些我们没想到的写法导致转换出乱子，转换后请做好人工比对和测试！发现转换的问题可以[提交](https://github.com/thx/gogocode/issues)给我们。
 
+## 指定应用规则
+
+添加参数 `-p include-rules=xxx,yyy`，举例只应用 `calendar` 及 `popover` 规则：
+
+```bash
+gogocode -s ./src -t gogocode-plugin-element -o ./src-out -p include-rules=calendar,popover
+```
+
+规则名称请参看 [rules.js](./src/rules.js) 里面的 `name` 字段。
+
+## 排除应用规则
+
+
+添加参数 `-p exclude-rules=xxx,yyy`，举例只排除 `calendar` 及 `popover` 规则：
+
+```bash
+gogocode -s ./src -t gogocode-plugin-element -o ./src-out -p exclude-rules=calendar,popover
+```
+
+规则名称请参看 [rules.js](./src/rules.js) 里面的 `name` 字段。
 # 联系我们
 如果你在使用过程中遇到其他问题可以通过如下方式联系我们：
 
