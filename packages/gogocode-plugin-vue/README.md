@@ -24,15 +24,26 @@ gogocode -s ./src -t gogocode-plugin-vue -o ./src-out
 ```
 转换操作执行完毕后新的Vue3代码会被写入到src-out目录中。
 
-## 应用单一规则
+## 指定应用规则
 
-添加参数 `-p rule=xxx`，举例使用 `v-model` 规则：
+添加参数 `-p include-rules=xxx,yyy`，举例只应用 `vModel` 及 `customDirectives` 规则：
 
 ```bash
-gogocode -s ./src -t gogocode-plugin-vue -o ./src-out -p rule=v-model
+gogocode -s ./src -t gogocode-plugin-vue -o ./src-out -p include-rules=vModel,customDirectives
 ```
 
-全部规则名可在 `src/rules.js` 中查看
+规则名称请参看 [rules.js](./src/rules.js) 里面的 `name` 字段。
+
+## 排除应用规则
+
+
+添加参数 `-p exclude-rules=xxx,yyy`，举例只排除 `vModel` 及 `customDirectives` 规则：
+
+```bash
+gogocode -s ./src -t gogocode-plugin-vue -o ./src-out -p exclude-rules=vModel,customDirectives
+```
+
+规则名称请参看 [rules.js](./src/rules.js) 里面的 `name` 字段。
 ## 依赖升级
 除了升级源码，我们还需要升级 Vue3 相关依赖，这一点也可以自动完成，在终端（terminal）中跳转到需要升级的Vue项目路径，执行如下命令：
 ```bash

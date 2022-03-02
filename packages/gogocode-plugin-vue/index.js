@@ -24,15 +24,14 @@ const transform = function (fileInfo, api, options) {
         : /\.vue$/.test(fileInfo.path)
             ? $(sourceCode, { parseOptions: { language: 'vue' } })
             : $(sourceCode);
+
+    const includeRules = options['include-rules'] ? options['include-rules'].split(',') : rules.map(r => r.name);
+    const excludeRules = options['exclude-rules'] ? options['exclude-rules'].split(',') : [];
     
-    const rulesToBeApplied = options.rule ? rules.filter(rule => rule.name === options.rule) : rules
+    const rulesToBeApplied = rules.filter(r => includeRules.includes(r.name) && !excludeRules.includes(r.name));
 
     if(!rulesToBeApplied.length) {
-        throw Error(`rule:${options.rule} not found`);
-    }
-
-    if(options.rule) {
-        console.log(`applying rule: ${options.rule}`);
+        throw Error(`No valid rule found.`);
     }
 
     const outAst = rulesToBeApplied.reduce((ast, ruleCfg) => {
