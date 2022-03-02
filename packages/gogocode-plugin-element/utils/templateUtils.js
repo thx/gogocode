@@ -1,10 +1,12 @@
+const _ = require('lodash')
+
 function isNil(value) {
     return value === undefined || value === null;
 }
 
 function modifyElementAttr(templateAst, oldKV = {}, newKV = {}) {
     templateAst.find('<$_$>').each(function (ast) {
-        if(ast?.node?.content?.name?.indexOf('el-') === 0) {
+        if(_.get(ast.node, `content.name`, '').indexOf('el-') === 0) {
             const attrs = ast.attr('content.attributes') || [];
             attrs.every((attr) => {
                 const key = attr.key.content;
@@ -23,7 +25,7 @@ function modifyElementAttr(templateAst, oldKV = {}, newKV = {}) {
 function findElmentTags(templateAst) {
     const tags = [];
     templateAst.find('<$_$>').each(function (ast) {
-        if(ast?.node?.content?.name?.indexOf('el-') === 0) {
+        if(_.get(ast.node, `content.name`, '').indexOf('el-') === 0) {
             tags.push(ast)
         }
     });

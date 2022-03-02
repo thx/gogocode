@@ -1,3 +1,5 @@
+const _ = require('lodash')
+
 const scriptUtils = require('../utils/scriptUtils');
 
 module.exports = function (ast) {
@@ -26,8 +28,8 @@ module.exports = function (ast) {
 
     // 修改 shortcuts
     script.find(`$emit($_$1, 'pick', $_$2)`).each((ast) => {
-        const pickerName = ast.match?.[1]?.[0]?.value;
-        const dateName = ast.match?.[2]?.[0]?.value;
+        const pickerName = _.get(ast.match, `[1][0].value`);
+        const dateName = _.get(ast.match, `[2][0].value`);
         const methodAst = ast.parent({ type: 'ObjectMethod' });
         const propertyAst = ast.parent({ type: 'ObjectProperty' });
 

@@ -33,7 +33,7 @@ module.exports = function (ast) {
     let compIcons = [];
     let dataIcons = [];
     template.find('<$_$></$_$>').each((ast) => {
-        const tagName = ast?.node?.content?.name;
+        const tagName = _.get(ast.node, `content.name`);
         // 是 icon 组件
         //  <i class="el-icon-edit"></i> => <el-icon><el-icon-edit></el-icon>
         if (tagName === 'i') {
@@ -46,7 +46,7 @@ module.exports = function (ast) {
                 const key = clsAttr.key.content;
                 const value = clsAttr.value.content;
                 if (key === 'class' && value.indexOf('el-icon-') !== -1) {
-                    const iconClass = value?.match(/el-icon[-\w]+/)?.[0] || '';
+                    const iconClass = _.get(value.match(/el-icon[-\w]+/), `[0]`, '');
                     const restClass = value.replace(/el-icon[-\w]+/, '').trim();
                     const iconName = capitalizeFirstLetter(scriptUtils.toCamelCase(iconClass.replace(/^el-icon-/, '')));
                     compIcons.push(iconName);
@@ -63,8 +63,8 @@ module.exports = function (ast) {
         else if (tagName.indexOf('el-') === 0) {
             const attrs = ast.attr('content.attributes') || [];
             attrs.every((attr) => {
-                const key = attr?.key?.content;
-                const value = attr?.value?.content;
+                const key = _.get(attr, `key.content`);
+                const value = _.get(attr, `value.content`);
                 if (value && iconKeys.includes(key)) {
                     const iconName = capitalizeFirstLetter(scriptUtils.toCamelCase(value.replace(/^el-icon-/, '')));
                     dataIcons.push(iconName);
