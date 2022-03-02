@@ -225,12 +225,7 @@
 
 <script>
 import * as dayjs from 'dayjs'
-import {
-  $on,
-  $off,
-  $once,
-  $emit,
-} from '../../../../vue3/src/utils/gogocodeTransfer'
+import { $on, $off, $once, $emit } from '../../utils/gogocodeTransfer'
 import * as Vue from 'vue'
 export default {
   data() {

@@ -19,15 +19,11 @@
 
 <script>
 import {
-  Search as ElIconSearch,
   CirclePlus as ElIconCirclePlus,
+  Search as ElIconSearch,
 } from '@element-plus/icons'
 import * as Vue from 'vue'
 export default {
-  components: {
-    ElIconSearch,
-    ElIconCirclePlus,
-  },
   data() {
     return {
       name: 'icon',
@@ -96,6 +92,9 @@ export default {
       ElIconSearch,
       ElIconCirclePlus,
     }
+  },
+  components: {
+    ElIconCirclePlus,
   },
   name: 'icon',
   props: {
