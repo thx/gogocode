@@ -1,3 +1,4 @@
+const _ = require('lodash')
 module.exports = function (ast, api) {
     const $ = api.gogocode;
     // 迁移指南: https://v3.cn.vuejs.org/guide/migration/slots-unification.html
@@ -15,9 +16,9 @@ module.exports = function (ast, api) {
         let attrList = cast.attr('content.attributes') || [];
         let newAttrList = attrList.filter(e => e.key.content !== 'slot' && e.key.content !== 'slot-scope');
         const slotAttr = attrList.find((attr) => attr.key && attr.key.content == 'slot');
-        const slotValue = slotAttr?.value?.content;
+        const slotValue = _.get(slotAttr, 'value.content');
         const slotScopeAttr = attrList.find((attr) => attr.key && attr.key.content == 'slot-scope');
-        const slotScopeValue = slotScopeAttr?.value?.content;
+        const slotScopeValue = _.get(slotScopeAttr, 'value.content');
 
         let newAstTag = undefined;
         if(slotValue && slotScopeValue) {
