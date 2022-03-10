@@ -1,3 +1,5 @@
+const _ = require('lodash')
+
 /* eslint-disable indent */
 module.exports = function (ast) {
     const template = ast.find('<template></template>');
@@ -9,13 +11,13 @@ module.exports = function (ast) {
     // visible="x" -> value="x" value="x" -> model-value="x"
 
     template.find('<$_$></$_$>').each((ast) => {
-        const tagName = ast?.node?.content?.name;
+        const tagName = _.get(ast, `node.content.name`);
         // 是 element 组件
         if (tagName.indexOf('el-') === 0) {
             const attrs = ast.attr('content.attributes') || [];
 
             attrs.forEach((kv) => {
-                const key = kv?.key?.content;
+                const key = _.get(kv, `key.content`);
 
                 if (tagName === 'el-dialog') {
                     switch (key) {

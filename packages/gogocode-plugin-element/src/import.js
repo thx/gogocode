@@ -1,3 +1,5 @@
+const _ = require('lodash')
+
 module.exports = function (ast) {
     const script = ast.parseOptions && ast.parseOptions.language === 'vue' ? ast.find('<script></script>') : ast;
     script.replace(`import $_$1 from 'element-ui'`, `import $_$1 from 'element-plus'`);
@@ -5,7 +7,7 @@ module.exports = function (ast) {
 
     if (importStatement.length) {
         const specifiers = [];
-        importStatement?.node?.specifiers?.forEach((specifier) => {
+        _.get(importStatement, `node.specifiers`, []).forEach((specifier) => {
             const localName = specifier.local.name;
             const importedName = `El${specifier.imported.name}`;
             specifiers.push({

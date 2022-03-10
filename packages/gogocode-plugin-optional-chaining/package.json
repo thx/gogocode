@@ -1,0 +1,21 @@
+{
+  "name": "gogocode-plugin-optional-chaining",
+  "version": "0.0.1",
+  "description": "gogocode-plugin-optional-chaining",
+  "scripts": {
+    "start": "node ./test/run.js"
+  },
+  "keywords": [
+    "gogocode",
+    "ast"
+  ],
+  "main": "transform.js",
+  "author": "chibing",
+  "license": "ISC",
+  "engines": {
+    "node": "*"
+  },
+  "devDependencies": {
+    "gogocode": "^1.0.48"
+  }
+}

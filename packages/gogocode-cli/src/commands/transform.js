@@ -231,7 +231,7 @@ function requireTransforms(transform) {
                 if (need) {
                     try {
                         console.log(`${chalk.green(transform)} installing ......`);
-                        cmd.runSync('npm', ['install', transform, '-g']);
+                        cmd.runSync('npm', ['install', transform + '@latest', '-g']);
                         console.log(`${chalk.green(transform)} install complete`);
                     } catch (error) {
                         reject(error);

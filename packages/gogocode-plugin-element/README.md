@@ -8,6 +8,9 @@ Element Plus 稳定版已经正式发布，在使用上与 Element 存在一定�
 
 然后就可以开始进行 对 Element 引用的升级
 
+你也可以参考我们针对 [vue-element-admin](https://github.com/PanJiaChen/vue-element-admin) 项目升级的实战教程：[升级 Vue3 的最后一块拼图，快试试这个工具自动升级你的 Element 老项目](https://juejin.cn/post/7068556246781001765)
+
+
 ## 安装工具
 
 全局安装最新的 [gogocode-cli](https://www.npmjs.com/package/)
@@ -30,6 +33,26 @@ gogocode -s ./src -t gogocode-plugin-element -o ./src-out
 
 另外，由于是静态的代码转换，可能你的代码里会有些我们没想到的写法导致转换出乱子，转换后请做好人工比对和测试！发现转换的问题可以[提交](https://github.com/thx/gogocode/issues)给我们。
 
+## 指定应用规则
+
+添加参数 `-p include-rules=xxx,yyy`，举例只应用 `calendar` 及 `popover` 规则：
+
+```bash
+gogocode -s ./src -t gogocode-plugin-element -o ./src-out -p include-rules=calendar,popover
+```
+
+规则名称请参看 [rules.js](./src/rules.js) 里面的 `name` 字段。
+
+## 排除应用规则
+
+
+添加参数 `-p exclude-rules=xxx,yyy`，举例只排除 `calendar` 及 `popover` 规则：
+
+```bash
+gogocode -s ./src -t gogocode-plugin-element -o ./src-out -p exclude-rules=calendar,popover
+```
+
+规则名称请参看 [rules.js](./src/rules.js) 里面的 `name` 字段。
 # 联系我们
 如果你在使用过程中遇到其他问题可以通过如下方式联系我们：
 
