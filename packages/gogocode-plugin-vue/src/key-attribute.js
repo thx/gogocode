@@ -5,6 +5,7 @@ module.exports = function (ast) {
     if(templateAst.length < 1){
         return ast
     }
+    /* 有些情况 例如路由的keep-alive v-if需要保留key，此处规则不执行
     templateAst.find('<$_$>').each(node => {       
         let attrList = node.attr('content.attributes') || []
         attrList.forEach((attr, index) => {
@@ -15,6 +16,7 @@ module.exports = function (ast) {
             }
         })
     })
+    */
     templateAst.find('<template v-for="$_$"></template>').each(node => {
         let childrens = node.attr('content.children') || []
         let attrKey = null
