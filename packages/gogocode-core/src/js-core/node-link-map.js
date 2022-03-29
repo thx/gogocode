@@ -8,5 +8,6 @@ module.exports = {
     'JSXElement': '\n',
     'ImportSpecifier': ',',
     'TSEnumMember': ',',
-    'SpreadElement': ','
+    'SpreadElement': ',',
+    'AssignmentPattern': ','
 }

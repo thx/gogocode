@@ -922,3 +922,12 @@ test('$.replace: import. replace', () => {
         .replace('const $_$ = require.context($$$)', `const $_$ = import.meta.glob('./**/*.svg')`)
     expect(res.generate().match('import.meta')).toBeTruthy()
 })
+
+test('$.replace: import. replace', () => {
+    let res = $(`export const foo = (bar1 = 1, bar2 = 2) => bar1 + bar2`)
+    .replace(
+        `const $_$1 = ($$$1) => $_$2 `,
+        `function $_$1($$$1) { return $_$2 }`
+    )
+    expect(res.generate().match('bar1 = 1,')).toBeTruthy()
+})
