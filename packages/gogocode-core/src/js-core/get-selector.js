@@ -120,6 +120,14 @@ function getSelector(selectorCode, parseOptions, expando) {
         } catch(e) {
             //
         }
+    } else if (selector.nodeType == 'MemberExpression') {
+        const selectorAstList = [selector]
+        const classPropSelector = { nodeType: '', structure: {} };
+        const classPropSelectorAst = parse(`type a = ${selectorCode}`, parseOptions).program.body[0].typeAnnotation.typeName
+        classPropSelector.nodeType = classPropSelectorAst.type;
+        filterProps(classPropSelectorAst, classPropSelector.structure);
+        selectorAstList.push(classPropSelector);
+        return selectorAstList;
     }
     return selector;
 }

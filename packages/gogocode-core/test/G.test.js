@@ -850,3 +850,17 @@ test('parse html attr contains > ', () => {
     console.log(res)
     expect(!!res.match('1<5</dd>')).toBeTruthy()
 })
+
+test('html attr generate', () => {
+    const code = `
+    <div class="a" @ok="
+        getContractBookkeepingTaskList();
+        stopBookTaskVisible = bookTaskVisible = taskVisible = false;
+        $emit('refresh-product-list');
+        ">1</div>
+        <div class="a">2</div>
+    `;
+
+    const ast = $(code, { parseOptions: { language: 'html'}}).generate()
+    expect(!!ast.match(`false;`)).toBeTruthy()
+})

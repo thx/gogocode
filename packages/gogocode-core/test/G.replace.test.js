@@ -931,3 +931,12 @@ test('$.replace: import. replace', () => {
     )
     expect(res.generate().match('bar1 = 1,')).toBeTruthy()
 })
+
+test('$.replace: type. replace', () => {
+    let res = $(`export type TDateTimeSelectValueItem = moment.Moment.m | string;`)
+    .replace(
+        `moment.Moment.m`,
+        `Dayjs`
+    )
+    expect(res.generate().match('Dayjs')).toBeTruthy()
+})
