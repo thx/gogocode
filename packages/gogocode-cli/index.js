@@ -23,7 +23,7 @@ const transform = require('./src/commands/transform');
         .option('-o, --out <path>', 'output file path, if not input use src path instead')
         .option('-s, --src <path>', 'source file path')
         .option('-d, --dry', 'dry run (no changes are made to files)')
-        .option('-p, --params <key=value>','params direct to plugin, eg: format=true&test=false')
+        .option('-p, --params <key=value>','params direct to plugin, eg: format=true#test=false, use \'#\' to join params')
         .option('-i, --info', 'show transform log info')
         .action((options) => {
             transform(options).then(() => { console.log(); }).catch(() => {

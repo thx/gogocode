@@ -296,7 +296,7 @@ function paramsToOptions(params, options) {
     if (!params) {
         return;
     }
-    const arr = params.split('&');
+    const arr = params.split('#');
     arr.forEach(kv => {
         const kvArr = kv.split('=');
         if (kvArr.length === 1) {
