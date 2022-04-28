@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="cn">
+  <head>
+    <meta charset="UTF-8" />
+    <title>GoGoCode Element Playground</title>
+    <style>
+      body {
+        width: 100vw;
+        height: 100vh;
+      }
+      .compare {
+        display: flex;
+        justify-content: space-around;
+        align-items: top;
+      }
+
+      .compare > div {
+        width: 50%;
+      }
+      .compare iframe {
+        width: 100%;
+        height: 800px;
+      }
+      .mt10 {
+        margin-top: 10px;
+      }
+      .mt20 {
+        margin-top: 20px;
+      }
+      .mb10 {
+        margin-bottom: 10px;
+      }
+      .mb20 {
+        margin-bottom: 20px;
+      }
+      .tc {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="main-app">
+      <h2 class="tc mt20 mb10">
+        GoGoCode Element Playground
+      </h2>
+      <div class="mt20 mb20 tc">
+        <select v-model="selected" v-on:change="changeRoute">
+          <option v-for="option in CompsConfig" v-bind:value="option.link">
+            {{ option.text }}
+          </option>
+        </select>
+        <div class="mt10">
+          <a
+            href="https://github.com/element-plus/element-plus/discussions/5657"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Element Breaking Change</a
+          >
+        </div>
+      </div>
+      <div class="compare">
+        <div id="vue2">
+          <iframe :src="'//localhost:7102'+ selected" frameborder="0"></iframe>
+        </div>
+        <div id="vue3">
+          <iframe :src="'//localhost:7103'+ selected" frameborder="0"></iframe>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
