@@ -2,13 +2,18 @@ const $ = require('gogocode');
 const path = require('path');
 const prettier = require('prettier');
 const fs = require('fs');
-const vuePlugin = require('gogocode-plugin-vue');
-const importRule = require('./src/import');
-const vModelEleRule = require('./src/v-model-ele');
-const vueTransform = vuePlugin.transform;
-const CompFileMap = {
+const importMx = require('./src/import-mx');
+const replaceView = require('./src/playground-replace-view');
+const CompFileMap = {};
 
-};
+function ensureDirectoryExistence(filePath) {
+    var dirname = path.dirname(filePath);
+    if (fs.existsSync(dirname)) {
+        return true;
+    }
+    ensureDirectoryExistence(dirname);
+    fs.mkdirSync(dirname);
+}
 
 function execRule(ruleName) {
     if (!ruleName) {
@@ -19,74 +24,71 @@ function execRule(ruleName) {
         ? CompFileMap[ruleName]
         : CompFileMap[ruleName]
             ? [CompFileMap[ruleName]]
-            : ['Comp'];
+            : ['index'];
 
     compFileNames.forEach((compFileName) => {
         const inputPath = path.resolve(
             __dirname,
-            `../gogocode-element-playground/packages/vue2/src/components/${ruleName}/${compFileName}.vue`
+            `./playground/packages/mx3/src/zs_scaffold/views/pages/demo/${ruleName}/${compFileName}.ts`
+        );
+        const inputTemplatePath = path.resolve(
+            __dirname,
+            `./playground/packages/mx3/src/zs_scaffold/views/pages/demo/${ruleName}/${compFileName}.html`
         );
         const outputPath = path.resolve(
             __dirname,
-            `../gogocode-element-playground/packages/vue3/src/components/${ruleName}/${compFileName}-out.vue`
+            `./playground/packages/mx5/src/magix5-site/views/pages/demo-out/${ruleName}/${compFileName}.ts`
         );
+        const outputTemplatePath = path.resolve(
+            __dirname,
+            `./playground/packages/mx5/src/magix5-site/views/pages/demo-out/${ruleName}/${compFileName}.html`
+        );
+
         const rule = require(`./src/${ruleName}`);
 
-        fs.readFile(inputPath, function read(err, code) {
-            if (err) {
+        Promise.all([fs.promises.readFile(inputPath, 'utf-8'), fs.promises.readFile(inputTemplatePath, 'utf-8')])
+            .then(([inputCode, inputTemplate]) => {
+                const script = $(inputCode);
+                const template = $(inputTemplate, { parseOptions: { language: 'html' } });
+
+                const rules = [importMx, replaceView, rule];
+                const api = { gogocode: $ };
+                const out = rules.reduce(
+                    ({ script, template }, rule) =>
+                        rule({ script, template }, api, {
+                            filePath: inputPath,
+                            rootPath: path.resolve(__dirname, `./playground/packages/mx3/src/zs_scaffold/`),
+                            outFilePath: outputPath,
+                            outRootPath: path.resolve(__dirname, `./playground/packages/mx3/src/zs_scaffold/`),
+                        }),
+                    { script, template }
+                );
+
+                const outputCode = out.script.generate();
+                const outputTemplate = out.template.generate();
+
+                const prettierOutPut = prettier.format(outputCode, {
+                    trailingComma: 'es5',
+                    tabWidth: 2,
+                    semi: false,
+                    singleQuote: true,
+                    printWidth: 80,
+                    parser: 'typescript',
+                });
+
+                ensureDirectoryExistence(outputPath);
+                ensureDirectoryExistence(outputTemplatePath);
+
+                Promise.all([
+                    fs.promises.writeFile(outputPath, prettierOutPut),
+                    fs.promises.writeFile(outputTemplatePath, outputTemplate),
+                ]).then(() => {
+                    console.log('The file was saved!');
+                });
+            })
+            .catch((err) => {
                 throw err;
-            }
-
-            let sourceCode = code.toString();
-
-            sourceCode = vueTransform(
-                {
-                    path: inputPath,
-                    source: sourceCode,
-                },
-                {
-                    gogocode: $,
-                },
-                {
-                    rootPath: path.resolve(__dirname, `../gogocode-element-playground/packages/vue2/src/`),
-                    outFilePath: outputPath,
-                    outRootPath: path.resolve(__dirname, `../gogocode-element-playground/packages/vue3/src/`),
-                }
-            );
-
-            const ast = $(sourceCode, { parseOptions: { language: 'vue' } });
-
-            const rules = [importRule, vModelEleRule, rule];
-            const api = { gogocode: $ };
-            const outAst = rules.reduce(
-                (ast, rule) =>
-                    rule(ast, api, {
-                        filePath: inputPath,
-                        rootPath: path.resolve(__dirname, `../gogocode-element-playground/packages/vue2/src/`),
-                        outFilePath: outputPath,
-                        outRootPath: path.resolve(__dirname, `../gogocode-element-playground/packages/vue3/src/`),
-                    }),
-                ast
-            );
-
-            const outputCode = outAst.generate();
-
-            const prettierOutPut = prettier.format(outputCode, {
-                trailingComma: 'es5',
-                tabWidth: 2,
-                semi: false,
-                singleQuote: true,
-                printWidth: 80,
-                parser: 'vue',
             });
-
-            fs.writeFile(outputPath, prettierOutPut, function (err) {
-                if (err) {
-                    throw err;
-                }
-                console.log('The file was saved!');
-            });
-        });
     });
 }
 

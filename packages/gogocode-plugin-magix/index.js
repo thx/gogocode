@@ -13,15 +13,15 @@ const transform = function (fileInfo, api, options) {
     const $ = api.gogocode;
 
     if (
-        !/\.vue$|\.js$|\.ts$|\.json$/.test(fileInfo.path) ||
+        !/\.html$|\.js$|\.ts$/.test(fileInfo.path) ||
         /node_modules/.test(fileInfo.path)
     ) {
         return sourceCode;
     }
     const ast = /\.json$/.test(fileInfo.path)
         ? sourceCode
-        : /\.vue$/.test(fileInfo.path)
-            ? $(sourceCode, { parseOptions: { language: 'vue' } })
+        : /\.html$/.test(fileInfo.path)
+            ? $(sourceCode, { parseOptions: { language: 'html' } })
             : $(sourceCode);
 
     const includeRules = options['include-rules'] ? options['include-rules'].split(',') : rules.map(r => r.name);
