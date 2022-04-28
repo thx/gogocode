@@ -1,0 +1,64 @@
+<!--md5:7a120226be90884962409a46526d9810-->
+{{each list as item index}}
+<div class="li">
+    <div class="name">
+        {{if needExpand}}
+            {{if (item.children && (item.children.length > 0))}}
+            <i class="mc-iconfont icon oper" mx-click="@{toggle}({index:{{=index}}})">{{if item.close}}&#xe65b;{{else}}&#xe65a;{{/if}}</i>
+            {{else}}
+                <!-- 只读状态下增加叶子节点占位符 -->
+                {{if (mode == 'readonly')}}
+                <i class="mc-iconfont icon">&#xe732;</i>
+                {{/if}}
+            {{/if}}
+        {{/if}}
+
+        <!-- 多选 -->
+        {{if (mode == 'checkbox')}}
+        <label>
+            <input class="checkbox"
+                type="checkbox"
+                id="cb_{{=viewId}}_{{=index}}"
+                value="{{=item[valueKey]}}"
+                name="{{=viewId}}" 
+                mx-change="@{check}({index:{{=index}}})"/>
+            <span {{if item.highlight}} class="color-brand" {{/if}}>{{=item[textKey]}}</span>
+        </label>
+        {{/if}}
+
+        <!-- 只读文案 -->
+        {{if (mode == 'readonly')}}
+        <span {{if item.highlight}} class="color-brand" {{/if}}>{{=item[textKey]}}</span>
+        {{/if}}
+
+        <!-- radio只在叶子节点可选 -->
+        {{if (mode == 'radio')}}
+            {{if (item.children && (item.children.length > 0 && (valueType == 'bottom')))}}
+            <span {{if item.highlight}} class="color-brand" {{/if}}>{{=item[textKey]}}</span>
+            {{else}}
+            <label>
+                <input class="radio" type="radio"
+                    id="r_{{=viewId}}_{{=index}}"
+                    value="{{=item[valueKey]}}"
+                    name="{{=ownerId}}" />
+                <span {{if item.highlight}} class="color-brand" {{/if}}>{{=item[textKey]}}</span>
+            </label>
+            {{/if}}
+        {{/if}}
+    </div>
+    {{if (item.children && (item.children.length > 0))}}
+        <mx-tree.branch
+            id="{{=viewId}}_{{=index}}"
+            owner-id="{{=ownerId}}"
+            mode="{{=mode}}"
+            need-expand="{{@needExpand}}"
+            value-type="{{=valueType}}"
+            text-key="{{=textKey}}"
+            value-key="{{=valueKey}}"
+            close-map="{{@closeMap}}"
+            highlight-map="{{@highlightMap}}"
+            list="{{@item.children}}"
+            class="{{if item.close}} close {{/if}} {{if !item.isAll}} indent {{/if}}"/>
+    {{/if}}
+</div>
+{{/each}}

@@ -1,0 +1,25 @@
+/*md5:7b25b3d92c55606296cfea5c2b0d37b9*/
+/* @dependent: ./index.less */
+/* 该样式本应属于dialog组件，但因对话框内容要引用dialog-header 等样式，单独放在dialog组件中使用不方便，因此全局处理 */
+.dialog-header,
+.dialog-body {
+    padding: var(--mx-comp-v-gap) var(--mx-comp-h-gap);
+}
+
+.dialog-header {
+    border-bottom: 1px solid var(--color-border);
+
+    .header-name {
+        display: inline-flex;
+        align-items: center;
+        font-size: 16px;
+    }
+}
+
+.dialog-footer {
+    box-sizing: border-box;
+    min-height: calc(var(--input-height) + 20px); // border
+    padding: 10px var(--mx-comp-h-gap);
+    border-top: 1px solid var(--color-border);
+    text-align: var(--mx-dialog-text-align, left);
+}

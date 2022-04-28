@@ -1,0 +1,143 @@
+{
+  "name": "zs_scaffold",
+  "version": "0.0.1",
+  "rmxConfig": {
+    "kit": "magix"
+  },
+  "magixCliConfig": {
+    "preloadModuleList": true,
+    "closeInspector": true,
+    "supportApiPathParams": true,
+    "rapVersion": "2",
+    "matPort": "1003",
+    "rapProjectId": "1453",
+    "logkey": "alimama_bp.4.1",
+    "spma": "",
+    "dataPlusConfigPath": "./src/zs_scaffold/dataplus/config.js",
+    "modelsPath": "src/zs_scaffold/services/models.js",
+    "magixCombineConfig": {
+      "galleries": {
+        "mxRoot": "zs_scaffold/gallery/",
+        "mxMap": {},
+        "lgRoot": "zs_scaffold/gallery-local/"
+      },
+      "components": {
+        "wcsRoot": "zs_scaffold/gallery-web/components/"
+      }
+    },
+    "galleries": [
+      {
+        "name": "@ali/zs-gallery",
+        "importTo": "src/zs_scaffold/gallery"
+      },
+      {
+        "name": "@ali/dataplus",
+        "importTo": "src/zs_scaffold/dataplus"
+      },
+      {
+        "name": "@ali/mm-portal",
+        "importTo": "src/zs_scaffold/gallery-react"
+      },
+      {
+        "name": "@ali/wcs-components",
+        "path": "src/zs_scaffold/gallery-web"
+      },
+      {
+        "name": "@ali/common-code",
+        "importTo": "src/zs_scaffold/public",
+        "single": true
+      }
+    ],
+    "magixJsTranspile": "esnext",
+    "transpiler": "esbuild",
+    "esBuildTarget": [
+      "es2018"
+    ],
+    "magixDesigerTemplate": "@ali/magix-desiger-bptemplate",
+    "jsExtension": ".ts",
+    "chartParkId": "13",
+    "chartParkIndexPath": "src/zs_scaffold/chartpark/index.js",
+    "ipConfig": {
+      "预发": "140.205.215.168|https://pre-onebp.taobao.com:443/index.html",
+      "线上": "106.11.223.90|https://onebp.taobao.com:443/index.html"
+    },
+    "timeout": 60000,
+    "apiMatch": [
+      "api/",
+      ".json",
+      ".action"
+    ],
+    "indexMatch": [
+      "index.html",
+      "indexbp.html"
+    ],
+    "scopedCss": [
+      "./src/zs_scaffold/assets/base.less"
+    ],
+    "globalCss": [
+      "./src/zs_scaffold/gallery/mx-style/index.less"
+    ],
+    "spmFolder": "src/zs_scaffold/views",
+    "srcFolder": "src",
+    "buildFolder": "build",
+    "rootAppName": "zs_scaffold",
+    "cloudBuild": true,
+    "dynamicProjectName": false,
+    "internationalCdn": false,
+    "iconfontScanPath": "src",
+    "iconfontPath": "src/zs_scaffold/assets/iconfont.less",
+    "rapper": false
+  },
+  "devDependencies": {
+    "@ali/magix-desiger-bptemplate": "^1.0.0",
+    "@types/jquery": "3.3.4"
+  },
+  "scripts": {
+    "c": "git add -A; git commit -m 'dev'; git push",
+    "rap": "mm dev -p 6543 --https  --close-docs --close-desiger",
+    "debug": "mm dev -d --https  --close-docs --close-desiger"
+  },
+  "dependencies": {},
+  "contributors.bak": [
+    {
+      "id": "71147",
+      "name": "浩添"
+    },
+    {
+      "id": "252254",
+      "name": "奇贤"
+    },
+    {
+      "id": "086270",
+      "name": "宫卫"
+    },
+    {
+      "id": "064856",
+      "name": "释剑"
+    },
+    {
+      "id": "024880",
+      "name": "逢春"
+    },
+    {
+      "id": "195417",
+      "name": "梵墨"
+    },
+    {
+      "id": "083123",
+      "name": "虞佳"
+    },
+    {
+      "id": "050763",
+      "name": "崇志"
+    },
+    {
+      "id": "050971",
+      "name": "左莫"
+    },
+    {
+      "id": "058782",
+      "name": "行列"
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "name": "@ali/mm-portal",
+  "version": "0.0.15",
+  "description": "",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "start": "npm-run-all -p dev:tsc dev:umd dev:cssbridge dev:tmpl",
+    "dev:tsc": "tsc --watch --pretty --preserveWatchOutput --project tsconfig.json",
+    "dev:umd": "mm-scripts dev",
+    "dev:cssbridge": "mm cssbridge --kit react; mv -f src/react.var.css src/cssbridge; mv -f src/magix.var.css src/cssbridge",
+    "dev:tmpl": "cp -fr ./tmpl/* ./examples/magix-caller/src/magix-caller/gallery-react; cp -fr ./tmpl/* ./examples/magix-callee/src/magix-callee/gallery-react",
+    "build": "rm -fr build/*; npm-run-all -p build:tsc build:umd build:cssbridge",
+    "build:tsc": "tsc --listEmittedFiles --project tsconfig.json",
+    "build:umd": "mm-scripts build",
+    "build:cssbridge": "mkdir build/umd; cleancss --output ./build/umd/react.var.css ./src/cssbridge/react.var.css --format beautify; cleancss --output ./build/umd/react.var.min.css ./src/cssbridge/react.var.css; cleancss --output ./build/umd/magix.var.css ./src/cssbridge/magix.var.css --format beautify; cleancss --output ./build/umd/magix.var.min.css ./src/cssbridge/magix.var.css;",
+    "daily": "def publish --daily",
+    "publish": "def publish --prod; yarn run build; tnpm publish;",
+    "docs:watch": "nodemon --verbose --ext js,ts,tsx,json --watch src --exec 'yarn run docs'",
+    "========== examples ==========": "",
+    "examples:start:react": "npm-run-all --parallel start:react*",
+    "start:react-caller": "cd examples/react-caller && yarn install && yarn start;",
+    "start:react-callee": "cd examples/react-callee && yarn install && yarn start;",
+    "examples:start:magix": "npm-run-all --parallel start:magix*",
+    "start:magix-caller": "cd examples/magix-caller && yarn install && yarn start;",
+    "start:magix-callee": "cd examples/magix-callee && yarn install && yarn start;",
+    "========== link ==========": "",
+    "examples:link": "yarn link; npm-run-all --parallel link:*",
+    "link:react-caller": "cd examples/react-caller && yarn link @ali/mm-portal",
+    "link:react-callee": "cd examples/react-callee && yarn link @ali/mm-portal"
+  },
+  "dependencies": {
+    "@ali/magix-ports-react": "^1.1.5",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^5.2.0"
+  },
+  "devDependencies": {
+    "@ali/mm-scripts": "^2.0.45",
+    "@types/node": "^14.14.22",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.9",
+    "@types/react-router-dom": "^5.1.7",
+    "@welldone-software/why-did-you-render": "^6.2.0",
+    "clean-css-cli": "^5.3.2",
+    "npm-run-all": "^4.1.5",
+    "requirejs": "^2.3.6",
+    "seajs": "^3.0.3",
+    "typescript": "^4.1.3"
+  },
+  "files": [
+    "build",
+    "docs",
+    "src",
+    "tmpl",
+    ".rmxrc",
+    "abc.json",
+    "CHANGELOG.md",
+    "package.json",
+    "README.md",
+    "tsconfig.json",
+    "yarn.lock"
+  ],
+  "author": "",
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://registry.npm.alibaba-inc.com"
+  },
+  "__npminstall_done": true,
+  "_from": "@ali/mm-portal@0.0.15",
+  "_resolved": "https://registry.npm.alibaba-inc.com/@ali/mm-portal/download/@ali/mm-portal-0.0.15.tgz"
+}

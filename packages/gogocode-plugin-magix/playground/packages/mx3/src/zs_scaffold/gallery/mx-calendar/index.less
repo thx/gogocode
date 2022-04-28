@@ -1,0 +1,268 @@
+/*md5:0ed4dff8814132031c793e2b93e6a2b2*/
+:root {
+    --mx-calendar-item-gap: 2px;
+    --mx-calendar-item-size: calc(2 * var(--font-size));
+    --mx-calendar-width: calc((var(--mx-calendar-item-size) + var(--mx-calendar-item-gap) * 2) * 7 + 20px);
+    --mx-calendar-height: calc((var(--mx-calendar-item-size) + var(--mx-calendar-item-gap) * 2) * 8 + 20px);
+    --mx-calendar-ym-width: calc((var(--mx-calendar-width) - 60px) / 3);
+    --mx-calendar-ym-height: calc((var(--mx-calendar-height) - var(--mx-calendar-item-size) - var(--mx-calendar-item-gap) * 2 - 80px) / 4);
+    --mx-calendar-time-width: calc(var(--mx-calendar-item-size) * 2 + 6px);
+}
+
+.wrapper {
+    position: relative;
+    z-index: 1000;
+    width: var(--mx-calendar-width);
+    padding: 0;
+    background-color: #fff;
+    border-radius: var(--border-radius);
+    overflow-y: hidden;
+    color: #333;
+    text-align: center;
+
+    .header {
+        width: var(--mx-calendar-width);
+        padding: 2px 4px;
+
+        .minus {
+            float: left;
+        }
+
+        .plus {
+            float: right;
+            transform: scaleX(-1);
+        }
+
+        .minus,
+        .plus {
+            line-height: var(--mx-calendar-item-size);
+            font-size: var(--font-size);
+            color: #ccc;
+            cursor: pointer;
+
+            &:hover {
+                color: var(--color-brand);
+            }
+
+        }
+
+        .title {
+            display: inline-block;
+            height: var(--mx-calendar-item-size);
+            line-height: var(--mx-calendar-item-size);
+            padding: 0 10px;
+            cursor: pointer;
+            border-radius: var(--border-radius);
+            color: #666;
+
+            &:hover {
+                background-color: var(--color-bg-hover);
+            }
+
+        }
+
+    }
+
+    .body {
+        width: var(--mx-calendar-width);
+
+        .weeks {
+            background-color: var(--color-bg);
+            padding: 0 10px;
+            color: #666;
+        }
+
+        .days {
+            padding: 10px;
+        }
+
+        .week,
+        .day {
+            float: left;
+            width: var(--mx-calendar-item-size);
+            height: var(--mx-calendar-item-size);
+            margin: var(--mx-calendar-item-gap);
+            line-height: var(--mx-calendar-item-size);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            color: #333;
+        }
+
+        .day:hover {
+            background-color: var(--color-bg-hover);
+        }
+
+        .gray {
+            color: #999;
+        }
+
+        .today,
+        .today:hover {
+            background-color: var(--color-brand-opacity);
+        }
+
+        .notallowed,
+        .notallowed:hover {
+            cursor: not-allowed;
+            color: #eeeeee;
+            background-color: #fff;
+        }
+
+        .selected,
+        .selected:hover {
+            color: #fff;
+            background-color: var(--color-brand);
+        }
+
+    }
+
+    .time {
+        border-top: 1px solid var(--color-border);
+    }
+}
+
+.y-panel,
+.m-panel {
+    position: absolute;
+    top: -100%;
+    left: 0;
+    right: 0;
+    transition: top 0.15s;
+    background-color: #fff;
+}
+
+.ym-show {
+    top: 0;
+}
+
+.ym {
+    float: left;
+    width: var(--mx-calendar-ym-width);
+    height: var(--mx-calendar-ym-height);
+    margin: 10px;
+    line-height: var(--mx-calendar-ym-height);
+    border-radius: var(--border-radius);
+    font-size: calc(var(--font-size) + 2px);
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--color-bg-hover);
+    }
+
+}
+
+@group-height: 40px;
+
+[mx-view*="mx-time/content"] {
+    min-width: var(--mx-calendar-width);
+    padding: 10px;
+
+    .groups {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        z-index: 2;
+    }
+
+    .group {
+        overflow: hidden;
+        flex: 0 0 var(--mx-calendar-time-width);
+
+        .ipt {
+            position: relative;
+            margin-bottom: 5px;
+
+            input {
+                width: 100%;
+                height: @group-height;
+                font-size: 24px;
+                text-align: center;
+            }
+
+            &.ipt-disabled {
+                cursor: not-allowed;
+
+                &::after {
+                    opacity: .6;
+                    content: ' ';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: #fff;
+                    z-index: 1;
+                }
+
+                input {
+                    pointer-events: none;
+                }
+            }
+        }
+
+        .ipb {
+            width: var(--mx-calendar-item-size);
+            height: var(--mx-calendar-item-size);
+            line-height: var(--mx-calendar-item-size);
+            font-size: var(--font-size);
+            text-align: center;
+            font-weight: bold;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all var(--duration);
+            background-color: var(--color-bg);
+
+            &:hover {
+                background-color: var(--color-bg-hover);
+            }
+        }
+
+        .time-disabled {
+            cursor: not-allowed;
+
+            .ipb {
+                position: relative;
+                pointer-events: none;
+
+                &::after {
+                    opacity: .6;
+                    content: ' ';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: #fff;
+                    z-index: 1;
+                }
+            }
+        }
+    }
+
+    .sps {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        width: 100%;
+        height: @group-height;
+
+        .sp {
+            float: left;
+            width: 50%;
+            font-size: 24px;
+            height: @group-height;
+            line-height: @group-height;
+            font-weight: bolder;
+            text-align: center;
+
+            &.spa {
+                padding-left: calc(var(--mx-calendar-time-width) / 2);
+            }
+
+            &.spb {
+                padding-right: calc(var(--mx-calendar-time-width) / 2);
+            }
+        }
+    }
+}

@@ -1,0 +1,50 @@
+/*md5:49cf0b2fa23b7ccde32b41a819756c23*/
+@gtip-close-size: 26px;
+@gtip-padding-top: 10px;
+@gtip-padding-left: 24px;
+
+.gtip {
+    opacity: 0;
+    position: fixed;
+    left: 0;
+    z-index: -99999;
+    width: 100%;
+    height: auto;
+    padding-top: @gtip-padding-top;
+    padding-bottom: @gtip-padding-top;
+    padding-left: @gtip-padding-left;
+    padding-right: @gtip-close-size + @gtip-padding-left;
+    line-height: 1.5;
+    box-shadow: var(--mx-grid-shadow, 0 1px 1px 0 rgba(0, 0, 0, 0.08));
+    transition: all var(--duration);
+
+    .close {
+        opacity: .5;
+        position: absolute;
+        top: @gtip-padding-top - 3;
+        right: @gtip-padding-left - 10;
+        width: @gtip-close-size;
+        height: @gtip-close-size;
+        line-height: @gtip-close-size;
+        text-align: center;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 50%;
+        transition: all var(--duration);
+        cursor: pointer;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}
+
+.gtip-show {
+    opacity: 1;
+    z-index: 100000;
+}
+
+.inner-text {
+    display: inline-flex;
+    align-items: center;
+}

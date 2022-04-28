@@ -1,0 +1,122 @@
+/*md5:86fd8961d8df70b60dec00b3b9758dbc*/
+[mx-view*="mx-status/index"] {
+    width: auto;
+    height: var(--input-small-height);
+    min-height: var(--input-small-height);
+    min-width: 0;
+}
+
+[mx-view*="mx-status/dropdown"] {
+    &:hover {
+        .readonly {
+            pointer-events: none;
+            cursor: default;
+        }
+    }
+}
+
+.status {
+    position: relative;
+    white-space: nowrap;
+}
+
+.status-icon,
+.status-icon>*,
+.status-name,
+.oper-icon,
+.expand-arrow {
+    float: left;
+    height: var(--input-small-height);
+    line-height: var(--input-small-height);
+    vertical-align: middle;
+
+}
+
+.status-icon,
+.status-icon>* {
+    font-size: 20px;
+}
+
+.status-name {
+    margin-left: 8px;
+}
+
+.expand-triangle {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 4px;
+    line-height: 0;
+    font-size: 0;
+    overflow: hidden;
+    border-style: solid;
+    border-width: 3px 3px 0 3px;
+    border-color: #999 transparent transparent transparent;
+    vertical-align: middle;
+}
+
+.oper-icon {
+    float: right;
+    color: #999;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.status-line {
+    height: 0;
+    border-top: 1px solid var(--color-border);
+}
+
+.status-info {
+    display: none;
+    position: absolute;
+    min-width: calc(var(--font-size) * 6 + 60px);
+    max-width: none;
+    background-color: #fff;
+    border-radius: var(--border-radius);
+    z-index: 999999;
+    overflow: hidden;
+
+    .status-oper {
+        font-size: 12px;
+        height: calc(var(--input-small-height) + 20px);
+        line-height: var(--input-small-height);
+        padding: 10px;
+        cursor: pointer;
+
+        .oper-icon {
+            display: none;
+        }
+
+        &:hover {
+            background-color: var(--color-bg-hover);
+        }
+
+        &.status-oper-cur {
+            cursor: default;
+
+            .oper-icon {
+                display: block;
+            }
+        }
+    }
+
+    .status-desc {
+        min-width: 140px;
+        height: calc(var(--input-small-height) + 20px);
+        line-height: var(--input-small-height);
+        padding: 10px;
+    }
+
+    .status-tip {
+        width: 220px;
+        font-size: 12px;
+        padding: 0 10px 10px 10px;
+        line-height: 18px;
+        word-break: break-all;
+    }
+
+    &.status-show {
+        display: block;
+    }
+}

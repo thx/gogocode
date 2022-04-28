@@ -1,0 +1,14 @@
+<!--md5:af8f46cf5241def2a98cd34ed1e85813-->
+{{if content}}
+<a {{if outer}} href="{{=url}}" target="_blank" rel="noopener noreferrer" {{else}} mx-click="openDlg()" {{/if}} 
+    {{if spm}} data-spm-click="{{=spm}}_custom" {{/if}}>
+    <span class="cursor-pointer">{{!content}}</span>
+</a>
+{{else}}
+<a {{if box}} class="box" {{/if}} 
+    {{if outer}} href="{{=url}}" target="_blank" rel="noopener noreferrer" {{else}} mx-click="openDlg()" {{/if}} 
+    {{if spm}} data-spm-click="{{=spm}}_box" {{/if}}>
+    <i class="icon mc-iconfont cursor-pointer">&#xe73f;</i>
+    {{if box}}<div class="tip">智能</div><div class="tip">客服</div>{{/if}}
+</a>
+{{/if}}

@@ -1,0 +1,44 @@
+<!--md5:8d32a2f9f61952dbe26e9dbabd1fea31-->
+
+{{if (linkHref && !disabled)}}
+    <a href="{{=linkHref}}" target="{{=linkTarget}}" rel="noopener noreferrer"
+        style="{{=styles}}; {{if width}} width: {{=width}}px; {{else}} width: 100%; {{/if}}"
+        class="mx-btn mx-btn--{{=size}} mx-btn--{{=mode}}">
+        <span class="text {{if loading}} text-hide {{/if}}">{{!content}}</span>
+    </a>
+{{else}}
+    <button type="button" id="{{=viewId}}_btn" 
+        style="{{=styles}}; {{if width}} width: {{=width}}px; {{else}} width: 100%; {{/if}}"
+        class="mx-btn mx-btn--{{=size}} mx-btn--{{=mode}}"
+        {{if animing}} mx-comp-expand-amin="animing" {{/if}}
+        {{if (disabled || loading)}} disabled="true" {{/if}}
+        mx-click="@{anim}()">
+        <span class="text {{if loading}} text-hide {{/if}}">{{!content}}</span>
+    </button>
+    {{if loading}}
+    <mx-loading mx-click="@{stop}()" 
+        class="load"
+        style="{{if (size == 'small')}} height: 250%; transform: scale(0.4); {{else}} height: 200%; transform: scale(0.5); {{/if}}"
+        color-bg="{{=loadingColorBg}}"
+        color-gradient="{{=loadingColorGradient}}" 
+        color="{{=loadingColor}}"/>
+    {{/if}}
+{{/if}}
+{{if tagContent}}
+<span mx-click="@{stop}()" class="mx-btn-tag mx-tag {{if (disabled || loading)}} mx-tag-disabled {{/if}}" 
+    {{if tagColor}} style="background-color: {{=tagColor}}; border: 1px solid {{=tagColor}};" {{/if}}>
+    <span class="mx-tag-name">{{!tagContent}}</span>
+</span>
+{{/if}}
+{{if (disabled || loading)}}
+<span mx-click="@{stop}()" class="disabled-mask"></span>
+{{/if}}
+{{if (disabled && disabledTip)}}
+<mx-popover mx-click="@{stop}()" class="pop-mask" width="{{=disabledWidth}}" placement="{{=disabledPlacement}}" content="{{=disabledTip}}"></mx-popover>
+{{/if}}
+
+<!-- 品牌色按钮渐变色预留 -->
+{{if mode == 'primary'}}
+<span class="bg-gradient"></span>
+<span class="bg-gradient-hover"></span>
+{{/if}}

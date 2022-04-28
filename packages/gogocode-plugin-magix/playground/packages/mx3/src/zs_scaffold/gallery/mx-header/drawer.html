@@ -1,0 +1,33 @@
+<!--md5:a38d0ab80e53e8c5b10a583ca7089d9c-->
+<div class="drawer">
+    <div class="drawer-wrapper" style="height: {{=height}}px; {{if login && !user}} padding-bottom: calc(var(--input-height) + 20px); {{/if}}">
+        <div class="drawer-link">
+            <a href="//www.alimama.com" target="_blank" rel="noopener noreferrer" {{if spm}} data-spm-click="{{=spm}}mmh" {{/if}}>
+                <span class="drawer-logo"><img src="https://img.alicdn.com/tfs/TB1ieKzOKH2gK0jSZJnXXaT1FXa-62-62.png" /></span>
+                <span>阿里妈妈首页</span>
+                <i class="link-icon mc-iconfont">&#xe602;</i>
+            </a>
+        </div>
+        {{each list as item}}
+            <div class="drawer-title">{{=item.text}}</div>
+            {{each item.seconds as second}}
+                {{each second.thirds as third}}
+                <div class="drawer-link">
+                    <a href="{{=third.link}}" target="_blank" rel="noopener noreferrer" {{if spm}} data-spm-click="{{=spm}}{{=third.text}}" {{/if}}>
+                        {{if third.logo}}<span class="drawer-logo"><img src="{{=third.logo}}" /></span>{{/if}}
+                        <span>{{=third.text}}</span>
+                        <i class="link-icon mc-iconfont">&#xe602;</i>
+                    </a>
+                </div>
+                {{/each}}
+            {{/each}}
+        {{/each}}
+    </div>
+
+    <!-- 需要显示登陆 -->
+    {{if login && !user}}
+    <div class="login-wrapper">
+        <a href="javascript:;" mx-click="showLogin()" class="login-btn btn btn-brand">登录</a>
+    </div>
+    {{/if}}
+</div>

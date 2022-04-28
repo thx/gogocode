@@ -1,0 +1,17 @@
+<!--md5:fdd6b913928357e2e8dfaa8900bc6bad-->
+{{if dot}}
+<div class="dot" id="trigger_{{=viewId}}" style="background: {{=info.color}};"
+    mx-click="@{toggle}()"
+    mx-change="@{stop}()"></div>
+{{else}}
+<div id="trigger_{{=viewId}}" class="mx-trigger {{if show}} mx-trigger-open {{/if}}" 
+    {{if animing}} mx-comp-expand-amin="animing" {{/if}} mx-click="@{toggle}()" mx-change="@{stop}()">
+    <span class="mx-trigger-label">{{=info.color}}</span>
+    <i class="mc-iconfont mx-trigger-arrow">&#xe6c1;</i>
+</div>
+{{/if}}
+<div class="color-output mx-output-bottom {{if show}} mx-output-open {{/if}}"
+    id="cpcnt_{{=viewId}}" 
+    style="left:{{=left}}px;top:{{=top}}px;"
+    mx-view="@./index?data={{@info}}"
+    mx-change="@{color.picked}()"></div>

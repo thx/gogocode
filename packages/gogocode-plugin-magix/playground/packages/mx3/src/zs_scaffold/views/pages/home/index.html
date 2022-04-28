@@ -1,0 +1,45 @@
+<!-- 通用活动+红包+运营推送  -->
+<div id="{{=all.bizCode}}_common_banners" 
+    mx-view="common-site/views/pages/pageant/index?bizCode={{=all.bizCode}}"
+    mx-click="action()"></div>
+
+<mx-grid.row gutter="16px">
+    <mx-grid.col flex="1">
+        <div mx-view="@./report">
+            <wcs-skeleton class="mb16" type="report" num="6"></wcs-skeleton>
+        </div>
+
+        <mx-grid.row gutter="16px">
+            {{for(let i=0;i<3;i+=1)}}
+            <mx-grid.col mx-view="@./content">
+                <wcs-skeleton class="mb16" type="img" gap="false" height="80"></wcs-skeleton>
+            </mx-grid.col>
+            {{/for}}
+        </mx-grid.row>
+    </mx-grid.col>
+    <mx-grid.col width="320px">
+        <div mx-view="@./main">
+            <wcs-skeleton class="mb16" type="img" gap="false" height="80"></wcs-skeleton>
+        </div>
+
+        <mx-grid class="mb16">
+            <mx-grid.title 
+                content="相关链接"/>
+            <mx-grid.body>
+                <div class="lh32">脚手架git仓库：<a class="link-brand" href="http://gitlab.alibaba-inc.com/mm/zs_scaffold" target="_blank">点击查看</a></div>
+                <div class="lh32">iconfont库：<a class="link-brand" href="https://www.iconfont.cn/manage/index?manage_type=myprojects&projectId=1657121&keyword=&project_type=&page=" target="_blank">点击查看</a></div>
+                <div class="lh32">chartpark图表库：<a class="link-brand" href="https://chartpark.alibaba-inc.com/#!/manage/index?projectId=13" target="_blank">点击查看</a></div>
+            </mx-grid.body>
+        </mx-grid>
+
+        <!-- common-site通用账户信息 -->
+        <div mx-view="common-site/views/pages/account/home-card?bizCode={{=all.bizCode}}">
+            <wcs-skeleton class="mb16" type="text-lines" tip="true" num="1" btns="2"></wcs-skeleton>
+        </div>
+
+        <!-- common-site通用营销卡片 -->
+        <div mx-view="common-site/views/pages/pageant/img-cards?data={{@imgs}}">
+            <wcs-skeleton class="mb16" type="img" height="160"></wcs-skeleton>
+        </div>
+    </mx-grid.col>
+</mx-grid.row>

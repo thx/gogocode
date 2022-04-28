@@ -1,0 +1,42 @@
+<!--md5:5a2adc3219375a4a13e9e63808cd5208-->
+<div class="clearfix">
+    {{each groups as list gIndex}}
+        {{if (gIndex == 0)}}
+        <div class="mx-shadow group first" style="width: {{=width}}px; height: {{=height}}px;">
+            <div class="header">
+                <span class="title">{{=title}}</span>
+                <span class="tip">{{=tip}}</span>
+            </div>
+            <div class="body">
+                {{each list as item iIndex}}
+                <div class="line {{if item.cur}} cur {{/if}} {{if item.hover}} hover {{/if}}" 
+                    mx-click="@{select}({gIndex:{{=gIndex}},iIndex:{{=iIndex}}})"
+                    mx-mouseover="@{select}({gIndex:{{=gIndex}},iIndex:{{=iIndex}}})">
+                    <div class="img"><img src="{{=item[imgKey]}}" /></div>
+                    <div class="cont">
+                        <div class="text">{{=item[textKey]}}</div>
+                        <div class="tip">{{=item[tipKey]}}</div>
+                    </div>
+                    {{if (item.children && item.children.length)}}
+                    <span class="mc-iconfont arrow">&#xe6c1;</span>
+                    {{/if}}
+                </div>
+                {{/each}}
+            </div>
+        </div>
+        {{else}}
+        <div class="mx-shadow group others" style="width: {{=width}}px; height: {{=height}}px;">
+            {{each list as item iIndex}}
+            <div class="line  {{if item.cur}} cur {{/if}} {{if item.hover}} hover {{/if}}" 
+                mx-click="@{select}({gIndex:{{=gIndex}},iIndex:{{=iIndex}}})"
+                mx-mouseover="@{select}({gIndex:{{=gIndex}},iIndex:{{=iIndex}}})">
+                <span class="text">{{=item[textKey]}}</span>
+                {{if (item.children && item.children.length)}}
+                <span class="mc-iconfont arrow">&#xe6c1;</span>
+                {{/if}}
+            </div>
+            {{/each}}
+        </div>
+        {{/if}}
+    {{/each}}
+</div>

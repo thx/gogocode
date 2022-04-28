@@ -1,0 +1,36 @@
+/*md5:e19bb738a4602f203b21f12d35af0996*/
+@pointer-size: 20px;
+.bar {
+    position: absolute;
+    left: -1000px;
+    top: 0;
+    z-index: 999999;
+    background: var(--color-brand);
+}
+
+.pointer {
+    position: absolute;
+    z-index: 999999;
+    width: @pointer-size;
+    height: @pointer-size;
+    border-radius: var(--border-radius);
+    &:after {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        font-size: var(--font-size);
+        line-height: @pointer-size;
+        text-align: center;
+        color: var(--color-brand);
+    }
+}
+
+.ok {
+    background: var(--color-brand-opacity);
+    border: 1px solid var(--color-brand);
+    &:after {
+        content: '✓';
+    }
+}

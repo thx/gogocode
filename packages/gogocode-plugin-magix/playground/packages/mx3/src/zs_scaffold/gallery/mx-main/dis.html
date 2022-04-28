@@ -1,0 +1,71 @@
+<!--md5:2210aa5fc2d048e416d7ebeeab160eb7-->
+<div class="main-nav" style="width: {{=leftWidth}}px;">
+    {{each stepInfos as step stepIndex}}
+    <div class="main-step {{if (step.index == curStepIndex)}} step-current {{/if}}">
+        <!-- 数值 -->
+        <span class="idx">
+            {{if ((stepInfos.length == stepIndex + 1) || (step.index < alreadyStep))}}
+                <!-- 显示打钩状态 1. 最后一步 2. 已完成的步骤 -->
+                <i class="mc-iconfont bold">&#xe65d;</i>
+            {{else}}
+                {{=(stepIndex + 1)}}
+            {{/if}}
+        </span>
+
+        <a href="javascript:;" class="step {{if ((step.index == curStepIndex) && (curSubStepIndex == -1))}} on {{/if}} "
+            data-sub="-1" 
+            mx-click="nav({stepIndex:{{=step.index}}})" {{if spm}} data-spm-click="{{=spm}}_nav_{{=step.index}}" {{/if}}>
+            {{=step.label}}
+        </a>
+    
+        {{if (step.subs.length > 1)}}
+            {{each step.subs as sub}}
+                <a href="javascript:;" class="step child {{if ((step.index == curStepIndex) && (curSubStepIndex == sub.index))}} on {{/if}}"
+                    {{if (sub.hide || sub.subHide)}} style="display: none;" {{/if}}
+                    data-sub="{{=sub.index}}" 
+                    mx-click="nav({stepIndex:{{=step.index}},subStepIndex:{{=sub.index}}})"
+                    {{if spm}} data-spm-click="{{=spm}}_nav_{{=step.index}}_sub_{{=sub.index}}" {{/if}}>
+                    {{=sub.label}}
+                </a>
+            {{/each}}
+        {{/if}}
+
+        <!-- 高亮背景 -->
+        <span 
+            {{if (step.index == curStepIndex)}}
+                {{if (curSubStepIndex == -1)}}
+                style="top: 0px; opacity: 1;" 
+                {{else}}
+                style="top: {{=(curSubStepIndex * stepLineHeight)}}px; opacity: 1;" 
+                {{/if}}
+            {{else}}
+                style="top: 0px; opacity: 0;" 
+            {{/if}}
+            class="pbg"></span>
+    </div>
+    {{/each}}
+</div>
+<div class="main-content clearfix" style="min-height: {{=viewHeight}}px; padding-top: {{=gapWidth}}px; padding-right: {{=gapWidth}}px; padding-left: {{=(leftWidth + gapWidth)}}px;">
+    {{each stepInfos as step}}
+        {{each step.subs as sub}}
+        <div class="content-box">
+            {{if !sub.titleHide}}
+            <div class="box-title clearfix">
+                <span class="title-text">
+                    {{if sub.icon}}<span class="title-icon">{{!sub.icon}}</span>{{/if}}
+                    <span class="title-label">{{!(sub.title || sub.label)}}</span>
+                    {{if sub.tip}}
+                    <span class="title-tip">{{!sub.tip}}</span>
+                    {{/if}}
+                </span>
+            </div>
+            {{/if}}
+            <mx-vframe class="box-bd"
+                data-sub="{{=viewId}}_sub_{{=step.index}}_{{=sub.index}}"
+                src="{{=sub.view}}?info={{@sub}}">
+                <mx-loading />
+            </mx-vframe>
+        </div>
+        {{/each}}
+    {{/each}}
+</div>

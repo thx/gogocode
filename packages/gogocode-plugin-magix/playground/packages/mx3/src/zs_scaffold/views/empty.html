@@ -1,0 +1,8 @@
+<!-- main -->
+<div mx-view="{{=viewPath}}?viewData={{@viewData}}">
+    <mx-loading />
+</div>
+
+<!-- footer 数据配置在alp，Lego2渲染层对jsonp进行referer校验，本地需要跑起来的时候请绑定一个 xxx.taobao.com的域名 -->
+<mx-footer mode="simple" />
+<div mx-view="@../gallery/mx-topbar/router?id=app"></div>

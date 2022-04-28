@@ -1,0 +1,67 @@
+<!--md5:37034a99027aa9dcb00c7e63a81682ef-->
+<div id="scs_<%=id%>">
+    <ul class="shortcuts clearfix">
+        <%for(var i=0;i<shortcuts.length;i++){%>
+        <li class="shortcut" id="sc_<%=shortcuts[i]%>_<%=id%>" 
+            style="background:#<%=shortcuts[i]%>" 
+            mx-click="@{shortcuts.picked}({color:'#<%=shortcuts[i]%>'})"></li>
+        <%}%>
+    </ul>
+</div>
+<div class="cbd clearfix">
+    <div class="cpicker" id="cz_<%=id%>" mx-mousedown="@{color.zone.drag}()">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%">
+            <defs>
+                <lineargradient id="gb_<%=id%>" x1="0%" y1="100%" x2="0%" y2="0%">
+                    <stop offset="0%" stop-color="#000000" stop-opacity="1"></stop>
+                    <stop offset="100%" stop-color="#CC9A81" stop-opacity="0"></stop>
+                </lineargradient>
+                <lineargradient id="gw_<%=id%>" x1="0%" y1="100%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#FFFFFF" stop-opacity="1"></stop>
+                    <stop offset="100%" stop-color="#CC9A81" stop-opacity="0"></stop>
+                </lineargradient>
+            </defs>
+            <rect x="0" y="0" width="100%" height="100%" fill="url(#gw_<%=id%>)"></rect>
+            <rect x="0" y="0" width="100%" height="100%" fill="url(#gb_<%=id%>)"></rect>
+        </svg>
+        <div class="cpicker-indicator" id="ci_<%=id%>"></div>
+    </div>
+    <div class="slide" mx-mousedown="@{slide.drag}()">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%">
+            <defs>
+                <lineargradient id="ghsv_<%=id%>" x1="0%" y1="100%" x2="0%" y2="0%">
+                    <stop offset="0%" stop-color="#FF0000" stop-opacity="1"></stop>
+                    <stop offset="13%" stop-color="#FF00FF" stop-opacity="1"></stop>
+                    <stop offset="25%" stop-color="#8000FF" stop-opacity="1"></stop>
+                    <stop offset="38%" stop-color="#0040FF" stop-opacity="1"></stop>
+                    <stop offset="50%" stop-color="#00FFFF" stop-opacity="1"></stop>
+                    <stop offset="63%" stop-color="#00FF40" stop-opacity="1"></stop>
+                    <stop offset="75%" stop-color="#0BED00" stop-opacity="1"></stop>
+                    <stop offset="88%" stop-color="#FFFF00" stop-opacity="1"></stop>
+                    <stop offset="100%" stop-color="#FF0000" stop-opacity="1"></stop>
+                </lineargradient>
+            </defs>
+            <rect x="0" y="0" width="100%" height="100%" fill="url(#ghsv_<%=id%>)"></rect>
+        </svg>
+        <div class="slide-indicator" id="si_<%=id%>"></div>
+    </div>
+</div>
+<%if(alpha){%>
+<div class="alpha pr">
+    <div class="alpha-tracker" id="at_<%=id%>" mx-mousedown="@{alpha.drag}()">
+        <div class="alpha-indicator" id="ai_<%=id%>"></div>
+    </div>
+</div>
+<%}%>
+<div class="foot clearfix">
+    <span class="fl bg-color" id="bc_<%=id%>"></span>
+    <input class="fl input color-value" id="v_<%=id%>" 
+        mx-keyup="@{input.end}()"
+        mx-paste="@{input.end}()"
+        mx-change="@{stop}()"
+        mx-focusin="@{stop}()"
+        mx-focusout="@{stop}()"/>
+    <%if(btns){%>
+    <mx-btn class="custom-btn" mode="primary" content="确定" mx-click="@{enter}()"/>
+    <%}%>
+</div>

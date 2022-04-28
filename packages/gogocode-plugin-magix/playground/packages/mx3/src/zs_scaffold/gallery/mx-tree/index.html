@@ -1,0 +1,29 @@
+<!--md5:29fe4f763c0e16fd3aa2776c11ba6d14-->
+{{if searchbox}}
+<mx-input class="mb10" 
+    style="width: {{=width}};"
+    id="searchbox_{{=viewId}}"
+    placeholder="搜索" 
+    prefix="search"
+    value="{{=keyword}}"
+    mx-change="@{search}()"
+    {{if spm}} data-spm-click="{{=spm}}_search" {{/if}}/>
+{{/if}}
+{{if height}}
+<div style="height: {{=height}}px; overflow-y: auto;">
+{{/if}}
+    <mx-tree.branch  class="{{if hasLine}} line {{/if}}" 
+        id="tree_{{=viewId}}"
+        owner-id="{{=ownerId}}"
+        mode="{{=mode}}"
+        need-expand="{{@needExpand}}"
+        value-type="{{=valueType}}"
+        text-key="{{=textKey}}"
+        value-key="{{=valueKey}}"
+        close-map="{{@closeMap}}"
+        highlight-map="{{@highlightMap}}"
+        list="{{@list}}"
+        mx-change="@{change}()" />
+{{if height}}
+</div>
+{{/if}}

@@ -1,0 +1,31 @@
+<!--md5:21b007388fbbb680701df0efd5ea3d81-->
+{{if (icon === 'number')}}
+    {{for(let i=0;i<count;i+=1)}}
+    <span class="num {{if (i < hoverNum)}} num-selected {{/if}}" style="--mx-effect-star-width: {{=starWidth}}px; --mx-effect-star-highlight: {{=color}};"
+        {{if operational}} mx-click="@{select}({index:{{=i}}})" mx-mouseover="@{over}({index:{{=i}}})" mx-mouseout="@{out}()" {{if spm}} data-spm-click="{{=spm}}{{=i}}" {{/if}} {{/if}}>{{=(i+1)}}</span>
+    {{/for}}
+{{else}}
+<div class="star-bg clearfix" style="--mx-effect-star-width: {{=starWidth}}px;">
+    {{for(let i=0;i<count;i+=1)}}
+    <span class="star {{if (hoverIndex == i)}} star-hover {{/if}} " 
+        {{if operational}} mx-click="@{select}({index:{{=i}}})" mx-mouseover="@{over}({index:{{=i}}})" mx-mouseout="@{out}()" {{if spm}} data-spm-click="{{=spm}}{{=i}}" {{/if}}  {{/if}}>
+        {{!icon}}
+    </span>
+    {{/for}}
+</div>
+<div class="star-on" style="--mx-effect-star-width: {{=starWidth}}px; width: {{=(hoverNum * starWidth)}}px;">
+    <div class="star-inner clearfix" style="width:{{=(count * starWidth)}}px;">
+        {{for(let i=0;i<count;i+=1)}}
+        <span class="star {{if (hoverIndex == i)}} star-hover {{/if}}" 
+            style="color: {{=color}};"
+            {{if operational}} mx-click="@{select}({index:{{=i}}})" mx-mouseover="@{over}({index:{{=i}}})" mx-mouseout="@{out}()" {{if spm}} data-spm-click="{{=spm}}{{=i}}" {{/if}} {{/if}}>
+            {{if (infos[i] && infos[i].tip)}}
+                <mx-popover width="120" content="{{=infos[i].tip}}">{{!icon}}</mx-popover>
+            {{else}}
+                {{!icon}}
+            {{/if}}
+        </span>
+        {{/for}}
+    </div>
+</div>
+{{/if}}

@@ -1,0 +1,25 @@
+<!--md5:0e262732e597d32ee5530c976907af8f-->
+<div id="toggle_{{=viewId}}" class="mx-trigger {{if expand}} mx-trigger-open {{/if}} ipt clearfix" 
+    mx-click="@{focus}()">
+
+    {{each selectedItems as item index}}
+    <span class="fl mx-trigger-tag {{if item.error}} mx-trigger-tag-error {{/if}}" mx-contextmenu="prevent()">
+        {{=item.text}}
+        <i class="mc-iconfont mx-trigger-tag-delete" mx-click="@{delete}({index:{{=index}}})">&#xe603;</i>
+    </span>
+    {{/each}}
+    
+    <input class="fl trigger" 
+        autocomplete="off"
+        style="width: {{=inputWidth}};"
+        {{if !selectedItems.length}}  placeholder="{{=placeholder}}" {{/if}}
+        value="{{=iv}}"
+        mx-keydown="@{check}()"
+        mx-keyup="@{check}()"
+        mx-paste="@{check}()"
+        mx-focusin="@{check}()"
+        mx-change="@{stop}()"
+        {{if disabled}} disabled="true" {{/if}} />
+    
+    <i class="mc-iconfont mx-trigger-arrow">&#xe6c1;</i>
+</div>

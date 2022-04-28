@@ -1,0 +1,29 @@
+<!--md5:e0bccfbad905b27a3749352656a26283-->
+<span class="rail" 
+    mx-contextmenu="@{prevent}()" 
+    mx-click="@{move.by.click}()"
+    style="{{if vertical}} height: {{=height}}px; {{else}} width: {{=width}}px; {{/if}} ">
+    {{each dots as d}}
+        <span class="dot" style="{{if vertical}} top: {{=(100 - d.percent)}}%;  {{else}} left: {{=d.percent}}%; {{/if}}"></span>
+        {{if (!dotReset && !vertical)}}
+        <mx-popover class="dot dot-pop" style="{{if vertical}} top: {{=(100 - d.percent)}}%;  {{else}} left: {{=d.percent}}%; {{/if}}"
+            content="{{=d.value}}"
+            width="auto"
+            mode="dark"></mx-popover>
+        {{else}}
+        <span class="dot-text" style="{{if vertical}} top: {{=(100 - d.percent)}}%;  {{else}} left: {{=d.percent}}%; {{/if}}">{{=d.value}}</span>
+        {{/if}}
+    {{/each}}
+    <span class="tracker"></span>
+    <span class="indicator" mx-mousedown="@{drag}()"></span>
+    <span class="pointer-label"></span>
+    <span class="scale-start">{{=min}}</span>
+    <span class="scale-end">{{=max}}</span>
+</span>
+{{if needInput}}
+<input type="text" class="input input-small rail-input" 
+    id="{{=viewId}}_input"
+    mx-keyup="@{enter}()"
+    mx-change="@{stop}()"
+    mx-focusout="@{out}()"  />
+{{/if}}

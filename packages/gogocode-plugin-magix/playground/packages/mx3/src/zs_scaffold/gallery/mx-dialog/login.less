@@ -1,0 +1,42 @@
+/*md5:e1d555f354548d9b8fc8792c9416aca8*/
+@gap: 8px;
+.login {
+    position: relative;
+    padding: @gap;
+}
+
+/*最小高度400 https://yuque.antfin-inc.com/up/login-doc/rgfgka*/
+
+.inner {
+    height: 400px;
+    overflow-y: hidden;
+}
+
+.tabs {
+    margin-bottom: @gap;
+}
+
+.close {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    width: 26px;
+    height: 26px;
+    z-index: 101;
+    border-radius: 50%;
+    background: transparent;
+    color: #ccc;
+    text-align: center;
+    border: 2px solid #fff;
+    background-color: #999;
+    .icon {
+        font-size: 18px;
+        font-weight: bold;
+        line-height: 22px;
+    }
+    &:hover,
+    &:focus {
+        background-color: #999;
+        color: #fff;
+    }
+}

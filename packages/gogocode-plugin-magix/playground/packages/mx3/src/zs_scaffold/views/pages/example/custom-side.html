@@ -1,0 +1,144 @@
+<mx-grid>
+    <mx-grid.title content="标题"/>
+    <mx-grid.body>
+        <form class="form form-10">
+            <div class="form-item">
+                <div class="form-label">mx-checkbox</div>
+                <div class="form-content clearfix">
+                    {{each mxCheckboxes as item}}
+                    <mx-checkbox class="mr30"
+                        name="{{=viewId}}_mxcs" 
+                        value="{{=item.value}}" 
+                        text="{{=item.text}}"
+                        {{:selected.mxCheckboxes{refresh:true,required:[true,'必选']}}} />
+                    {{/each}}
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="form-label">mx-checkbox.cards</div>
+                <div class="form-content clearfix">
+                    <mx-checkbox.cards 
+                        list="{{@checkboxCards}}" 
+                        selected="{{:selected.mxCheckboxCard{refresh:true,required:[true,'必选']}}}"/>
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="form-label">mx-radio</div>
+                <div class="form-content clearfix">
+                    {{each mxRadioes as item}}
+                    <mx-radio class="mr30"
+                        name="{{=viewId}}_mxrs" 
+                        text="{{=item.text}}"
+                        value="{{=item.value}}" 
+                        {{:selected.mxRadio{refresh:true,required:[true,'必选']}}} />
+                    {{/each}}
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="form-label">mx-radio.cards</div>
+                <div class="form-content clearfix">
+                    <mx-radio.cards 
+                        list="{{@radioCards}}" 
+                        selected="{{:selected.mxRadioCard{refresh:true,required:[true,'必选']}}}"/>
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="form-label">mx-input</div>
+                <div class="form-content clearfix">
+                    <mx-input 
+                        width="220" 
+                        placeholder="正则：汉字/字母/数字/下划线"         
+                        value="{{:selected.str{required:true,refresh:true,pattern:'^[a-zA-Z0-9_\u4e00-\u9fa5]+$'}}}"/>
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="form-label">下拉框单选</div>
+                <div class="form-content clearfix">
+                    <mx-dropdown.bd class="w220"
+                        empty-text="请选择"
+                        list="{{@[1,2,3]}}"
+                        selected="{{:selected.single{refresh:true,required:[true,'必选']}}}" />
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="form-label">多选逗号分隔</div>
+                <div class="form-content clearfix">
+                    <mx-dropdown.bd class="w220 mr20"
+                        multiple="true"
+                        empty-text="请选择"
+                        list="{{@[1,2,3]}}"
+                        selected="{{:selected.multiComma{refresh:true,required:[true,'必选']}}}" />
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="form-label">多选数组</div>
+                <div class="form-content clearfix">
+                    <mx-dropdown.bd class="w220"
+                        multiple="true"
+                        empty-text="请选择"
+                        list="{{@[1,2,3]}}"
+                        selected="{{:selected.multiArr{refresh:true,required:[true,'必选']}}}" />
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="form-label">选择单个时间</div>
+                <div class="form-content clearfix">
+                    <mx-calendar.datepicker class="w220" 
+                        selected="{{:selected.date{required:[true,'必选'],refresh:true}}}"/>
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="form-label">选择时间段</div>
+                <div class="form-content clearfix">
+                    <mx-calendar.rangepicker class="w220"
+                        vsenable="false"
+                        text-align="left"
+                        vs="false"
+                        start="{{:selected.start{refresh:true}}}"
+                        end="{{:selected.end{refresh:true}}}"/>
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="form-label">地区</div>
+                <div class="form-content clearfix">
+                    <mx-cascade class="w220"
+                        list="{{@areas}}"
+                        selected="{{:selected.area{required:[true,'必选'],refresh:true}}}"></mx-cascade>
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="form-label">radio + 输入框</div>
+                <div class="form-content clearfix">
+                    <mx-radio class="mr30 fl lh32"
+                        name="{{=viewId}}_type"
+                        value="def" 
+                        text="默认情况"
+                        {{:selected.type{refresh:true}}} />
+                    
+                    <mx-radio class="mr10 fl lh32"
+                        name="{{=viewId}}_type"
+                        value="custom"  
+                        text="自定义"
+                        {{:selected.type{refresh:true}}} />
+                    
+                    {{if (selected.type == 'custom')}}
+                    <mx-input class="fl w100" 
+                        placeholder="整数" 
+                        value="{{:selected.int{required:true,refresh:true,int:true}}}"/>
+                    {{/if}}
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="form-label">开关</div>
+                <div class="form-content clearfix">
+                    <mx-switch state="{{:selected.switch{refresh:true}}}"/>
+                </div>
+            </div>
+            <div class="form-item">
+                <mx-btn class="mr20" brand="true" mx-click="confirm()" content="确定"/>
+                <mx-btn class="mr20" content="取消"/>
+                {{if tip}} <span class="ml10">{{!tip}}</span> {{/if}}
+            </div>
+        </form>
+    </mx-grid.body>
+</mx-grid>

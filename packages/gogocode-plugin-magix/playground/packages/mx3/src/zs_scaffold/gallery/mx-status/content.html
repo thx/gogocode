@@ -1,0 +1,23 @@
+<!--md5:258ea360753d42225046c9cc2650421c-->
+{{if showInfo}}
+    <div class="status-desc clearfix">
+        <span class="status-icon" style="color: {{=info.color}};">{{!info.icon}}</span>
+        <span class="status-name">{{!info.text}}</span>
+    </div>
+    {{if info.tipView}}
+    <div class="status-tip" mx-view="{{=info.tipView}}?data={{@info.tipData}}"></div>
+    {{else if info.tip}}
+    <div class="status-tip">{{!info.tip}}</div>
+    {{/if}}
+    {{if (opers.length > 0)}}
+    <div class="status-line"></div>
+    {{/if}}
+{{/if}}
+
+{{each opers as item}}
+<div class="status-oper clearfix {{if (item.value == cur.value)}} status-oper-cur {{/if}}" mx-click="select({item:'{{@item}}'})">
+    <span class="status-icon" style="color: {{=item.color}};">{{!item.icon}}</span>
+    <span class="status-name">{{!item.text}}</span>
+    <i class="mc-iconfont oper-icon">&#xe65d;</i>
+</div>
+{{/each}}

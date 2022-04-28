@@ -1,0 +1,16 @@
+<!--md5:7def03eeb43ea2d62510677bc9a80ede-->
+<div id="trigger_{{=viewId}}"
+    class="mx-trigger {{if show}} mx-trigger-open {{/if}}"  
+    {{if animing}} mx-comp-expand-amin="animing" {{/if}}
+    mx-click="@{toggle}()"
+    mx-change="@{stop}()">
+    <span class="mx-trigger-label">{{if !dateInfo.prefix}}<i class="mc-iconfont mx-trigger-icon">&#xe74e;</i>{{else}}<span class="mx-trigger-prefix">{{!dateInfo.prefix}}：</span>{{/if}}{{=(dateInfo.selected || dateInfo.placeholder)}}</span>
+    {{if dateInfo.arrow}}<i class="mc-iconfont mx-trigger-arrow">&#xe6c1;</i>{{/if}}
+</div>
+<div class="mx-output-bottom {{if show}} mx-output-open {{/if}}" 
+    style="left: {{=left}}px; top: {{=top}}px;"
+    id="dpcnt_{{=viewId}}" 
+    mx-view="@./index?configs={{@dateInfo}}"
+    mx-change="@{date.picked}()" 
+    mx-cancel="@{hide}()"></div>
+

@@ -1,0 +1,25 @@
+<!--md5:85b0ce5363046b69aa7f0e600adc2e94-->
+<div id="toggle_{{=viewId}}" 
+    class="{{if (mode == 'tag' && multiple && selectedItems.length > 0)}} tag-trigger {{/if}} mx-trigger {{if expand}} mx-trigger-open {{/if}}"
+    {{if animing}} mx-comp-expand-amin="animing" {{/if}}>
+    {{if (mode == 'tag' && multiple && selectedItems.length > 0)}}
+    <div class="tags-outer">
+        {{if name}}<span class="prefix-name">{{!name}}：</span>{{/if}}
+        <span class="tag-wrapper">
+            {{each selectedItems as item index}}
+            <span class="custom-tag mx-trigger-tag {{if item.error}} mx-trigger-tag-error {{/if}}" mx-contextmenu="prevent()">
+                {{=item.text}}
+                <i class="mc-iconfont mx-trigger-tag-delete" mx-click="@{delete}({index:{{=index}}})">&#xe603;</i>
+            </span>
+            {{/each}}
+        </span>
+    </div>
+    {{else}}
+        <span class="mx-trigger-label">
+            {{if name}}<span class="prefix-name">{{!name}}：</span>{{/if}}
+            <span class="selected-text">{{!selectedText}}</span>
+        </span>
+    {{/if}}
+
+    <i class="mc-iconfont mx-trigger-arrow">&#xe6c1;</i>
+</div>

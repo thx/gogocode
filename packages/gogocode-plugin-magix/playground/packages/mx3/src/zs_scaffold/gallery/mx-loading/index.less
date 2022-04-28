@@ -1,0 +1,33 @@
+/*md5:6877f6e36c79aee2b53a6b7c5d7e1b02*/
+.mask-loading {
+    opacity: 0;
+    display: block;
+    position: fixed;
+    z-index: 999999;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: var(--border-radius);
+    transition: all var(--duration);
+}
+
+.mask-loading-dot {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 20px;
+    margin-left: -20px;
+    margin-top: -8px;
+}
+
+.mask-loading-backdrop {
+    opacity: 0;
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999998;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    transition: all var(--duration);
+}

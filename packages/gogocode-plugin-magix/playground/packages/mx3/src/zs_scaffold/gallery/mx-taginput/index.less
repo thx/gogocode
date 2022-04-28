@@ -1,0 +1,38 @@
+/*md5:78fddbe32e8a8512734b7d75793a5f8e*/
+[mx-view*="mx-taginput/index"] {
+    .ipt {
+        height: auto;
+        min-height: var(--input-height);
+        padding-top: var(--mx-trigger-tag-gap, 2px);
+        padding-bottom: var(--mx-trigger-tag-gap, 2px);
+        padding-left: calc(var(--mx-trigger-v-gap, 8px) - var(--mx-trigger-tag-gap, 2px));
+        padding-right: calc(var(--mx-trigger-v-gap, 8px) + var(--mx-trigger-arrow-size, 18px) - var(--mx-trigger-tag-gap, 2px));
+        user-select: none;
+    }
+
+    .trigger,
+    .trigger:hover,
+    .trigger:focus {
+        height: var(--mx-trigger-tag-height, 22px);
+        margin-top: var(--mx-trigger-tag-gap, 2px);
+        margin-bottom: var(--mx-trigger-tag-gap, 2px);
+        padding-top: 0;
+        padding-right: 0;
+        padding-bottom: 0;
+        padding-left: var(--mx-trigger-tag-gap, 2px);
+        line-height: var(--mx-trigger-tag-height, 22px);
+        border: none;
+        outline: none;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    &[mx-view*="disabled=true"],
+    &[mx-disabled] {
+        .trigger {
+            opacity: 0;
+            display: none;
+            pointer-events: none;
+        }
+    }
+}

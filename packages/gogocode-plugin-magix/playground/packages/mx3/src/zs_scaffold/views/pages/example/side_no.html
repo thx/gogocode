@@ -1,0 +1,62 @@
+<mx-grid.row gutter="16px" class="mb16">
+    <mx-grid.col flex="1" class="grid">
+        <mx-grid.title content="常见报表示例" />
+        <div mx-view="@./side_content_report" id="test_report">
+            <mx-loading />
+        </div>
+    </mx-grid.col>
+    <mx-grid.col width="300px">
+        <mx-grid.row direction="col" gutter="16px">
+            <mx-grid.col class="grid">
+                <mx-grid.title 
+                    content="浮层内为常见表单场景"/>
+                <mx-grid.body>
+                    <mx-btn brand="true" mx-click="show()" content="全屏右出浮层"/>
+                    <mx-btn class="ml10" content="普通按钮"/>
+                </mx-grid.body>
+            </mx-grid.col>
+            
+            <mx-grid.col class="grid">
+                <mx-grid.title 
+                    content="tab切换"/>
+                <mx-grid.body>
+                    <div class="lh32">脚手架git仓库：<a class="link-brand" href="http://gitlab.alibaba-inc.com/mm/zs_scaffold" target="_blank">点击查看</a></div>
+                    <div class="lh32">iconfont库：<a class="link-brand" href="https://www.iconfont.cn/manage/index?manage_type=myprojects&projectId=826439" target="_blank">点击查看</a></div>
+                    <div class="lh32">图表库：<a class="link-brand" href="https://chartpark.alibaba-inc.com/#!/manage/index?projectId=13" target="_blank">点击查看</a></div>
+                </mx-grid.body>
+            </mx-grid.col>
+
+            <mx-grid.col class="grid">
+                <mx-grid.title 
+                    content="标题"/>
+                <mx-grid.body>
+                    <div class="mb10 clearfix">
+                        <span class="fl mr10">
+                            功能点
+                            <mx-popover class="iconfont tip-iconfont" 
+                                tag="i" 
+                                content="说明文案">&#xe7aa;</mx-popover>
+                        </span>
+                        <mx-switch class="fl" state="true"/>
+                    </div>
+                    <img style="border-radius: 4px;" src="//alp.alicdn.com/1552245048712-600-240.png" />
+                </mx-grid.body>
+            </mx-grid.col>
+        </mx-grid.row>
+    </mx-grid.col>
+</mx-grid.row>
+<mx-grid.row gutter="16px">
+    {{for(let i=0;i<3;i+=1)}}
+    <mx-grid.col class="grid">
+        <mx-grid.title 
+            content="标题" 
+            tip="提示信息"/>
+        <mx-grid.body>
+            {{each list as item}}
+            <div class="mb5">{{=item.id}} - {{=item.name}}</div>
+            {{/each}}
+        </mx-grid.body>
+    </mx-grid.col>
+    {{/for}}
+</mx-grid.row>
+        

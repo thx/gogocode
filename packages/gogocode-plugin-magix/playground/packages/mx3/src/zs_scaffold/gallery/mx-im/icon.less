@@ -1,0 +1,35 @@
+/*md5:77543eb71c28c1e6d3c5a566a6db2d0d*/
+.box {
+    display: inline-block;
+    width: 36px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    text-align: center;
+    border: 1px solid var(--color-border);
+    transition: all var(--duration);
+    .icon {
+        display: inline-block;
+        margin-bottom: 8px;
+        font-size: 16px;
+        text-align: center;
+        color: var(--color-brand);
+        transition: all var(--duration);
+    }
+    .tip {
+        color: #999;
+        cursor: pointer;
+    }
+    &:hover {
+        background-color: var(--color-brand);
+        border: 1px solid var(--color-brand);
+        .icon,
+        .tip {
+            color: #fff;
+        }
+    }
+}
+
+[mx-view*="mx-im/alimei"],
+[mx-view*="mx-im/wxi"] {
+    display: inline-block;
+}

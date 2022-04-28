@@ -1,0 +1,27 @@
+<!--md5:798d77d17dc54befea2dd43672c8597e-->
+<div data-spm="{{=spmc}}">
+    {{if (len > 1)}}
+    <div class="num"><span class="fontsize-18">{{=(cur + 1)}}</span>&nbsp;/&nbsp;{{=len}}</div>
+    <div class="clearfix dots">
+        {{for(let i=0;i<len;i++)}}
+        <div class="dot {{if (i == cur)}} cur {{/if}}"></div>
+        {{/for}}
+    </div>
+    {{/if}}
+    <div class="inner">
+        <img class="img" src="{{=list[cur].img}}" />
+        <div class="title" title="{{=list[cur].title}}">{{!list[cur].title}}</div>
+        <div class="tip" title="{{=list[cur].tip}}">{{!list[cur].tip}}</div>
+        <div class="btns">
+            <!-- {{if (cur > 0)}}
+            <a href="javascript:;" class="btn btn-brand" mx-click="@{mxguide.prev}()">{{=(list[cur].prevTip || '上一步')}}</a>
+            {{/if}} -->
+            {{if (cur == len - 1)}}
+            <a href="javascript:;" class="btn btn-brand" mx-click="@{mxguide.cancel}()" {{if spm}} data-spm-click="{{=spm}}_cancel" {{/if}}>{{=(list[cur].cancelTip || '我知道了')}}</a>
+            {{else}}
+            <a href="javascript:;" class="btn btn-brand" mx-click="@{mxguide.next}()" {{if spm}} data-spm-click="{{=spm}}_next" {{/if}}>{{=(list[cur].nextTip || '下一步')}}</a>
+            <a href="javascript:;" class="link-brand ml20" mx-click="@{mxguide.cancel}()" {{if spm}} data-spm-click="{{=spm}}_cancel" {{/if}}>{{=(list[cur].cancelTip || '关闭引导')}}</a>
+            {{/if}}
+        </div>
+    </div>
+</div>

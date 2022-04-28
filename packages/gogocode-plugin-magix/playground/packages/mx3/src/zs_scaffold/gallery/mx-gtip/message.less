@@ -1,0 +1,75 @@
+/*md5:195a66d06229cf5e79e1981dcac3411b*/
+@gmessage-icon-size: 20px;
+@gmessage-close-size: 26px;
+@gmessage-padding-top: 10px;
+@gmessage-padding-left: 24px;
+@gmessage-line-height: 20px;
+
+.gmessage {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 100000;
+    width: 400px;
+    height: auto;
+}
+
+.msg {
+    position: relative;
+    opacity: 0;
+    width: 100%;
+    height: 0;
+    min-height: 0;
+    line-height: @gmessage-line-height;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    transition: all var(--duration);
+    transform-origin: 100% 0;
+    transform: scale(0);
+    border-radius: var(--border-radius);
+
+    .icon {
+        position: absolute;
+        top: @gmessage-padding-top;
+        left: @gmessage-padding-left;
+        width: @gmessage-icon-size;
+        line-height: @gmessage-line-height;
+        font-size: 16px;
+    }
+
+    .close {
+        opacity: .5;
+        position: absolute;
+        top: @gmessage-padding-top - 3;
+        right: @gmessage-padding-left - 10;
+        width: @gmessage-close-size;
+        height: @gmessage-close-size;
+        line-height: @gmessage-close-size;
+        text-align: center;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 50%;
+        transition: all var(--duration);
+        cursor: pointer;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}
+
+.msg-show {
+    opacity: 1;
+    height: auto;
+    min-height: 2 * @gmessage-line-height + 2 * @gmessage-padding-top;
+    margin-bottom: 16px;
+    padding-top: @gmessage-padding-top;
+    padding-bottom: @gmessage-padding-top;
+    padding-left: @gmessage-padding-left + @gmessage-icon-size;
+    padding-right: @gmessage-padding-left + @gmessage-close-size;
+    transform: scale(1);
+    box-shadow: var(--mx-grid-shadow, 0 1px 1px 0 rgba(0, 0, 0, 0.08));
+}

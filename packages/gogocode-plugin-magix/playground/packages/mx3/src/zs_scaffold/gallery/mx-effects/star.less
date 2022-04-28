@@ -1,0 +1,88 @@
+/*md5:1cc2595c6df70822f7648b7d858465cd*/
+[mx-view*="mx-effects/star"] {
+    position: relative;
+    display: inline-block;
+
+    .star,
+    .star *:not([mx-view*="mx-popover"]) {
+        display: inline-block;
+        width: var(--mx-effect-star-width);
+        height: var(--mx-effect-star-width);
+        line-height: var(--mx-effect-star-width);
+        text-align: center;
+        font-size: calc(var(--mx-effect-star-width) - 4px);
+        color: inherit;
+    }
+
+    .star {
+        float: left;
+    }
+
+    .star-bg {
+        color: var(--color-border);
+    }
+
+    .star-on {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: calc(var(--mx-effect-star-width) * 5);
+        height: var(--mx-effect-star-width);
+        overflow: hidden;
+        transition: all var(--duration);
+
+        .star-inner {
+            width: 0;
+            height: var(--mx-effect-star-width);
+        }
+    }
+
+    .num {
+        display: inline-block;
+        vertical-align: middle;
+        width: var(--mx-effect-star-width);
+        height: var(--mx-effect-star-width);
+        text-align: center;
+        line-height: var(--mx-effect-star-width);
+        background-color: #eee;
+        color: #666;
+        margin-right: 2px;
+        transition: all var(--duration);
+
+        &:first-child {
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+        }
+
+        &:last-child {
+            margin-right: 0;
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+
+        &.num-selected {
+            background-color: var(--mx-effect-star-highlight);
+            color: #fff;
+        }
+    }
+
+    &[mx-view*="operational=true"] {
+        .star {
+            cursor: pointer;
+            transition: all var(--duration);
+
+            &.star-hover {
+                transform: scale(1.2);
+            }
+        }
+
+        .num {
+            cursor: pointer;
+
+            &.num-hover {
+                background-color: var(--mx-effect-star-highlight);
+                color: #fff;
+            }
+        }
+    }
+}

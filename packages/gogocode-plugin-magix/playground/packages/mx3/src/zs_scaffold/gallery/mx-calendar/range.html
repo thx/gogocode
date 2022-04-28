@@ -1,0 +1,54 @@
+<!--md5:04f5079edc853ae81a318a097d832340-->
+<div class="wrapper {{if timeType}} time {{/if}}" mx-contextmenu="@{prevent}()">
+    <div class="title clearfix">
+        <span>{{!title}}：</span>
+        {{if vsEnable}}
+        <mx-switch state="{{=vs}}" class="fr" mx-change="@{vs.toggle}()"></mx-switch>
+        {{/if}}
+    </div>
+    <div class="range clearfix">
+        <!-- 结束时间禁止操作的时候限制最大可选为直接时间endDisabled -->
+        <mx-calendar.datepicker class="range-input range-input-left {{if vs}}vs1{{/if}} " 
+            arrow="false"
+            min="{{=min}}" 
+            max="{{=(endDisabled?dates.endStr:max)}}"
+            formatter="{{=formatter}}" 
+            disabled-weeks="{{@disabledWeeks}}"
+            time-type="{{=timeType}}"  
+            date-type="{{=dateType}}" 
+            selected="{{=dates.startStr}}" 
+            disabled="{{if startDisabled}}true{{/if}}"
+            mx-change="@{sync.date}({trigger:'start'})" />
+        <div class="range-gap">-</div>
+        <!-- 不对比的时候，限制结束时间最小值为(开始时间或最小日期中的较大值) -->
+        <mx-calendar.datepicker class="range-input range-input-right {{if vs}}vs2{{/if}} " 
+            arrow="false"
+            min="{{=(!vs?endMinFn(dates.startStr,min):min)}}"
+            max="{{=max}}" 
+            formatter="{{=formatter}}" 
+            disabled-weeks="{{@disabledWeeks}}"
+            time-type="{{=timeType}}"  
+            date-type="{{=dateType}}" 
+            align="{{=align}}" 
+            selected="{{=dates.endStr}}" 
+            disabled="{{if ((!vs&&vsSingle) || endDisabled)}}true{{/if}}"
+            mx-change="@{sync.date}({trigger:'end'})" />
+    </div>
+    {{if(quickInfos.length&&!vs&&!vsSingle)}}
+    <div class="shortcuts {{if quickInfos.length > quickGap}}shortcuts-small{{/if}}">
+        <div class="color-9">{{=quickTip}}：</div>
+        <div class="clearfix">
+            {{each quickInfos as info}}
+            <span class="st {{if (dates.quickDateKey==info.key)}}selected{{/if}}" 
+                mx-click="@{date.picked}({quick:true,quickInfo:'{{@info}}'})" 
+                title="{{=info.text}}">{{=info.text}}</span>
+            {{/each}}
+        </div>
+    </div>
+    {{/if}}
+</div>
+<div class="mx-output-footer">
+    <mx-btn mx-click="@{date.picked}()" class="mr10" mode="primary" size="small" content="{{=submitText}}"/>
+    <mx-btn mx-click="@{cancel}()" class="mr10" size="small" content="{{=cancelText}}"/>
+    <span class="color-red">{{=errorMsg}}</span>
+</div>

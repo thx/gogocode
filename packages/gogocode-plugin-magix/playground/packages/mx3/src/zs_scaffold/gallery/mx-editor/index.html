@@ -1,0 +1,15 @@
+<!--md5:736bc2ec55324f42cd3b1966eb5807e9-->
+<mx-input class="{{if !editing}} editor-hide {{/if}}" id="{{=viewId}}_input"
+    style="width: {{=width}};"
+    size="{{=size}}"
+    value="{{:content&rules}}"
+    mx-keyup="@{out}()"
+    mx-focusout="@{out}()"
+    mx-change="@{stop}()"
+    mx-focusin="@{stop}()"/>
+<div class="editor-content {{if editing}} editor-hide {{/if}}">
+    {{!dis}}
+    <!-- operations 表格hover展示样式 -->
+    <i class="mc-iconfont operations editor-oper" mx-click="@{show}()">&#xe698;</i>
+</div>
+    

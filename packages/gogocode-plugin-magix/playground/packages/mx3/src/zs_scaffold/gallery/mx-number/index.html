@@ -1,0 +1,24 @@
+<!--md5:638f21b801f06bcf87ef3d6d9f0b6482-->
+<div class="clearfix numbers" style="height: {{=lineHeight}}px; font-size: {{=fontSize}}px; line-height: {{=lineHeight}}px; color: {{=color}};">
+    {{each arr as item}}
+    <div class="line" 
+        data-number="{{=item.isNumber}}"
+        style="{{if (item.isNumber && inited)}} 
+            {{if aim}}
+                transition: all {{=duration}}ms ease-out {{=item.numberDelay}}ms; 
+            {{/if}}
+            transform: translate(0, -{{=(item.num * 5 + aimBase)}}%); 
+        {{/if}}">
+        {{if item.isNumber}}
+            {{for(let i=0;i<=9;i++)}}
+            <div>{{=i}}</div>
+            {{/for}}
+            {{for(let i=0;i<=9;i++)}}
+            <div>{{=i}}</div>
+            {{/for}}
+        {{else}}
+        <div>{{=item.num}}</div>
+        {{/if}}
+    </div>
+    {{/each}}
+</div>

@@ -1,0 +1,82 @@
+<!--md5:7589845e7565605d16b2115377cd5282-->
+<div id="xp_{{=viewId}}" style="height: 100%;">
+    <!-- 优惠券 -->
+    {{if (skeleton == 'home-coupon')}}
+    <wcs-skeleton class="mb16" type="text-lines" 
+        num="2" progress="true"></wcs-skeleton>
+    {{/if}}
+
+    <!-- 首页账户卡片 -->
+    {{if (skeleton == 'home-account')}}
+    <wcs-skeleton class="mb16" type="text-lines" 
+        tip="true" num="1" btns="2"></wcs-skeleton>
+    {{/if}}
+
+    <!-- 运营卡片位：产品新动态，高度160 -->
+    {{if (skeleton == 'home-common-img')}}
+    <wcs-skeleton class="mb16" type="img"   
+        height="160"></wcs-skeleton>
+    {{/if}}
+
+    <!-- 运营卡片位：千牛引导，高度210 -->
+    {{if (skeleton == 'home-higher-img')}}
+    <wcs-skeleton class="mb16" type="img" 
+        height="210"></wcs-skeleton>
+    {{/if}}
+
+    <!-- 边距图片展位 -->
+    {{if (skeleton == 'home-gap-img')}}
+    <wcs-skeleton class="mb16" type="img" 
+        gap="true" height="248"></wcs-skeleton>
+    {{/if}}
+
+    <!-- 图片占位符 -->
+    {{if (skeleton == 'home-img')}}
+    <wcs-skeleton class="mb16" type="img" 
+        gap="{{=(skeletonParams.gap || false)}}"
+        height="{{=(skeletonParams.height || 248)}}"></wcs-skeleton>
+    {{/if}}
+
+    <!-- 整体报表效果概览 -->
+    {{if (skeleton == 'home-effect')}}
+    <wcs-skeleton class="mb16" type="report" 
+        num="6"></wcs-skeleton>
+    {{/if}}
+
+    {{if (skeleton == 'home-budget')}}
+    <wcs-skeleton class="mb16" type="text-lines" 
+        num="3" btns="1"></wcs-skeleton>
+    {{/if}}
+
+    {{if (skeleton == 'home-text-lines')}}
+    <wcs-skeleton class="mb16" type="text-lines" 
+        tip="{{=(skeletonParams.tip || false)}}"
+        num="{{=(skeletonParams.num || 3)}}" btns="{{=skeletonParams.btns || 0}}"
+        progress="{{=(skeletonParams.progress || false)}}"></wcs-skeleton>
+    {{/if}}
+
+    {{if (skeleton == 'home-detect')}}
+    <wcs-skeleton class="mb16" type="circle-text" 
+        num="5"></wcs-skeleton>
+    {{/if}}
+
+    {{if (skeleton == 'home-biz')}}
+    <wcs-skeleton class="mb16" type="biz-list" 
+        num="3"></wcs-skeleton>
+    {{/if}}
+
+    {{if (skeleton == 'home-imgs')}}
+    <wcs-skeleton class="mb16" type="imgs" 
+        num="{{=skeletonParams.num || 3}}" height="{{=skeletonParams.height || 88}}"></wcs-skeleton>
+    {{/if}}
+
+    {{if (skeleton == 'home-box')}}
+    <wcs-skeleton class="mb16" type="box" 
+        height="{{=skeletonParams.height || 110}}"></wcs-skeleton>
+    {{/if}}
+
+    <!-- 页面切换loading -->
+    {{if (skeleton == 'page')}}
+    <mx-loading.brand />
+    {{/if}}
+</div>

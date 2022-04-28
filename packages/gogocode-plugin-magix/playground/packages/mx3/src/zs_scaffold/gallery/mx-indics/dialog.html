@@ -1,0 +1,74 @@
+<!--md5:6930775a4ecf52327199b90b325626f9-->
+<div class="setting {{if sortable}}sortable{{/if}} {{if hasParent}}parent{{/if}} {{if textMode}}mode-text{{/if}}">
+    <div class="header">
+        <span class="fontsize-16">选择数据字段</span>
+        {{if (max > 0)}}
+        <span class="color-9 font-number bold ml10">{{=selectedItems.length}} / {{=max}}</span>
+        {{/if}}
+        {{if tip}}
+        <span class="color-9 ml10">{{!tip}}</span>
+        {{/if}}
+        {{if !sortable}}
+        <span class="header-opers">
+            <a href="javascript:;" class="drag-oper" mx-click="reset()">
+                <i class="mc-iconfont">&#xe627;</i>&nbsp;恢复默认
+            </a>
+            <a href="javascript:;" class="drag-oper" mx-click="clear()">
+                <i class="mc-iconfont">&#xe72e;</i>&nbsp;清空
+            </a>
+        </span>
+        {{/if}}
+    </div>
+    <div class="content">
+        {{each groups as group groupIndex}}
+        <div class="line clearfix">
+            {{if group.text}}
+            <mx-checkbox class="name {{if (group.checked || group.indeterminate)}} checked {{/if}} {{if ((max > 0) && (selectedItems.length >= max) && !group.checked)}} disabled {{/if}}"
+                name="{{=viewId}}_field_group" 
+                value="{{=viewId}}_{{=groupIndex}}"
+                text="{{=group.text}}"
+                indeterminate="{{=group.indeterminate}}"
+                checked="{{=group.checked}}"
+                disabled="{{=((max > 0) && (selectedItems.length >= max) && !group.checked)}}"
+                mx-change="toggleParent({groupIndex:{{=groupIndex}}})" />
+            {{/if}}
+            <div class="clearfix">
+                {{each group.fields as field}}
+                <div class="item {{if field.checked}} checked {{/if}} {{if ((max > 0) && (selectedItems.length >= max) && !field.checked)}} disabled {{/if}}" style="width: {{=width}};">
+                    <mx-checkbox 
+                        name="field" 
+                        value="{{=field.value}}" 
+                        text="{{=field.text}}"
+                        tip="{{=field.tip}}"
+                        tag-content="{{=field.tag}}"
+                        checked="{{=field.checked}}"
+                        disabled="{{=((max > 0) && (selectedItems.length >= max) && !field.checked)}}"
+                        mx-change="toggle({value:'{{=field.value}}',text:'{{=field.text}}'})"/>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+        {{/each}}
+    </div>
+    {{if sortable}}
+    <div class="drag-header">
+        <div class="drag-title">
+            <span class="fontsize-16">自定义字段</span>
+            <span class="color-9 ml10">可拖动排序</span>
+        </div>
+        <div class="drag-opers">
+            <a href="javascript:;" class="drag-oper" mx-click="reset()">
+                <i class="mc-iconfont">&#xe627;</i>&nbsp;恢复默认
+            </a>
+            <a href="javascript:;" class="drag-oper" mx-click="clear()">
+                <i class="mc-iconfont">&#xe72e;</i>&nbsp;清空
+            </a>
+        </div>
+    </div>
+    <div class="drag-wrapper" mx-view="@../mx-dragsort/index" mx-dragfinish="drag()">
+        {{each selectedItems as s}}
+        <div class="drag" data-value="{{=s.value}}" data-text="{{=s.text}}">{{=s.text}}</div>
+        {{/each}}
+    </div>
+    {{/if}}
+</div>

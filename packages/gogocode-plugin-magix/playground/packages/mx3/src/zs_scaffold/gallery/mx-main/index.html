@@ -1,0 +1,108 @@
+<!--md5:6a0aeaf90523b0b0ad36e7ee6d5b98ba-->
+<div class="main-nav" style="width: {{=leftWidth}}px;">
+    {{each stepInfos as step stepIndex}}
+    <div class="main-step {{if (step.index == curStepIndex)}} step-current {{/if}} {{if step.locked}} step-locked {{/if}}">
+        <!-- 数值 -->
+        <span class="idx">
+            {{if ((stepInfos.length == stepIndex + 1) || (step.index < alreadyStep))}}
+                <!-- 显示打钩状态 1. 最后一步 2. 已完成的步骤 -->
+                <i class="mc-iconfont bold">&#xe65d;</i>
+            {{else}}
+                {{=(stepIndex + 1)}}
+            {{/if}}
+        </span>
+
+        <a href="javascript:;" class="step {{if ((step.index == curStepIndex) && (curSubStepIndex == -1))}} on {{/if}} "
+            data-sub="-1" data-visible-sub="-1"
+            {{if !step.locked}} mx-click="nav({stepIndex:{{=step.index}}})" {{if spm}} data-spm-click="{{=spm}}_nav_{{=step.index}}" {{/if}} {{/if}}>
+            {{=step.label}}
+        </a>
+        <!-- 高亮背景 -->
+        {{if ((step.index == curStepIndex) && (curSubStepIndex == -1))}}
+        <span class="pbg" style="top: 0px;"></span>
+        {{/if}}
+        {{if !step.locked && step.showSubs}}
+            {{each step.subs as sub}}
+            <a href="javascript:;" class="step child {{if ((step.index == curStepIndex) && (curSubStepIndex == sub.index))}} on {{/if}}"
+                {{if (sub.hide || sub.subHide)}} style="display: none;" {{/if}}
+                data-sub="{{=sub.index}}" data-visible-sub="{{=sub.visibleIndex}}"   
+                mx-click="nav({stepIndex:{{=step.index}},subStepIndex:{{=sub.index}}})"
+                {{if spm}} data-spm-click="{{=spm}}_nav_{{=step.index}}_sub_{{=sub.index}}" {{/if}}>
+                {{=sub.label}}
+            </a>
+            <!-- 高亮背景 -->
+            {{if ((step.index == curStepIndex) && (curSubStepIndex == sub.index))}}
+            <span class="pbg" style="top: {{=(sub.visibleIndex * stepLineHeight)}}px;"></span>
+            {{/if}}
+            {{/each}}
+        {{/if}}
+            
+        <!-- 锁定状态 -->
+        {{if step.locked}}
+        <i class="mc-iconfont locked-icon">&#xe759;</i>
+        {{/if}}
+    </div>
+    {{/each}}
+</div>
+<div class="main-content clearfix" style="min-height: {{=viewHeight}}px; padding-top: {{=gapWidth}}px; padding-right: {{=(gapWidth + (curStepInfo.sideWrapper ? (rightWidth + gapWidth) : 0))}}px; padding-left: {{=(leftWidth + gapWidth)}}px;">
+    {{each curStepInfo.subs as sub subIndex}}
+        {{if (sub.titleHide && sub.bodyHide)}}
+        <mx-vframe class="content-box-empty" {{if sub.hide}} style="display: none;" {{/if}}
+            data-sub="{{=viewId}}_sub_{{=sub.index}}"
+            src="{{=sub.view}}?info={{@sub}}"></mx-vframe>
+        {{else}}
+        <div class="content-box"  {{if sub.hide}} style="display: none;" {{/if}}>
+            {{if !sub.titleHide}}
+            <div class="box-title clearfix">
+                <span class="title-text">
+                    {{if sub.icon}}<span class="title-icon">{{!sub.icon}}</span>{{/if}}
+                    <span class="title-label">{{!(sub.title || sub.label)}}</span>
+                    {{if sub.tip}}
+                    <span class="title-tip">{{!sub.tip}}</span>
+                    {{/if}}
+                </span>
+
+                {{if sub.toggle}}
+                <a class="title-right link-brand"
+                    href="javascript:;" mx-click="toggleSub({subIndex:'{{=subIndex}}'})">
+                    {{if sub.toggleState}}
+                    收起设置<i class="mc-iconfont title-right-toggle">&#xe6b8;</i>
+                    {{else}}
+                    展开设置<i class="mc-iconfont title-right-toggle">&#xe6b9;</i>
+                    {{/if}}
+                </a>
+                {{/if}}
+            </div>
+            {{/if}}
+            <mx-vframe class="{{if !sub.bodyHide}} box-bd {{/if}}" 
+                style="{{if (sub.toggle && !sub.toggleState)}}display: none;{{/if}}"
+                data-sub="{{=viewId}}_sub_{{=sub.index}}"
+                src="{{=sub.view}}?info={{@sub}}">
+                <mx-loading />
+            </mx-vframe>
+        </div>
+        {{/if}}
+    {{/each}}
+    {{if curStepInfo.sideWrapper}}
+    <mx-vframe class="content-side" style="top: {{=gapWidth}}px; right: {{=gapWidth}}px; width: {{=rightWidth}}px;"
+        src="{{=curStepInfo.sideWrapper}}?data={{@curStepInfo.sideData}}" >
+        <mx-loading />
+    </mx-vframe>
+    {{/if}}
+
+    <div class="content-footer clearfix">
+        <span class="mr16">
+            {{each curStepInfo.btns as btn btnIndex}}
+            <mx-btn class="footer-btn" 
+                brand="{{=btn.brand}}"
+                content="{{=btn.text}}"
+                mx-click="{{=btn.fn}}({btn:'{{@btn}}'})"
+                {{if spm}} data-spm-click="{{=spm}}_{{=curStepInfo.index}}_btn_{{=btn.fn}}_{{=btnIndex}}_compid_{{=btn.compid}}" {{/if}} />
+            {{/each}}
+        </span>
+        {{if curStepInfo.footerView}}
+        <span class="mr16" mx-view="{{=curStepInfo.footerView}}?data={{@curStepInfo.footerData}}"></span>
+        {{/if}}
+        <span id="{{=viewId}}_error" class="footer-error"></span>
+    </div>
+</div>

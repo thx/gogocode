@@ -1,0 +1,33 @@
+<!--md5:32a690f03d9751f66c04811227e67178-->
+{{if text}}
+    <label>
+        <input class="mx-checkbox {{if indeterminate}} mx-checkbox-indeterminate {{/if}}" type="checkbox" 
+            {{if checked}} checked {{/if}}
+            {{if disabled}} disabled {{/if}}
+            name="{{=name}}"
+            value="{{=value}}"
+            mx-change="@{change}()"/>
+        {{if text}}
+        <span class="mx-checkbox-text">{{!text}}</span>
+        {{/if}}
+        {{if tagContent}}
+        <span class="mx-tag {{if disabled}} mx-tag-disabled {{/if}}" 
+            {{if tagColor}} style="background-color: {{=tagColor}}; border: 1px solid {{=tagColor}};" {{/if}}>
+            <span class="mx-tag-name">{{!tagContent}}</span>
+        </span>
+        {{/if}}
+
+        <!-- 放到里面禁用时icon会不可hover，但是会影响mx-indicts mode="custom" display="text"的样式 -->
+        <!-- 暂定tip-icon先放到里面 -->
+        {{if tip}}
+        <mx-popover class="mc-iconfont mc-tip-iconfont" style="margin-left: 0;" content="{{=tip}}">&#xe72f;</mx-popover>
+        {{/if}}
+    </label>
+{{else}}
+<input class="mx-checkbox {{if indeterminate}} mx-checkbox-indeterminate {{/if}}" type="checkbox" 
+    {{if checked}} checked {{/if}}
+    {{if disabled}} disabled {{/if}}
+    name="{{=name}}"
+    value="{{=value}}"
+    mx-change="@{change}()"/>
+{{/if}}

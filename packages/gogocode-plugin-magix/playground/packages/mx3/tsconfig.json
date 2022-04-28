@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "lib": [
+            "es5",
+            "es2015",
+            "dom",
+            "scripthost",
+            "es2017",
+            "es6",
+            "es2016",
+            "es7"
+        ],
+        "target": "es5"
+    }
+}

@@ -1,0 +1,38 @@
+/*md5:55a2d893fa93706d1729a885cc87e92c*/
+.line {
+    position: relative;
+    display: flex;
+    height: 32px;
+    align-items: center;
+    transition: all var(--duration);
+    overflow: hidden;
+
+    .oper {
+        width: var(--mx-checkbox-size);
+        height: var(--mx-checkbox-size);
+        margin-right: 5px;
+        font-size: var(--mx-checkbox-size);
+        transition: color var(--duration);
+        color: #ccc;
+        user-select: none;
+        cursor: pointer;
+
+        &:hover {
+            color: #666;
+        }
+    }
+}
+
+.all {
+    cursor: pointer;
+    color: #999;
+    user-select: none;
+}
+
+.sub {
+    padding-left: calc(var(--mx-checkbox-size) + 5px);
+
+    &.close {
+        height: 0px;
+    }
+}

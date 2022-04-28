@@ -1,0 +1,33 @@
+{
+  "name": "@ali/dataplus",
+  "version": "1.0.50",
+  "description": "dataplus组件仓库",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.alibaba-inc.com:mm/dataplus.git"
+  },
+  "keywords": [
+    "dataplus"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "http://registry.npm.alibaba-inc.com"
+  },
+  "magixCliConfig": {
+    "cloudBuild": true
+  },
+  "devDependencies": {
+    "del": "3.0.0",
+    "gulp": "^4.0.2",
+    "gulp-uglify-es": "^0.1.9",
+    "gulp-umd": "^2.0.0",
+    "gulp-watch": "4.3.11",
+    "magix-combine": "^3.10.9",
+    "seajs": "3.0.2",
+    "typescript": "^2.6.2"
+  },
+  "__npminstall_done": true,
+  "_from": "@ali/dataplus@1.0.50",
+  "_resolved": "https://registry.npm.alibaba-inc.com/@ali/dataplus/download/@ali/dataplus-1.0.50.tgz"
+}

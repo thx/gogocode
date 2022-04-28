@@ -1,0 +1,24 @@
+<!--md5:431c5388fee64ecda5b5db0722cac970-->
+<div class="collapse">
+    {{each list as item index}}
+    <div class="item {{if item.expand}} item-expand {{/if}} {{if item.disabled}} item-disabled {{/if}}">
+        <div class="title" {{if !item.disabled}} mx-click="toggle({index: {{=index}}})" {{/if}}>
+            <span class="arrow">{{!item.arrow}}</span>
+            <span class="text">{{=item.title}}</span>
+        </div>
+        {{if !item.disabled}}
+        <div class="content" id="{{=viewId}}_content_{{=index}}"
+            style="{{if item.height}} 
+                display: block; 
+                {{if item.expand}} 
+                    opacity: 1; height: {{=item.height}}px; 
+                {{else}} 
+                    opacity: 0; height: 0; border-top: 0 none; 
+                {{/if}} 
+            {{/if}}">
+            <div class="inner" mx-view="{{=item.view}}?data={{@item}}"></div>
+        </div>
+        {{/if}}
+    </div>
+    {{/each}}
+</div>

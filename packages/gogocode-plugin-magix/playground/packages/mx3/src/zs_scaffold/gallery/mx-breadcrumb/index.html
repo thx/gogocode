@@ -1,0 +1,21 @@
+<!--md5:18559417abdf9a53bc0c2f2cdd944b7c-->
+<div class="wrapper">
+{{each list as item index}}
+    {{if (index <= selectedIndex)}}
+        {{if (index == 0)}}
+            {{if showHomeIcon}}
+                {{if homeIcon}}{{!homeIcon}}{{else}}<i class="mc-iconfont icon-home">&#xe624;</i>{{/if}}
+            {{/if}}
+        {{else}}
+            {{if gapIcon}}{{!gapIcon}}{{else}}<i class="mc-iconfont icon-gap">&#xe602;</i>{{/if}}
+        {{/if}}
+        {{if (index == selectedIndex)}}
+            <span class="text">{{=item.text}}</span>
+        {{else}}
+            <a class="link" 
+                {{if item.link}} href="{{=item.link}}" {{else}} href="javascript:;" mx-click="@{select}({item:'{{@item}}'})" {{/if}}
+                {{if spm}} data-spm-click="{{=spm}}{{=index}}" {{/if}}>{{=item.text}}</a>
+        {{/if}}
+    {{/if}}
+{{/each}}
+</div>

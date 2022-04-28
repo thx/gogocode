@@ -1,0 +1,23 @@
+<!--md5:31fceb7662b8554898831836521b14a4-->
+{{if img}}
+<img class="img" src="//img.alicdn.com/imgextra/i4/O1CN01Oi4kck1HDdSS0DuWu_!!6000000000724-54-tps-320-320.apng" />
+{{else if icon}}
+<i class="mc-iconfont icon" style="color: {{=color}};">{{!icon}}</i>
+{{/if}}
+{{if content}}
+<div class="title">{{!content}}</div>
+{{/if}}
+{{if tip}}
+<div class="tip">{{!tip}}</div>
+{{/if}}
+{{if (btns && btns.length)}}
+<div class="btn-wrapper clearfix">
+    {{each btns as btn btnIndex}}
+        {{if btn.link}}
+        <a class="custom-btn btn {{if btn.brand}} btn-brand {{/if}}" href="{{=btn.link}}" {{if btn.outer}} target="_blank" rel="noopener noreferrer" {{/if}}>{{!btn.text}}</a>
+        {{else}}
+        <mx-btn mx-click="@{click}({index:'{{=btnIndex}}'})" class="custom-btn" brand="{{=btn.brand}}" content="{{=btn.text}}"/>
+        {{/if}}
+    {{/each}}
+</div>
+{{/if}}

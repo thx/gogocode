@@ -1,0 +1,90 @@
+<!--md5:0624167c4aeda70995b9353e83f944f6-->
+<div class="{{if isTab}} tab-search-box {{else}} area-search-box {{/if}}">
+    <mx-input 
+        style="width: 100%;"
+        prefix="search"
+        placeholder="{{=placeholder}}"
+        mx-keydown="@{search}()"
+        mx-change="@{stop}()"
+        mx-focusin="@{stop}()"
+        mx-focusout="@{stop}()"/>
+</div>
+
+{{if isTab}}
+<div class="tabs clearfix">
+    {{each types as type typeIndex}}
+    <div class="tab {{if (type.id == curTab)}} cur {{/if}} clearfix">
+        <mx-checkbox 
+            value="{{=type.id}}" 
+            checked="{{=type.checked}}" 
+            indeterminate="{{=(!type.checked && (type.count > 0))}}"
+            mx-change="@{changeAll}({typeIndex:{{=typeIndex}}})" />
+        <span class="ml5" mx-click="@{changeTab}({curTab:'{{=type.id}}'})">{{=type.name}}</span>
+    </div>
+    {{/each}}
+</div>
+{{/if}}
+{{each types as type typeIndex}}
+<div class="{{if isTab}} pl20 {{if (type.id != curTab)}} hide {{/if}} {{else}} mb15 {{/if}}">
+    {{if !isTab}}
+    <div>
+        <label class="all">
+            <mx-checkbox id="{{=viewId}}_{{=type.id}}_all"
+                value="{{=type.id}}" 
+                text="全选 - {{=type.name}}"
+                checked="{{=type.checked}}" 
+                indeterminate="{{=(!type.checked && (type.count > 0))}}"
+                mx-change="@{changeAll}({typeIndex:{{=typeIndex}}})" />
+        </label>
+    </div>
+    {{/if}}
+    <div class="clearfix">
+        {{each type.groups as group groupIndex}}
+        <div {{if type.half}} class="area-half" {{/if}}>
+            {{each group as area areaIndex}}
+                {{if area.name}} 
+                <div class="area">
+                    <div class="area-name">{{=area.name}}</div>
+                {{/if}}
+                    <div class="provinces clearfix">
+                        {{each area.provinces as province}}
+                        <div class="province" 
+                            {{if !type.half}} style="min-width: {{=(100/lineNumber)*(province.lineNumberMulti || 1)}}%;" {{/if}}
+                            id="{{=viewId}}_province_wrapper_{{=province.id}}">
+                            <label class="province-label clearfix">
+                                <mx-checkbox id="{{=viewId}}_province_{{=province.id}}"
+                                    value="{{=province.id}}" 
+                                    checked="{{=province.checked}}" 
+                                    indeterminate="{{=(!province.checked && province.hasCity && (province.count > 0))}}"
+                                    mx-change="@{changeOne}({typeIndex:{{=typeIndex}},province:{{=province.id}}})" />
+                                <span class="name {{if province.highlight}} highlight {{/if}}">{{=province.name}}</span>
+                                {{if province.hasCity && (province.count > 0)}}
+                                <span class="province-count">({{=province.count}})</span>
+                                {{/if}}
+                                {{if province.hasCity}}
+                                <i class="mc-iconfont province-arrow {{if (province.hasCity && (province.id == showProvinceId))}} province-expand {{/if}}" mx-click="@{toggleCity}({province:{{=province.id}}})">&#xe6c1;</i>
+                                {{/if}}
+                            </label>
+                            <div style="display: {{=(province.hasCity && (province.id == showProvinceId)) ? 'block' : 'none'}};" class="cities mx-shadow clearfix">
+                                {{each province.cities as city}}
+                                <label class="city">
+                                    <mx-checkbox id="{{=viewId}}_city_{{=city.id}}"
+                                        value="{{=city.id}}" 
+                                        checked="{{=city.checked}}" 
+                                        mx-change="@{changeOne}({typeIndex:{{=typeIndex}},province:{{=province.id}},city:{{=city.id}}})" />
+                                    <span class="name {{if city.highlight}} highlight {{/if}}">{{=city.name}}</span>
+                                </label>
+                                {{/each}}
+                            </div>
+                        </div>
+                        {{/each}}
+                    </div>
+                {{if area.name}} 
+                </div>
+                {{/if}}
+            {{/each}}
+        </div>
+        {{/each}}
+    </div>
+</div>
+{{/each}}

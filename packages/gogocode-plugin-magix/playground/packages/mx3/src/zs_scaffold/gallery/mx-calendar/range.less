@@ -1,0 +1,115 @@
+/*md5:99d2068d827f6dca5583c81b0eae98c7*/
+/* --mx-calendar-range-input-width: 100px; 的值同 [mx-view*="mx-calendar/datepicker"]的最小宽度默认保持一致 */
+
+.wrapper {
+    --mx-calendar-range-input-width: calc(var(--font-size) * 8 + var(--mx-trigger-h-gap, 8px) * 2);
+    position: relative;
+    min-width: calc(var(--mx-calendar-range-input-width) * 2 + var(--mx-trigger-h-gap, 8px) * 4);
+    width: 100%;
+    padding: var(--mx-trigger-v-gap, 8px) var(--mx-trigger-h-gap, 8px);
+    border-radius: var(--border-radius);
+    background-color: #fff;
+    user-select: none;
+
+    .title {
+        margin-bottom: var(--mx-trigger-v-gap, 8px);
+        color: #999;
+    }
+
+    .range {
+        position: relative;
+        line-height: var(--input-small-height);
+
+        .range-input {
+            float: left;
+            width: calc(50% - var(--mx-trigger-h-gap, 8px));
+            min-width: var(--mx-calendar-range-input-width);
+            min-height: var(--input-small-height);
+            cursor: text;
+
+            [ref="@scoped.style:mx-trigger"] {
+                height: var(--input-small-height);
+                padding-right: var(--mx-trigger-h-gap, 8px);
+                line-height: var(--input-small-height);
+                background-color: #eee;
+                border: 0 none;
+                box-shadow: none;
+                color: #333;
+
+                [ref="@scoped.style:mx-trigger-label"] {
+                    overflow: visible;
+                    text-overflow: unset;
+                }
+            }
+
+            &.vs1 {
+                [ref="@scoped.style:mx-trigger"] {
+                    color: var(--color-brand);
+                }
+            }
+
+            &.vs2 {
+                [ref="@scoped.style:mx-trigger"] {
+                    color: var(--color-brand-vs);
+                }
+            }
+        }
+
+        .range-input-left {
+            float: left;
+        }
+
+        .range-input-right {
+            float: right;
+        }
+
+        .range-gap {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: calc(var(--mx-trigger-h-gap, 8px) * 2);
+            height: var(--input-small-height);
+            margin-left: calc(0px - var(--mx-trigger-h-gap, 8px));
+            text-align: center;
+        }
+    }
+
+    .shortcuts {
+        margin-top: 15px;
+
+        .st {
+            float: left;
+            width: 46%;
+            height: var(--input-small-height);
+            margin-right: 4%;
+            margin-top: 5px;
+            padding: 0 0 0 10px;
+            line-height: var(--input-small-height);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            overflow: hidden;
+            white-space: nowrap;
+
+            &:hover {
+                background-color: var(--color-bg-hover);
+            }
+
+            &.selected,
+            &.selected:hover {
+                color: var(--color-brand);
+                background-color: var(--color-brand-opacity);
+            }
+        }
+
+        &.shortcuts-small {
+            .st {
+                width: 32%;
+                margin-right: 1%;
+            }
+        }
+    }
+
+    &.time {
+        --mx-calendar-range-input-width: calc(var(--font-size) * 13);
+    }
+}

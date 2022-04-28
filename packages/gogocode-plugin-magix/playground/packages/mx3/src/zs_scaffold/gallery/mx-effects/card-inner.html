@@ -1,0 +1,94 @@
+<!--md5:db084bc642d62ffa700941b172994c32-->
+<!-- 打标 -->
+{{if item.imgTag}}
+<img class="card-tag-img" src="{{=item.imgTag}}" />
+{{else if item.imgTagText}}
+<mx-effects.icon class="card-tag-text" type="highlight" mode="solid" content="{{!item.imgTagText}}"/>
+{{/if}}
+
+{{if item.img}}
+<div class="card-img" style="background-image: url({{=item.img}})"></div>
+{{/if}}
+
+<div class="card-info {{if (item.icon || item.iconHtml)}} with-icon {{/if}}">
+    {{if item.icon}}
+    <div class="card-icon"><img src="{{=item.icon}}" /></div>
+    <div class="card-hover-icon"><img src="{{=(item.iconHover || item.icon)}}"></div>
+    {{else if item.iconHtml}}
+    <div class="card-icon">{{!item.iconHtml}}</div>
+    <div class="card-hover-icon">{{!(item.iconHoverHtml || item.iconHtml)}}</div>
+    {{/if}}
+   
+    <!-- 标题 -->
+    <div class="card-title" style="text-align: {{=innerData.textAlign}}; {{if (item.titleTag || item.titleTagText)}} padding-right: 40px; {{/if}}">
+        {{!item.title}}
+        {{if item.titleTag}}
+        <img class="card-title-tag-img" src="{{=item.titleTag}}" />
+        {{else if item.titleTagText}}
+        <mx-effects.icon class="card-title-tag-text" type="highlight" content="{{!item.titleTagText}}"/>
+        {{/if}}
+    </div>
+
+    <!-- 副标题 -->
+    <div class="card-sub-title" style="text-align: {{=innerData.textAlign}};">{{!item.subTitle}}</div>
+
+    {{if item.tip}}
+    <div class="card-tip" style="text-align: {{=innerData.textAlign}};">{{!item.tip}}</div>
+    {{/if}}
+
+    {{if innerData.quota}}
+    <div class="card-quotaes">
+        {{if (item.quotaes && item.quotaes.length)}}
+            {{each item.quotaes as q}}
+            <div class="card-quotae" style="width: {{=(100/item.quotaes.length)}}%;">
+                <div class="quotae-num">{{!q.value}}</div>
+                <div class="quotae-text">{{!q.text}}</div>
+            </div>
+            {{/each}}
+        {{else}}
+            {{if item.quotaeTip}}
+            <div class="card-quotae-tip">{{!item.quotaeTip}}</div>
+            {{/if}}
+        {{/if}}
+    </div>
+    {{/if}}
+
+    <!-- 多链接 -->
+    {{if item.links && item.links.length}}
+    <div class="card-links">
+        {{each item.links as link linkIndex}}
+        <div class="card-link">
+            <a {{if link.link}} href="{{=link.link}}" {{if link.outer}} target="_blank" rel="noopener noreferrer" {{/if}} {{else}} href="javascript:;" {{/if}}
+                {{if spm}} data-spm-click="{{=spm}}_link_{{=linkIndex}}" {{/if}}>{{!link.title}}</a>
+            <i class="mc-iconfont card-link-arrow">&#xe619;</i>
+        </div>
+        {{/each}}
+    </div>
+    {{/if}}
+
+    <!-- 按钮 -->
+    {{if item.btn}}
+    <div class="clearfix">
+        {{if innerData.cardClick}}
+            <!-- 整张卡片可点，纯显示样式 -->
+            <div class="btn card-btn">{{!item.btn}}<i class="mc-iconfont card-btn-icon">&#xe602;</i></div>
+        {{else}}
+            <!-- 只按钮可点 -->
+            <a {{if item.link}} href="{{=item.link}}" {{if item.outer}} target="_blank" rel="noopener noreferrer" {{/if}} {{else}} href="javascript:;" {{/if}}
+                {{if spm}} data-spm-click="{{=spm}}_btn" {{/if}}
+                class="btn card-btn">{{!item.btn}}<i class="mc-iconfont card-btn-icon">&#xe602;</i></a>
+        {{/if}}
+    </div>
+    {{/if}}
+</div>
+
+<!-- 多按钮 -->
+{{if (item.btns && item.btns.length)}}
+<div class="card-btn-links">
+    {{each item.btns as btn btnIndex}}
+    <a {{if btn.link}} href="{{=btn.link}}" {{if btn.outer}} target="_blank" rel="noopener noreferrer" {{/if}} {{else}} href="javascript:;" {{/if}} 
+        mx-click="@{btn.select}({item:'{{@item}}',btn:'{{@btn}}'})" {{if spm}} data-spm-click="{{=spm}}_btn_{{=btnIndex}}" {{/if}}
+        class="card-btn-link" style="width: {{=(100 / item.btns.length)}}%;">{{!btn.btn}}</a>
+    {{/each}}
+</div>
+{{/if}}

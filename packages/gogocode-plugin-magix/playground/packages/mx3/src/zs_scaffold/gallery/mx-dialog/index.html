@@ -1,0 +1,62 @@
+<!--md5:e4798d5f9ad76f99fb33abf137d44fb0-->
+{{if closable}}
+<a href="javascript:;" mx-click="@{close}()" data-spm-click="{{=spm}}_dialog_close" class="dialog-close">
+    <i class="mc-iconfont iconfont-ext">&#xe603;</i>
+</a>
+{{/if}}
+<div class="dialog-content" id="{{=cntId}}_content">
+    {{if (dialogHeader.title || dialogFooter.enter || dialogFooter.cancel)}}
+        <!-- 样式固定 -->
+        <!-- header -->
+        {{if dialogHeader.title}}
+        <div class="dialog-header" id="{{=cntId}}_header">
+            <span class="header-name">
+                {{!dialogHeader.title}}
+                <!-- icon提示 -->
+                {{if dialogHeader.iconTip}}
+                <mx-popover class="mc-iconfont mc-tip-iconfont" tag="i" content="{{=dialogHeader.iconTip}}">&#xe72f;</mx-popover>
+                {{/if}}
+            </span>
+
+            {{if dialogHeader.tip}}
+            <span class="color-9 ml10">{{!dialogHeader.tip}}</span>
+            {{/if}}
+        </div>
+        {{/if}}
+
+        <div id="{{=cntId}}">
+            <!-- content -->
+            <mx-loading height="100%" />
+        </div>
+
+        <!-- footer -->
+        {{if (dialogFooter.enter || dialogFooter.cancel)}}
+        <div class="dialog-footer footer-wrapper footer--{{=dialogFooter.textAlign}} clearfix" id="{{=cntId}}_footer"  style="text-align: {{=dialogFooter.textAlign}};">
+            {{if (dialogFooter.enter && dialogFooter.textAlign == 'right')}}
+            <span id="{{=cntId}}_footer_error" class="footer-item footer-error"></span>
+            {{/if}}
+
+            {{if dialogFooter.enter}}
+            <mx-btn id="{{=cntId}}_footer_submit" class="footer-item" mode="primary" mx-click="@{submit}()" data-spm-click="{{=spm}}_dialog_submit">{{!dialogFooter.enterText}}</mx-btn>
+            {{/if}}
+
+            {{if dialogFooter.cancel}}
+            <mx-btn id="{{=cntId}}_footer_cancel" class="footer-item"  mx-click="@{close}()" data-spm-click="{{=spm}}_dialog_cancel">{{!dialogFooter.cancelText}}</mx-btn>
+            {{/if}}
+
+            {{if (dialogFooter.enter && dialogFooter.textAlign == 'left')}}
+            <span id="{{=cntId}}_footer_error" class="footer-item footer-error"></span>
+            {{/if}}
+        </div>  
+        {{/if}}  
+    {{else}}
+        <!-- 完全自行控制 border 距离 -->
+        <div id="{{=cntId}}">
+            <mx-loading id="{{=cntId}}_loading" height="100%"/>
+        </div>
+    {{/if}}
+</div>
+<!-- 上下留白 -->
+{{if hasMargin}}
+<div class="margin-placeholder"></div>
+{{/if}}

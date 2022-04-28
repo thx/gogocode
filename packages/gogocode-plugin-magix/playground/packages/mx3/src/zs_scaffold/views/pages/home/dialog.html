@@ -1,0 +1,93 @@
+<mx-grid.body class="grid" style="height: 100%; overflow-y: auto;">
+    <form class="form">
+        <div class="form-item">
+            <div class="form-label">下拉框单选</div>
+            <div class="form-content">
+                <mx-dropdown class="w200"
+                    empty-text="请选择"
+                    selected="{{:selected.single{required:[true,'必选']}}}"
+                    list="{{@[1,2,3]}}"/>
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-label">多选数组</div>
+            <div class="form-content">
+                <mx-dropdown.multiple class="w200"
+                    empty-text="请选择"
+                    selected="{{:selected.multiArr{required:[true,'必选']}}}"
+                    list="{{@[1,2,3]}}"/>
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-label">选择时间段</div>
+            <div class="form-content">
+                <mx-calendar.rangepicker class="w200"
+                    vsenable="false"
+                    start="{{:selected.start}}"
+                    end="{{:selected.end}}"/>
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-label">地区</div>
+            <div class="form-content">
+                <mx-cascade class="w200"
+                    list="{{@areas}}"
+                    selected="{{:selected.area{refresh:true}}}"></mx-cascade>
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-label">输入框</div>
+            <div class="form-content">
+                <mx-input class="w200"
+                    placeholder="正则：汉字/字母/数字/下划线" 
+                    value="{{:selected.str{required:true,pattern:'^[a-zA-Z0-9_\u4e00-\u9fa5]+$'}}}"/>
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-label">radio + 输入框</div>
+            <div class="form-content clearfix">
+                <mx-radio class="mr30 fl"
+                    name="{{=viewId}}_type" 
+                    value="def"  
+                    text="默认情况"
+                    {{:selected.type{refresh:true}}}  />
+                
+                <mx-radio class="mr10 fl"
+                    name="{{=viewId}}_type" 
+                    value="custom"  
+                    text="自定义"
+                    {{:selected.type{refresh:true}}}  />
+
+                {{if (selected.type == 'custom')}}
+                <mx-input class="fl w100"
+                    placeholder="整数" 
+                    value="{{:selected.int{required:true,int:true}}}" />
+                {{/if}}
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-label">checkbox</div>
+            <div class="form-content">
+                {{each checkboxes as c}}
+                <mx-checkbox class="mr30"
+                    name="{{=viewId}}_checkboxs" 
+                    value="{{=c}}" 
+                    text="{{=c}}"
+                    {{:selected.checkboxes{required:[true,'必选']}}} />
+                {{/each}}
+            </div>
+        </div>
+        <div class="form-item">
+            <div class="form-label">radio</div>
+            <div class="form-content">
+                {{each radioes as r}}
+                <mx-radio class="mr30"
+                    name="{{=viewId}}_radioes" 
+                    value="{{=r}}" 
+                    text="{{=r}}"
+                    {{:selected.radio{required:[true,'必选']}}} />
+                {{/each}}
+            </div>
+        </div>
+    </form>
+</mx-grid.body>

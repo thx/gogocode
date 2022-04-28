@@ -1,0 +1,18 @@
+<!--md5:17413146c0976d8def51bbc9d3f25215-->
+{{each list as item index}}
+<div class="msg {{if item.show}} msg-show {{/if}}"
+    style="background-color: {{=item.colorBg}};">
+    {{if item.show}}
+        {{!item.iconText}}
+        {{if item.view}}
+            <div mx-view="{{=item.view}}?data={{@item.data}}"></div>
+        {{else if item.msg}}
+            <span style="color: {{=item.colorText}};">{{!item.msg}}</span>
+        {{/if}}
+        {{if !item.timeout}}
+        <i style="color: {{=item.colorText}};" class="mc-iconfont close" 
+            mx-click="@{close}({index:{{=index}}})">&#xe603;</i>
+        {{/if}}
+    {{/if}}
+</div>
+{{/each}}

@@ -1,0 +1,103 @@
+<!--md5:cc4f946778739a01258e62cdccef0695-->
+<div class="main-nav" style="width: {{=leftWidth}}px;">
+    {{each stepInfos as step stepIndex}}
+    <div class="main-step {{if (step.index == curStepIndex)}} step-current {{/if}} {{if step.locked}} step-locked {{/if}}">
+        <!-- 序号 -->
+        <span class="idx">
+        {{if ((stepInfos.length == stepIndex + 1) || (step.index < alreadyStep))}}
+            <!-- 显示打钩状态 1. 最后一步 2. 已完成的步骤 -->
+            <i class="mc-iconfont bold">&#xe65d;</i>
+        {{else}}
+            {{=(stepIndex + 1)}}
+        {{/if}}
+        </span>
+
+        <a href="javascript:;" class="step {{if (step.index == curStepIndex)}} on {{/if}} "
+            data-sub="-1" data-visible-sub="-1"
+            {{if !step.locked}} mx-click="nav({stepIndex:{{=step.index}}})" {{if spm}} data-spm-click="{{=spm}}_nav_{{=step.index}}" {{/if}} {{/if}}>
+            {{=step.label}}
+        </a>
+
+        <!-- 高亮背景 -->
+        {{if (step.index == curStepIndex)}} 
+        <span class="pbg"></span>
+        {{/if}}
+
+        <!-- 锁定态 -->
+        {{if step.locked}}
+        <i class="mc-iconfont locked-icon">&#xe759;</i>
+        {{/if}}
+    </div>
+    {{/each}}
+</div>
+<div class="main-content clearfix" style="min-height: {{=viewHeight}}px; padding-top: {{=gapWidth}}px; padding-right: {{=(gapWidth + (curStepInfo.sideWrapper ? (rightWidth + gapWidth) : 0))}}px; padding-left: {{=(leftWidth + gapWidth)}}px;">
+    {{if (fixStep && fixStep.view)}}
+    <div class="content-box">
+        {{if (fixStep.title || fixStep.label)}}
+        <div class="box-title clearfix">
+            <span class="title-text">
+                {{if fixStep.icon}}<span class="title-icon">{{!fixStep.icon}}</span>{{/if}}
+                <span class="title-label">{{!(fixStep.title || fixStep.label)}}</span>
+                {{if fixStep.tip}}
+                <span class="title-tip">{{!fixStep.tip}}</span>
+                {{/if}}
+            </span>
+        </div>
+        {{/if}}
+        <mx-vframe class="box-bd" 
+            data-sub="{{=viewId}}_sub_fix"
+            src="{{=fixStep.view}}?info={{@fixStep}}">
+            <mx-loading />
+        </mx-vframe>
+    </div>
+    {{/if}}
+    
+    {{each stepInfos as step stepIndex}}
+    <div class="content-box">
+        <div class="box-title {{if step.locked}} box-title-locked {{/if}} clearfix">
+            <span class="title-text">
+                {{if step.icon}}<span class="title-icon">{{!step.icon}}</span>{{/if}}
+                <span class="title-label">{{!(step.title || step.label)}}</span>
+                {{if step.tip}}
+                <span class="title-tip">{{!step.tip}}</span>
+                {{/if}}
+            </span>
+            {{if !step.locked && !step.current}}
+            <a mx-click="nav({stepIndex:{{=step.index}}})" href="javascript:;" class="title-right link-brand">修改</a>
+            {{/if}}
+        </div>
+        {{if step.current}}
+        <div class="box-bd">
+            <mx-vframe 
+                data-sub="{{=viewId}}_sub_{{=step.index}}"
+                src="{{=step.view}}?info={{@step}}">
+                <mx-loading />
+            </mx-vframe>
+            {{if (curStepInfo.btns && curStepInfo.btns.length)}}
+            <div class="text-right mt16">
+                <span id="{{=viewId}}_error" class="footer-error"></span>
+                {{if curStepInfo.footerView}}
+                <span class="ml16" mx-view="{{=curStepInfo.footerView}}?data={{@curStepInfo.footerData}}"></span>
+                {{/if}}
+                <span class="ml16">
+                    {{each curStepInfo.btns as btn btnIndex}}
+                    <mx-btn class="footer-btn"
+                        brand="{{=btn.brand}}"
+                        content="{{=btn.text}}"
+                        mx-click="{{=btn.fn}}({btn:'{{@btn}}'})"
+                        {{if spm}} data-spm-click="{{=spm}}_{{=curStepInfo.index}}_btn_{{=btn.fn}}_{{=btnIndex}}_compid_{{=btn.compid}}" {{/if}}/>
+                    {{/each}}
+                </span>
+            </div>
+            {{/if}}
+        </div>
+        {{/if}}
+    </div>
+    {{/each}}
+    {{if curStepInfo.sideWrapper}}
+    <mx-vframe class="content-side" style="top: {{=gapWidth}}px; right: {{=gapWidth}}px; width: {{=rightWidth}}px;"
+        src="{{=curStepInfo.sideWrapper}}?data={{@curStepInfo.sideData}}" >
+        <mx-loading />
+    </mx-vframe>
+    {{/if}}
+</div>

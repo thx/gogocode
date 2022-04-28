@@ -1,0 +1,135 @@
+<!--md5:5943822729d58da5cd468ff05160c41e-->
+<div class="header header--{{=mode}}" 
+    style="height: {{=height}}px; {{if colorBg}} --mx-header-color-bg: {{=colorBg}}; {{/if}} {{if colorText}} --mx-header-color-text: {{=colorText}}; {{/if}} {{if color}} --mx-header-color-brand: {{=color}}; {{/if}}">
+
+    <!-- 顶部妈妈产品相关外链 -->
+    {{if links}}
+    <div class="others">
+        <div class="others-inner" {{if width}} style="max-width: {{=width}}px;" {{/if}}>
+            <div class="item item-mama">
+                <a class="title-link" href="//www.alimama.com" target="_blank" rel="noopener noreferrer" {{if spm}} data-spm-click="{{=spm}}mmh" {{/if}}>阿里妈妈首页</a>
+            </div>
+            {{each list as item}}
+            <mx-popover class="item"  
+                width="144" content="{{=item.tip}}"
+                mx-focusin="toggleHover()"
+                mx-focusout="toggleHover()">
+                <span class="title-link">{{=item.text}}</span>
+                <i class="title-arrow mc-iconfont">&#xe6c1;</i>
+            </mx-popover>
+            {{/each}}
+
+            <!-- 登陆信息 -->
+            {{if login}}
+            <div class="item">
+                {{if user}}
+                <span class="title-text">你好，{{=user}}，</span>
+                <a class="link-brand" href="{{=logoutUrl}}" {{if spm}} data-spm-click="{{=spm}}lgo" {{/if}}>退出</a>
+                {{else}}
+                <span class="title-text">亲，请</span>
+                <a class="link-brand" href="javascript:;" mx-click="showLogin()" {{if spm}} data-spm-click="{{=spm}}lgi" {{/if}}>登录</a>
+                {{/if}}
+            </div>
+            {{/if}}
+        </div>
+    </div>
+    {{/if}}
+
+    <div class="front {{if fixed}} fixed {{/if}}" style="{{=styles}}">
+        <div class="front-inner clearfix" {{if width}} style="max-width: {{=width}}px;" {{/if}}>
+            {{if logo}}
+            <div class="front-item logo">
+                <a  data-nav="header_logo"
+                    href="javascript:;" 
+                    {{if (logoNav && logoNav[linkKey])}} {{=linkFn(logoNav)}} {{else}} href="javascript:;" mx-click="changeNav({nav:'{{@logoNav}}'})" {{/if}}
+                    {{if spm}} data-spm-click="{{=spm}}logo" {{/if}}>
+                    <img src="{{=logo}}"/>
+                </a>
+            </div>
+            {{/if}}
+
+            {{if (navs && navs.length > 0 && devInfo.pc)}}
+                {{each navs as nav navIndex}}
+                    {{if nav.subs && nav.subs.length}}
+                        <mx-popover data-pop="{{=viewId}}_{{=nav[valueKey]}}"
+                            tag="div"
+                            class="front-item nav {{if (parent == nav[valueKey])}} nav-cur {{/if}}"
+                            offset="{{@{ top: -10 }}}"
+                            width="{{=nav.groupWidth}}"
+                            view="@./sub"
+                            transform="false"
+                            data="{{@{
+                                parent: parent,
+                                child: child,
+                                valueKey: valueKey,
+                                textKey: textKey,
+                                linkKey: linkKey,
+                                outerKey: outerKey,
+                                spm: spm,
+                                nav: nav,
+                                color: color,
+                                colorOpacity: colorOpacity,
+                                ownerId: viewId
+                            }}}"
+                            mx-focusin="toggleHover()"
+                            mx-focusout="toggleHover()"
+                            mx-navchange="changeSub()">
+                            <a class="nav-inner" data-nav="{{=nav[valueKey]}}" {{if nav[linkKey]}} {{=linkFn(nav)}} {{else}} href="javascript:;" mx-click="changeNav({nav:'{{@nav}}'})" {{/if}} {{if spm}} data-spm-click="{{=spm}}{{=nav[valueKey]}}" {{/if}}>
+                                {{=nav[textKey]}}
+                            </a>
+                            {{if nav.tagContent}}
+                            <span class="tag-content-wrapper">{{!nav.tagContent}}</span>
+                            {{else if nav.tag}}
+                            <mx-effects.icon class="nav-icon" {{if nav.tagColor}} color="{{=nav.tagColor}}" {{else}} type="error" {{/if}} content="{{=nav.tag}}"/>
+                            {{/if}}
+                            <i class="nav-arrow mc-iconfont">&#xe6c1;</i>
+                        </mx-popover>
+                    {{else}}
+                        <div class="front-item nav {{if (parent == nav[valueKey])}} nav-cur {{/if}}"
+                            mx-focusin="toggleHover()"
+                            mx-focusout="toggleHover()">
+                            <a class="nav-inner" data-nav="{{=nav[valueKey]}}" {{if nav[linkKey]}} {{=linkFn(nav)}} {{else}} href="javascript:;" mx-click="changeNav({nav:'{{@nav}}'})" {{/if}} {{if spm}} data-spm-click="{{=spm}}{{=nav[valueKey]}}" {{/if}}>
+                                {{=nav[textKey]}}
+                            </a>
+                            {{if nav.tagContent}}
+                            <span class="tag-content-wrapper">{{!nav.tagContent}}</span>
+                            {{else if nav.tag}}
+                            <mx-effects.icon class="nav-icon" {{if nav.tagColor}} color="{{=nav.tagColor}}" {{else}} type="error" {{/if}} content="{{=nav.tag}}"/>
+                            {{/if}}
+                        </div>
+                    {{/if}}
+                {{/each}}
+            {{/if}}
+
+            <!-- 导航上右侧自定义view -->
+            {{if rightView}}
+            <div class="front-right" style="{{if (devInfo.pad || devInfo.phone) && originLinks}} right: 34px; {{/if}} opacity: {{=(rightCeilingShow ? (fixed ? 1 : 0) : 1)}}">
+                <div class="right-inner" mx-view="{{=rightView}}?data={{@rightViewData}}"></div>
+            </div>
+            {{/if}}
+
+            <!-- 无线端显示导航收起状态 -->
+            {{if (devInfo.pad || devInfo.phone) && originLinks}}
+            <div class="front-right">
+                <div class="right-inner">
+                    <i class="mc-iconfont drawer-icon" mx-click="showDrawer()">&#xe623;</i>
+                </div>
+            </div>
+            {{/if}}
+        </div>
+    </div>
+</div>
+
+<!-- 移动端底部导航，最多6个，显示后两个字 -->
+{{if ((devInfo.pad || devInfo.phone) && (bottomNavs.length > 0))}}
+<div class="bottoms clearfix {{if bottomNavShow}} bottoms-show {{/if}}"
+    style="{{if colorBg}} --mx-header-color-bg: {{=colorBg}}; {{/if}} {{if colorText}} --mx-header-color-text: {{=colorText}}; {{/if}} {{if color}} --mx-header-color-brand: {{=color}}; {{/if}}">
+    {{each bottomNavs as nav navIndex}}
+    <a class="bottom-nav {{if (parent == nav[valueKey])}} bottom-cur {{/if}}" style="width: {{=(100 / bottomNavs.length)}}%;"
+        {{if nav[linkKey]}} {{=linkFn(nav)}} {{else}} href="javascript:;" mx-click="changeNav({nav:'{{@nav}}'})" {{/if}}>
+        <span class="bottom-icon">{{!nav.icon}}</span><br/>
+        <span class="bottom-text">{{=nav.bottomText}}</span>
+    </a>
+    {{/each}}
+</div>
+{{/if}}

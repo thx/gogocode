@@ -1,0 +1,50 @@
+<!--md5:ae786fa41896f0c5ecc0b1667e25c532-->
+<div class="clearfix" style="margin-top: {{=(0 - mt)}}px; margin-bottom: {{=(0 - mb)}}px;">
+    {{each list as item}}
+    <div id="{{=viewId}}_card_{{=item[valueKey]}}" 
+        class="card size--{{=mode}} hover--{{=hoverType}} {{if item.disabled}} card-disabled {{/if}} {{if item.selected}} card-selected {{/if}}"
+        style="margin-right: {{=mr}}px; margin-top: {{=mt}}px; margin-bottom: {{=mb}}px; margin-left: {{=ml}}px;"
+        {{if (!item.disabled)}} mx-click="@{select}({item:'{{@item}}'})" {{/if}}>
+        <div class="card-label" 
+            {{if (animItem && (animItem[valueKey] == item[valueKey]) && animing)}} mx-comp-expand-amin="animing" {{/if}}
+            style="width: {{=width}}px;">
+            <span class="card-checkbox">
+                <mx-checkbox 
+                    name="{{=viewId}}_checkboxs" 
+                    value="{{=item[valueKey]}}" 
+                    checked="{{=item.selected}}"/>
+            </span>
+        
+            <div class="info">
+                <div class="text">{{!item[textKey]}}</div>
+
+                {{if (textLines > 0)}}
+                <div class="tip" style="height: {{=(18 * textLines)}}px;-webkit-line-clamp: {{=textLines}};">{{!item[tipKey]}}</div>
+                {{/if}}
+    
+                {{if hasTags}}
+                <div class="tags clearfix">
+                    {{each item.tags as tag}}
+                    <mx-effects.icon class="tag fl" 
+                        type="{{=((item.selected && hoverType == 'common') ? 'highlight' : '')}}" 
+                        color="{{=((item.selected && hoverType == 'brand') ? '#ffffff' : '')}}" 
+                        mode="hollow" 
+                        content="{{=tag}}"/>
+                    {{/each}}
+                </div>
+                {{/if}}
+            </div>
+        
+            {{if (textLines > 0 && item.icon)}}
+            <span class="icon">{{!item.icon}}</span>
+            {{/if}}
+        </div>
+        {{if item.tag}}
+        <span class="mx-tag {{if item.disabled}} mx-tag-disabled {{/if}} card-tag" 
+            {{if item.tagColor}} style="background-color: {{=item.tagColor}}; border: 1px solid {{=item.tagColor}};" {{/if}}>
+            <span class="mx-tag-name">{{!item.tag}}</span>
+        </span>
+        {{/if}}
+    </div>
+    {{/each}}
+</div>

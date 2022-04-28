@@ -1,0 +1,278 @@
+/*md5:826c79c9f0f1c475050da1ed51a4bc72*/
+/* @dependent: ./index.less */
+
+/* 各种类型按钮样式，包含a标签的状态处理 */
+.btn,
+.btn:link,
+.btn:visited {
+    position: relative;
+    display: inline-block;
+    min-width: var(--btn-min-width, 64px);
+    height: var(--input-height);
+    margin-bottom: 0;
+    padding: 0 var(--btn-h-gap, 10px);
+    font-size: var(--btn-font-size, 12px);
+    font-weight: normal;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline: none;
+    line-height: calc(var(--input-height) - 2px);
+    border-radius: var(--btn-border-radius);
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--btn-border);
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+    transition: border-color var(--duration), background-color var(--duration), color var(--duration);
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding;
+    background-clip: padding-box;
+
+    &.btn-small {
+        min-width: var(--btn-small-min-width, 48px);
+        padding: 0 var(--btn-small-h-gap, 8px);
+        height: var(--input-small-height);
+        line-height: calc(var(--input-small-height) - 2px);
+        border-radius: var(--btn-small-border-radius, var(--btn-border-radius));
+        font-size: var(--btn-small-font-size, 12px);
+    }
+
+    &:hover,
+    &.hover,
+    &:active {
+        border-color: var(--btn-border-hover);
+        background-color: var(--btn-bg-hover);
+        color: var(--btn-text-hover);
+    }
+
+    &[disabled],
+    &.btn-disabled {
+        cursor: not-allowed;
+
+        &:hover,
+        &.hover,
+        &:active {
+            border-color: var(--btn-border);
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+        }
+    }
+
+    &.btn-brand {
+        border-color: var(--btn-brand);
+        background-color: var(--btn-brand);
+        color: var(--btn-brand-text);
+
+        &:hover,
+        &.hover,
+        &:active {
+            border-color: var(--btn-brand-hover);
+            background-color: var(--btn-brand-hover);
+            color: var(--btn-brand-text-hover);
+        }
+
+        &[disabled],
+        &.btn-disabled {
+
+            &:hover,
+            &.hover,
+            &:active {
+                border-color: var(--btn-brand);
+                background-color: var(--btn-brand);
+                color: var(--btn-brand-text);
+            }
+        }
+    }
+
+    &.btn-hollow {
+        border-color: var(--btn-brand);
+        background-color: transparent;
+        color: var(--btn-brand);
+
+        &:hover,
+        &.hover,
+        &:active {
+            border-color: var(--btn-brand);
+            background-color: var(--btn-brand);
+            color: var(--btn-brand-text);
+        }
+
+        &[disabled],
+        &.btn-disabled {
+
+            &:hover,
+            &.hover,
+            &:active {
+                border-color: var(--btn-brand);
+                background-color: transparent;
+                color: var(--btn-brand);
+            }
+        }
+    }
+
+    &.btn-white {
+        border-color: #fff;
+        background-color: #fff;
+        color: var(--btn-text);
+
+        &:hover,
+        &.hover,
+        &:active {
+            border-color: var(--color-bg);
+            background-color: var(--color-bg);
+            color: var(--btn-text-hover);
+        }
+
+        &[disabled],
+        &.btn-disabled {
+
+            &:hover,
+            &.hover,
+            &:active {
+                border-color: #fff;
+                background-color: #fff;
+                color: var(--btn-text);
+            }
+        }
+    }
+}
+
+/* 直接使用class="btn"加上动画，只有获取焦点显示一次；mx-btn每次点击都需要加上动画，组件内处理  */
+.btn {
+    &:focus {
+        overflow: hidden;
+
+        &::before {
+            content: ' ';
+            opacity: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            padding: 0;
+            border-radius: 100%;
+            background-color: var(--color-brand);
+            transform: translateX(-50%) translateY(-50%);
+            z-index: 10;
+            animation: trigger-expand var(--mx-comp-expand-amin-timer) var(--mx-comp-expand-amin-ease);
+            animation-fill-mode: backwards;
+        }
+    }
+
+    &[disabled],
+    &.btn-disabled {
+        &::after {
+            opacity: .6;
+            content: ' ';
+            position: absolute;
+            top: -1px;
+            right: -1px;
+            bottom: -1px;
+            left: -1px;
+            z-index: 1;
+            border-radius: var(--btn-border-radius);
+            background-color: #fff;
+        }
+
+        &:focus {
+            overflow: visible;
+
+            &::before {
+                content: none;
+            }
+        }
+    }
+
+    &.btn-brand,
+    &.btn-hollow {
+        &:focus {
+            &::before {
+                background-color: #fff;
+            }
+        }
+    }
+}
+
+@media screen and (max-width:768px) {
+
+    .btn {
+        --btn-border-radius: calc(var(--input-height) / 2);
+        --btn-small-border-radius: calc(var(--input-small-height) / 2);
+
+        &:visited,
+        &:hover {
+            border-color: var(--btn-border);
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+        }
+
+
+        &:focus,
+        &:active {
+            border-color: var(--btn-border-hover);
+            background-color: var(--btn-bg-hover);
+            color: var(--btn-text-hover);
+        }
+
+        &.btn-brand {
+
+            &:visited,
+            &:hover {
+                border-color: var(--btn-brand);
+                background-color: var(--btn-brand);
+                color: var(--btn-brand-text);
+            }
+
+            &:focus,
+            &:active {
+                border-color: var(--btn-brand-hover);
+                background-color: var(--btn-brand-hover);
+                color: var(--btn-brand-text-hover);
+            }
+        }
+
+        &.btn-hollow {
+
+            &:visited,
+            &:hover {
+                border-color: var(--btn-brand);
+                background-color: transparent;
+                color: var(--btn-brand);
+            }
+
+
+            &:focus,
+            &:active {
+                border-color: var(--btn-brand);
+                background-color: var(--btn-brand);
+                color: var(--btn-brand-text);
+            }
+        }
+
+        &.btn-white {
+
+            &:visited,
+            &:hover {
+                border-color: #fff;
+                background-color: #fff;
+                color: var(--btn-text);
+            }
+
+
+            &:focus,
+            &:active {
+                border-color: var(--color-bg);
+                background-color: var(--color-bg);
+                color: var(--btn-text-hover);
+            }
+        }
+    }
+}

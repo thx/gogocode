@@ -1,0 +1,26 @@
+<!--md5:959c8acabd1953c00d99b0453a93c427-->
+<mx-input 
+    style="width: 100%;"
+    prefix="search"
+    placeholder="{{=placeholder}}"
+    autocomplete="off"
+    value="{{=searchValue}}" 
+    mx-keyup="@{search}()"
+    mx-paste="@{search}()"
+    mx-focusin="@{search}()"
+    mx-focusout="@{stop}()"
+    mx-change="@{stop}()"
+    {{if spm}} data-spm-click="{{=spm}}i" {{/if}}/>
+
+<div class="mx-output-bottom {{if ((list.length > 1) && searchValue && show)}} mx-output-open  {{/if}} search-menu">
+    <ul class="mx-output-list">
+        {{each list as item}}
+        <li class="mx-output-item">
+            <span class="mx-output-link {{if (searchKey == item.value)}} mx-output-link-active {{/if}}"
+                mx-click="@{select}({item:'{{@item}}'})" {{if spm}} data-spm-click="{{=spm}}{{=item.value}}" {{/if}}>
+                {{=item.prefix}}{{=searchValue}}{{=item.suffix}}
+            </span>
+        </li>
+        {{/each}}
+    </ul>
+</div>

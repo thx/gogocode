@@ -1,0 +1,36 @@
+<!--md5:e96e9588dbfb353e77ae511be3c702e2-->
+{{if (data.mode == 'all')}}
+    <!-- 自定义 & 默认 -->
+    <a class="btn setting-show-btn" mx-click="show()" href="javascript:;" >
+        <i class="mc-iconfont setting-show-icon">&#xe731;</i>
+    </a>
+    <a href="javascript:;" class="mx-trigger setting-switch-btn" mx-click="toggleDefault()">
+        {{=data.map[data.type]['label']}}<i class="mc-iconfont mx-trigger-arrow">&#xe6c1;</i>
+    </a>
+{{else}}
+    <!-- 纯自定义 -->
+    {{if (data.display == 'text')}}
+        <!-- 文字链类型 -->
+        <a class="setting-show-text" mx-click="show()" href="javascript:;" >
+            <i class="mc-iconfont text-icon">&#xe68b;</i>{{=data.displayText}}
+        </a>
+    {{else if (data.display == 'flat')}}
+        <!-- 平铺展示 -->
+        <div class="clearfix mb5">
+            <span class="setting-flat-text">{{=data.displayText}}</span>
+            <a class="btn setting-show-btn fr" mx-click="show()" href="javascript:;" >
+                <i class="mc-iconfont setting-show-icon">&#xe731;</i>
+            </a>
+        </div>
+        <div {{if (data.sortable && !disabled)}} mx-view="@../mx-dragsort/index" mx-dragfinish="drag()" {{/if}}>
+            {{each data.map[data.type].list as s}}
+            <div class="drag" data-value="{{=s}}">{{=fieldsMap[s].text}}</div>
+            {{/each}}
+        </div>
+    {{else}}
+        <!-- icon类型 -->
+        <a class="btn setting-show-btn" mx-click="show()" href="javascript:;" >
+            <i class="mc-iconfont setting-show-icon">&#xe731;</i>
+        </a>
+    {{/if}}
+{{/if}}

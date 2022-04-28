@@ -1,0 +1,69 @@
+<!--md5:72f1d7ad3062500971d00209b30747db-->
+{{each data.children as item index}}
+<div class="li">
+    <div class="name">
+        {{if needExpand}}
+            {{if (item.children && (item.children.length > 0))}}
+            <i class="mc-iconfont icon oper" mx-click="@{toggle}({index:{{=index}}})">{{if item.close}}&#xe65b;{{else}}&#xe65a;{{/if}}</i>
+            {{else}}
+                <!-- 只读状态下增加叶子节点占位符 -->
+                {{if (mode == 'readonly')}}
+                <i class="mc-iconfont icon">&#xe732;</i>
+                {{/if}}
+            {{/if}}
+        {{/if}}
+
+        <!-- 多选 -->
+        {{if (mode == 'checkbox')}}
+        <label>
+            <input class="checkbox"
+                type="checkbox"
+                id="cb_{{=viewId}}_{{=index}}"
+                value="{{=item[valueKey]}}"
+                name="{{=viewId}}" 
+                {{if (item.checkboxState == stateConstant.checked)}} checked="true" {{/if}}
+                mx-change="@{check}({index:{{=index}}})"/>
+            <span {{if item.highlight}} class="color-brand" {{/if}}>{{=item[textKey]}}</span>
+        </label>
+        {{/if}}
+        
+        <!-- 只读文案 -->
+        {{if (mode == 'readonly')}}
+        <span {{if item.highlight}} class="color-brand" {{/if}}>{{=item[textKey]}}</span>
+        {{/if}}
+
+        <!-- radio只在叶子节点可选 -->
+        {{if (mode == 'radio')}}
+            {{if (item.children && (item.children.length > 0 && (valueType == 'bottom')))}}
+            <span {{if item.highlight}} class="color-brand" {{/if}}>{{=item[textKey]}}</span>
+            {{else}}
+            <label>
+                <input class="radio"
+                    type="radio"
+                    id="r_{{=viewId}}_{{=index}}"
+                    value="{{=item[valueKey]}}"
+                    name="{{=ownerId}}" 
+                    {{if (item[valueKey] == radioSelected)}} checked="true" {{/if}} />
+                <span {{if item.highlight}} class="color-brand" {{/if}}>{{=item[textKey]}}</span>
+            </label>
+            {{/if}}
+        {{/if}}
+    </div>
+    {{if (!item.close && item.children && (item.children.length > 0))}}
+    <mx-tree.db
+        id="{{=viewId}}_{{=index}}"
+        owner-id="{{=ownerId}}"
+        mode="{{=mode}}"
+        value-type="{{=valueType}}"
+        radio-selected="{{=radioSelected}}"
+        state-constant="{{@stateConstant}}"
+        need-expand="{{@needExpand}}"
+        text-key="{{=textKey}}"
+        value-key="{{=valueKey}}"
+        close-map="{{@closeMap}}"
+        highlight-map="{{@highlightMap}}"
+        data="{{@item}}"
+        class="{{if !item.isAll}} indent {{/if}}"/>
+    {{/if}}
+</div>
+{{/each}}

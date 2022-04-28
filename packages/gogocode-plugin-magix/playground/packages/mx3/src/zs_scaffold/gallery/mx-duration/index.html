@@ -1,0 +1,107 @@
+<!--md5:7e56a34ce62d264c430c7e22880f1516-->
+<div style="width: {{=(maxWidth)}}px;" class="duration-wrapper">
+    <!-- 鼠标hover提示浮层 -->
+    {{if hoverInfo.show}}
+    <div style="top: {{=hoverInfo.top}}px; left: {{=hoverInfo.left}}px;" 
+        class="discount-hover mx-shadow">
+        <div>{{=hoverInfo.week}}</div>
+        <div><strong>{{=hoverInfo.time}}</strong></div>
+        <div><strong>{{=hoverInfo.discount}}</strong>%折扣</div>
+    </div>
+    {{/if}}
+
+    <!-- 选择区域遮罩浮层 -->
+    {{if maskInfo.show}}
+    <div style="top: {{=maskInfo.top}}px; left: {{=maskInfo.left}}px; height: {{=maskInfo.height}}px; width: {{=maskInfo.width}}px;" class="discount-mask">
+    </div>
+    {{/if}}
+
+    <!-- 选中区域设置浮层 -->
+    {{if settingInfo.show}}
+    <div style="top: {{=settingInfo.top}}px; left: {{=settingInfo.left}}px;" 
+        class="discount-setting mx-shadow">
+        <div class="setting-content">
+            <div class="mb10">
+                <span>{{=settingInfo.week}}</span>：
+                <strong class="ml5">{{=settingInfo.time}}</strong>
+            </div>
+            {{each settingList as sItem}}
+            <div class="mb10">
+                <mx-radio class="mr5"
+                    name="{{=viewId}}_settingType" 
+                    value="{{=sItem.value}}"
+                    text="{{=sItem.text}}"
+                    checked="{{=(settingInfo.type == sItem.value)}}"
+                    mx-change="changeSettingType({type:'{{=sItem.value}}'})" />
+                {{if (sItem.value == 1)}}
+                    {{if (settingInfo.type == sItem.value)}}
+                    <mx-input 
+                        size="small"
+                        value="{{:settingInfo.discount{required:true,posint:[true,'范围:30-250的整数'],min:[30,'范围:30-250的整数'],max:[250,'范围:30-250的整数']}}}"/>
+                    {{else}}
+                    <mx-input 
+                        size="small"
+                        disabled="true" 
+                        value="{{=settingInfo.discount}}" />
+                    {{/if}}
+                    <span class="ml5 color-9">%</span>
+                {{/if}}
+            </div>
+            {{/each}}
+        </div>
+        <div class="setting-footer">
+            <mx-btn mode="primary" size="small" class="mr10" mx-click="submitSetting()" content="确定"/>
+            <mx-btn size="small" mx-click="cancelSetting()" content="取消"/>
+        </div>
+    </div>
+    {{/if}}
+    
+    <div class="duration"  id="{{=viewId}}_duration">
+        <ul class="week" style="flex: 0 0 {{=(boxWidth*multiple)}}px;">
+            <li class="week-item" style="height: {{=(headerHeight+1)}}px; line-height: {{=headerHeight}}px;">星期</li>
+            {{each weeks as week}}
+            <li class="week-item" style="height: {{=boxHeight}}px; line-height: {{=boxHeight}}px;">{{=week}}</li>
+            {{/each}}
+        </ul>
+        <div class="content" style="flex: 1;">
+            <ul class="range">
+                {{each ranges as range}}
+                <li class="range-item" style="height: {{=headerHeight/2}}px; line-height: {{=headerHeight/2}}px;">{{=range}}</li>
+                {{/each}}
+            </ul>
+            <ul class="time">
+                {{for(let i=0;i<24;i+=1)}}
+                <li class="time-item" style="height: {{=headerHeight/2}}px; line-height: {{=headerHeight/2}}px;">{{=i}}</li>
+                {{/for}}
+            </ul>
+            <ul class="boxzone">
+                {{each boxZones as zone}}
+                <li class="box" 
+                    style="flex: 1 1 {{=boxWidth}}px; height: {{=boxHeight}}px; background-color: {{=zone.bg}}"
+                    mx-click="clickOutside({index:{{=zone.index}}})"
+                    mx-mousedown="select()"
+                    mx-mouseover="showTip({index:{{=zone.index}}})"
+                    mx-mouseout="hideTip({index:{{=zone.index}}})"></li>
+                {{/each}}
+            </ul>
+        </div>
+    </div>
+    <div class="pt10 pb10 clearfix">
+        {{if !readonly}}
+        <mx-btn class="mr10 fl" size="small" mx-click="clear()" content="清空"/>
+        <mx-btn class="mr10 fl" size="small" mx-click="reset()" content="重置"/>
+        {{/if}}
+
+        <span class="circle-right">
+            {{each dots as dot}}
+            <span class="circle ml16" style="background-color: {{=dot.value}};"></span>
+            <span class="font-number bold color-c">{{=dot.text}}</span>
+            {{/each}}
+            
+            {{if !readonly}}
+            <i class="mc-iconfont ml16">&#xe705;</i>
+            <span>可以拖拽鼠标选择投放时段</span>
+            {{/if}}
+        </span>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+<!--md5:3072f51aee9d8f325cb0eebcdd405f89-->
+<span class="rail" mx-contextmenu="@{prevent}()" 
+style="{{if vertical}} height: {{=height}}px; {{else}} width: {{=width}}px; {{/if}} ">
+    {{each dots as d}}
+        <span class="dot" style="{{if vertical}} top: {{=(100 - d.percent)}}%;  {{else}} left: {{=d.percent}}%; {{/if}}"></span>
+        {{if (!dotReset && !vertical)}}
+        <mx-popover class="dot dot-pop" style="{{if vertical}} top: {{=(100 - d.percent)}}%;  {{else}} left: {{=d.percent}}%; {{/if}}"
+            content="{{=d.value}}"
+            width="auto"
+            mode="dark"></mx-popover>
+        {{else}}
+        <span class="dot-text" style="{{if vertical}} top: {{=(100 - d.percent)}}%;  {{else}} left: {{=d.percent}}%; {{/if}}">{{=d.value}}</span>
+        {{/if}}
+    {{/each}}
+    <span class="tracker"></span>
+    <span tabindex="0" mx-keydown="@{move.by.keyboard}({start:true})" class="indicator" 
+        mx-mousedown="@{drag}({start:true})" id="left_{{=viewId}}"></span>
+    <span class="pointer-label" id="leftl_{{=viewId}}"></span>
+    <span tabindex="0" mx-keydown="@{move.by.keyboard}()" class="indicator" 
+        mx-mousedown="@{drag}({end:true})" id="right_{{=viewId}}"></span>
+    <span class="pointer-label" id="rightl_{{=viewId}}"></span>
+    <span class="scale-start">{{=min}}</span>
+    <span class="scale-end">{{=max}}</span>
+</span>

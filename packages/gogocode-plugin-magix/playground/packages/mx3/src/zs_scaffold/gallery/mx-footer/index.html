@@ -1,0 +1,55 @@
+<!--md5:a0add58ff48ae31cfc25380188c4a71c-->
+{{if products.length > 0}}
+<div class="products" style="max-width: {{=width}}px; {{if (devInfo.pc && qrcodes && qrcodes.length)}} padding-right: {{=(20 + qrcodes.length * 120)}}px; {{/if}}">
+    {{if logo && logo.img}}
+    <div class="logo-img">
+        <img src="{{=logo.img}}" />
+    </div>
+    {{else}}
+    <div class="logo"></div>
+    {{/if}}
+    <div class="clearfix">
+        {{each products as p pIndex}}
+        <div class="product" style="width: {{=(100 / products.length)}}%;">
+            <div class="pt {{if (devInfo.pad || devInfo.phone)}} cursor-pointer {{/if}}" {{if (devInfo.pad || devInfo.phone)}} mx-click="toggle({index:{{=pIndex}}})" {{/if}}>{{=p.text}}</div>
+            {{if p.show}}
+                {{each p.thirds as t}}
+                <div class="pl"><a href="{{=t.link}}" class="line-link" target="_blank" rel="noopener noreferrer" rel="noopener noreferrer">{{=t.text}}</a></div>
+                {{/each}}
+            {{/if}}
+        </div>
+        {{/each}}
+    </div>
+    {{if qrcodes && qrcodes.length}}
+    <div class="qrcodes clearfix">
+        {{each qrcodes as q}}
+        <div class="qrcode">
+            <img src="{{=q.img}}">
+            {{each q.tips as tip}}
+            <div>{{=tip}}</div>
+            {{/each}}
+        </div>
+        {{/each}}
+    </div>
+    {{/if}}
+</div>
+{{/if}}
+<div class="footer" style="max-width: {{=width}}px; text-align: {{=textAlign}};">
+    {{each bottoms as bottom}}
+    <div class="line">
+        {{each bottom as item}}
+            {{if item.link}}
+            <a class="line-link {{if item.required}} required {{/if}}" target="_blank" rel="noopener noreferrer" href="{{=item.link}}">
+                {{if item.img}}<img src="{{=item.img}}" width="20">{{/if}}
+                {{if item.text}}<span>{{=item.text}}</span>{{/if}}
+            </a>
+            {{else}}
+            <span class="line-text {{if item.required}} required {{/if}}">
+                {{if item.img}}<img src="{{=item.img}}" width="20">{{/if}}
+                {{if item.text}}<span>{{=item.text}}</span>{{/if}}
+            </span>
+            {{/if}}
+        {{/each}}
+    </div>
+    {{/each}}
+</div>

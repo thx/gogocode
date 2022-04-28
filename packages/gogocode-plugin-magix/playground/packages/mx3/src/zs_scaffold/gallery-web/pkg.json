@@ -1,0 +1,48 @@
+{
+  "name": "@ali/wcs-components",
+  "version": "0.0.11",
+  "description": "使用原生Web Components规范开发的跨框架UI组件库",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.alibaba-inc.com:mm/wcs-components.git"
+  },
+  "keywords": [
+    "web-components",
+    "ui-gallery",
+    "shadow-dom"
+  ],
+  "author": "yujia <yujia.yjq@alibaba-inc.com>",
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "http://registry.npm.alibaba-inc.com"
+  },
+  "dependencies": {
+    "del": "3.0.0",
+    "gulp": "3.9.1",
+    "gulp-concat": "2.6.1",
+    "gulp-copy": "^4.0.1",
+    "gulp-rename": "^1.4.0",
+    "gulp-less": "^4.0.1",
+    "gulp-clean-css": "^4.2.0",
+    "gulp-replace": "^1.0.0",
+    "gulp-terser-scoped": "^1.0.0",
+    "gulp-watch": "4.3.11",
+    "magix-combine": "3.11.34",
+    "seajs": "3.0.2",
+    "typescript": "2.6.2"
+  },
+  "magixCliConfig": {
+    "cloudBuild": true
+  },
+  "devDependencies": {
+    "eslint": "^7.17.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.22.0"
+  },
+  "__npminstall_done": true,
+  "_from": "@ali/wcs-components@0.0.11",
+  "_resolved": "https://registry.npm.alibaba-inc.com/@ali/wcs-components/download/@ali/wcs-components-0.0.11.tgz"
+}

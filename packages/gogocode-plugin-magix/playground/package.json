@@ -7,15 +7,12 @@
   "scripts": {
     "start": "npm-run-all --parallel start:*",
     "start:main": "yarn workspace main run start",
-    "start:vue2": "yarn workspace vue2 run start",
-    "start:vue3": "yarn workspace vue3 run start"
+    "start:vue2": "yarn workspace mx3 run start",
+    "start:vue3": "yarn workspace mx5 run start"
   },
   "workspaces": {
     "packages": ["packages/*"],
-    "nohoist": ["**/vue", "**/vue/**", 
-                "**/vuex", "**/vuex/**",
-                "**/vue-router", "**/vue-router/**",
-                "**/@vue/cli-service", "**/@vue/cli-service/**"]
+    "nohoist": []
   },
   "repository": "git@gitlab.alibaba-inc.com:mm/gogocode-vue-playground.git",
   "author": "chibing.fy",

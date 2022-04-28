@@ -1,0 +1,30 @@
+<!--md5:5404630f2c397a77aad6eb0bf1ab8fa0-->
+<div class="dialog-header tt">
+    {{if (type == 'highlight')}}
+    <i class="mc-iconfont type-icon color-brand">&#xe728;</i>
+    {{else if (type == 'error')}}
+    <i class="mc-iconfont type-icon color-red">&#xe727;</i>
+    {{else if (type == 'warn')}}
+    <i class="mc-iconfont type-icon color-warn">&#xe72a;</i>
+    {{else if (type == 'pass')}}
+    <i class="mc-iconfont type-icon color-green">&#xe729;</i>
+    {{/if}}
+    {{!title}}
+</div>
+<div class="word-break" style="padding: var(--mx-dialog-alert-v-gap) var(--mx-comp-h-gap);">
+    {{!c}}
+</div>
+{{if (enter || cancel)}}
+<div class="dialog-footer" style="border-top: 1px solid var(--mx-dialog-alert-color-border);">
+    {{if enter}}
+    <mx-btn mode="primary" 
+        content="{{=enterText}}"
+        mx-click="@{enter}();" data-spm-click="{{=spm}}_submit"/>
+    {{/if}}
+    {{if cancel}}
+    <mx-btn class="ml10"
+        content="{{=cancelText}}"
+        mx-click="@{cancel}()" data-spm-click="{{=spm}}_cancel"/>
+    {{/if}}
+</div>
+{{/if}}

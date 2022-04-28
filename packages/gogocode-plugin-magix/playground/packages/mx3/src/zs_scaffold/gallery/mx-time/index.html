@@ -1,0 +1,21 @@
+<!--md5:8c8621874a98856751f4d33a50f3d732-->
+<div class="mx-trigger {{if expand}} mx-trigger {{/if}}  {{if expand}} mx-trigger-open {{/if}}"
+    {{if animing}} mx-comp-expand-amin="animing" {{/if}}
+    {{if !disabled}} mx-click="@{toggle}()" {{/if}}>
+    <span class="mx-trigger-label">{{if name}}<span class="color-9">{{=name}}：</span>{{/if}}{{=time}}</span>
+    <i class="mc-iconfont mx-trigger-arrow">&#xe6c1;</i>
+</div>
+
+<div class="mx-output-bottom {{if expand}} mx-output-open {{/if}}">
+{{if rList}}
+    <div mx-view="@./content"
+        id="{{=viewId}}_content"
+        view-time="{{=time}}" 
+        view-types="{{=types}}"
+        mx-change="@{stop}()"></div>
+    <div class="mx-output-footer clearfix">
+        <a href="javascript:;" class="fl btn btn-small btn-brand" mx-click="@{hide}({enter:true})">确定</a>
+        <a href="javascript:;" class="fl btn btn-small ml10" mx-click="@{hide}()">取消</a>
+    </div>
+{{/if}}
+</div>

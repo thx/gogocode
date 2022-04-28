@@ -1,0 +1,13 @@
+<!--md5:ef46e5fb097affc7a8f3a95db3873067-->
+{{if light}}
+<div class="pr">
+    <div class="popover-breath"><mx-effects.breath  color="{{=lightColor}}" /></div>
+{{/if}}
+    {{if !view}}
+    <div class="popover-content">{{!content}}</div>
+    {{else}}
+    <div mx-view="{{=view}}?data={{@viewData}}">{{!content}}</div>
+    {{/if}}
+{{if light}}
+</div>
+{{/if}}

@@ -1,0 +1,85 @@
+/*md5:5a5ec96b97ddb74d2617fe778041248c*/
+[mx-view*="mx-radio/index"] {
+    position: relative;
+    vertical-align: middle;
+
+    @keyframes mx-radio-anim-after {
+        0% {
+            width: 12px;
+            height: 12px;
+            opacity: 0;
+        }
+
+        100% {
+            width: 6px;
+            height: 6px;
+            opacity: 1;
+        }
+    }
+
+    input[type="radio"].mx-radio {
+        &:checked {
+            &:after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 6px;
+                height: 6px;
+                margin-top: 0;
+                margin-left: 0;
+                transform: translateX(-50%) translateY(-50%);
+                border-radius: 50%;
+                background-color: #fff;
+                animation: mx-radio-anim-after var(--duration) ease-in-out;
+            }
+        }
+
+        &:disabled {
+            background-color: transparent;
+            border-color: var(--mx-checkbox-color);
+
+            &:hover {
+                border-color: var(--mx-checkbox-color);
+            }
+
+            &:checked {
+                background-color: var(--color-brand);
+                border-color: var(--color-brand);
+
+                &:after {
+                    background-color: #fff;
+                }
+            }
+        }
+    }
+
+    &[mx-view*="disabled=true"] {
+        cursor: not-allowed;
+
+        /* 遮挡 */
+        &::after {
+            opacity: 0;
+            content: ' ';
+            position: absolute;
+            top: 50%;
+            left: -1px;
+            width: calc(var(--mx-checkbox-size) + 2px);
+            height: calc(var(--mx-checkbox-size) + 2px);
+            margin-top: calc(0px - var(--mx-checkbox-size) / 2 - 1px);
+            background-color: transparent;
+            z-index: 10;
+            border-radius: 50%;
+        }
+
+        .mx-radio-text,
+        input[type="radio"].mx-radio {
+            opacity: .5;
+            pointer-events: none;
+        }
+
+        label {
+            pointer-events: none;
+        }
+    }
+}

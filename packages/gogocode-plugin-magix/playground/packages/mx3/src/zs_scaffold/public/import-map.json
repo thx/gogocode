@@ -1,0 +1,8 @@
+/*md5:644c9e9408defcb5a1ac0566da646237*/
+{
+  "imports": {
+    "@ali/dayjs-extend": "./@ali/dayjs-extend.js",
+    "dayjs": "./dayjs.js",
+    "numeral": "./numeral.js"
+  }
+}

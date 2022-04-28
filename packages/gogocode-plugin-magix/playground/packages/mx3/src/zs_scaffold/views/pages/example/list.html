@@ -1,0 +1,149 @@
+<mx-grid>
+    <mx-grid.title content="列表"/>
+    <mx-grid.body>
+        <div class="mb16">
+            <!-- 下拉单选 调用mxChangeFilter方法 该方法直接获取params，同时将offset设置成0，之后更新hash  注意：筛选项组件需要双向绑定-->
+            <mx-dropdown.bd class="w160 mr10" 
+                empty-text="下拉单选" 
+                searchbox="true" 
+                text-key="key" 
+                value-key="value"
+                list="{{@statusList}}" 
+                selected="{{:params.dropdown}}" 
+                mx-change="mxChangeFilter()" />
+
+            <!-- 下拉多选 同样调用mxChangeFilter 注意：筛选项组件需要双向绑定 -->
+            <mx-dropdown.multiple class="w160 mr10" 
+                empty-text="下拉多选" 
+                searchbox="true" 
+                text-key="key" 
+                value-key="value"
+                list="{{@statusList}}" 
+                selected="{{:params.dropdownMultiple}}" 
+                mx-change="mxChangeFilter()" />
+
+            <!-- 单一搜索 调用mxSearch方法 该方法统一用searchKey, searchValue更新hash， 同时将offset设置成0-->
+            <mx-search class="w160 mr10" 
+                search-value="{{:params.singleSearchValue}}" 
+                placeholder="单一搜索" 
+                mx-search="mxChangeFilter()"/>
+    
+            <!-- 搜索 包含搜索类型 同样调用mxSearch -->
+            <mx-search class="w160 mr10"
+                placeholder="分类型搜索" 
+                list="{{@searchTypeList}}" 
+                list-text="key" 
+                list-value="value"
+                search-value="{{:params.searchValue}}" 
+                search-key="{{:params.searchKey}}" 
+                mx-change="mxChangeFilter()" />
+
+            <!-- 盒状分组-->
+            <mx-tabs.box class="mr10" 
+                list="{{@statusList}}" 
+                text-key="key" 
+                value-key="value" 
+                selected="{{:params.box}}" 
+                mx-change="mxChangeFilter()" />
+        </div>
+
+        <div class="mb16">
+            <mx-input class="mr10"
+                width="160" 
+                placeholder="输入框"         
+                value="{{:params.inputObject.value}}"
+                mx-change="mxChangeFilter()"/>
+
+            <!-- 日历 同样调用mxChangeFilter 注意：筛选项组件需要双向绑定-->
+            <mx-calendar.datepicker class="w160 mr10" 
+                placeholder="日历"  
+                selected="{{:params.time}}"
+                mx-change="mxChangeFilter()" />
+
+            <!-- 日历(选择时间段) 同样调用mxChangeFilter 注意：筛选项组件需要双向绑定-->
+            <mx-calendar.rangepicker class="w200 mr10" 
+                placeholder="日历(选择时间段)" 
+                start="{{:params.startTime}}"  
+                end="{{:params.endTime}}" 
+                mx-change="mxChangeFilter()"/>
+           
+            <!-- 开关-->
+            <span class="mr5">开关：</span>
+            <mx-switch class="mr20" 
+                state="{{:params.switch}}" 
+                mx-change="mxChangeFilter()"/>
+        </div>
+
+        <div class="mb16">
+            <!-- 单选-->
+            <span class="mr5">单选：</span>
+            {{each statusList as item}}
+            <mx-radio class="mr30"
+                name="{{=viewId}}_radioes"
+                value="{{=item.value}}"
+                text="{{=item.key}}"
+                {{:params.radio}} 
+                mx-change="mxChangeFilter()"/>
+            {{/each}}
+        </div>
+
+        <div class="mb16">
+            <!-- 多选-->
+            <span class="mr5">多选：</span>
+            {{each statusList as item index}}
+            <mx-checkbox class="mr30"
+                name="{{=viewId}}_checkboxes"
+                value="{{=item.value}}"
+                text="{{=item.key}}"
+                {{:params.checkbox}} 
+                mx-change="mxChangeFilter()"/>
+            {{/each}}
+        </div>
+
+        {{if loading}}
+            <mx-loading />
+        {{else}}
+            <mx-stickytable empty-text="表格暂无内容">
+                <table>
+                    <thead>
+                        <tr>
+                            <th width="200">formatPer(百分比)</th>
+                            <th width="200">formatInt(取整)</th>
+                            <th width="200">formatFloat(保留小数位)</th>
+                            <th width="200">formatCash(除100保留小数位)</th>
+                            <th width="200">vs(两个指标对比化)</th>
+                            <th width="200">over(金额化)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{each list as item index}}
+                        <tr>
+                            <td>{{=item.field1}} =>  {{=FormatFn.formatPer(item.field1)}}</td>
+                            <td>{{=item.field2}} =>  {{=FormatFn.formatInt(item.field2)}}</td>
+                            <td>
+                                <p>{{=item.field3}} =>  {{=FormatFn.formatFloat(item.field3, 0)}}</p>
+                                <p>{{=item.field3}} =>  {{=FormatFn.formatFloat(item.field3, 1)}}</p>
+                                <p class="color-red">{{=item.field3}} =>  {{=FormatFn.formatFloat(item.field3)}}</p>
+                            </td>
+                            <td>
+                                <p>{{=item.field3}} =>  {{=FormatFn.formatCash(item.field3,0)}}</p>
+                                <p>{{=item.field3}} =>  {{=FormatFn.formatCash(item.field3,1)}}</p>
+                                <p class="color-red">{{=item.field3}} =>  {{=FormatFn.formatCash(item.field3)}}</p>
+                            </td>
+                            <td>{{=item.field51}} + {{=item.field52}} =>  {{!FormatFn.vs(item.field51,item.field52)}}</td>
+                            <td>{{=item.field6}} => {{!FormatFn.over(item.field6)}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </mx-stickytable>
+
+            <!-- 调用mxChangePage方法 该方法直接获取pageSize,offset之后更新hash-->
+            <mx-pagination class="table-pager-wrapper" 
+                total="{{=count}}" 
+                size="{{:params.pageSize}}" 
+                offset="{{:params.offset}}"
+                mx-change="mxChangePage()"/>
+        {{/if}}
+    </mx-grid.body>
+</mx-grid>

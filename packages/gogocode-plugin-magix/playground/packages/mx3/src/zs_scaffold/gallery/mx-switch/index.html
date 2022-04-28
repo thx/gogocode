@@ -1,0 +1,10 @@
+<!--md5:36900f600d2d3a567854ca8882a8d1fa-->
+<span class="switch {{= state ? 'open': 'close'}}" mx-click="@{toggle}()">
+    <span class="switch-icon"></span>
+</span>
+{{if (disabled && tip)}}
+<mx-popover class="reason"
+    tag="span"
+    width="240"
+    content="{{=tip}}"></mx-popover>
+{{/if}}

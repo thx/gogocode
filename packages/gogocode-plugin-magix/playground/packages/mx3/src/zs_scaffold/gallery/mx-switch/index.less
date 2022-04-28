@@ -1,0 +1,106 @@
+/*md5:6b54e6f333c4851754c05f5750005c0d*/
+[mx-view*="mx-switch/index"] {
+    position: relative;
+    display: inline-block;
+    font-size: 0;
+    line-height: 0;
+    vertical-align: middle;
+
+    &[mx-view*="disabled=true"],
+    &[mx-disabled] {
+        cursor: not-allowed;
+
+        &::after {
+            opacity: .6;
+            content: ' ';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            border-radius: var(--border-radius);
+            z-index: 3;
+            border-radius: calc(var(--mx-switch-height, 18px) / 2);
+        }
+
+        .switch {
+            pointer-events: none;
+        }
+    }
+}
+
+.switch {
+    display: inline-block;
+    position: relative;
+    width: var(--mx-switch-width, 40px);
+    height: var(--mx-switch-height, 18px);
+    cursor: pointer;
+    vertical-align: middle;
+
+    .switch-icon {
+        position: absolute;
+        top: 50%;
+        z-index: 2;
+        width: calc(var(--mx-switch-height, 18px) - 2px);
+        height: calc(var(--mx-switch-height, 18px) - 2px);
+        margin-top: calc(1px - var(--mx-switch-height, 18px) / 2);
+        border-radius: 50%;
+        background-color: #fff;
+        transition: left 0.35s cubic-bezier(0.4, 2.18, .48, .68);
+    }
+
+    &::after {
+        content: ' ';
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        border-radius: calc(var(--mx-switch-height, 18px) / 2);
+        transition: background-color var(--duration);
+    }
+
+    &.close {
+        .switch-icon {
+            left: 1px;
+        }
+
+        &::after {
+            background-color: #b2b5bd;
+        }
+
+        &:hover {
+            &::after {
+                background-color: #9095A1;
+            }
+        }
+    }
+
+    &.open {
+        .switch-icon {
+            left: calc(var(--mx-switch-width, 40px) - var(--mx-switch-height, 18px) + 1px);
+        }
+
+        &::after {
+            background-color: var(--color-brand);
+        }
+
+        &:hover {
+            &::after {
+                background-color: var(--color-brand-hover);
+            }
+        }
+    }
+}
+
+.reason {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: not-allowed;
+    z-index: 4;
+}

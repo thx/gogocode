@@ -1,0 +1,21 @@
+<!--md5:eb51d4058bd0ff11c570ad89f88314bb-->
+<!-- icon类型 -->
+<div class="status clearfix">
+    {{if showInfo}}
+        <!-- 优先显示额外的提示信息 -->
+        <span class="status-icon" style="color: {{=info.color}};">{{!info.icon}}</span>
+        {{if (mode == 'text')}}
+        <span class="status-name">{{!info.text}}</span>
+        {{/if}}
+    {{else}}
+        <!-- 当前选中的选项 -->
+        <span class="status-icon" style="color: {{=cur.color}};">{{!cur.icon}}</span>
+        {{if (mode == 'text')}}
+        <span class="status-name">{{!cur.text}}</span>
+        {{/if}}
+    {{/if}}
+
+    {{if (opers.length > 0)}}
+    <span class="expand-arrow"><span class="expand-triangle"></span></span>
+    {{/if}}
+</div>

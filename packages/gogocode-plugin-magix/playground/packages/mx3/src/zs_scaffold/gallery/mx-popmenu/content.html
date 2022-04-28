@@ -1,0 +1,12 @@
+<!--md5:21f1c0e8a09addaf979947527fab120e-->
+<div class="menu">
+    {{each menus as item}}
+    <div class="item">
+        <span class="item-link ellipsis"
+            mx-click="submit({value:'{{=item.value}}'})"
+            {{if spm}} data-spm-click="{{=spm}}_{{=item.value}}" {{/if}}>
+            {{=item.text}}
+        </span>
+    </div>
+    {{/each}}
+</div>

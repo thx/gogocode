@@ -1,0 +1,38 @@
+<!--md5:2e311d53fc5611a92818a3a45fb99b40-->
+<div class="steps">
+    {{each stepInfos as step}}
+    <div class="clearfix step {{if step.locked}} locked {{/if}} {{if (step.index < alreadyStep)}} line-on {{/if}} {{if step.current}} current {{/if}} "
+        {{if !step.locked}} mx-click="nav({stepIndex:{{=step.index}}})" {{/if}}>
+        <div class="circle">
+            {{if (step.index < alreadyStep)}}
+                <i class="mc-iconfont circle-icon">&#xe65d;</i>
+            {{else}}
+                {{=step.index}}
+            {{/if}}
+        </div>
+        <div class="title">{{=step.label}}</div>
+    </div>
+    {{/each}}
+</div>
+{{if (fixStep && fixStep.view)}}
+<mx-vframe src="{{=fixStep.view}}?info={{@fixStep}}" class="pt20"
+    data-sub="{{=viewId}}_sub_fix">
+    <mx-loading />
+</mx-vframe>
+{{/if}}
+<mx-vframe src="{{=curStepInfo.view}}?info={{@curStepInfo}}" class="pt20 pb20"
+    data-sub="{{=viewId}}_sub_{{=curStepInfo.index}}">
+    <mx-loading />
+</mx-vframe>
+<div class="text-center">
+    {{each curStepInfo.btns as btn}}
+    <mx-btn class="footer-btn"
+        brand="{{=btn.brand}}"
+        content="{{=btn.text}}"
+        mx-click="{{=btn.fn}}({btn:'{{@btn}}'})"
+        {{if spm}} data-spm-click="{{=spm}}_{{=curStepInfo.index}}_btn_{{=btn.fn}}_{{=btnIndex}}_compid_{{=btn.compid}}" {{/if}}/>
+    {{/each}}
+</div>
+<div class="text-center mt10">
+    <span id="{{=viewId}}_error" class="footer-error"></span>
+</div>

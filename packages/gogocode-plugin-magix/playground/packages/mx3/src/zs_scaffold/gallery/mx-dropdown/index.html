@@ -1,0 +1,52 @@
+<!--md5:a68b6bf53789abe9006c1abaa3d0f01a-->
+<div id="toggle_{{=viewId}}" 
+    class="mx-trigger {{if expand}} mx-trigger-open {{/if}}"
+    {{if animing}} mx-comp-expand-amin="animing" {{/if}}>
+    <span class="mx-trigger-label">
+        {{if name}}<span class="color-9">{{!name}}：</span>{{/if}}
+        <span class="selected-text">{{!selectedText}}</span>
+    </span>
+    <i class="mc-iconfont mx-trigger-arrow">&#xe6c1;</i>
+</div>
+
+<div id="menu_{{=viewId}}" class="mx-output {{=placementClass}} {{if expand}} mx-output-open {{/if}}">
+{{if rList}}
+    {{if searchbox}}
+    <div class="mx-output-search">
+        <mx-input 
+            style="width: 100%;"
+            prefix="search"
+            placeholder="{{=text.search}}"
+            value="{{=keyword}}"
+            mx-change="@{search}()"/>
+    </div>
+    {{/if}}
+    {{if allHide}}
+    <div class="mx-output-empty">{{!text.empty}}</div>
+    {{else}}
+    <ul class="mx-output-list" id="list_{{=viewId}}" style="max-height:{{=height}}px;">
+        {{each groups as group}}
+            {{if !group.hide}}
+                {{if group.text}}
+                    <li class="mx-output-header" title="{{=group.text}}">
+                        {{=group.text}}
+                    </li>
+                {{/if}}
+                {{each group.list as item}}
+                    {{if !item.hide}}
+                    <li class="mx-output-item" title="{{=(item.tip ? item.tip : item.text)}}">
+                        <span class="mx-output-link  {{if (selected + '' === item.value + '')}} mx-output-link-active {{/if}}"
+                            data-active="{{=(selected + '' === item.value + '')}}"
+                            mx-click="@{select}({item:'{{@item}}'})"
+                            {{if spm}} data-spm-click="{{=spm}}{{=item.value}}"  {{/if}} >
+                            {{!item.text}}
+                        </span>
+                    </li>
+                    {{/if}}
+                {{/each}}
+            {{/if}}
+        {{/each}}
+    </ul>
+    {{/if}}
+{{/if}}
+</div>

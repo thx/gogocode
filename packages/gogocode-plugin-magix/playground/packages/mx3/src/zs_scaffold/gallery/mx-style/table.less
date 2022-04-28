@@ -1,0 +1,528 @@
+/*md5:f765668ccfb7f7f667581e9d97274169*/
+/* @dependent: ./index.less */
+
+.table {
+    width: 100%;
+    font-size: var(--font-size);
+    border-collapse: collapse;
+    border-spacing: 0;
+
+    thead {
+        background-color: var(--color-bg);
+
+        tr {
+            th {
+                height: var(--mx-table-head-height);
+                padding: 0 var(--mx-table-ceil-h-gap);
+                color: var(--mx-table-head-font-color);
+                border: none;
+                font-weight: normal;
+                text-align: left;
+
+                &.field-group {
+                    height: calc(var(--mx-table-head-height) / 2);
+                    padding: 2px var(--mx-table-ceil-h-gap) 0;
+
+                    .group-name {
+                        line-height: calc(var(--mx-table-head-height) / 2 - 4px);
+                        padding-bottom: 2px;
+                        border-bottom: 1px solid var(--color-border);
+                    }
+                }
+
+                &.field-item {
+                    height: calc(var(--mx-table-head-height) / 2);
+                    padding: 0 var(--mx-table-ceil-h-gap);
+                    white-space: nowrap;
+                }
+            }
+        }
+    }
+
+    tbody {
+        background-color: #fff;
+
+        tr {
+            td {
+                padding: var(--mx-table-ceil-v-gap) var(--mx-table-ceil-h-gap);
+                color: #333;
+                border-top: 1px solid var(--color-border);
+                border-bottom: none;
+                transition: background-color var(--duration) ease-out;
+
+                &.sub-mask {
+                    background-color: #fff;
+                    border-right: 1px solid var(--color-brand-light);
+                    border-top: 0 none;
+                }
+
+                &.sub-mask-first {
+                    border-top: 1px solid var(--color-border);
+                    border-bottom: 0 none;
+                }
+
+                .operations {
+                    opacity: 0;
+                    transition: opacity var(--duration) ease-out;
+                }
+            }
+
+            &:first-child {
+                td {
+                    border-top: 0 none;
+                }
+            }
+
+            &:hover,
+            &.hover-tr {
+                td {
+                    background-color: var(--color-brand-opacity);
+
+                    &.sub-mask {
+                        background-color: #fff;
+                    }
+
+                    .operations {
+                        opacity: 1;
+                    }
+                }
+            }
+
+            &.empty-tr {
+
+                &,
+                &:hover,
+                &.hover-tr,
+                &.hover-tr:hover {
+                    td {
+                        height: 200px;
+                        text-align: center;
+                        color: #999;
+                        background-color: var(--color-bg);
+
+                        .no-data {
+                            font-size: 60px;
+                            color: #ccc;
+                        }
+                    }
+                }
+            }
+
+            &.operation-tr {
+                display: none;
+
+                td {
+                    padding: calc(var(--mx-table-ceil-v-gap) / 3 * 2) calc(var(--mx-table-ceil-h-gap) * 2);
+                    border-top: 0 none;
+                    background-color: var(--color-brand-light);
+
+                    &.sub-mask {
+                        background-color: #fff;
+                    }
+                }
+
+                &.operation-tr-open {
+                    display: table-row;
+                }
+            }
+
+            &.thead {
+
+                &,
+                &:hover,
+                &.hover-tr {
+                    background-color: var(--color-bg);
+
+                    td {
+                        height: 60px;
+                        padding: 0 var(--mx-table-ceil-h-gap);
+                        color: #999;
+                        border-top: 1px solid var(--color-border);
+                        border-bottom: 0 none;
+                        background-color: transparent;
+
+                        &.sub-mask {
+                            background-color: #fff;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    tfoot {
+        tr {
+            td {
+                padding: calc(var(--mx-table-ceil-v-gap) / 3 * 4) var(--mx-table-ceil-h-gap);
+                background-color: var(--color-bg);
+                border: none;
+            }
+        }
+    }
+
+    &.table-no-hover {
+        tbody {
+            tr {
+                td {
+                    background-color: #fff;
+                }
+
+                &:hover,
+                .hover-tr {
+                    td {
+                        background-color: #fff;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* stickytable 的样式放到全局，避免动态加载的样式缓冲 */
+[mx-stickytable-filter="wrapper"] {
+    background-color: #fff;
+}
+
+[mx-view*="mx-stickytable/index"] {
+    position: relative;
+    line-height: normal;
+    font-size: var(--font-size);
+
+    [mx-stickytable-wrapper="head"],
+    [mx-stickytable-wrapper="placeholder"] {
+        width: 100%;
+        height: var(--mx-table-head-height);
+    }
+
+    table {
+        table-layout: fixed;
+        width: 100%;
+        min-width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+
+        /* 可自由拖动的th，仅支持在第一行th上配置 */
+        thead tr:first-child th[mx-stickytable-drag] {
+            [mx-stickytable-drag-trigger="item"] {
+                opacity: 0;
+                position: absolute;
+                top: 0;
+                left: calc(100% - 12px);
+                width: 12px;
+                height: var(--mx-table-head-height);
+                border-right: 1px solid var(--color-brand);
+                background-color: transparent;
+                cursor: move;
+                transition: background-color var(--duration), opacity var(--duration);
+            }
+
+            [mx-stickytable-drag-trigger="mask"] {
+                opacity: 0;
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 100001;
+                width: 0;
+                height: var(--mx-table-head-height);
+                background-color: var(--color-brand);
+                transition: opacity var(--duration);
+            }
+
+            /* 最后一个节点不可拖动 */
+            &:last-child {
+
+                [mx-stickytable-drag-trigger="item"],
+                [mx-stickytable-drag-trigger="mask"] {
+                    display: none;
+                }
+            }
+        }
+
+        thead tr th {
+            border: none;
+            font-weight: normal;
+            text-align: left;
+        }
+
+        thead tr th,
+        tbody tr[mx-stickytable-sub-header="true"] td {
+            position: relative;
+            height: var(--mx-table-head-height);
+            padding-top: 0;
+            padding-bottom: 0;
+            padding-right: var(--mx-table-ceil-h-gap);
+            padding-left: var(--mx-table-ceil-h-gap);
+            color: var(--mx-table-head-font-color);
+            background-color: var(--color-bg) !important;
+            white-space: nowrap;
+
+            &[mx-stickytable-th="group"],
+            &[mx-stickytable-th="sub"] {
+                height: calc(var(--mx-table-head-height) / 2);
+                line-height: calc(var(--mx-table-head-height) / 2);
+            }
+
+            &[mx-stickytable-th="group"] {
+                &::before {
+                    content: ' ';
+                    position: absolute;
+                    left: var(--mx-table-ceil-h-gap);
+                    right: var(--mx-table-ceil-h-gap);
+                    bottom: 0;
+                    height: 0;
+                    border-bottom: 1px solid var(--color-border);
+                }
+            }
+        }
+
+        tbody {
+            background-color: #fff;
+
+            tr {
+                td {
+                    padding: var(--mx-table-ceil-v-gap) var(--mx-table-ceil-h-gap);
+                    color: #333;
+                    border-top: 1px solid var(--color-border);
+                    border-bottom: none;
+                    background-color: #fff;
+                    word-break: break-all;
+
+                    /* 兼容示例hover展示operations的情况 */
+                    .operations {
+                        opacity: 0;
+                        transition: opacity var(--duration) ease-out;
+                    }
+                }
+
+                &:first-child {
+                    td {
+                        border-top: 0 none;
+                    }
+                }
+
+                td[mx-stickytable-operation="items"]>* {
+                    opacity: 0;
+                    transition: opacity var(--duration) ease-out;
+                }
+
+                &[mx-stickytable-hover="true"] {
+                    td {
+                        background-color: var(--color-brand-opacity);
+
+                        /* 兼容示例hover展示operations的情况 */
+                        .operations {
+                            opacity: 1;
+                        }
+                    }
+
+                    td[mx-stickytable-operation="items"]>* {
+                        opacity: 1;
+                    }
+                }
+
+                /* 操作行 最小高度 */
+                &[mx-stickytable-operation="line"],
+                &[mx-stickytable-operation="line-open"] {
+                    td {
+                        padding: calc(var(--mx-table-ceil-v-gap) / 3 * 2) calc(var(--mx-table-ceil-h-gap) * 2);
+                        border-top: 1px solid var(--color-brand-light);
+                        background-color: var(--color-brand-light);
+                    }
+
+                    [mx-stickytable-operation="line-over-opers"] {
+                        white-space: nowrap;
+                    }
+                }
+
+                &[mx-stickytable-operation="line"] {
+                    display: none;
+                }
+
+                &[mx-stickytable-operation="line-open"] {
+                    display: table-row;
+                }
+            }
+
+            [mx-stickytable-sub] {
+                position: relative;
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                vertical-align: middle;
+                overflow: hidden;
+
+                [mx-stickytable-sub-expand-trigger="expand"],
+                [mx-stickytable-sub-expand-trigger="close"] {
+
+                    &,
+                    &>* {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 16px;
+                        height: 16px;
+                        line-height: 16px;
+                        font-size: 14px;
+                        text-align: center;
+                        transition: all var(--duration);
+                        cursor: pointer;
+                        user-select: none;
+                    }
+                }
+
+                [mx-stickytable-sub-expand-trigger="expand"] {
+
+                    &,
+                    &>* {
+                        color: var(--color-brand);
+                    }
+                }
+
+                [mx-stickytable-sub-expand-trigger="close"] {
+
+                    &,
+                    &>* {
+                        color: #999;
+
+                        &:hover {
+                            color: #666;
+                        }
+                    }
+                }
+            }
+
+            tr[mx-stickytable-sub-parent] {
+                td[mx-stickytable-sub-mask="true"] {
+                    background-color: #fff !important;
+
+                    &+td {
+                        border-left: 1px solid var(--color-brand-light);
+                    }
+                }
+
+                &+[mx-stickytable-sub-parent] {
+                    td[mx-stickytable-sub-mask="true"] {
+                        border-top: 1px solid #fff !important;
+                    }
+                }
+            }
+
+        }
+    }
+
+    [mx-stickytable-scrollbar="hidden"] {
+        -ms-overflow-style: none;
+        overflow: auto hidden;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scrollbar-width: none;
+        scrollbar-color: unset;
+
+        &::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: transparent;
+        }
+    }
+
+    [mx-stickytable-shadow="left"],
+    [mx-stickytable-shadow="right"] {
+        &::after {
+            content: ' ';
+            position: absolute;
+            top: 0;
+            bottom: -1px;
+            width: 30px;
+            transition: box-shadow .3s;
+            pointer-events: none;
+        }
+    }
+
+    [mx-stickytable-shadow="left"] {
+        &::after {
+            right: 0;
+            transform: translateX(100%);
+            box-shadow: inset 10px 0 8px -8px rgba(0, 0, 0, 0.06);
+        }
+    }
+
+    [mx-stickytable-shadow="right"] {
+        &::after {
+            left: 0;
+            transform: translateX(-100%);
+            box-shadow: inset -10px 0 8px -8px rgba(0, 0, 0, 0.06);
+        }
+    }
+
+    [mx-stickytable-wrapper="bar"] {
+        //为了滚动不占位置
+        --stickytable-scrollbar-height: 14px;
+
+        display: none;
+        opacity: .3;
+        overflow-x: scroll;
+        overflow-y: hidden;
+
+        [mx-stickytable-wrapper="bar-inner"] {
+            height: 1px;
+        }
+
+        &::-webkit-scrollbar {
+            width: var(--stickytable-scrollbar-height);
+            height: var(--stickytable-scrollbar-height);
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: var(--color-brand);
+            border-radius: calc(var(--stickytable-scrollbar-height) / 2);
+        }
+    }
+
+    /* 缩略文案 */
+    [mx-stickytable-th="text"] {
+        float: left;
+        max-width: 100%;
+        white-space: nowrap;
+        word-wrap: normal;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    /* 排序字段 */
+    [mx-stickytable-sort] {
+        position: relative;
+        float: left;
+        max-width: 100%;
+        padding-right: 16px;
+        white-space: nowrap;
+        word-wrap: normal;
+        text-overflow: ellipsis;
+        overflow: hidden;
+
+        [mx-stickytable-sort-trigger="true"] {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            width: 16px;
+            height: 16px;
+            margin-top: -8px;
+            margin-left: 2px;
+            color: #999;
+            transition: all var(--duration);
+            background-color: var(--color-bg);
+            cursor: pointer;
+            font-size: 14px;
+            line-height: 16px;
+            user-select: none;
+            text-align: center;
+
+            &:hover {
+                color: #666;
+            }
+        }
+    }
+}

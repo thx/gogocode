@@ -1,0 +1,57 @@
+<!--md5:9559662c42927e1200fea1f9014e3b49-->
+<div class="period">
+    <!-- 每日分隔是才有该功能 -->
+    {{if (periods.length == 7)}}
+    <div>
+        <span class="color-9 mr10">快捷操作：</span>
+        {{each types as t}}
+        <mx-radio class="mr40"
+            name="{{=viewId}}_opers" 
+            value="{{=t.value}}"
+            text="{{=t.text}}"
+            checked="{{=(t.value == type)}}"
+            mx-change="changeType({value:'{{=t.value}}'})" />
+        {{/each}}
+    </div>
+    {{/if}}
+
+    {{each periods as p pIndex}}
+    <ul class="hours clearfix">
+        <li class="all" style="width: {{=allWidth}}%; margin-right: {{=(itemWidth / 2)}}%;">
+            <span class="all-tip">时间段</span>
+            <mx-btn class="all-btn"
+                size="small"
+                brand="{{=p.selected}}"
+                content="{{=p.name}}"
+                mx-click="toggleAll({pIndex:{{=pIndex}}})"/>
+        </li>
+        {{each p.hours as h hIndex}}
+        <li class="hour {{if h.milestone}} milestone {{/if}} {{if h.selected}} selected {{/if}}" 
+            style="width: {{=itemWidth}}%;"
+            data-period="{{=pIndex}}"
+            data-hour="{{=hIndex}}"
+            mx-mousedown="drag()" >
+            <div class="hour-inner"></div>
+            <div class="line-start {{if !h.firstSelected}} hide {{/if}}" style="z-index: {{=h.zIndex}};">
+                <span class="line-info">{{=h.index}}</span>
+            </div>
+            <div class="line-end {{if !h.endSelected}} hide {{/if}}" style="z-index: {{=h.zIndex}}">
+                <span class="line-info">{{=h.indexNext}}</span>
+            </div>
+            <div class="hour-line">
+                <span class="hour-info">{{=h.index}}</span>
+            </div>
+        </li>
+        {{/each}}
+        <li class="hour milestone hour-last" style="width: {{=(itemWidth / 2)}}%;">
+            <span class="hour-line">
+                <span class="hour-info">{{=max}}</span>
+            </span>
+        </li>
+    </ul>
+    {{/each}}
+</div>
+<div class="clearfix opers-wrapper">
+    <mx-btn mx-click="clearAll()" size="small" class="clear-btn" content="清空"/>
+    <span class="fr oper-tip" style="margin-right: {{=(itemWidth / 2)}}%;">{{=tip}}</span>
+</div>

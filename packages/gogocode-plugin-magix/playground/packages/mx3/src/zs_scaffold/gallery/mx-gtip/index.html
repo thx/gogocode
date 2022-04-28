@@ -1,0 +1,13 @@
+<!--md5:08e0cfeaf8d9a2e384d8d088f468a986-->
+<div class="gtip {{if show}} gtip-show {{/if}}"
+    style="{{=(show ? styleShow : styleHide)}}">
+    {{if view}}
+    <div mx-view="{{=view}}?data={{@data}}"></div>
+    {{else if msg}}
+    <div class="text-center"><span class="inner-text">{{!iconText}}{{!msg}}</span></div>
+    {{/if}}
+    {{if !timeout}}
+    <i style="color: {{=styles.color}};" class="mc-iconfont close" 
+        mx-click="@{close}()">&#xe603;</i>
+    {{/if}}
+</div>

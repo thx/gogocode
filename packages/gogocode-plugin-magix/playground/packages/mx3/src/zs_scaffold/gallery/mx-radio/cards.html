@@ -1,0 +1,77 @@
+<!--md5:b83657db6f0271e81f82c366b05dcc75-->
+<div class="clearfix" style="margin-top: {{=(0 - mt)}}px; margin-bottom: {{=(0 - mb)}}px;">
+    {{each list as item}}
+    <div id="{{=viewId}}_card_{{=item[valueKey]}}" 
+        class="card size--{{=mode}} hover--{{=hoverType}} {{if item.disabled}} card-disabled {{/if}} {{if item.selected}} card-selected {{/if}}"
+        style="margin-right: {{=mr}}px; margin-top: {{=mt}}px; margin-bottom: {{=mb}}px; margin-left: {{=ml}}px;"
+        {{if (!item.link && !item.disabled)}} mx-click="@{select}({item:'{{@item}}'})" {{/if}}>
+        {{if item.link}}
+        <a href="{{=item.link}}" target="_blank">
+        {{/if}}
+            <div class="card-label" 
+                {{if (item.selected && animing)}} mx-comp-expand-amin="animing" {{/if}}
+                style="width: {{=width}}px;">
+                {{if !hideRadio}}
+                <span class="card-radio">
+                    <mx-radio 
+                        name="{{=radioName}}" 
+                        value="{{=item.subs[0][valueKey]}}" 
+                        checked="{{=item.subs[0].selected}}"/>
+                </span>
+                {{/if}}
+            
+                <div class="info">
+                    {{if (item.subs.length > 1)}}
+                    <div class="text {{if !item.selected}} child-infos {{/if}}">
+                        {{each item.subs as sub subIndex}}
+                        <span class="sub-radio-wrapper {{if sub.selected}} sub-radio-wrapper-selected {{/if}}" {{if !item.disabled}} mx-click="@{select.sub}({item:'{{@item}}',sub:'{{@sub}}'})" {{/if}}>
+                            {{if (subIndex > 0)}}
+                            <mx-radio class="sub-radio"
+                                name="{{=radioName}}" 
+                                value="{{=sub[valueKey]}}" 
+                                checked="{{=sub.selected}}"/>
+                            {{/if}}
+                            {{!sub[textKey]}}
+                            {{if sub[tipKey]}}<mx-popover class="mc-iconfont mc-tip-iconfont" content="{{=sub[tipKey]}}">&#xe72f;</mx-popover>{{/if}}
+                        </span>
+                        {{/each}}
+                    </div>
+                    {{/if}}
+        
+                    {{if (item.subs.length <= 1 || (item.subs.length > 1 && !item.selected))}}
+                    <div class="text {{if (item.subs.length > 1 && !item.selected)}} parent-infos {{/if}}">{{!item[textKey]}}</div>
+                    {{/if}}
+                    
+                    {{if (textLines > 0)}}
+                    <div class="tip" style="height: {{=(18 * textLines)}}px;-webkit-line-clamp: {{=textLines}};">{{!item[tipKey]}}</div>
+                    {{/if}}
+        
+                    {{if hasTags}}
+                    <div class="tags clearfix">
+                        {{each item.tags as tag}}
+                        <mx-effects.icon class="tag fl" 
+                            type="{{=((item.selected && hoverType == 'common') ? 'highlight' : '')}}" 
+                            color="{{=((item.selected && hoverType == 'brand') ? '#ffffff' : '')}}" 
+                            mode="hollow" 
+                            content="{{=tag}}"/>
+                        {{/each}}
+                    </div>
+                    {{/if}}
+                </div>
+            
+                {{if (textLines > 0 && item.icon)}}
+                <span class="icon">{{!item.icon}}</span>
+                {{/if}}
+            </div>
+        {{if item.link}}
+        </a>
+        {{/if}}
+        {{if item.tag}}
+        <span class="mx-tag {{if item.disabled}} mx-tag-disabled {{/if}} card-tag" 
+            {{if item.tagColor}} style="background-color: {{=item.tagColor}}; border: 1px solid {{=item.tagColor}};" {{/if}}>
+            <span class="mx-tag-name">{{!item.tag}}</span>
+        </span>
+        {{/if}}
+    </div>
+    {{/each}}
+</div>

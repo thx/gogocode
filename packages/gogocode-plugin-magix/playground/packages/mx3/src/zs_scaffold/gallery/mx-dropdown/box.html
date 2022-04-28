@@ -1,0 +1,16 @@
+<!--md5:5c50cf6dcc995e73e96495e71856606d-->
+{{each list as item index}}
+<span {{if !disabled}} mx-click="@{select}({item:'{{@item}}'})"  {{/if}} 
+    class="box-item {{=item.selected ? 'selected' : ''}} {{=item.multiple ? (item.selected ? 'multiple-selected' : 'multiple') : ''}}"
+    style="min-width: {{=minWidth}};"
+    {{if spm}} data-spm-click="{{=spm}}{{=index}}" {{/if}}>
+    {{=item.text}}{{if item.tagContent}}<span class="tag-content-wrapper">{{!item.tagContent}}</span>{{else if item.tag}}<mx-effects.icon class="ml5" mode="solid" type="error" color="{{=item.color}}" content="{{=item.tag}}"/>{{/if}}{{if item.tip}}<mx-popover class="mc-iconfont mc-tip-iconfont" tag="i" width="280" content="{{=item.tip}}">&#xe72f;</mx-popover>{{/if}}
+
+    {{if item.multiple}}
+        <span class="multiple-triangle"></span>
+        {{if item.selected}}
+        <span class="multiple-tick"></span>
+        {{/if}}
+    {{/if}}
+</span>
+{{/each}}

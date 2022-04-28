@@ -1,0 +1,61 @@
+<!--md5:0922dd0064becf986cc083e3541e360c-->
+<table class="sub-table" style="{{if color}} --color-brand: {{=color}}; {{/if}} {{if colorOpacity}} --color-bg-hover: {{=colorOpacity}}; --color-brand-opacity: {{=colorOpacity}}; {{/if}}">
+    <tbody>
+        <tr>
+            <td class="{{if nav.hasInfo}} info-left {{/if}}">
+                <div class="clearfix {{if nav.hasInfo}} info-left-content {{/if}}">
+                    {{if nav.hasInfo}}
+                    <!-- 占位符 -->
+                    <div class="info-left-item"></div>
+                    {{/if}}
+                    {{each nav.groups as group groupIndex}}
+                        {{if nav.hasInfo}}
+                        <div class="info-left-item">
+                        {{/if}}
+                            <ul class="mx-output-list group">
+                                {{if nav.hasTitle}}
+                                <li class="group-header">
+                                    {{if group.title}}
+                                    <span class="group-title {{if group.cur}} group-title-cur {{/if}}">{{!group.title}}</span>
+                                    {{/if}}
+                                </li>
+                                {{/if}}
+                                {{each group.subs as sub subIndex}}
+                                <li class="mx-output-item">
+                                    <a class="header-sub mx-output-link {{if (child == sub[valueKey])}} mx-output-link-active {{/if}}" 
+                                        data-nav="{{=sub[valueKey]}}" 
+                                        {{if sub[linkKey]}} {{=linkFn(sub)}} {{else}} mx-click="change({sub:'{{@sub}}'})" href="javascript:;" {{/if}}
+                                        {{if spm}} data-spm-click="{{=spm}}{{=sub[valueKey]}}" {{/if}}
+                                        mx-mouseover="showInfo({groupIndex:{{=groupIndex}},subIndex:{{=subIndex}}})">
+                                        {{=sub[textKey]}}
+                                        {{if sub.tagContent}}
+                                        <span class="pr">{{!sub.tagContent}}</span>
+                                        {{else if sub.tag}}
+                                        <mx-effects.icon class="tag-icon" {{if sub.tagColor}} color="{{=sub.tagColor}}" {{else}} type="error" {{/if}} content="{{=sub.tag}}"/>
+                                        {{/if}}
+                                        {{if sub[linkKey]}}<i class="link-icon mc-iconfont">&#xe733;</i>{{/if}}
+                                    </a>
+                                </li>
+                                {{/each}}
+                            </ul>
+                        {{if nav.hasInfo}}
+                        </div>
+                        {{/if}}
+                    {{/each}}
+                </div>
+            </td>
+            {{if nav.hasInfo}} 
+            <td class="info-right">
+                <div class="info">
+                    <div class="sub-title">{{!info.subTitle}}</div>
+                    <div class="title">{{!info.title}}</div>
+                    <div class="tip">{{!info.tip}}</div>
+                    {{if info.link}}
+                    <div><a href="{{=info.link}}" target="_blank" class="link-brand">{{=(info.linkText || '了解更多')}}</a></div>
+                    {{/if}}
+                </div>
+            </td>
+            {{/if}}
+        </tr>
+    </tbody>
+</table>

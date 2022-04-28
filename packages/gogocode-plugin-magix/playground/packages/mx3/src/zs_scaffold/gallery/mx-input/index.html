@@ -1,0 +1,57 @@
+<!--md5:fd703c04e6bdd3b4262cc7641b2af950-->
+{{if (searchList.length > 0)}}
+<mx-dropdown.bd class="mx-input-searches-dd" 
+    size="{{=size}}"
+    style="width: {{=searchWidth}}; min-width: unset;"
+    list="{{@searchList}}" 
+    selected="{{=searchValue}}"
+    mx-change="@{changeSearchType}()"/>
+{{/if}}
+
+<div class="mx-input-wrapper {{if (searchList.length > 0)}} mx-input-searches-wrapper {{/if}}">
+    {{each prefixes as prefix}}
+        {{if (prefix == 'search')}}
+        <i class="mx-input-prefix-icon mc-iconfont fontsize-14">&#xe6ef;</i>
+        {{else if (prefix == 'money')}}
+        <span class="mx-input-prefix-icon fontsize-14">¥</span>
+        {{else if (prefix == 'user')}}
+        <i class="mx-input-prefix-icon mc-iconfont fontsize-14">&#xe639;</i>
+        {{else}}
+        <span class="mx-input-prefix-text fontsize-12">{{!prefix}}</span>
+        {{/if}}
+    {{/each}}
+    
+    <input class="mx-input" id="{{=viewId}}_input"
+        type="{{=type}}" 
+        placeholder="{{=placeholder}}"
+        autocomplete="{{=autocomplete}}"
+        {{if (maxlength > 0)}} maxlength="{{=maxlength}}" {{/if}}
+        value="{{=value}}" 
+        mx-keyup="@{fire}()"
+        mx-focusout="@{fire}()"
+        mx-change="@{fire}()" />
+
+    <!-- input:focus时，border选中样式占位符，为了直接使用css实现 -->
+    <span class="mx-input-border">
+        <!-- 扩散动画占位 -->
+        <span class="mx-input-focus"></span>
+    </span>
+
+    {{if (maxlength > 0)}}
+    <span class="mx-input-suffix-text"><span class="{{if (value.length > maxlength)}} color-red {{else}} color-3{{/if}}">{{=value.length}}</span>&nbsp;/&nbsp;{{=maxlength}}</span>
+    {{/if}}
+
+    {{each suffixes as suffix}}
+        {{if (suffix == 'delete')}}
+            {{if value}}
+            <i class="mx-input-suffix-oper mc-iconfont bold fontsize-12" mx-click="@{clear}()">&#xe603;</i>
+            {{/if}}
+        {{else if (suffix == 'search')}}
+            <i class="mx-input-suffix-search mc-iconfont fontsize-14" mx-click="@{fire}()">&#xe6ef;</i>
+        {{else if (suffix == 'password')}}
+            <i class="mx-input-suffix-oper mc-iconfont fontsize-14" mx-click="@{togglePassword}()">{{if (type == 'password')}}&#xe625;{{else}}&#xe628;{{/if}}</i>
+        {{else}}
+            <span class="mx-input-suffix-text fontsize-12">{{!suffix}}</span>
+        {{/if}}
+    {{/each}}
+</div>

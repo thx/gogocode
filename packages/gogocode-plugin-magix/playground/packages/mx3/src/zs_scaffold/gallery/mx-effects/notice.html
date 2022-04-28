@@ -1,0 +1,19 @@
+<!--md5:f7ab46199be357130ceb71b501d3722e-->
+{{if show}}
+    {{if img}}
+    <div class="img-notice" style="{{=styles}}">
+        <img class="img" src="{{=img}}" />
+        <div class="img-text">{{!content}}</div>
+    </div>
+    {{else}}
+    <div class="notice" style="{{=styles}}">
+        {{if icon}}
+        <div class="inner"><span class="icon">{{!iconText}}</span>{{!content}}</div>
+        {{else}}
+            {{!content}}
+        {{/if}}
+
+        {{if closable}}<i class="mc-iconfont close" mx-click="close()" {{if spm}} data-spm-click="{{=spm}}" {{/if}}>&#xe603;</i>{{/if}}
+    </div>  
+    {{/if}}
+{{/if}}

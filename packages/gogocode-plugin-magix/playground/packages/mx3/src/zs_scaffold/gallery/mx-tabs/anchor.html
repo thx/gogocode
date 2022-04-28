@@ -1,0 +1,36 @@
+<!--md5:a3f99aeb3f88b670adaa012cd5f4abf8-->
+<div class="anchor" {{if fixed}} style="position: fixed; left: {{=fixedStyle.left}}px; right: {{=fixedStyle.right}}px;" {{/if}}>
+    <div class="cont clearfix" {{if anchorWidth}} style="width: {{=anchorWidth}}px;" {{/if}}>
+        {{if anchorLogo}}
+        <span class="logo"><img src="{{=anchorLogo}}" /></span>
+        {{/if}}
+        <div class="items clearfix">
+            {{each list as item index}}
+            <a class="item {{= (item.value == selected) ? 'selected' : ''}}" href="javascript:;" id="{{=viewId}}_{{=item.value}}"
+                mx-mouseover="@{over}({value:'{{=item.value}}'})" 
+                mx-mouseout="@{out}()"  
+                mx-click="@{select}({item:'{{@item}}'})" 
+                {{if spm}} data-spm-click="{{=spm}}{{=index}}" {{/if}}>
+                <span class="text">{{!item.text}}</span>
+
+                <!-- 打标优先级tagContent > tag -->
+                {{if item.tagContent}}
+                <span class="tag-content">{{!item.tagContent}}</span>
+                {{else if item.tag}}
+                <mx-effects.icon class="tag" type="error" color="{{=item.color}}" content="{{=item.tag}}"/>
+                {{/if}}
+
+                {{if item.tip}}
+                <mx-popover class="mc-iconfont mc-tip-iconfont" tag="i" width="280" content="{{=item.tip}}">&#xe72f;</mx-popover>
+                {{/if}}
+            </a>
+            {{/each}}
+            <span class="underline" style="left: {{=left}}px; width: {{=width}}px;"></span>
+        </div>
+        {{if anchorRightView}}
+        <div class="right">
+            <div class="right-inner" mx-view="{{=anchorRightView}}?data={{@anchorRightData}}"></div>
+        </div>
+        {{/if}}
+    </div>
+</div>

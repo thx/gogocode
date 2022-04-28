@@ -1,0 +1,287 @@
+/*md5:b235c615020cfd0ebae534f4b48e0d29*/
+@mx-radio-card-gap: 12px;
+@mx-radio-line-height: 18px;
+
+/* radio加蒙层阻止事件 */
+.card-radio,
+.sub-radio-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+
+    &::before {
+        opacity: 0;
+        z-index: 2;
+        content: ' ';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: calc(var(--mx-checkbox-size) + 6px);
+        height: 100%;
+    }
+}
+
+.card-radio {
+    width: calc(var(--mx-checkbox-size) + 6px);
+    height: @mx-radio-line-height + 2 * @mx-radio-card-gap;
+}
+
+.sub-radio-wrapper {
+    height: @mx-radio-line-height;
+    color: #333;
+    margin-right: 16px;
+    white-space: nowrap;
+
+    .sub-radio {
+        width: calc(var(--mx-checkbox-size) + 6px);
+    }
+
+    &:last-child {
+        margin-right: 0;
+    }
+}
+
+.info {
+    -webkit-flex: 1 1;
+    flex: 1 1;
+    padding-top: @mx-radio-card-gap;
+    padding-bottom: @mx-radio-card-gap;
+
+    .text {
+        height: @mx-radio-line-height;
+        line-height: @mx-radio-line-height;
+        color: #333;
+        transition: color var(--duration);
+        overflow: hidden;
+    }
+
+    .tip {
+        display: -webkit-box;
+        margin-top: 8px;
+        font-size: 12px;
+        line-height: @mx-radio-line-height;
+        /* autoprefixer: off */
+        -webkit-box-orient: vertical;
+        /* autoprefixer: on */
+        text-overflow: ellipsis;
+        color: #666;
+        transition: color var(--duration);
+        overflow: hidden;
+    }
+
+    .tags {
+        width: 100%;
+        height: var(--mx-tag-height);
+        margin-top: 8px;
+        overflow: hidden;
+
+        .tag {
+            margin-right: 5px;
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+
+    .child-infos {
+        display: none;
+    }
+
+    .parent-infos {
+        display: block;
+    }
+}
+
+.icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: @mx-radio-card-gap;
+
+    &>* {
+        color: #999;
+        transition: color var(--duration);
+    }
+}
+
+.card-label {
+    position: relative;
+    display: inline-flex;
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--color-border);
+    border-radius: var(--border-radius);
+    transition: border-color var(--duration);
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.size--normal {
+    .card-label {
+        width: 288px;
+        padding-right: @mx-radio-card-gap;
+        padding-left: @mx-radio-card-gap;
+
+        .icon {
+            width: 80px;
+        }
+
+        .icon>* {
+            max-width: 80px;
+            max-height: 80px;
+            font-size: 80px;
+        }
+    }
+}
+
+.size--small {
+    .card-label {
+        width: 216px;
+        padding-right: @mx-radio-card-gap;
+        padding-left: @mx-radio-card-gap;
+
+        .icon {
+            width: 48px;
+        }
+
+        .icon>* {
+            max-width: 48px;
+            max-height: 48px;
+            font-size: 48px;
+        }
+    }
+
+}
+
+.card {
+    position: relative;
+    float: left;
+    margin-right: 16px;
+    margin-bottom: 16px;
+    user-select: none;
+    border-radius: var(--border-radius);
+    transition: all var(--duration);
+
+    .card-tag {
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        z-index: 2;
+    }
+
+    &::before {
+        opacity: 0;
+        z-index: -1;
+        content: ' ';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        box-shadow: 0 4px 8px 0 var(--color-brand);
+        transition: all var(--duration);
+        border-radius: var(--border-radius);
+        pointer-events: none;
+    }
+
+    .card-label:hover {
+        border-color: var(--color-brand);
+
+        .icon>* {
+            color: var(--color-brand);
+        }
+
+        [mx-view*="mx-radio/index"] {
+            [ref="@./index.less:mx-radio"] {
+                border-color: var(--color-brand);
+            }
+        }
+
+        .child-infos {
+            display: block;
+        }
+
+        .parent-infos {
+            display: none;
+        }
+    }
+
+    &.card-selected {
+        &::before {
+            opacity: .2;
+        }
+
+        &.hover--common {
+            background-color: var(--color-brand-opacity);
+
+            .card-label,
+            .card-label:hover {
+                --mx-comp-expand-amin-color: var(--color-brand);
+                border-color: var(--color-brand);
+
+                .icon>*,
+                .text,
+                .tip {
+                    color: var(--color-brand);
+                }
+
+                .sub-radio-wrapper {
+                    color: #333;
+
+                    &.sub-radio-wrapper-selected {
+                        color: var(--color-brand);
+                    }
+                }
+            }
+        }
+
+        &.hover--brand {
+            background-color: var(--color-brand);
+            background-image: linear-gradient(-90deg, var(--color-brand) 0%, var(--color-brand-gradient, var(--color-brand)) 100%);
+
+            .card-label,
+            .card-label:hover {
+                --mx-comp-expand-amin-color: #fff;
+                border-color: transparent;
+
+                .icon>*,
+                .text,
+                .tip {
+                    color: #fff;
+                }
+
+                .sub-radio-wrapper {
+                    color: #fff;
+
+                    &.sub-radio-wrapper-selected {
+                        color: #fff;
+                    }
+                }
+            }
+        }
+    }
+
+    &.card-disabled {
+        cursor: not-allowed;
+
+        &::after {
+            opacity: .6;
+            content: ' ';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            z-index: 1;
+            border-radius: var(--border-radius);
+            pointer-events: none;
+        }
+
+        .card-label {
+            pointer-events: none;
+            user-select: none;
+        }
+    }
+}

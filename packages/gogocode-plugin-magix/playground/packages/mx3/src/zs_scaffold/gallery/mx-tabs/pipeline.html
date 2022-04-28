@@ -1,0 +1,23 @@
+<!--md5:0684ce15e0afb0d921df9a80338080bd-->
+<div class="clearfix pipeline">
+    {{each list as item}}
+    <div class="box {{if (item.value == selected)}} cur {{/if}}" 
+        style="width:{{=100/len}}%; padding: 0 {{=pd}}px; {{if !item.disabled}} cursor: pointer; {{else}} cursor: not-allowed; {{/if}}"
+        {{if !item.disabled}} mx-click="@{select}({item:'{{@item}}'})" {{/if}}>
+        <div class="box-inner">
+            <div class="name" style="{{if !item.disabled}} opacity: 1; {{else}} opacity: .5; {{/if}}">
+                <span class="name-title" style="color: {{=((item.value == selected) ? '#ffffff' : '#666666')}};">{{!item.text}}</span>
+                {{if item.icon}}
+                <img src="{{=item.icon}}" class="name-img"/>
+                {{/if}}
+            </div> 
+            <div class="tip" style="{{if !item.disabled}} opacity: 1; {{else}} opacity: .5; {{/if}} color: {{=((item.value == selected) ? '#ffffff' : '#666666')}};">{{!item.tip}}</div>
+            <div class="bg" style="{{if !item.disabled}} opacity: 1; {{else}} opacity: .5; {{/if}} {{if (item.value == selected)}} box-shadow: 0 2px 12px -2px {{=color}}; background-color: {{=colorGradient}}; {{else}} background-color: #ececec; {{/if}} "></div>
+        </div>
+        <div class="dot-bg1" style="background-color: {{=colorGradient}};"></div>
+        <div class="dot-bg2" style="background-color: {{=colorGradient}};"></div>
+        <div class="dot" style="border: 2px solid {{=((item.value == selected) ? colorGradient : color)}};"></div>
+    </div>
+    {{/each}}
+</div>
+<div class="card-line" style="background: {{=color}}; background-image: linear-gradient(270deg, {{=color}} 0%, {{=colorGradient}} 33%, {{=color}} 49%, {{=colorGradient}} 70%, {{=color}} 100%);"></div>

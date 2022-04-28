@@ -1,0 +1,194 @@
+/*md5:94be9c57077bda18a18621cfd66def4f*/
+.box-title {
+    margin-bottom: 16px;
+
+    .title-logo {
+        height: 32px;
+    }
+
+    .title-tip {
+        margin-left: 16px;
+        line-height: 32px;
+    }
+}
+
+.pipeline {
+    margin: 0 0 20px 0;
+
+    .box {
+        position: relative;
+        float: left;
+        display: table;
+        text-align: center;
+
+        .box-inner {
+            position: relative;
+            display: table-cell;
+            vertical-align: middle;
+            width: 100%;
+            height: 70px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+
+            .name {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 32px;
+                overflow: hidden;
+
+                .name-title {
+                    font-size: 16px;
+                    font-weight: 500;
+                }
+
+                .name-img {
+                    height: 18px;
+                    margin-left: 4px;
+                }
+            }
+
+            .name,
+            .tip {
+                opacity: .5;
+                position: relative;
+                z-index: 2;
+                transition: all var(--duration);
+            }
+
+            .bg {
+                opacity: .16;
+                position: absolute;
+                z-index: 1;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                transition: all var(--duration);
+            }
+        }
+
+        .dot {
+            position: absolute;
+            z-index: 3;
+            top: 100%;
+            left: 50%;
+            width: 12px;
+            height: 12px;
+            margin-top: 16px;
+            margin-left: -6px;
+            border-radius: 50%;
+            background: #fff;
+            transition: all var(--duration);
+        }
+
+        .dot-bg1,
+        .dot-bg2 {
+            opacity: 0;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            border-radius: 50%;
+            transition: all var(--duration);
+        }
+
+        .dot-bg1 {
+            z-index: 2;
+            width: 20px;
+            height: 20px;
+            margin-top: 12px;
+            margin-left: -10px;
+        }
+
+        .dot-bg2 {
+            z-index: 1;
+            width: 26px;
+            height: 26px;
+            margin-top: 9px;
+            margin-left: -13px;
+        }
+
+        &.cur {
+            .box-inner {
+
+                .name,
+                .tip,
+                .bg {
+                    opacity: 1;
+                }
+
+                .name {
+                    .name-title {
+                        font-weight: bold;
+                    }
+                }
+            }
+
+            .dot-bg1 {
+                opacity: .4;
+            }
+
+            .dot-bg2 {
+                opacity: .2;
+            }
+        }
+    }
+}
+
+.card-line {
+    height: 4px;
+    border-radius: 4px;
+}
+
+[mx-view*="mx-effects/pipeline"] {
+    [ref="@../mx-main/hor.less:step"] {
+        &[ref="@../mx-main/hor.less:locked"] {
+            [ref="@../mx-main/hor.less:circle"] {
+                cursor: default;
+            }
+
+            [ref="@../mx-main/hor.less:title"] {
+                cursor: default;
+            }
+        }
+    }
+
+    .circle-progress {
+        [ref="@../mx-main/hor.less:step"] {
+
+            &:after {
+                border-top: 2px solid var(--color-border);
+            }
+
+            [ref="@../mx-main/hor.less:circle"] {
+                border-color: var(--color-brand);
+                color: #fff;
+                background-color: var(--color-brand);
+                cursor: default;
+            }
+
+            [ref="@../mx-main/hor.less:title"] {
+                color: #333;
+                cursor: default;
+            }
+
+            &[ref="@../mx-main/hor.less:locked"] {
+                [ref="@../mx-main/hor.less:circle"] {
+                    border-color: var(--color-bg);
+                    color: #666;
+                    background-color: var(--color-bg);
+                }
+
+                [ref="@../mx-main/hor.less:title"] {
+                    color: #666;
+                }
+            }
+
+            &[ref="@../mx-main/hor.less:line-on"] {
+                &:after {
+                    border-top: 2px solid var(--color-brand);
+                }
+            }
+        }
+    }
+}

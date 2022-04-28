@@ -1,0 +1,34 @@
+<mx-grid class="mb16">
+    <mx-grid.title content="常见报表示例" />
+    <mx-grid.body>
+        <div class="clearfix mb16">
+            <mx-dropdown class="fl w160" 
+                list="{{@effects}}" 
+                selected="{{=selected.ef}}" 
+                mx-change="changeEffect()"/>
+                
+            <mx-calendar.rangepicker class="fr w220" 
+                vsenable="{{=dates.vsenable}}"
+                single="{{=dates.single}}"
+                min="{{=dates.min}}"
+                max="{{=dates.max}}"
+                shortkeys="{{@dates.shortkeys}}"
+                quick-gap="10"
+                align="right"
+                vs="{{=(selected.efvs)}}"
+                start="{{=selected.efstart}}"
+                end="{{=selected.efend}}"
+                mx-change="changeDate()"/>
+        </div>
+
+        <div mx-view="common-site/views/pages/report/chart?data={{@{
+            params: params,
+            fields: fields,
+            sum: sum,
+            list: list,
+            vsSum: vsSum,
+            vsList: vsList,
+        }}}">
+        </div>
+    </mx-grid.body>
+</mx-grid>

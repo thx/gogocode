@@ -1,0 +1,64 @@
+<!--md5:2b539d3ea12d95c9c1bbc590f74a95f9-->
+{{if (mode == 'edit')}}
+<div class="edit {{if editable}} editable {{/if}}">
+    <div class="edit-inner">
+        {{each list as item index}}
+        <a class="edit-item {{=(item.value == selected) ? 'edit-selected' : ''}}" 
+            {{if item.link}}
+                href="{{=item.link}}" target="_blank" rel="noopener noreferrer" 
+            {{else}} 
+                href="javascript:;" mx-click="@{select}({item:'{{@item}}'})"
+            {{/if}}
+            {{if spm}} data-spm-click="{{=spm}}{{=index}}" {{/if}}>
+            
+            <span class="edit-text">{{!item.text}}</span>
+
+            {{if item.tagContent}}
+            <span class="edit-tag">{{!item.tagContent}}</span>
+            {{else if item.tag}}
+            <mx-effects.icon class="edit-tag" type="error" color="{{=item.color}}" content="{{=item.tag}}"/>
+            {{/if}}
+
+            {{if item.tip}}
+            <mx-popover class="mc-iconfont mc-tip-iconfont" tag="i" width="280" content="{{=item.tip}}">&#xe72f;</mx-popover>
+            {{/if}}
+        
+            {{if editable}}
+            <i class="mc-iconfont edit-icon ml5" mx-click="@{remove}({index:'{{=index}}'})" {{if spm}} data-spm-click="{{=spm}}editremove{{=index}}" {{/if}}>&#xe653;</i>
+            {{/if}}
+        </a>
+        {{/each}}
+    </div>
+    {{if editable}}
+    <a class="edit-item edit-add" 
+        href="javascript:;" mx-click="@{add}()"
+        {{if spm}} data-spm-click="{{=spm}}editadd" {{/if}}><i class="mc-iconfont edit-icon">&#xe652;</i></a>
+    {{/if}}
+</div>
+{{else}}
+<div class="items">
+    {{each list as item index}}
+    <a class="item {{= (item.value == selected) ? 'selected' : ''}}" 
+        id="{{=viewId}}_{{=item.value}}"
+        {{if item.link}}
+            href="{{=item.link}}" target="_blank" rel="noopener noreferrer" 
+        {{else}} 
+            href="javascript:;" mx-click="@{select}({item:'{{@item}}'})"
+        {{/if}}
+        {{if spm}} data-spm-click="{{=spm}}{{=index}}" {{/if}}>
+
+        <span class="text">{{!item.text}}</span>
+
+        {{if item.tagContent}}
+        <span class="tag-content">{{!item.tagContent}}</span>
+        {{else if item.tag}}
+        <mx-effects.icon class="tag" type="error" color="{{=item.color}}" content="{{=item.tag}}"/>
+        {{/if}}
+
+        {{if item.tip}}
+        <mx-popover class="mc-iconfont mc-tip-iconfont" tag="i" width="280" content="{{=item.tip}}">&#xe72f;</mx-popover>
+        {{/if}}
+    </a>
+    {{/each}}
+</div>
+{{/if}}

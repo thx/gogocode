@@ -1,0 +1,23 @@
+<!--md5:cfb7434f944f7ec6148658938de340ed-->
+{{if (mode == 'vertical')}}
+    {{each list as item index}}
+    <div class="vertical-item {{= (item.value == selected) ? 'selected' : ''}}"
+        {{if !disabled}} mx-click="@{select}({item:'{{@item}}'})"  {{/if}} 
+        {{if spm}} data-spm-click="{{=spm}}{{=index}}" {{/if}}>
+        <div class="title">{{=item.text}}{{if item.tagContent}}<span class="tag-content-wrapper">{{!item.tagContent}}</span>{{else if item.tag}}<mx-effects.icon class="ml5" type="error" color="{{=item.color}}" content="{{=item.tag}}"/>{{/if}}</div>
+        <div class="tip">{{=item.tip}}</div>
+        {{if item.img}}<img src="{{=item.img}}" class="img" />{{/if}}
+    </div>
+    {{/each}}
+{{else}}
+    {{if (mode == 'shadow')}}
+    <span class="shadow"></span>
+    {{/if}}
+
+    {{each list as item index}}
+    <span {{if !disabled}} mx-click="@{select}({item:'{{@item}}'})"  {{/if}} class="box-item {{=(item.value == selected) ? 'selected' : ''}}"
+        {{if spm}} data-spm-click="{{=spm}}{{=index}}" {{/if}}>
+        {{=item.text}}{{if item.tagContent}}<span class="tag-content-wrapper">{{!item.tagContent}}</span>{{else if item.tag}}<mx-effects.icon class="ml5" mode="solid" type="error" color="{{=item.color}}" content="{{=item.tag}}"/>{{/if}}{{if item.tip}}<mx-popover class="mc-iconfont mc-tip-iconfont" tag="i" width="280" content="{{=item.tip}}">&#xe72f;</mx-popover>{{/if}}
+    </span>
+    {{/each}}
+{{/if}}

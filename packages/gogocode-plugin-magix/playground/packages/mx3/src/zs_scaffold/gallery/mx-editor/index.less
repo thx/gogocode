@@ -1,0 +1,31 @@
+/*md5:db773a3bc14d94ff864e70ca81a9f241*/
+.editor-content {
+    display: inline-block;
+    word-break: break-all;
+
+    .editor-oper {
+        opacity: 0;
+        position: relative;
+        left: 2px;
+        color: #ccc;
+        cursor: pointer;
+        transition: all var(--duration);
+    }
+
+    &:hover {
+        .editor-oper {
+            opacity: 1;
+        }
+
+    }
+
+}
+
+/* display:none会导致宽度显示异常 */
+.editor-hide {
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+    z-index: -99999;
+    pointer-events: none;
+}

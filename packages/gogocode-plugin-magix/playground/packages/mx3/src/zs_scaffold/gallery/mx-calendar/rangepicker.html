@@ -1,0 +1,26 @@
+<!--md5:12495951216d3b5a3da3986760d0746d-->
+<div id="trigger_{{=viewId}}"
+    class="mx-trigger result {{if rangeInfo.vs}} result-vs {{/if}} {{if show}} mx-trigger-open {{/if}}" 
+    {{if animing}} mx-comp-expand-amin="animing" {{/if}}
+    mx-click="@{toggle}()"
+    mx-change="@{stop}()">
+    <i class="mc-iconfont mx-trigger-icon">&#xe74e;</i>
+    {{if strs.endStr}}
+        <span class="co-left" style="text-align: {{=textAlign}};">{{=strs.startStr}}</span>
+        <span class="co-center">{{=strs.centetTip}}</span>
+        <span class="co-right" style="text-align: {{=textAlign}};">{{=strs.endStr}}</span>
+    {{else}}
+        {{=strs.startStr}}
+    {{/if}}
+    <span class="mc-iconfont mx-trigger-arrow">&#xe6c1;</span>
+</div>
+
+<div class="mx-output-bottom {{if show}} mx-output-open {{/if}}" 
+    style="left:{{=left}}px;top:{{=top}}px;"
+    id="rpcnt_{{=viewId}}" 
+    mx-view="@./range?configs={{@rangeInfo}}"
+    mx-focusin="@{stop}()"
+    mx-focusout="@{stop}()"
+    mx-change="@{range.picked}()" 
+    mx-cancel="@{hide}()"></div>
+

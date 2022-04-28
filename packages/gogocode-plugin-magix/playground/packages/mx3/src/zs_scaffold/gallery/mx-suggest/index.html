@@ -1,0 +1,16 @@
+<!--md5:186c88d073711d60473e87935766645b-->
+<mx-input style="width: 100%;" id="toggle_{{=viewId}}"
+    placeholder="{{=placeholder}}"
+    autocomplete="off"
+    prefix="search"
+    suffix="delete"
+    search-width="{{=searchWidth}}"
+    search-list="{{@searchList}}"
+    search-value="{{=searchValue}}"
+    value="{{=selectedText}}" 
+    mx-clear="@{clear}()"
+    mx-keyup="@{suggest}()"
+    mx-paste="@{suggest}()"
+    mx-focusin="@{suggest}()"
+    mx-change="@{change}()"
+    mx-focusout="@{focusout}()"/>

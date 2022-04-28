@@ -1,0 +1,51 @@
+<!--md5:b5d789a2dd93f5ed7eea75cb57348c37-->
+{{if (groups.length > 0)}}
+    {{if carousel}}
+        <!-- 挂载groups，lineNumber，tipLineNumber监听参数的变化 -->
+        <mx-carousel class="card-wrapper {{=wrapperClass}}"
+            style="{{if imgHeight}} --mx-card-img-height: {{=imgHeight}}px; {{/if}} {{if titleLineNumber}} --mx-card-title-line: {{=titleLineNumber}}; {{/if}} {{if tipLineNumber}} --mx-card-tip-line: {{=tipLineNumber}}; {{/if}} {{if !hasBtn}} --mx-card-btn-height: 0px; --mx-card-btn-top: 0px; {{/if}} {{if !hasIcon}} --mx-card-icon-height: 0px; --mx-card-icon-bottom: 0px; {{/if}}"
+            groups="{{@groups}}"
+            line-number="{{=lineNumber}}"
+            title-line-number="{{=titleLineNumber}}"
+            tip-line-number="{{=tipLineNumber}}"
+            dot-vars="{{@dotVars}}"
+            autoplay="{{=autoplay}}"
+            interval="{{=interval}}"
+            dot-type="dot-out-center">
+            {{each groups as group groupIndex}}
+            <mx-carousel.panel class="carousel-card-cont card-cont clearfix">
+                {{each group.list as item index}}
+                <a {{if innerData.cardClick}}
+                        {{if item.link}} href="{{=item.link}}" {{if item.outer}} target="_blank" rel="noopener noreferrer" {{/if}} {{else}} href="javascript:;" {{/if}}
+                        mx-click="@{select}({item:'{{@item}}'})" {{if spm}} data-spm-click="{{=spm}}_{{=groupIndex}}_{{=index}}" {{/if}}
+                    {{else}}
+                        href="javascript:;"
+                    {{/if}}
+                    style="width: calc((100% - var(--mx-effects-card-h-gap, 24px) * {{=(lineNumber + 1)}}) / {{=lineNumber}});" class="card {{if item.highlight}} highlight {{/if}}"
+                    mx-view="@./card-inner?item={{@item}}&innerData={{@innerData}}&spm={{=(spm ? (spm + '_' + groupIndex + '_' + index) : '')}}">
+                </a>
+                {{/each}}
+            </mx-carousel.panel>
+            {{/each}}
+        </mx-carousel>
+    {{else}}
+        {{each groups as group groupIndex}}
+        <div class="card-wrapper {{=wrapperClass}}"
+            style="{{if imgHeight}} --mx-card-img-height: {{=imgHeight}}px; {{/if}} {{if titleLineNumber}} --mx-card-title-line: {{=titleLineNumber}}; {{/if}} {{if tipLineNumber}} --mx-card-tip-line: {{=tipLineNumber}}; {{/if}} {{if !hasBtn}} --mx-card-btn-height: 0px; --mx-card-btn-top: 0px; {{/if}} {{if !hasIcon}} --mx-card-icon-height: 0px; --mx-card-icon-bottom: 0px; {{/if}}">
+            <div class="flat-card-cont card-cont clearfix">
+                {{each group.list as item index}}
+                <a {{if innerData.cardClick}}
+                        {{if item.link}} href="{{=item.link}}" {{if item.outer}} target="_blank" rel="noopener noreferrer" {{/if}} {{else}} href="javascript:;" {{/if}}
+                        mx-click="@{select}({item:'{{@item}}'})" {{if spm}} data-spm-click="{{=spm}}_{{=groupIndex}}_{{=index}}" {{/if}}
+                    {{else}}
+                        href="javascript:;"
+                    {{/if}}
+                    style="width: calc((100% - var(--mx-effects-card-h-gap, 24px) * {{=(lineNumber + 1)}}) / {{=lineNumber}});" class="card {{if item.highlight}} highlight {{/if}}"
+                    mx-view="@./card-inner?item={{@item}}&innerData={{@innerData}}&spm={{=(spm ? (spm + '_' + groupIndex + '_' + index) : '')}}">
+                </a>
+                {{/each}}
+            </div>
+        </div>
+        {{/each}}
+    {{/if}}
+{{/if}}

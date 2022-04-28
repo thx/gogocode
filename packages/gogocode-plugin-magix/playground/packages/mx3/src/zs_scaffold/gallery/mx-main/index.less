@@ -1,0 +1,356 @@
+/*md5:3c6edfceff6a01be2c1200273176db08*/
+[mx-view*="mx-main/index"],
+[mx-view*="mx-main/ver"],
+[mx-view*="mx-main/dis"] {
+    --mx-main-nav-line-height: 46px;
+    --mx-main-nav-line-color: #4D5873;
+
+    position: relative;
+    background-color: var(--app-bg);
+
+    .main-nav {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        padding-top: 16px;
+        background-color: var(--app-nav-bg);
+        z-index: 3;
+
+        .main-step {
+            position: relative;
+            font-size: 14px;
+
+            /* 竖线 */
+            &::before {
+                content: '';
+                position: absolute;
+                top: calc(var(--mx-main-nav-line-height) / 2);
+                left: 24px;
+                z-index: 3;
+                width: 0;
+                height: 100%;
+                border-left: 1px solid var(--mx-main-nav-line-color);
+                transition: all var(--duration);
+            }
+
+            /* 背景色 */
+            &::after {
+                opacity: 0;
+                content: ' ';
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 1;
+                width: 100%;
+                height: 100%;
+                background-color: var(--color-brand);
+                transition: all var(--duration);
+            }
+
+            .pbg {
+                opacity: 0;
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 2;
+                width: 100%;
+                height: var(--mx-main-nav-line-height);
+                background-color: var(--color-brand);
+                transition: all var(--duration);
+            }
+
+            .idx {
+                position: absolute;
+                top: calc(var(--mx-main-nav-line-height) / 2);
+                left: 16px;
+                z-index: 6;
+                width: 16px;
+                height: 16px;
+                margin-top: -8px;
+                border-radius: 50%;
+                background-color: var(--mx-main-nav-line-color);
+                color: #fff;
+                text-align: center;
+                line-height: 16px;
+                font-size: 12px;
+                transition: all var(--duration);
+            }
+
+            .step {
+                position: relative;
+                display: block;
+                height: var(--mx-main-nav-line-height);
+                line-height: var(--mx-main-nav-line-height);
+                padding-left: 36px;
+                z-index: 4;
+                color: #fff;
+                opacity: .5;
+                transition: all var(--duration);
+
+                &:hover {
+                    opacity: 1;
+                }
+            }
+
+            .step.child {
+                &::before {
+                    content: '';
+                    position: absolute;
+                    top: 50%;
+                    left: 24px;
+                    z-index: 4;
+                    width: 10px;
+                    height: 0;
+                    border-top: 1px solid var(--mx-main-nav-line-color);
+                    transition: all var(--duration);
+                }
+            }
+
+            &.step-current {
+                &::after {
+                    opacity: .2;
+                }
+
+                .pbg {
+                    opacity: 1;
+                }
+
+                .idx {
+                    background-color: #fff;
+                    color: var(--color-brand);
+                }
+
+                .step,
+                .step.on {
+                    opacity: 1;
+                }
+            }
+
+            &.step-locked {
+                .step {
+                    cursor: not-allowed;
+
+                    &:hover {
+                        opacity: .5;
+                    }
+                }
+
+                .locked-icon {
+                    position: absolute;
+                    top: 50%;
+                    right: 16px;
+                    margin-top: -6px;
+                    font-size: 14px;
+                    font-weight: bold;
+                    color: var(--mx-main-nav-line-color);
+                }
+            }
+
+            &:last-child {
+                &::before {
+                    height: auto;
+                    bottom: calc(var(--mx-main-nav-line-height) / 2);
+                }
+            }
+        }
+    }
+
+    .main-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .content-side,
+    .content-box {
+        background: #fff;
+        border-radius: var(--border-radius);
+        box-shadow: var(--mx-grid-shadow, 0 1px 1px 0 rgba(0, 0, 0, 0.08));
+        transition: box-shadow var(--duration) ease-out;
+
+        &:hover {
+            box-shadow: var(--mx-grid-shadow-hover, 0 4px 6px 0 rgba(0, 0, 0, 0.08));
+        }
+    }
+
+    .content-side {
+        position: absolute;
+    }
+
+    .content-box,
+    .content-box-empty {
+        position: relative;
+        margin-bottom: var(--mx-comp-v-gap);
+    }
+
+    .box-bd {
+        padding: var(--mx-comp-v-gap) var(--mx-comp-h-gap);
+    }
+
+    .box-title {
+        padding: 8px var(--mx-comp-h-gap);
+        border-bottom: 1px solid var(--color-border);
+        border-top-left-radius: var(--border-radius);
+        border-top-right-radius: var(--border-radius);
+
+        .title-text {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: var(--input-height);
+        }
+
+        .title-icon,
+        .title-icon>* {
+            color: #999;
+            font-size: 22px;
+        }
+
+        .title-icon {
+            margin-right: 4px;
+        }
+
+        .title-label {
+            font-size: 16px;
+        }
+
+        .title-tip {
+            margin-left: 16px;
+            color: #999;
+        }
+
+        .title-right {
+            float: right;
+            height: var(--input-height);
+            line-height: var(--input-height);
+        }
+
+        .title-right-toggle {
+            font-size: 14px;
+            margin-left: 4px;
+        }
+    }
+
+    .content-footer {
+        margin-bottom: var(--mx-comp-v-gap);
+    }
+
+    .footer-btn {
+        min-width: 100px;
+        margin-right: 12px;
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+
+    .footer-error {
+        display: inline-block;
+        position: relative;
+        padding-left: 20px;
+        line-height: 20px;
+        color: var(--color-red);
+        vertical-align: middle;
+    }
+
+    .error-icon {
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-size: 16px;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+    }
+
+    /* 浅色版本 */
+    &[mx-view*="mode=common"] {
+        --mx-main-nav-line-color: var(--color-border);
+
+        .main-nav {
+            background-color: #fff;
+
+            .main-step {
+                &::before {
+                    border-left: 1px dashed var(--mx-main-nav-line-color);
+                }
+
+                .pbg {
+                    background-image: none;
+                    background-color: var(--app-bg);
+                }
+
+                .idx {
+                    background-color: #cbcbcb;
+                    color: #fff;
+                }
+
+                .step {
+                    color: #333;
+                    opacity: .5;
+
+                    &:hover {
+                        opacity: 1;
+                    }
+                }
+
+                .step.child {
+                    &::before {
+                        border-top: 1px dashed var(--mx-main-nav-line-color);
+                    }
+                }
+
+                &.step-current {
+                    &::after {
+                        opacity: .02;
+                    }
+
+                    &::before {
+                        border-left: 1px dashed var(--color-brand);
+                    }
+
+                    .idx {
+                        background-color: var(--color-brand);
+                        color: #fff;
+                    }
+
+                    .step {
+                        color: var(--color-brand);
+                        opacity: .5;
+
+                        &.on {
+                            color: var(--color-brand);
+                            opacity: 1;
+                        }
+
+                        &:hover {
+                            opacity: 1;
+                        }
+                    }
+
+                    .step.child {
+                        &::before {
+                            border-top: 1px dashed var(--color-brand);
+                        }
+                    }
+                }
+
+                &.step-locked {
+                    .step {
+                        &:hover {
+                            opacity: .5;
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+}
+
+[mx-view*="mx-main/ver"] {
+    .box-title-locked {
+        background-color: #f5f5f5;
+        cursor: not-allowed;
+    }
+}

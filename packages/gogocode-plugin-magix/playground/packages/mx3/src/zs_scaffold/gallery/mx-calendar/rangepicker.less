@@ -1,0 +1,37 @@
+/*md5:6fb150e3bacae95d585235e4d906d671*/
+.result {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+
+    .co-center {
+        padding: 0 2px;
+        color: #999;
+    }
+
+    .co-left,
+    .co-right {
+        flex: 1;
+    }
+}
+
+.result-vs {
+    .co-left {
+        color: var(--color-brand);
+    }
+
+    .co-right {
+        color: var(--color-brand-vs);
+    }
+}
+
+[mx-view*="mx-calendar/rangepicker"] {
+    min-width: 200px;
+}
+
+[mx-view*="mx-calendar/datepicker"] {
+    [ref="@scoped.style:mx-output"] {
+        min-width: auto;
+        max-width: none;
+    }
+}

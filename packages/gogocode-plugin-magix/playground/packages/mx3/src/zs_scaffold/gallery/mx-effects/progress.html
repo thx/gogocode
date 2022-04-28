@@ -1,0 +1,87 @@
+<!--md5:b04ae382ead16e722e03fa528c10bb9f-->
+{{if (type == 'circle')}}
+<svg width="{{=width}}" height="{{=width}}" viewBox="0 0 {{=width}} {{=width}}"
+    xmlns="http://www.w3.org/2000/svg" 
+    version="1.1"
+    xmlns:xlink="http://www.w3.org/1999/xlink" >
+    {{if (colorList && colorList.length)}}
+    <defs>
+        <lineargradient id="{{=viewId}}_circle_colors" x1="0%" y1="0%" x2="100%" y2="64.9%">
+            {{each colorList as c}}
+            <stop offset="{{=c.offset}}%" stop-color="{{=c.color}}" />
+            {{/each}}
+        </lineargradient>
+    </defs>
+    {{/if}}
+    <circle
+        cx="{{=(width / 2}}"
+        cy="{{=(width / 2}}"
+        r="{{=((width - border) / 2)}}"
+        fill="none" 
+        stroke-miterlimit="1"
+        stroke="#f0f0f0"
+        stroke-width="{{=border}}"/>
+    <circle
+        cx="{{=(width / 2}}"
+        cy="{{=(width / 2}}"
+        r="{{=((width - border) / 2)}}"
+        transform="matrix(0,-1,1,0,0,{{=width}})"
+        fill="none"
+        stroke-miterlimit="1"
+        stroke="{{=((colorList && colorList.length) ? ('url(#' +  viewId + '_circle_colors)') : color)}}"
+        stroke-width="{{=border}}"
+        stroke-linecap="round"
+        stroke-dasharray="{{=circle2}} {{=circle1}}" 
+        stroke-dashoffset="{{=circle2}}" >
+        <animate attributeName="stroke-dashoffset" begin="0s" dur="0.3s" from="{{=circle2}}" to="0" fill="freeze" repeatCount="0" />
+    </circle>
+    {{if text}}
+    <text 
+        x="50%"
+        y="50%"
+        style="text-anchor: middle; dominant-baseline: middle;" 
+        font-family="Tahoma" 
+        font-size="14px" 
+        fill="#666">{{=num}}</text>
+    {{/if}}
+</svg>
+{{/if}}
+
+{{if (type == 'line')}}
+    {{if vs}}
+    <div class="line line-vs" style="width: {{=width}}px; {{if colorVs}} background: {{=colorVs}}; {{else}} background: {{=colorBg}}; {{/if}}">
+        <div class="on" style="width: {{=num}}; background: {{=color}}; "></div>
+        <div class="num num--left">{{=num}}</div>
+        <div class="num num--right">{{=numRemain}}</div>
+    </div>
+    {{else}}
+    <div class="line" style="width: {{=width}}px; background: {{=colorBg}};">
+        <div class="on" style="width: {{=num}}; {{if colorGradient}} background: linear-gradient(to right, {{=color}}, {{=colorGradient}}); {{else}} background: {{=color}}; {{/if}} "></div>
+        {{if text}}
+        <div class="num num--{{=placement}}" {{if (placement == 'top' || placement == 'bottom')}} style="left: {{=num}};" {{/if}}>{{=num}}</div>
+        {{/if}}
+    </div>
+    {{/if}}
+{{/if}}
+
+{{if (type == 'gradient')}}
+<div class="gradient" style="width: {{=width}}px; background: {{=colorBg}};">
+    <div class="on" style="width: {{=num}}; background: linear-gradient(45deg, {{=color1}} 33%, {{=color2}} 34%, {{=color2}} 59%, {{=color1}} 60%); background-size: 24px 12px; "></div>
+    {{if text}}
+    <div class="num num--{{=placement}}" {{if (placement == 'top' || placement == 'bottom')}} style="left: {{=num}};" {{/if}}>{{=num}}</div>
+    {{/if}}
+</div>
+{{/if}}
+
+
+{{if (type == 'degree')}}
+<div class="degree-wrapper clearfix">
+    {{for(let i=0;i<degree;i+=1)}}
+    <span class="degree" style="opacity: {{=(baseOpacity + i * (1 - baseOpacity) / (count - 1))}}; {{if color}} background-color: {{=color}}; {{/if}}"></span>
+    {{/for}}
+    {{for(let i=degree;i<count;i+=1)}}
+    <span class="degree"></span>
+    {{/for}}
+</div>
+{{/if}}
+

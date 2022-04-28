@@ -1,0 +1,67 @@
+<!--md5:e4bdb161c2a7239962a6574f8357b299-->
+<div class="wrapper unselectable" mx-contextmenu="@{prevent}()">
+    <%if(types.day){%>
+    <div id="days_<%=id%>" class="clearfix">
+        <div class="header">
+            <span class="mc-iconfont minus fl" mx-click="@{changeMonth}()">&#xe61e;</span>
+            <span class="title" mx-click="<%if(types.month){%>@{showMonths}<%}else{%>@{showYears}<%}%>()"><%=year%>-<%=('0'+month).slice(-2)%></span>
+            <span class="mc-iconfont plus fr" mx-click="@{changeMonth}({next:true})">&#xe61e;</span>
+        </div>
+        <div class="body">
+             <div class="weeks clearfix">
+                <%for(var i=0;i<weekText.length;i++){%>
+                <span class="week"><%=weekText[i]%></span>
+                <%}%>
+            </div>
+            <div class="days clearfix">
+            <%for(var i=0;i<days.length;i++){%>
+                <%var tds=days[i]%>
+                <%for(var j=0;j<tds.length;j++){%>
+                <span class="day<%if(tds[j].today){%> today<%}%><%if(tds[j].otherMonth){%> gray<%}%><%if(tds[j].disabled){%> notallowed<%}%><%if(tds[j].selected){%> selected<%}%>"<%if(!tds[j].disabled){%> mx-click="@{choose}({toMonth:<%=tds[j].month%>,date:'<%=tds[j].full%>'})"<%}%> title="<%=tds[j].full%>"><%=tds[j].day%></span>
+                <%}%>
+            <%}%>
+            </div>
+        </div>
+        <%if(timeType){%>
+            <mx-time.content time="<%=timeValue%>" types="<%=timeType%>" class="clearfix time" mx-change="@{setTime}()"/>
+            <div class="mx-output-footer">
+                <mx-btn mode="primary" size="small" content="确定" mx-click="@{hide}({enter:true})"/>
+                <mx-btn class="ml10" size="small" content="取消" mx-click="@{hide}()"/>
+            </div>
+        <%}%>
+    </div>
+    <%}%>
+
+    <%if(types.month){%>
+    <div class="clearfix<%if(types.day){%> m-panel<%}%><%if(showMonth){%> ym-show<%}%>">
+        <div class="header">
+            <span class="mc-iconfont minus fl" mx-click="@{changeYear}()">&#xe61e;</span>
+            <span class="title" mx-click="@{showYears}()"><%=year%></span>
+            <span class="mc-iconfont plus fr" mx-click="@{changeYear}({next:true})">&#xe61e;</span>
+        </div>
+        <div class="body clearfix">
+            <%for(var i=0,m;i<months.length;i++){%>
+            <%m=months[i]%>
+            <span class="ym<%if(m.disabled){%> notallowed<%}%><%if(m.selected){%> selected<%}%>"<%if(!m.disabled){%> mx-click="@{pickMonth}({month:'<%=m.month%>'})"<%}%>><%=m.month%></span>
+            <%}%>
+        </div>
+    </div>
+    <%}%>
+    <%if(types.year){%>
+    <div class="clearfix<%if(types.day||types.month){%> y-panel<%}%><%if(showYear){%> ym-show<%}%>">
+        <div class="header">
+            <span class="mc-iconfont minus fl" mx-click="@{changeYear}({range:true})">&#xe61e;</span>
+            <span class="title"><%=startYear%>-<%=endYear%></span>
+            <span class="mc-iconfont plus fr" mx-click="@{changeYear}({range:true,next:true})">&#xe61e;</span>
+        </div>
+        <div class="body clearfix">
+            <%for(var i=0,y;i<years.length;i++){%>
+                <%y=years[i]%>
+                <span class="ym<%if(y.selected){%> selected<%}%><%if(y.disabled){%> notallowed<%}%>"<%if(!y.disabled){%> mx-click="@{pickYear}({year:'<%=y.year%>'})"<%}%>>
+                    <%=y.year%>
+                </span>
+            <%}%>
+        </div>
+    </div>
+    <%}%>
+</div>
