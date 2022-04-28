@@ -2,7 +2,7 @@
 <html lang="cn">
   <head>
     <meta charset="UTF-8" />
-    <title>GoGoCode Element Playground</title>
+    <title>GoGoCode Magix Playground</title>
     <style>
       body {
         width: 100vw;
@@ -33,6 +33,10 @@
       .mb20 {
         margin-bottom: 20px;
       }
+
+      .ml10 {
+        margin-left: 10px;
+      }
       .tc {
         text-align: center;
       }
@@ -41,7 +45,7 @@
   <body>
     <div id="main-app">
       <h2 class="tc mt20 mb10">
-        GoGoCode Element Playground
+        GoGoCode Magix Playground
       </h2>
       <div class="mt20 mb20 tc">
         <select v-model="selected" v-on:change="changeRoute">
@@ -49,21 +53,25 @@
             {{ option.text }}
           </option>
         </select>
+        <label class="ml10">
+          <input type="checkbox" v-model="useTransformedFile">
+          使用转换后的 Magix5 文件 (/demo-out/xxx)
+        </label>
         <div class="mt10">
           <a
-            href="https://github.com/element-plus/element-plus/discussions/5657"
+            href="https://yuque.antfin-inc.com/docs/share/f8cc3405-6729-45b8-b7f5-e2e4d250346d"
             target="_blank"
             rel="noopener noreferrer"
-            >Element Breaking Change</a
+            >《升级到 Magix 5 的 breaking change 梳理》</a
           >
         </div>
       </div>
       <div class="compare">
-        <div id="vue2">
-          <iframe :src="'//localhost:7102'+ selected" frameborder="0"></iframe>
+        <div id="magix3">
+          <iframe :src="'//localhost:1003/#/demo/index?view='+ selected.slice(1)"  frameborder="0"></iframe>
         </div>
-        <div id="vue3">
-          <iframe :src="'//localhost:7103'+ selected" frameborder="0"></iframe>
+        <div id="magix5">
+          <iframe :src="mx5Src" frameborder="0"></iframe>
         </div>
       </div>
     </div>

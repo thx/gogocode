@@ -5,10 +5,10 @@
   "main": "main/index.js",
   "private": true,
   "scripts": {
-    "start": "npm-run-all --parallel start:*",
+    "start": "sudo npm-run-all --parallel start:*",
     "start:main": "yarn workspace main run start",
-    "start:vue2": "yarn workspace mx3 run start",
-    "start:vue3": "yarn workspace mx5 run start"
+    "start:mx3": "yarn workspace mx3 run start",
+    "start:mx5": "yarn workspace mx5 run start"
   },
   "workspaces": {
     "packages": ["packages/*"],

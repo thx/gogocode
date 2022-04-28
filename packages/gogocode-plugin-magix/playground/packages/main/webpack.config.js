@@ -4,7 +4,7 @@ module.exports = {
   entry: './index.js',
   devtool: 'source-map',
   devServer: {
-    open: true,
+    open: 'chrome',
     port: '7099',
     clientLogLevel: 'warning',
     disableHostCheck: true,

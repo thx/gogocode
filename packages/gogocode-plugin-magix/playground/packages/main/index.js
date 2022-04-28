@@ -14,9 +14,15 @@ new Vue({
   router,
   data() {
     return {
+      useTransformedFile: false,
       selected: '/',
       CompsConfig,
     };
+  },
+  computed: {
+    mx5Src() {
+      return `//localhost:1005/#/demo?view=${this.selected.slice(1)}&useTransformedFile=${this.useTransformedFile}`;
+    }
   },
   mounted() {
     this.selected = this.$route.path;

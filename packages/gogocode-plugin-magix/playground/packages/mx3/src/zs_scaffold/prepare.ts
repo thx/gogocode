@@ -100,6 +100,13 @@ let getMenu = (user) => {
             bizCode: Constant.bizCode
         },
         path: '/message/index',
+    },{
+        text: 'demo',
+        viewPath: 'zs_scaffold/views/pages',
+        path: '/demo/index',
+        padding: false,
+        header: false,
+        footer: false,
     }];
 
     let menusMap = {

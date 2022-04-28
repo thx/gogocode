@@ -1,5 +1,5 @@
 {
-  "name": "zs_scaffold",
+  "name": "mx3",
   "version": "0.0.1",
   "rmxConfig": {
     "kit": "magix"
@@ -7,6 +7,8 @@
   "magixCliConfig": {
     "preloadModuleList": true,
     "closeInspector": true,
+    "closeDocs": true,
+    "closeDesiger": true,
     "supportApiPathParams": true,
     "rapVersion": "2",
     "matPort": "1003",
@@ -95,7 +97,8 @@
   "scripts": {
     "c": "git add -A; git commit -m 'dev'; git push",
     "rap": "mm dev -p 6543 --https  --close-docs --close-desiger",
-    "debug": "mm dev -d --https  --close-docs --close-desiger"
+    "debug": "mm dev -d --https  --close-docs --close-desiger",
+    "start": "mm dev --skip-update-check"
   },
   "dependencies": {},
   "contributors.bak": [
