@@ -1,0 +1,366 @@
+/* @dependent: ./index.less */
+
+/* 各种类型按钮样式 */
+.btn,
+.mx5-btn {
+  position: relative;
+  display: inline-block;
+  min-width: 64px;
+  height: var(--input-height);
+  margin-bottom: 0;
+  padding: 0 10px;
+  font-size: var(--font-size);
+  font-weight: normal;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  outline: none;
+  line-height: calc(var(--input-height) - 2px);
+  border-radius: var(--btn-border-radius);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--btn-border);
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
+  transition: border-color var(--duration), background-color var(--duration),
+    color var(--duration);
+
+  // size:small
+  &.mx5-btn-small {
+    min-width: 48px;
+    height: var(--input-small-height);
+    line-height: calc(var(--input-small-height) - 2px);
+  }
+
+  --input-large-height: calc(var(--font-size) + 26px); // 临时
+
+  // size:large
+  &.mx5-btn-large {
+    min-width: 100px;
+    height: var(--input-large-height);
+    line-height: calc(var(--input-large-height) - 2px);
+  }
+
+  &:hover,
+  &.hover,
+  &:active {
+    border-color: var(--btn-border-hover);
+    background-color: var(--btn-bg-hover);
+    color: var(--btn-text-hover);
+  }
+
+  // disabled
+  &[disabled],
+  &.mx5-btn-disabled {
+    cursor: not-allowed;
+
+    &:hover,
+    &.hover,
+    &:active {
+      border-color: var(--btn-border);
+      background-color: var(--btn-bg);
+      color: var(--btn-text);
+    }
+
+    &::after {
+      opacity: 0.6;
+      content: ' ';
+      position: absolute;
+      top: -1px;
+      right: -1px;
+      bottom: -1px;
+      left: -1px;
+      z-index: 1;
+      border-radius: var(--btn-border-radius);
+      background-color: #fff;
+    }
+  }
+
+  // type:brand
+  &.mx5-btn-brand {
+    border-color: var(--btn-brand);
+    background-color: var(--btn-brand);
+    color: var(--btn-brand-text);
+
+    &:hover,
+    &.hover,
+    &:active {
+      border-color: var(--btn-brand-hover);
+      background-color: var(--btn-brand-hover);
+      color: var(--btn-brand-text-hover);
+    }
+
+    &[disabled],
+    &.btn-disabled {
+      &:hover,
+      &.hover,
+      &:active {
+        border-color: var(--btn-brand);
+        background-color: var(--btn-brand);
+        color: var(--btn-brand-text);
+      }
+    }
+  }
+
+  // type:hollow
+  &.mx5-btn-hollow {
+    border-color: var(--btn-brand);
+    background-color: transparent;
+    color: var(--btn-brand);
+
+    &:hover,
+    &.hover,
+    &:active {
+      border-color: var(--btn-brand);
+      background-color: var(--btn-brand);
+      color: var(--btn-brand-text);
+    }
+
+    &[disabled],
+    &.mx5-btn-disabled {
+      &:hover,
+      &.hover,
+      &:active {
+        border-color: var(--btn-brand);
+        background-color: transparent;
+        color: var(--btn-brand);
+      }
+    }
+  }
+
+  // type:white
+  &.mx5-btn-white {
+    border-color: #fff;
+    background-color: #fff;
+    color: var(--btn-text);
+
+    &:hover,
+    &.hover,
+    &:active {
+      border-color: var(--color-bg);
+      background-color: var(--color-bg);
+      color: var(--btn-text-hover);
+    }
+
+    &[disabled],
+    &.mx5-btn-disabled {
+      &:hover,
+      &.hover,
+      &:active {
+        border-color: #fff;
+        background-color: #fff;
+        color: var(--btn-text);
+      }
+    }
+  }
+
+  // type:text
+  &.mx5-btn-text {
+    border: none;
+    background: transparent;
+    color: var(--btn-brand);
+
+    &:hover,
+    &.hover,
+    &:active {
+      background-color: rgba(255, 255, 255, 0.01);
+    }
+
+    &[disabled],
+    &.mx5-btn-disabled {
+      color: #000040;
+      &::after {
+        background-color: transparent;
+      }
+
+      &:hover,
+      &.hover,
+      &:active {
+        background-color: transparent;
+      }
+    }
+  }
+}
+
+/* 直接使用class="btn"加上动画，只有获取焦点显示一次；mx-btn每次点击都需要加上动画，组件内处理  */
+.btn {
+  &:focus {
+    overflow: hidden;
+
+    &::before {
+      content: ' ';
+      opacity: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      padding: 0;
+      border-radius: 100%;
+      background-color: var(--color-brand);
+      transform: translateX(-50%) translateY(-50%);
+      z-index: 10;
+      animation: trigger-expand var(--mx-comp-expand-amin-timer)
+        var(--mx-comp-expand-amin-ease);
+      animation-fill-mode: backwards;
+    }
+  }
+
+  &[disabled],
+  &.mx5-btn-disabled {
+    &:focus {
+      overflow: visible;
+
+      &::before {
+        content: none;
+      }
+    }
+  }
+
+  &.mx5-btn-brand,
+  &.mx5-btn-hollow {
+    &:focus {
+      &::before {
+        background-color: #fff;
+      }
+    }
+  }
+}
+
+/* 每次点击都有动画 */
+.mx5-btn {
+  &.mx5-btn-brand,
+  &.mx5-btn-text,
+  &.mx5-btn-hollow {
+    --mx-comp-expand-amin-color: #fff;
+  }
+}
+
+[mx-view*='mx-btn/index'] {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 0;
+  line-height: 0;
+
+  .mx5-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  // 自定义颜色
+  .mx5-btn-custom {
+    border-color: var(--mx-btn-custom-color);
+    background-color: var(--mx-btn-custom-color);
+    color: var(--mx-btn-custom-color-text);
+
+    &:hover,
+    &.hover,
+    &:active {
+      border-color: var(--mx-btn-custom-color-hover);
+      background-color: var(--mx-btn-custom-color-hover);
+      color: var(--mx-btn-custom-color-hover-text);
+    }
+  }
+
+  .mx5-btn-tag {
+    position: absolute;
+    top: -10px;
+    left: 100%;
+    z-index: 2;
+    margin-left: -20px;
+    border: 1px solid var(--color-brand);
+    background-color: var(--color-brand);
+  }
+
+  .mx5-btn-brand ~ .mx5-btn-tag {
+    border: 1px solid var(--color-red);
+    background-color: var(--color-red);
+  }
+
+  .mx5-btn-hollow ~ .mx5-btn-tag {
+    border: 1px solid var(--color-red);
+    background-color: var(--color-red);
+  }
+
+  .mx5-btn-white ~ .mx5-btn-tag {
+    border: 1px solid var(--color-brand);
+    background-color: var(--color-brand);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .btn,
+  .mx5-btn {
+    --btn-border-radius: calc(var(--input-height) / 2);
+
+    &:visited,
+    &:hover {
+      border-color: var(--btn-border);
+      background-color: var(--btn-bg);
+      color: var(--btn-text);
+    }
+
+    &:focus,
+    &:active {
+      border-color: var(--btn-border-hover);
+      background-color: var(--btn-bg-hover);
+      color: var(--btn-text-hover);
+    }
+
+    &.mx5-btn-brand {
+      &:visited,
+      &:hover {
+        border-color: var(--btn-brand);
+        background-color: var(--btn-brand);
+        color: var(--btn-brand-text);
+      }
+
+      &:focus,
+      &:active {
+        border-color: var(--btn-brand-hover);
+        background-color: var(--btn-brand-hover);
+        color: var(--btn-brand-text-hover);
+      }
+    }
+
+    &.mx5-btn-hollow {
+      &:visited,
+      &:hover {
+        border-color: var(--btn-brand);
+        background-color: transparent;
+        color: var(--btn-brand);
+      }
+
+      &:focus,
+      &:active {
+        border-color: var(--btn-brand);
+        background-color: var(--btn-brand);
+        color: var(--btn-brand-text);
+      }
+    }
+
+    &.mx5-btn-white {
+      &:visited,
+      &:hover {
+        border-color: #fff;
+        background-color: #fff;
+        color: var(--btn-text);
+      }
+
+      &:focus,
+      &:active {
+        border-color: var(--color-bg);
+        background-color: var(--color-bg);
+        color: var(--btn-text-hover);
+      }
+    }
+  }
+}

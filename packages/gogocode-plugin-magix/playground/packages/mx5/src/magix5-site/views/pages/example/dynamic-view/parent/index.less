@@ -1,0 +1,18 @@
+.ctl-btns {
+    border: 1px solid var(--color-brand);
+    border-radius: 4px;
+    display: inline-block;
+    & > span {
+        display: inline-block;
+        padding: 5px 20px;
+        cursor: pointer;
+        transition: all 0.3s;
+        &:first-child {
+            border-right: 1px solid var(--color-brand);
+        }
+        &:hover {
+            background-color: var(--color-brand);
+            color: #fff;
+        }
+    }
+}

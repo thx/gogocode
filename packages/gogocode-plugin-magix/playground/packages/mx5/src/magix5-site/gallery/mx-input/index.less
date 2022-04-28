@@ -1,0 +1,88 @@
+[mx-view*='mx-input/index'] {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+
+  .mx5-input-group-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 100%;
+    color: #000000;
+
+    .mx5-input-wrapper {
+      position: relative;
+      width: 100%;
+
+      .mx5-input {
+        width: 100%;
+      }
+
+      .mx5-input-delete {
+        position: absolute;
+        top: 50%;
+        right: 1px;
+        width: var(--input-small-height);
+        height: var(--input-small-height);
+        margin-top: calc(0px - var(--input-small-height) / 2);
+        line-height: var(--input-small-height);
+        text-align: center;
+        user-select: none;
+        cursor: pointer;
+        color: #ccc;
+
+        &:hover {
+          color: #666;
+        }
+      }
+    }
+
+    // prepend and append
+    .mx5-input-prepend,
+    .mx5-input-append {
+      height: var(--input-height);
+      padding: 0 10px;
+      line-height: calc(var(--input-height) - 2px);
+      background-color: #ccc;
+    }
+
+    .mx5-input-prepend {
+      border-top-left-radius: var(--border-radius);
+      border-bottom-left-radius: var(--border-radius);
+    }
+
+    .mx5-input-append {
+      border-top-right-radius: var(--border-radius);
+      border-bottom-right-radius: var(--border-radius);
+    }
+  }
+
+  // disabled
+  &[mx-view*='disabled=true'],
+  &[mx-disabled] {
+    cursor: not-allowed;
+
+    &::after {
+      opacity: 0.6;
+      content: ' ';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #fff;
+      border-radius: var(--border-radius);
+      z-index: 1;
+    }
+
+    .mx5-input {
+      pointer-events: none;
+    }
+
+    .mx5-input-delete {
+      pointer-events: none;
+      color: #ccc;
+    }
+  }
+}

@@ -1,0 +1,24 @@
+.example-container {
+    height: calc(100vh - var(--navbar-height));
+    display: flex;
+    flex-direction: row;
+    padding-top: 30px;
+    overflow: hidden;
+
+    .sidebar-wrapper {
+        height: 100%;
+        width: 300px;
+        display: flex;
+        flex-direction: column;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+
+    .content {
+        flex: 1;
+        padding: 0 200px 50px 100px;
+        height: 100%;
+        font-size: 15px;
+        overflow-y: scroll;
+    }
+}

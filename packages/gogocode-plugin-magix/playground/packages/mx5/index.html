@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <!-- <meta name="spm-id" content="a2322"> -->
+    <meta name="aplus-version" content="aplus_std">
+    <meta name="aplus-waiting" content="MAN">
+    <meta name="aplus-auto-exp"
+        content='[{"logkey":"/alimama_bp.4.2","tag":"div","filter":"data-spm","props":["userid"]}]'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Magix5</title>
+    <link type="image/x-icon" href="//img.alicdn.com/tfs/TB1xdc4cO6guuRjy1XdXXaAwpXa-40-33.png" rel="shortcut icon">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.2.0/build/styles/default.min.css">
+    <style>
+        @keyframes load {
+            0% {
+                width: 0
+            }
+
+            100% {
+                width: 98%
+            }
+        }
+
+        .outer {
+            background: #e6e6e6;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            width: 300px;
+            margin: -20px 0 0 -150px;
+            height: 2px;
+        }
+
+        .inner {
+            width: 0%;
+            background: var(--color-brand);
+            height: 100%;
+            animation: load 2s forwards;
+            margin-bottom: -2px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="outer">
+            <div class="inner"></div>
+        </div>
+    </div>
+    <!-- 测试环境 -->
+    <!-- //dev.g.alicdn.com/mm/zs_scaffold/{{version}}/boot.js -->
+    <!-- 线上 -->
+    <!-- //g.alicdn.com/mm/zs_scaffold/{{version}}/boot.js -->
+    <!-- 生产环境boot.js地址由后端配置 -->
+    <script>
+        window.crossConfigs = [{
+            projectName: 'abc',
+            apiHost: '//goto.test.com',
+            params: {
+                preview: 1
+            }
+        }]
+    </script>
+    <script id="boot" type="text/javascript" src="src/boot.js"></script>
+    <script src="//g.alicdn.com/alilog/mlog/aplus_v2.js" id="tb-beacon-aplus"
+        exparams="clog=o&aplus&sidx=aplusSidx&ckx=aplusCkx"></script>
+</body>
+
+</html>

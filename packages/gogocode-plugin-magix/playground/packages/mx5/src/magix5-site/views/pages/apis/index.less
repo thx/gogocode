@@ -1,0 +1,119 @@
+.apis-container {
+    height: calc(100vh - var(--navbar-height));
+    display: flex;
+    flex-direction: row;
+    padding-top: 30px;
+    overflow: hidden;
+
+    .sidebar-wrapper {
+        height: 100%;
+        width: 300px;
+        display: flex;
+        flex-direction: column;
+        padding: 0 50px 30px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+
+        .menu-item {
+            cursor: pointer;
+            &:first-child {
+                margin-top: 0;
+            }
+        }
+    }
+
+    // content
+    .content {
+        flex: 1;
+        padding: 0 100px;
+        overflow-y: scroll;
+
+        .header {
+            .comment {
+                margin-top: 10px;
+            }
+        }
+
+        .list-wrapper {
+            margin-top: 20px;
+
+            .list {
+                & > h2 {
+                    border-bottom: 1px solid #eaecef;
+                }
+                .list-body {
+                    .item {
+                        padding: 20px;
+                        margin: 30px 0;
+                        border-radius: var(--border-radius);
+                        transition: all 0.4s;
+                        cursor: pointer;
+                        & > h3 {
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            &::before {
+                                content: '#';
+                                margin-right: 5px;
+                                font-size: 20px;
+                                color: var(--color-brand);
+                            }
+                        }
+                        &:hover {
+                            box-shadow: 0px 0px 4px #ccc;
+                        }
+
+                        .card {
+                            padding: 10px 0;
+                            border-top: 1px solid #ccc;
+                        }
+                        .body {
+                            margin-left: 20px;
+                            font-size: 16px;
+                            li {
+                                margin-top: 15px;
+                                list-style: square;
+                                .flag {
+                                    padding: 2px 5px;
+                                    margin: 0 5px;
+                                    border-radius: var(--border-radius);
+                                    background-color: #777;
+                                    font-size: 14px;
+                                    color: #fff;
+                                }
+
+                                // params
+                                .parameters {
+                                    margin-left: 10px;
+                                    li {
+                                        list-style: circle;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // submenu
+    .submenu-wrapper {
+        width: 200px;
+        padding: 0 50px 50px;
+        height: 100%;
+        overflow-y: scroll;
+
+        .submenu {
+            width: 100%;
+            .item {
+                margin-top: 5px;
+                font-size: 16px;
+                cursor: pointer;
+                &:hover {
+                    color: var(--color-brand);
+                }
+            }
+        }
+    }
+}

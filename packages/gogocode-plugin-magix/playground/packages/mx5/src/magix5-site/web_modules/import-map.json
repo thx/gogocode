@@ -1,0 +1,6 @@
+{
+  "imports": {
+    "blueimp-md5": "./blueimp-md5.js",
+    "highlight.js": "./highlight.js"
+  }
+}

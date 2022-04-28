@@ -1,0 +1,136 @@
+{
+  "name": "mx5",
+  "version": "1.0.0",
+  "scripts": {
+    "c": "mm sl; git add -A; git commit -m 'dev'; git push;",
+    "a": "git add -A; git commit -m 'dev';",
+    "doc": "typedoc --json doc.json types/magix.d.ts",
+    "start": "mm dev --skip-update-check"
+  },
+  "rmxConfig": {
+    "kit": "magix"
+  },
+  "magixCliConfig": {
+    "magixVersion": "5",
+    "matPort": "1005",
+    "preloadModuleList": true,
+    "closeInspector": true,
+    "closeDesiger": true,
+    "closeDocs": true,
+    "closeHmr": false,
+    "magixJsTranspile": "esnext",
+    "esBuildTarget": [
+      "es2018"
+    ],
+    "gitlabUrl": "https://gitlab.alibaba-inc.com/thx/magix5-site",
+    "rapVersion": "2",
+    "rapProjectId": "671",
+    "logkey": "alimama.99.dmp",
+    "spma": "a2e3k",
+    "dataPlusConfigPath": "./src/magix5-site/dataplus/config.js",
+    "modelsPath": "src/magix5-site/services/models.js",
+    "galleries": [
+      {
+        "name": "@ali/zs-gallery",
+        "path": "src/magix5-site/gallery"
+      }
+    ],
+    "magixCombineConfig": {
+      "loaderType": "cmd_es",
+      "galleries": {
+        "mxRoot": "magix5-site/gallery/",
+        "lgRoot": "magix5-site/gallery-local/"
+      }
+    },
+    "magixDesigerTemplate": "@ali/magix-desiger-bptemplate",
+    "chartParkId": "48",
+    "chartParkIndexPath": "src/magix5-site/chartpark/index.js",
+    "ipConfig": {
+      "线上": "106.11.211.220|https://dmp.taobao.com:443/index_new.html",
+      "预发一套": "140.205.215.168|https://pre-dmp.taobao.com:443/index_new.html"
+    },
+    "jsExtension": ".ts",
+    "apiMatch": [
+      "api/",
+      ".json",
+      ".action"
+    ],
+    "indexMatch": [
+      "index.html",
+      "indexbp.html",
+      "login.html"
+    ],
+    "scopedCss": [
+      "./src/magix5-site/assets/base.less",
+      "./src/magix5-site/assets/group_override.less",
+      "./src/magix5-site/assets/iconfont.less",
+      "./src/magix5-site/assets/iconfont_class.less"
+    ],
+    "galleriesMxRoot": "magix5-site/gallery/",
+    "galleriesLgRoot": "magix5-site/gallery-local/",
+    "spmFolder": "src/magix5-site/views",
+    "srcFolder": "src",
+    "buildFolder": "build",
+    "rootAppName": "magix5-site",
+    "cloudBuild": true,
+    "defId": "2439",
+    "iconfontId": "3037202",
+    "iconfontScanPath": "src",
+    "iconfontPath": "src/magix5-site/assets/iconfont.less",
+    "dynamicProjectName": true,
+    "rapper": false
+  },
+  "devDependencies": {
+    "@ali/magix-desiger-bptemplate": "^1.0.0",
+    "@types/jquery": "3.3.4",
+    "magix": "3.8.14",
+    "typedoc": "^0.22.10",
+    "typescript": "^4.5.4"
+  },
+  "dependencies": {
+    "blueimp-md5": "^2.18.0",
+    "highlight.js": "^11.1.0"
+  },
+  "contributors.bak": [
+    {
+      "id": "71147",
+      "name": "浩添"
+    },
+    {
+      "id": "252254",
+      "name": "奇贤"
+    },
+    {
+      "id": "086270",
+      "name": "宫卫"
+    },
+    {
+      "id": "064856",
+      "name": "释剑"
+    },
+    {
+      "id": "024880",
+      "name": "逢春"
+    },
+    {
+      "id": "195417",
+      "name": "梵墨"
+    },
+    {
+      "id": "083123",
+      "name": "虞佳"
+    },
+    {
+      "id": "050763",
+      "name": "崇志"
+    },
+    {
+      "id": "050971",
+      "name": "左莫"
+    },
+    {
+      "id": "058782",
+      "name": "行列"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+<h3>Parent</h3>
+<h4>点击按钮切换到不同的组件</h4>
+<div class="ctl-btns">
+  <span mx-click="change({curr:'a'})" data-spm-click="gostr=/alimama.99.dmp;locaid=d7726593a">组件A</span>
+  <span mx-click="change({curr:'b'})" data-spm-click="gostr=/alimama.99.dmp;locaid=d4605d177">组件B</span>
+</div>
+<p class="mt10">tips：通过路由进行路由参数的抛出，当curr改变时动态的改变组件（view）</p>
+<div class="instance mt10" mx-view="../{{= path}}/index" data-spm="cc021592a"></div>

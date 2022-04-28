@@ -1,0 +1,12 @@
+<div class="container">
+  <!-- sidebar -->
+  <div class="sidebar-wrapper">
+    <lg-menu *menu="{{# menu}}"  *path="{{= path}}" *key="{{= key}}" *group="{{= isGroup || ''}}" />
+  </div>
+
+  <!-- content -->
+  <div class="content">
+    <div id="content-header" style="height: 0; width: 0;"></div>
+    <lg-html *data="{{= data}}" />
+  </div>
+</div>

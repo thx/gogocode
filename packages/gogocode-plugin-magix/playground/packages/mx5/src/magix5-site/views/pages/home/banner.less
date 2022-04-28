@@ -1,0 +1,115 @@
+.banner-container {
+    height: calc(100vh - var(--navbar-height));
+    position: relative;
+    overflow: hidden;
+
+    // background
+    .banner-bg {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        .parent {
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+            grid-column-gap: 20px;
+            grid-row-gap: 020px;
+            & > div {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #fff;
+                background-color: var(--color-brand);
+            }
+            .div1 {
+                grid-area: 1 / 1 / 3 / 4;
+            }
+            .div2 {
+                grid-area: 1 / 4 / 2 / 6;
+            }
+            .div3 {
+                grid-area: 2 / 5 / 4 / 6;
+            }
+            .div4 {
+                grid-area: 3 / 1 / 5 / 2;
+            }
+            .div5 {
+                grid-area: 3 / 2 / 4 / 3;
+            }
+            .div6 {
+                grid-area: 4 / 2 / 5 / 4;
+            }
+            .div7 {
+                grid-area: 2 / 4 / 3 / 5;
+            }
+            .div8 {
+                grid-area: 3 / 3 / 4 / 5;
+            }
+            .div9 {
+                grid-area: 5 / 1 / 6 / 4;
+            }
+            .div10 {
+                grid-area: 4 / 4 / 6 / 6;
+            }
+        }
+    }
+
+    .banner-content {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 0 200px;
+        color: #fff;
+        background-color: rgba(#000, 0.75);
+        z-index: 2;
+
+        .logo-wrapper {
+            width: 60%;
+            display: flex;
+            align-items: center;
+            .logo {
+                font-size: 130px;
+                &::first-letter {
+                    color: var(--color-brand);
+                }
+                animation: animate 6s ease-in-out infinite;
+            }
+
+            @keyframes animate {
+                0%,
+                100% {
+                    transform: translateY(0px);
+                }
+                50% {
+                    transform: translateY(-20px);
+                }
+            }
+        }
+
+        .content-body {
+            width: 40%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+
+            .introduction {
+                margin: 30px 0;
+            }
+
+            .btn-list {
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                .link-btn {
+                    width: 45%;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,44 @@
+<!-- navbar -->
+<header class="navbar">
+  <a class="home-link" href="#/home" data-spm-click="gostr=/alimama.99.dmp;locaid=d140e1180"><h1>Magix</h1></a>
+  
+  <!-- nav-list -->
+  <nav class="nav-links">
+
+    {{each navlist as item}}
+    <div class="nav-item">
+      
+      <!-- dropdown -->
+      {{if (item.children)}}
+        <div class="dropdown-wrapper">
+          <div class="dropdown-title">
+            <span>{{= item.title}}</span>
+            <span class="ml5">▾</span>
+          </div>
+          <ul class="nav-dropdown">
+            {{each item.children as child}}
+            <li class="dropdown-item">
+              <a href="{{= child.link}}" target="_blank" data-spm-click="gostr=/alimama.99.dmp;locaid=df7174ec5">{{= child.title}} </a>
+            </li>
+            {{/each}}
+          </ul>
+        </div>
+
+      {{else}}
+        <a class="{{if (path === item.link.substr(1))}}active{{/if}}" 
+        href="{{= item.link}}" target="{{= item.title=='Github'?'_blank':''}}" data-spm-click="gostr=/alimama.99.dmp;locaid=d7561f70b">
+          {{= item.title}}</a>
+      {{/if}}
+
+    </div>
+    {{/each}}
+
+  </nav>
+  
+</header>
+
+
+<!-- app-body -->
+<div class="app-body">
+  <mx-vframe src="magix5-site/views/pages{{=path}}/index" data-spm="c503ff83c"></mx-vframe>
+</div>

@@ -1,0 +1,18 @@
+/* @dependent: ./index.less */
+/* 该样式本应属于dialog组件，但因对话框内容要引用dialog-header 等样式，单独放在dialog组件中使用不方便，因此全局处理 */
+.mx5-dialog-header,
+.mx5-dialog-body{
+    padding: 16px 24px;
+}
+.mx5-dialog-header {
+    border-bottom: 1px solid var(--color-border);
+    .mx5-header-name {
+        font-size: 16px;
+    }
+}
+
+.mx5-dialog-footer {
+    padding: 10px 24px;
+    text-align: left;
+    border-top: 1px solid var(--color-border);
+}

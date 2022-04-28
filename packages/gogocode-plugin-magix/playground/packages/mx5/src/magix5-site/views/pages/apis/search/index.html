@@ -1,0 +1,57 @@
+<div class="search-container">
+  {{if !isOpen}}
+  <div class="button" mx-click="open()" data-spm-click="gostr=/alimama.99.dmp;locaid=de07ce78e">
+    <span class="word">
+      S<span class="full">earch</span>
+    </span>
+  </div>
+  {{else}}
+  <div class="search-board-wrapper">
+    <div class="search-board">
+      <!-- input -->
+      <div class="search-box-wrapper">
+        <i class="iconfont icon-search" mx-click="search()" data-spm-click="gostr=/alimama.99.dmp;locaid=d4e9bd526">&#xe741;</i>
+        <input type="text" class="search-box" style="font-size: 16px;" placeholder="Search..." value="{{:keyword&{refresh:true}}}"
+        mx-keydown="search()" data-spm-click="gostr=/alimama.99.dmp;locaid=daa146e89">
+        <i mx-click="delete()" style="display:{{= keyword.length>0? '':'none'}};" class="iconfont icon-delete" data-spm-click="gostr=/alimama.99.dmp;locaid=da057b0d2">&#xe6e9;</i>
+      </div>
+
+      <!-- search res -->
+      <div class="serach-result">
+        {{if searching}}
+          <div class="searching">
+            <i class="iconfont icon-loading">&#xe891;</i>
+            <p>searching...</p>
+          </div>
+        {{else if !hasSearched}}
+          <p>press enter to search...</p>
+        {{else}}
+          {{if res.length == 0}}
+          <p>No Result...</p>
+          {{else}}
+          <div class="result-list">
+            {{each res as resItem}}
+            <div class="item mt10" mx-click="navigate({to:'{{= resItem.source}}',curr:'{{= resItem.type != 'C'? resItem.name:''}}'})"
+              data-spm-click="gostr=/alimama.99.dmp;locaid=dfbacc5dd">
+              <span class="type fontsize-22">{{= resItem.type}}</span>
+              <div class="content">
+                <div class="name fontsize-18">
+                  {{= resItem.name}}
+                  <span class="source ml5 fontsize-14">{{= '(' + resItem.source + ')'}}</span>
+                </div>
+                <div class="introduction mt5">
+                  {{= resItem.introduction || ''}}
+                </div>
+              </div>
+              <div class="sign fontsize-18">▸</div>
+            </div>
+            {{/each}}
+          </div>
+          {{/if}}
+        {{/if}}
+      </div>
+    </div>
+    <div class="mask" mx-click="close()" data-spm-click="gostr=/alimama.99.dmp;locaid=d2e6e0973"></div>
+  </div>
+  {{/if}}
+</div>

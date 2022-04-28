@@ -1,0 +1,32 @@
+<div class="menu-container">
+  {{if group}}
+    {{each menu as subMenu}}
+      <div class="submenu mt16">
+        <div class="fontsize-20 bold">{{= subMenu.text}}</div>
+
+        {{if (subMenu.children)}}
+          {{each subMenu.children as item }}
+          <div class="menu-item mt8 ml8">
+            <a class="cursor-pointer fontsize-16 {{if (active === item.link)}}color-brand {{/if}}" 
+              href="#/{{= path}}?{{= key}}={{= item.link}}" mx-click="navigate({link:'{{= item.link}}'})">
+              {{= item.text}}
+            </a>
+          </div>  
+          {{/each}}
+        {{/if}}
+      </div> 
+    {{/each}}
+  
+  {{else}}
+    <div class="menu">
+      {{each menu as item}}
+        <div class="menu-item mt8 ml8">
+            <a class="cursor-pointer fontsize-16 {{if (active === item.link)}}color-brand {{/if}}" 
+              href="#/{{= path}}?{{= key}}={{= item.link}}" mx-click="navigate({link:'{{= item.link}}'})">
+              {{= item.text}}
+            </a>
+        </div>
+      {{/each}}
+    </div>
+  {{/if}}
+</div>

@@ -1,0 +1,304 @@
+@charset "UTF-8";
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    color: #333;
+    -webkit-font-smoothing: antialiased;
+    font-family: var(--font-family);
+    font-size: var(--font-size);
+    line-height: var(--line-height);
+}
+
+body,
+dl,
+dd,
+ul,
+ol,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+form,
+fieldset,
+legend,
+input,
+textarea,
+p,
+figure,
+hr,
+thead,
+tbody,
+tfoot,
+th,
+td {
+    margin: 0;
+    padding: 0;
+}
+
+ul,
+ol {
+    list-style-type: none;
+    list-style-image: none;
+}
+
+a {
+    text-decoration: none;
+    background-color: transparent;
+}
+
+a:active,
+a:hover {
+    outline-width: 0;
+}
+
+a:focus {
+    outline: 0 none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: normal;
+}
+
+h1 {
+    font-size: 36px;
+}
+
+h2 {
+    font-size: 30px;
+}
+
+h3 {
+    font-size: 22px;
+}
+
+h4 {
+    font-size: 18px;
+}
+
+h5 {
+    font-size: 14px;
+}
+
+h6 {
+    font-size: 12px;
+}
+
+b,
+strong {
+    font-weight: bold;
+}
+
+hr {
+    box-sizing: content-box;
+    height: 0;
+}
+
+pre {
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow: auto;
+}
+
+q {
+    quotes: none;
+}
+
+q:before,
+q:after {
+    content: '';
+    content: none;
+}
+
+small {
+    font-size: 85.7%;
+}
+
+sub,
+sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sup {
+    top: -.5em;
+}
+
+sub {
+    bottom: -.25em;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+th {
+    text-align: left;
+    font-weight: inherit;
+}
+
+img {
+    border-style: none;
+    width: auto\9;
+    height: auto;
+    max-width: 100%;
+    vertical-align: middle;
+    -ms-interpolation-mode: bicubic;
+}
+
+svg:not(:root) {
+    overflow: hidden;
+}
+
+fieldset {
+    border: 1px solid #c0c0c0;
+    margin: 0 2px;
+    padding: .35em .625em .75em;
+}
+
+legend {
+    border-style: none;
+    white-space: normal;
+    *margin-left: -7px;
+}
+
+button,
+input,
+textarea {
+    font-family: inherit;
+    font-size: 100%;
+    margin: 0;
+    vertical-align: middle;
+    *vertical-align: middle;
+}
+
+input,
+button {
+    *overflow: visible;
+}
+
+button {
+    text-transform: none;
+}
+
+button,
+html input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+    appearance: button;
+    cursor: pointer;
+}
+
+/**
+* 重置按钮禁用时光标样式
+*/
+button[disabled],
+input[disabled] {
+    cursor: not-allowed;
+}
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+    border-style: none;
+    padding: 0;
+}
+
+textarea {
+    overflow: auto;
+    resize: vertical;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    input {
+        line-height: normal !important;
+    }
+}
+
+/**
+* 1. 修正未定义为「inline-block」的元素
+* 2. 修正 Chrome、Firefox、Opera 中 「progress」元素 vertical-align 默认值不一致
+*/
+audio,
+canvas,
+video {
+    display: inline-block;
+    vertical-align: baseline;
+}
+
+html {
+    box-sizing: border-box;
+}
+
+* {
+    box-sizing: inherit;
+}
+
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+input:focus,
+textarea:focus,
+a:focus,
+button:focus {
+    outline: none;
+    resize: none;
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+    transition: all var(--duration);
+
+    &:hover {
+        color: var(--color-brand);
+    }
+
+    &:hover,
+    &:focus,
+    &:active,
+    &:visited {
+        outline: 0;
+        text-decoration: none;
+    }
+}
+
+label {
+    cursor: pointer;
+    display: inline-block;
+    max-width: 100%;
+    font-weight: 400;
+}
+
+/*文字选中样式*/
+::selection,
+::-moz-selection {
+    background-color: var(--color-brand-opacity);
+    color: white;
+}
+
+::placeholder,
+::-moz-placeholder,
+:-ms-input-placeholder,
+::-webkit-input-placeholder {
+    opacity: 1;
+    color: #999;
+}
+
+#app {
+    min-width: var(--app-min-width);
+}

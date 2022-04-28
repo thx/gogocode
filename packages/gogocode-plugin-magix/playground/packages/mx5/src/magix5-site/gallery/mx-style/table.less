@@ -1,0 +1,173 @@
+/* @dependent: ./index.less */
+
+.table {
+    width: 100%;
+
+    thead {
+        background-color: var(--color-bg);
+
+        tr {
+            th {
+                height: 60px;
+                padding: 0 var(--mx-table-ceil-h-gap);
+                color: #999;
+                border: none;
+
+                &.field-group {
+                    height: 30px;
+                    padding: 2px var(--mx-table-ceil-h-gap) 0;
+
+                    .group-name {
+                        line-height: 26px;
+                        padding-bottom: 2px;
+                        border-bottom: 1px solid var(--color-border);
+                    }
+                }
+
+                &.field-item {
+                    height: 30px;
+                    padding: 0 var(--mx-table-ceil-h-gap);
+                    white-space: nowrap;
+                }
+            }
+        }
+    }
+
+    tbody {
+        background-color: #fff;
+
+        tr {
+            td {
+                padding: var(--mx-table-ceil-v-gap) var(--mx-table-ceil-h-gap);
+                color: #333;
+                border-top: 1px solid var(--color-border);
+                border-bottom: none;
+                transition: background-color var(--duration) ease-out;
+
+                &.sub-mask {
+                    background-color: #fff;
+                    border-right: 1px solid var(--color-brand-light);
+                    border-top: 0 none;
+                }
+
+                &.sub-mask-first {
+                    border-top: 1px solid var(--color-border);
+                    border-bottom: 0 none;
+                }
+
+                .operations {
+                    opacity: 0;
+                    transition: opacity var(--duration) ease-out;
+                }
+            }
+
+            &:first-child {
+                td {
+                    border-top: 0 none;
+                }
+            }
+
+            &:hover,
+            &.hover-tr {
+                td {
+                    background-color: var(--color-brand-opacity);
+
+                    &.sub-mask {
+                        background-color: #fff;
+                    }
+
+                    .operations {
+                        opacity: 1;
+                    }
+                }
+            }
+
+            &.empty-tr {
+
+                &,
+                &:hover,
+                &.hover-tr,
+                &.hover-tr:hover {
+                    td {
+                        height: 200px;
+                        text-align: center;
+                        color: #999;
+                        background-color: var(--color-bg);
+
+                        .no-data {
+                            font-size: 60px;
+                            color: #ccc;
+                        }
+                    }
+                }
+            }
+
+            &.operation-tr {
+                display: none;
+
+                td {
+                    padding: calc(var(--mx-table-ceil-v-gap) / 3 * 2) calc(var(--mx-table-ceil-h-gap) * 2);
+                    border-top: 0 none;
+                    background-color: var(--color-brand-light);
+
+                    &.sub-mask {
+                        background-color: #fff;
+                    }
+                }
+
+                &.operation-tr-open {
+                    display: table-row;
+                }
+            }
+
+            &.thead {
+
+                &,
+                &:hover,
+                &.hover-tr {
+                    background-color: var(--color-bg);
+
+                    td {
+                        height: 60px;
+                        padding: 0 var(--mx-table-ceil-h-gap);
+                        color: #999;
+                        border-top: 1px solid var(--color-border);
+                        border-bottom: 0 none;
+                        background-color: transparent;
+
+                        &.sub-mask {
+                            background-color: #fff;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    tfoot {
+        tr {
+            td {
+                padding: calc(var(--mx-table-ceil-v-gap) / 3 * 4) var(--mx-table-ceil-h-gap);
+                background-color: var(--color-bg);
+                border: none;
+            }
+        }
+    }
+
+    &.table-no-hover {
+        tbody {
+            tr {
+                td {
+                    background-color: #fff;
+                }
+
+                &:hover,
+                .hover-tr {
+                    td {
+                        background-color: #fff;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,9 @@
+<h3>Parent</h3>
+<div>
+  <label for="">传给子组件的参数-Name:</label>
+  <input class="ml10 w250" type="text" value="{{= name}}" placeholder="输入name,按下回车确定传值到子组件" mx-keydown="watchKeydown()" mx-input="watchInput()" data-spm-click="gostr=/alimama.99.dmp;locaid=d03d06ea5"/>
+  <div class="show {{if show}}display{{/if}}">show ~ ~ 两秒后隐藏</div>
+</div>
+<div class="children instance mt10">
+  <mx-vframe src="./children?name={{=name}}&disabled={{=disabled}}" mx-change="show()" data-spm-click="gostr=/alimama.99.dmp;locaid=d52290359" data-spm="c739ea677"></mx-vframe>
+</div>

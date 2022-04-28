@@ -1,0 +1,13 @@
+<button type="button" id="{{= $viewId}}_btn" 
+  class="mx5-btn {{= classes}} {{if (disabled)}} mx5-btn-disabled {{/if}}"
+  style="{{= styles}}"
+  disabled="{{= disabled}}?">
+  <span class="text">{{= content}}</span>
+</button>
+
+{{if tagContent}}
+<span class="mx5-btn-tag mx5-tag {{if (disabled)}} mx5-tag-disabled {{/if}}"
+  style="{{if tagColor}} background-color:{{=tagColor}}; border: 1px solid {{=tagColor}};{{/if}}" >
+  <span class="mx5-tag-name">{{= tagContent}}</span>
+</span>
+{{/if}}

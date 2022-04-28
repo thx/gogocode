@@ -1,0 +1,19 @@
+<div class="mb20">
+    Magix5
+    {{if useTransformedFile}}
+    - Out
+    {{/if}}
+</div>
+{{if view}}
+
+{{if useTransformedFile}}
+<mx-vframe src="magix5-site/views/pages/demo-out/{{=view}}/index"></mx-vframe>
+{{else}}
+<mx-vframe src="magix5-site/views/pages/demo/{{=view}}/index"></mx-vframe>
+{{/if}}
+
+{{else}}
+<div>
+请选择组件以对比
+</div>
+{{/if}}

@@ -1,0 +1,19 @@
+.feature-container {
+  padding: 100px 200px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+
+  .feature-item {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: all var(--duration) ease-out;
+
+    &:hover {
+      transform: translateY(-10px);
+    }
+  }
+}

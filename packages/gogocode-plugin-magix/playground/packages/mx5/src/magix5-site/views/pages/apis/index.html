@@ -1,0 +1,150 @@
+<div class="apis-container">
+  <!-- sidebar -->
+  <div class="sidebar-wrapper">
+    <div class="menu">
+      {{each menu as menuItem index}}
+      <div class="menu-item mt16">
+        <div class="title fontsize-16" style="{{if active === index}}color:var(--color-brand){{/if}}"
+          mx-click="change({page:'{{= menuItem.title}}' })" data-spm-click="gostr=/alimama.99.dmp;locaid=d687b6225">{{=
+          menuItem.title}}</div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+
+  <!-- content -->
+  <div class="content">
+    <!-- header -->
+    <div class="header" id="apis-content-header">
+      <h1 class="title">
+        <span>{{= menu[active].kind}}</span>
+        <span class="ml8">{{= menu[active].title}}</span>
+      </h1>
+      <h3 class="comment">{{= menu[active].comment || ''}}</h3>
+    </div>
+
+    <!-- list-wrapper -->
+    {{if menu[active].children}}
+    <div class="list-wrapper mt20">
+
+      <!-- properties -->
+      {{if (menu[active]?.children && menu[active].children.properties.length !== 0)}}
+      <div class="property-list list">
+        <h2 class="pb8">properties</h2>
+        <div class="list-body">
+          {{each menu[active]?.children?.properties as item}}
+          <div class="item" id="{{= menu[active].title}}_{{= item.name}}"
+            data-spm-click="gostr=/alimama.99.dmp;locaid=da28b09ff">
+            <h3 class="fontsize-24">{{= item.name}}</h3>
+            <ul class="body">
+              {{if item.flags.length !== 0}}
+              <li>
+                <span class="bold">标识：</span>
+                {{each item.flags as flag}}
+                <span class="flag">{{= flag}}</span>
+                {{/each}}
+              </li>
+              {{/if}}
+              {{if item.comment}}<li><span class="bold">说明：</span>{{= item.comment}}</li>{{/if}}
+              {{if item.type}}<li><span class="bold">类型：</span>{{= item.type.name}}</li>{{/if}}
+            </ul>
+          </div>
+          {{/each}}
+        </div>
+      </div>
+      {{/if}}
+
+      <!-- methods -->
+      {{if (menu[active]?.children && menu[active].children.methods.length !== 0)}}
+      <div class="method-list list">
+        <h2 class="pb8">methods</h2>
+        <div class="list-body">
+          {{each menu[active]?.children?.methods as item}}
+          <div class="item" id="{{= menu[active].title}}_{{= item.name}}"
+            data-spm-click="gostr=/alimama.99.dmp;locaid=df0f7bf55">
+            <h3 class="fontsize-24">{{= item.name}}</h3>
+
+            <!-- sigatures -->
+            {{each item.signatures as signature index}}
+            <ul class="body {{if item.signatures.length > 1}}card{{/if}}">
+              {{if signature.comment}}<li><span class="bold">说明：</span><span>{{= signature.comment}}</span></li>{{/if}}
+              <!-- parameters -->
+              {{if signature.parameters}}
+              <li>
+                <div class="bold">参数：</div>
+                <ul class="parameters">
+                  {{each signature.parameters as params}}
+                  <li>
+                    <div>
+                      {{if params.flags}}
+                      {{each params.flags as flag}}
+                      <span class="flag">{{= flag}}</span>
+                      {{/each}}
+                      {{/if}}
+                      <span class="bold">{{= params.name}}:</span>
+                      <span class="ml8">{{= params?.type.name}}</span>
+                    </div>
+                    {{if params.comment}}
+                    <div class="mt8">{{= params.comment}}</div>
+                    {{/if}}
+                  </li>
+                  {{/each}}
+                </ul>
+              </li>
+              {{/if}}
+
+              <!-- typeParameter -->
+              {{if signature.typeParameter}}
+              <li>
+                <span class="bold">泛型：</span>
+                <span>{{= signature.typeParameter}}</span>
+              </li>
+              {{/if}}
+
+
+              {{if signature.type}}
+              <li><span class="bold">返回值：</span><span>{{= signature.type.name}}</span></li>
+              {{/if}}
+            </ul>
+            {{/each}}
+
+          </div>
+          {{/each}}
+        </div>
+      </div>
+      {{/if}}
+
+    </div>
+    {{/if}}
+  </div>
+
+  <!-- submenu -->
+  {{if menu[active].children}}
+  <div class="submenu-wrapper">
+    <ul class="submenu">
+      {{if (menu[active]?.children && menu[active].children.properties.length !== 0)}}
+      <li><span class="fontsize-18 bold">properties</span></li>
+      {{each menu[active]?.children?.properties as item}}
+      <li mx-click="to({target:'{{= menu[active].title}}_{{= item.name}}'})"
+        data-spm-click="gostr=/alimama.99.dmp;locaid=d40b0e7d8">
+        <div class="item ellipsis">{{= item.name}}</div>
+      </li>
+      {{/each}}
+      {{/if}}
+
+      {{if (menu[active]?.children && menu[active].children.methods.length !== 0)}}
+      <li class="fontsize-18 bold mt8">methods</li>
+      {{each menu[active]?.children?.methods as item}}
+      <li style="{{if curr === item.name}}color:var(--color-brand){{/if}}"
+        mx-click="to({target:'{{= menu[active].title}}_{{= item.name}}'})"
+        data-spm-click="gostr=/alimama.99.dmp;locaid=d82c0c7ae">
+        <div class="item ellipsis">{{= item.name}}</div>
+      </li>
+      {{/each}}
+      {{/if}}
+    </ul>
+  </div>
+  {{/if}}
+</div>
+
+<div class="search" mx-view="./search/index" *map="{{# searchMap}}" data-spm="c9e5c8864"></div>

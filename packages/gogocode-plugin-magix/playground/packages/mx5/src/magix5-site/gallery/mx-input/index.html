@@ -1,0 +1,28 @@
+<div class="mx5-input-group-wrapper">
+  {{if prepend }}
+  <span class="mx5-input-prepend">{{= prepend}}</span>
+  {{/if}}
+
+  <div class="mx5-input-wrapper">
+    <input type="text" 
+      id="{{= $viewId}}_input"
+      class="mx5-input"
+      style="{{if (prepend)}} border-top-left-radius: 0;border-bottom-left-radius:0;{{/if}}
+      {{if (append)}} border-top-right-radius: 0;border-bottom-right-radius:0;{{/if}}"
+      placeholder="{{= placeholder}}"
+      disabled="{{= disabled}}?"
+      maxlength="{{= maxlength}}??"
+      value="{{= value}}"
+      mx-input="fire()"
+      mx-change="stop()"/>
+
+    {{if (showDelete && value)}}
+      <i class="mx5-iconfont mx5-input-delete" mx-click="clear()">&#xe6f8;</i>
+    {{/if}}
+  </div>
+
+
+  {{if append}}
+  <span class="mx5-input-append">{{= append}}</span>
+  {{/if}}
+</div>

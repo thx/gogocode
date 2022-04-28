@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "moduleResolution": "Node",
+        "resolveJsonModule": true,
+        "allowSyntheticDefaultImports": true,
+        "baseUrl": "./",
+        "target": "es2018",
+        "lib": [
+            "es5",
+            "es2015",
+            "dom",
+            "scripthost"
+        ]
+    }
+}

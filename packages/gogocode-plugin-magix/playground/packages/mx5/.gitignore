@@ -1,0 +1,8 @@
+.DS_Store
+.*.swp
+.idea
+.vscode
+node_modules
+build
+.mds
+.ai4md-temp

@@ -1,0 +1,6 @@
+<h3>children</h3>
+<div>父组件传入的参数-Name: <span class="ml10">{{= name || '--'}}</span> </div>
+<div>
+  <p class="mb10">点击此按钮，即可触发父组件监听的change事件</p>
+  <lg-btn class="mt10" *width="200" *brand="true" *content="Show" mx-click="handleClick()" *disabled="{{= disabled}}" data-spm-click="gostr=/alimama.99.dmp;locaid=dbe513d12"></lg-btn>
+</div>

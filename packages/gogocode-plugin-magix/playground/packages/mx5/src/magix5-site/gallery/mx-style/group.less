@@ -1,0 +1,79 @@
+/* css3变量 跟 less变量 一一对应 */
+/* 说明文档：https://thx.github.io/magix-gallery/#!/all/pro/cross */
+
+:root {
+  /* 字体相关参数，输入或下拉框高度  */
+  --line-height: 1.5;
+  --font-size: 12px;
+  --font-family: Helvetica, Arial, 'Microsoft Yahei', 'Hiragino Sans GB',
+    'Heiti SC', 'WenQuanYi Micro Hei', sans-serif;
+  --input-height: calc(var(--font-size) + 20px);
+  --input-small-height: calc(var(--font-size) + 14px);
+
+  /* 品牌色 */
+  --color-brand: #385acc;
+  --color-brand-hover: #2e4aa7;
+  --color-brand-vs: #f7664d;
+  --color-brand-light: #d7def6;
+  --color-brand-opacity: #eff2fb;
+  --color-brand-text: #ffffff;
+  --color-brand-text-hover: #ffffff;
+
+  /* 品牌按钮颜色 */
+  --btn-border-radius: var(--border-radius);
+  --btn-brand: var(--color-brand);
+  --btn-brand-hover: var(--color-brand-hover);
+  --btn-brand-text: var(--color-brand-text);
+  --btn-brand-text-hover: var(--color-brand-text-hover);
+  --btn-text: #333;
+  --btn-text-hover: #333;
+  --btn-border: var(--color-brand);
+  --btn-border-hover: var(--color-brand);
+  --btn-bg: var(--color-brand-opacity);
+  --btn-bg-hover: var(--color-brand-light);
+
+  /* 项目相关颜色，app-brand和app-brand-gradient预留做品牌差异 */
+  --app-brand: var(--color-brand);
+  --app-brand-gradient: var(--color-brand);
+  --app-nav-bg: #303a58;
+  --app-bg: #e8ebf2;
+
+  /* 最小宽度定义1366，滚定条15px */
+  --app-min-width: 1420px;
+
+  /* 边框 */
+  --color-border: #e6e6e6;
+  --border-radius: 4px;
+  --border-highlight: #9095a1;
+  --border-highlight-hover: var(--color-brand);
+
+  /* 提示颜色 */
+  --color-warn: #ffb400;
+  --color-red: #d52112;
+  --color-green: #30ab66;
+  --color-blue: #4d7fff;
+
+  /* 背景色 */
+  --color-bg: #f5f5f5;
+  --color-bg-hover: var(--color-brand-opacity);
+
+  /* 动画 */
+  --duration: 0.2s;
+
+  /* checkbox radio参数 */
+  --mx-checkbox-color: #9095a1;
+  --mx-checkbox-size: calc(var(--font-size) + 2px);
+  --mx-tag-height: 16px;
+
+  /* trigger扩散动画相关参数 */
+  --mx-comp-expand-amin-color: var(--color-brand);
+  --mx-comp-expand-amin-timer: 300ms;
+  --mx-comp-expand-amin-ease: ease-out;
+
+  /* 表格参数 */
+  --mx-table-ceil-h-gap: 12px;
+  --mx-table-ceil-v-gap: 12px;
+}
+
+/* 请保持这里的import处于代码的最下方 */
+@import '../../assets/group_override.less';

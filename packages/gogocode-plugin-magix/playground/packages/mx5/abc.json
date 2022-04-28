@@ -1,0 +1,8 @@
+{
+  "assets": {
+      "type": "builder",
+      "builder": {
+          "name": "@ali/builder-magix-compose"
+      }
+  }
+}

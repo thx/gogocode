@@ -1,0 +1,12 @@
+<div class="example-container">
+  <!-- sidebar -->
+  <div class="sidebar-wrapper" >
+    <lg-menu *menu="{{# menu}}"  *path="{{= path}}" *key="{{= key}}" mx-navigate="navigate()" />
+  </div>
+
+  <!-- content -->
+  <div class="content">
+    <div id="example-content-header" style="height: 0; width: 0;"></div>
+    <mx-vframe src="./{{=filePath}}/index" data-spm="c1cd6cfcd"></mx-vframe>
+  </div>
+</div>
