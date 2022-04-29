@@ -1,4 +1,5 @@
 module.exports = function ({ script, template }) {
+    if(!template) { return { script, template }; }
     template.find(['<mx-vframe></mx-vframe>', '<mx-vframe />']).each((res) => {
         res.each((frameElement) => {
             const attrs = frameElement.attr('content.attributes') || [];

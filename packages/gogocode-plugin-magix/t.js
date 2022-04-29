@@ -10,8 +10,13 @@ const updater = require('./src/updater');
 const CompFileMap = {
     'pass-ref-data': ['index', 'sub'],
     'init-to-assign': ['index', 'sub'],
-    'vframe-props': ['index', 'sub']
+    'vframe-props': ['index', 'sub'],
+    'mixins-to-merge': ['index', 'mixin'],
 };
+
+function safeReadFile(path) {
+    return fs.promises.readFile(path, 'utf-8').catch((err) => null);
+}
 
 function ensureDirectoryExistence(filePath) {
     var dirname = path.dirname(filePath);
@@ -53,13 +58,13 @@ function execRule(ruleName) {
 
         const rule = require(`./src/${ruleName}`);
 
-        Promise.all([fs.promises.readFile(inputPath, 'utf-8'), fs.promises.readFile(inputTemplatePath, 'utf-8')])
+        Promise.all([safeReadFile(inputPath, 'utf-8'), safeReadFile(inputTemplatePath, 'utf-8')])
             .then(([inputCode, inputTemplate]) => {
-                const script = $(inputCode);
-                const template = $(inputTemplate, { parseOptions: { language: 'html' } });
+                const script = inputCode ? $(inputCode) : null;
+                const template = inputTemplate ? $(inputTemplate, { parseOptions: { language: 'html' } }) : null;
 
                 const rules = [initToAssign, importMx, replaceView, updater, at];
-                if(!rules.find(r => r === rule)) {
+                if (!rules.find((r) => r === rule)) {
                     rules.push(rule);
                 }
                 const api = { gogocode: $ };
@@ -74,8 +79,8 @@ function execRule(ruleName) {
                     { script, template }
                 );
 
-                const outputCode = out.script.generate();
-                const outputTemplate = out.template.generate();
+                const outputCode = out.script?.generate();
+                const outputTemplate = out.template?.generate();
 
                 const prettierOutPut = prettier.format(outputCode, {
                     trailingComma: 'es5',
@@ -85,16 +90,23 @@ function execRule(ruleName) {
                     printWidth: 80,
                     parser: 'typescript',
                 });
+                const promises = [];
 
-                ensureDirectoryExistence(outputPath);
-                ensureDirectoryExistence(outputTemplatePath);
+                if (inputCode) {
+                    ensureDirectoryExistence(outputPath);
+                    promises.push(fs.promises.writeFile(outputPath, prettierOutPut));
+                }
 
-                Promise.all([
-                    fs.promises.writeFile(outputPath, prettierOutPut),
-                    fs.promises.writeFile(outputTemplatePath, outputTemplate),
-                ]).then(() => {
-                    console.log('The file was saved!');
-                });
+                if (inputTemplate) {
+                    ensureDirectoryExistence(outputTemplatePath);
+                    promises.push(fs.promises.writeFile(outputTemplatePath, outputTemplate));
+                }
+
+                Promise
+                    .all(promises)
+                    .then(() => {
+                        console.log('The file was saved!');
+                    });
             })
             .catch((err) => {
                 throw err;

@@ -14,7 +14,7 @@ new Vue({
   router,
   data() {
     return {
-      useTransformedFile: false,
+      useTransformedFile: true,
       selected: '/',
       CompsConfig,
     };

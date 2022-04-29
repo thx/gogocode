@@ -1,5 +1,6 @@
 const scriptUtils = require('../utils/scriptUtils');
 module.exports = function ({ script, template }, api) {
+    if(!script) { return { script, template }; }
 
     const init = script.find(['init($_$0) {}', 'init: function($_$0) {}'])
 
