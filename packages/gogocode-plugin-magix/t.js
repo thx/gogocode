@@ -4,9 +4,14 @@ const prettier = require('prettier');
 const fs = require('fs');
 const importMx = require('./src/import-mx');
 const replaceView = require('./src/playground-replace-view');
+const initToAssign = require('./src/init-to-assign');
 const at = require('./src/at');
 const updater = require('./src/updater');
-const CompFileMap = {};
+const CompFileMap = {
+    'pass-ref-data': ['index', 'sub'],
+    'init-to-assign': ['index', 'sub'],
+    'vframe-props': ['index', 'sub']
+};
 
 function ensureDirectoryExistence(filePath) {
     var dirname = path.dirname(filePath);
@@ -53,7 +58,10 @@ function execRule(ruleName) {
                 const script = $(inputCode);
                 const template = $(inputTemplate, { parseOptions: { language: 'html' } });
 
-                const rules = [importMx, replaceView, updater, at, rule];
+                const rules = [initToAssign, importMx, replaceView, updater, at];
+                if(!rules.find(r => r === rule)) {
+                    rules.push(rule);
+                }
                 const api = { gogocode: $ };
                 const out = rules.reduce(
                     ({ script, template }, rule) =>
