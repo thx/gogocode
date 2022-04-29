@@ -4,6 +4,8 @@ const prettier = require('prettier');
 const fs = require('fs');
 const importMx = require('./src/import-mx');
 const replaceView = require('./src/playground-replace-view');
+const at = require('./src/at');
+const updater = require('./src/updater');
 const CompFileMap = {};
 
 function ensureDirectoryExistence(filePath) {
@@ -51,7 +53,7 @@ function execRule(ruleName) {
                 const script = $(inputCode);
                 const template = $(inputTemplate, { parseOptions: { language: 'html' } });
 
-                const rules = [importMx, replaceView, rule];
+                const rules = [importMx, replaceView, updater, at, rule];
                 const api = { gogocode: $ };
                 const out = rules.reduce(
                     ({ script, template }, rule) =>
