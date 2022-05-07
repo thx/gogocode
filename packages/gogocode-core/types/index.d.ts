@@ -65,7 +65,7 @@ declare module 'gogocode' {
        * @param selector 代码选择器，可以是代码也可以将代码中的部分内容挖空替换为通配符
        * @param options
        */
-      find(selector: Selector, options?: FindOption): GoGoAST;
+      find(selector: Selector | string[], options?: FindOption): GoGoAST;
       /**
        * 获取某个父节点
        * @param level 自内向外第n层父元素，默认值 0
