@@ -5,6 +5,7 @@ const fs = require('fs');
 const importMx = require('./src/import-mx');
 const replaceView = require('./src/playground-replace-view');
 const initToAssign = require('./src/init-to-assign');
+const vframeProps = require('./src/vframe-props');
 const at = require('./src/at');
 const updater = require('./src/updater');
 const CompFileMap = {
@@ -63,9 +64,9 @@ function execRule(ruleName) {
                 const script = inputCode ? $(inputCode) : null;
                 const template = inputTemplate ? $(inputTemplate, { parseOptions: { language: 'html' } }) : null;
 
-                const rules = [initToAssign, importMx, replaceView, updater, at];
+                const rules = [initToAssign, importMx, replaceView, updater, at, vframeProps];
                 if (!rules.find((r) => r === rule)) {
-                    rules.push(rule);
+                    rules.unshift(rule);
                 }
                 const api = { gogocode: $ };
                 const out = rules.reduce(

@@ -5,12 +5,12 @@ export default View.extend({
   assign(props) {
     this.set({ props })
   },
-  tmpl: '@:sub.html',
-  init(props) {
-    this.observeLocation(['test'])
-    this.set(props)
-  },
+  tmpl: '@:index.html',
   render() {
+    this.set({
+      name: 1,
+    })
     this.digest({})
+    alert(document.getElementById('sync-to-async').innerHTML)
   },
 })

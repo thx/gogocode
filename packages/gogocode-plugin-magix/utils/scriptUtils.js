@@ -1,11 +1,11 @@
-function addCodeToLifeCycle(scriptAst, lifeCycle, code, propsName = '') {
+function addCodeToLifeCycle(scriptAst, lifeCycle, code, pos = 'front', propsName = '') {
     const hasLifeCycle = scriptAst.has(`${lifeCycle}() {}`);
 
     if (hasLifeCycle) {
         scriptAst.replace(
             `
   export default $_$.extend({
-    ${lifeCycle}(${propsName}) {
+    ${lifeCycle}() {
       $$$2
     },
     $$$1
@@ -14,8 +14,9 @@ function addCodeToLifeCycle(scriptAst, lifeCycle, code, propsName = '') {
   export default $_$.extend({
     $$$1,
     ${lifeCycle}(${propsName}) {
+      ${pos === 'front' ? code : ''}
       $$$2;
-      ${code}
+      ${pos === 'back' ? code : ''}
     }
   })`
         );
