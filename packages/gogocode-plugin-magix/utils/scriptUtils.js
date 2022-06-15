@@ -39,6 +39,10 @@ function addCodeToLifeCycle(scriptAst, lifeCycle, code, pos = 'front', propsName
     return scriptAst;
 }
 
+// function makeMethodToAsync(scriptAst, methodName) {
+//   scriptAst
+// }
+
 module.exports = {
     addCodeToLifeCycle
 }
