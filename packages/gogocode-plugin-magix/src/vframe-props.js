@@ -11,7 +11,7 @@ module.exports = function ({ script, template }) {
                     const keyName = attr?.key?.content || '';
                     if (
                         keyName &&
-                        ['src', 'class', 'style', 'id'].includes(keyName) &&
+                        !['src', 'class', 'style', 'id'].includes(keyName) &&
                         !keyName.startsWith('*') &&
                         !keyName.startsWith('mx-')
                     ) {
