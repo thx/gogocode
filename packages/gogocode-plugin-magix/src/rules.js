@@ -16,9 +16,10 @@ module.exports = [
     { name: 'init-to-assign', rule: initToAssign, test: scriptReg },
     { name: 'import-mx', rule: importMx, test: scriptReg },
     { name: 'updater', rule: updater, test: scriptReg },
+    // pass-ref-data 要在 at 前面使用
+    { name: 'pass-ref-data', rule: passRefData, test: scriptReg },
     { name: 'at', rule: at, test: scriptReg },
     { name: 'vframe-props', rule: vframeProps, test: scriptReg },
-    { name: 'pass-ref-data', rule: passRefData, test: scriptReg },
     { name: 'raw-html', rule: rawHTML, test: scriptReg },
     { name: 'sync-to-async', rule: syncToAsync, test: scriptReg },
     { name: 'replace-view', rule: replaceView, test: scriptReg },
