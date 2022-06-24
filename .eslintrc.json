@@ -25,7 +25,6 @@
     "rules": {
         "@typescript-eslint/no-var-requires": 0,
         "no-inner-declarations": 0,
-        "indent": ["error", 4],
         "no-useless-escape": 0,
         "no-unused-vars": 0
     }

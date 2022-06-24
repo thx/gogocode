@@ -1,7 +1,7 @@
 module.exports = function ({ script, template }, api) {
     const $ = api.gogocode;
-    const reg = /'(\S*)@(\S+)'/g;
-    const regDoubleQuote = /"(\S*)@(\S+)"/g;
+    const reg = /'(\S*?)@(\S+?)'/g;
+    const regDoubleQuote = /"(\S*?)@(\S+?)"/g;
 
     let newScript, newTemplate;
     if (script) {

@@ -8,6 +8,7 @@ const rawHTML = require('./raw-html')
 const syncToAsync = require('./sync-to-async')
 const replaceView = require('./replace-view')
 const vframeApi = require('./vframe-api')
+const conditionalAttr = require('./conditional-attr')
 
 const scriptReg = /\.\.js$|\.ts$/;
 const templateReg = /\.html$/;
@@ -17,11 +18,12 @@ module.exports = [
     { name: 'import-mx', rule: importMx, test: scriptReg },
     { name: 'updater', rule: updater, test: scriptReg },
     // pass-ref-data 要在 at 前面使用
-    { name: 'pass-ref-data', rule: passRefData, test: scriptReg },
+    { name: 'pass-ref-data', rule: passRefData, test: templateReg },
     { name: 'at', rule: at, test: scriptReg },
     { name: 'vframe-props', rule: vframeProps, test: scriptReg },
-    { name: 'raw-html', rule: rawHTML, test: scriptReg },
+    { name: 'raw-html', rule: rawHTML, test: templateReg },
     { name: 'sync-to-async', rule: syncToAsync, test: scriptReg },
     { name: 'replace-view', rule: replaceView, test: scriptReg },
     { name: 'vframe-api', rule: vframeApi, test: scriptReg },
+    { name: 'conditional-attr', rule: conditionalAttr, test: templateReg },
 ];
