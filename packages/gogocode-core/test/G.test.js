@@ -864,3 +864,22 @@ test('html attr generate', () => {
     const ast = $(code, { parseOptions: { language: 'html'}}).generate()
     expect(!!ast.match(`false;`)).toBeTruthy()
 })
+
+test('html opentag parse', () => {
+    const code = `<a>{{i<b}}</a>`;
+
+    const ast = $(code, { parseOptions: { language: 'html'}})
+    .generate()
+    expect(!ast.match(`<>`)).toBeTruthy()
+})
+
+test('html opentag parse', () => {
+    const code = `<template>
+    <div class="a">{{index<rule.length-1?'+':'-'}}</div>
+    <div class="a">2</div>
+  </template>`;
+
+    const ast = $(code, { parseOptions: { language: 'html'}})
+    .generate()
+    expect(!ast.match(`<>`)).toBeTruthy()
+})
