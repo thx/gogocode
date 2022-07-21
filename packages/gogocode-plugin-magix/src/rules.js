@@ -9,6 +9,7 @@ const syncToAsync = require('./sync-to-async')
 const replaceView = require('./replace-view')
 const vframeApi = require('./vframe-api')
 const conditionalAttr = require('./conditional-attr')
+const triggerToDispatch = require('./trigger-to-dispatch')
 
 const scriptReg = /\.\.js$|\.ts$/;
 const templateReg = /\.html$/;
@@ -26,4 +27,5 @@ module.exports = [
     { name: 'replace-view', rule: replaceView, test: scriptReg },
     { name: 'vframe-api', rule: vframeApi, test: scriptReg },
     { name: 'conditional-attr', rule: conditionalAttr, test: templateReg },
+    { name: 'trigger-to-dispatch', rule: triggerToDispatch, test: scriptReg },
 ];
