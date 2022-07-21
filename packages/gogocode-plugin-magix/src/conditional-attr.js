@@ -11,10 +11,10 @@ module.exports = function ({ script, template }, api) {
     // 给所有的双大括号左右加一个空格方便parse
     const newSource = template
         .generate()
-        .replace(/(\S)\{\{/g, '$1 {{')
-        .replace(/\{\{(\S)/g, '{{ $1')
-        .replace(/(\S)\}\}/g, '$1 }}')
-        .replace(/\}\}(\S)/g, '}} $1');
+        .replace(/(\S)\{\{/g, '$1    {{')
+        .replace(/\{\{(\S)/g, '{{    $1')
+        .replace(/(\S)\}\}/g, '$1    }}')
+        .replace(/\}\}(\S)/g, '}}    $1');
 
     const pureTemplate = $(newSource, { parseOptions: { language: 'html' } });
 
@@ -107,5 +107,15 @@ module.exports = function ({ script, template }, api) {
             }
         }
     });
-    return { script, template: pureTemplate };
+
+
+    // 还原大括号
+    const removeWhiteSpace = pureTemplate
+        .generate()
+        .replace(/(\s){4}\{\{/g, '{{')
+        .replace(/\{\{(\s){4}/g, '{{')
+        .replace(/(\s){4}\}\}/g, '}}')
+        .replace(/\}\}(\s){4}/g, '}}');
+
+    return { script, template: $(removeWhiteSpace, { parseOptions: { language: 'html' } }) };
 };
