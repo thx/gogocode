@@ -8,7 +8,7 @@ module.exports = function ({ script, template }, api) {
 
     const $ = api.gogocode;
 
-    // 给所有的双大括号左右加一个空格方便parse
+    // 给所有的双大括号左右加 4 个空格方便parse
     const newSource = template
         .generate()
         .replace(/(\S)\{\{/g, '$1    {{')
@@ -109,7 +109,7 @@ module.exports = function ({ script, template }, api) {
     });
 
 
-    // 还原大括号
+    // 把前面加的 4 个空格去掉
     const removeWhiteSpace = pureTemplate
         .generate()
         .replace(/(\s){4}\{\{/g, '{{')
