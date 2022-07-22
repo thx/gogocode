@@ -5,7 +5,7 @@ const NodePath = require('../NodePath');
 const core = {
     getAstsBySelector(ast, selector, { parseOptions } = {}) {
         parseOptions = Object.assign({}, parseOptions);
-        let newAst = ast;
+        let newAst = null;
         if (selector == '<template></template>') {
             parseOptions.language = 'html';
             parseOptions.rootLanguage = 'vue';

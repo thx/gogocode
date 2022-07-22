@@ -89,3 +89,9 @@ test('$.has: comment code result should be ok', () => {
     const result = G.has('<!-- $_$ -->');
     expect(result).toBeTruthy();
 })
+
+test('$.has: vue has', () => {
+    const result = $('<template></template>', { parseOptions: { language: 'vue' } })
+    .has('var a = 1')
+    expect(!result).toBeTruthy();
+})

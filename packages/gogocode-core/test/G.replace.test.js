@@ -940,3 +940,17 @@ test('$.replace: type. replace', () => {
     )
     expect(res.generate().match('Dayjs')).toBeTruthy()
 })
+
+
+test('$.replace: string space', () => {
+    let res = $(`class Version {
+    async update(options) {
+        const sql = \`
+            c
+            a
+        \`
+    }
+}`)
+    .replace('async update(options) {$_$}', 'async update(options) {$_$}')
+    expect(res.generate().match(`c\n            a`)).toBeTruthy()
+})

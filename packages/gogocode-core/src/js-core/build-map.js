@@ -19,13 +19,9 @@ module.exports = {
             .program.body[0].decorators;
     },
     ClassMethod(str) {
-        return parse(`class a$ {
-            ${str}
-        }`).program.body[0].body.body[0]
+        return parse(`class a$ {${str}}`).program.body[0].body.body[0]
     },
     ClassProperty(str) {
-        return parse(`class a$ {
-            ${str}
-        }`).program.body[0].body.body[0]
+        return parse(`class a$ {${str}}`).program.body[0].body.body[0]
     }
 }
