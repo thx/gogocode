@@ -54,7 +54,9 @@ module.exports = function toString(sfcDescriptor, options = {}) {
             // discard blocks that don't exist
             .filter((block) => block != null)
             // sort blocks by source position
-            .sort((a, b) => a.start - b.start)
+            .sort((a, b) => {
+                return a.loc.start.offset - b.loc.start.offset
+            })
             // figure out exact source positions of blocks
             .map((block) => {
                 const openTag = makeOpenTag(block);
@@ -64,11 +66,11 @@ module.exports = function toString(sfcDescriptor, options = {}) {
                     openTag,
                     closeTag,
 
-                    startOfOpenTag: block.start - openTag.length,
-                    endOfOpenTag: block.start,
+                    startOfOpenTag: block.loc.start.offset - openTag.length,
+                    endOfOpenTag: block.loc.start.offset,
 
-                    startOfCloseTag: block.end,
-                    endOfCloseTag: block.end + closeTag.length
+                    startOfCloseTag: block.loc.end.offset,
+                    endOfCloseTag: block.loc.end.offset + closeTag.length
                 });
             })
             // generate sfc source
@@ -84,8 +86,6 @@ module.exports = function toString(sfcDescriptor, options = {}) {
                     newlinesBefore =
                         block.startOfOpenTag - prevBlock.endOfCloseTag;
                 }
-
-                newlinesBefore = newlinesBefore || 1
 
                 return (
                     sfcCode +

@@ -635,3 +635,87 @@ test('test vue parseoptions', () => {
   const res = ast.generate()
   expect(res.match('&&')).toBeTruthy()
 })
+
+test('block sort order', () => {
+  const ast = $(`
+<template>
+  <div>Test</div>
+</template>
+
+<i18n>
+{
+  "en": {
+    "test" "Test"
+  }
+}
+</i18n>
+
+<script>
+export default {};
+</script>
+`,
+      { parseOptions: { language: 'vue' } }
+  );
+  const res = ast.generate();
+  const expected = `
+<template>
+    <div>Test</div>
+</template>
+
+<i18n>
+{
+  "en": {
+    "test" "Test"
+  }
+}
+</i18n>
+
+<script>
+export default {};
+</script>
+`;
+  expect(res).toEqual(expected);
+});
+
+
+test('block newlines', () => {
+  const ast = $(`
+<template>
+  <div>Test</div>
+</template>
+<custom>
+//
+</custom>
+
+<script>
+export default {};
+</script>
+
+
+<style lang="css">
+.class{}
+</style>
+`,
+      { parseOptions: { language: 'vue' } }
+  );
+  const res = ast.generate();
+  const expected = `
+<template>
+    <div>Test</div>
+</template>
+<custom>
+//
+</custom>
+
+<script>
+export default {};
+</script>
+
+
+<style lang="css">
+.class{}
+</style>
+`;
+  expect(res).toEqual(expected);
+})
+;
