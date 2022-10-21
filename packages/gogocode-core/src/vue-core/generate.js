@@ -70,7 +70,7 @@ module.exports = function toString(sfcDescriptor, options = {}) {
                     endOfOpenTag: block.loc.start.offset,
 
                     startOfCloseTag: block.loc.end.offset,
-                    endOfCloseTag: block.loc.end.offset + closeTag.length
+                    endOfCloseTag: block.loc.end.offset + (block.loc.start.column === 1 ? 1 : closeTag.length)
                 });
             })
             // generate sfc source
