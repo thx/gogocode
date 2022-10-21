@@ -66,7 +66,7 @@ module.exports = function toString(sfcDescriptor, options = {}) {
                     openTag,
                     closeTag,
 
-                    startOfOpenTag: block.loc.start.offset - openTag.length,
+                    startOfOpenTag: block.loc.start.offset - (block.loc.start.column === 1 ? 0 : openTag.length),
                     endOfOpenTag: block.loc.start.offset,
 
                     startOfCloseTag: block.loc.end.offset,

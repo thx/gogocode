@@ -695,6 +695,7 @@ export default {};
 <style lang="css">
 .class{}
 </style>
+<style lang="css" src="test.css"></style>
 `,
       { parseOptions: { language: 'vue' } }
   );
@@ -715,6 +716,7 @@ export default {};
 <style lang="css">
 .class{}
 </style>
+<style lang="css" src="test.css"></style>
 `;
   expect(res).toEqual(expected);
 })
