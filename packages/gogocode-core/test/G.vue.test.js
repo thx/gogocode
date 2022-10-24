@@ -26,7 +26,7 @@ const code = `
 </template>
 <script>
 var a = 1;
-  
+
 function c(  sd) {
      s
 }
@@ -59,7 +59,7 @@ const keyCodeDemo = `
     <div>
       <p>迁移：按键修饰符</p>
       <p>迁移策略：
-            1.Vue3不再支持使用数字 (即键码) 作为 v-on 修饰符 
+            1.Vue3不再支持使用数字 (即键码) 作为 v-on 修饰符
             2.不再支持 config.keyCodes</p>
       <div te s="" class="mt20 text-left">
       // te todo
@@ -478,12 +478,12 @@ test('test no template', () => {
   const res = $(`
     <script>
     export default {
-      name: 'components', 
+      name: 'components',
       data() {
         return {
-          name: '组件'     
+          name: '组件'
         };
-      }  
+      }
     };
     </script>
   `, { parseOptions: { language: 'vue' }})
@@ -635,3 +635,146 @@ test('test vue parseoptions', () => {
   const res = ast.generate()
   expect(res.match('&&')).toBeTruthy()
 })
+
+test('block sort order', () => {
+  const ast = $(`
+<template>
+  <div>Test</div>
+</template>
+
+<custom>
+//
+</custom>
+
+<script>
+export default {};
+</script>
+`,
+      { parseOptions: { language: 'vue' } }
+  );
+  const res = ast.generate();
+  const expected = `
+<template>
+  <div>Test</div>
+</template>
+
+<custom>
+//
+</custom>
+
+<script>
+export default {};
+</script>
+`;
+  expect(res).toEqual(expected);
+});
+
+test('multiple block transformations', () => {
+  const ast = $(`
+<template>
+  <div>Test</div>
+</template>
+
+<i18n>
+{
+  "en": {
+    "test" "Test"
+  }
+}
+</i18n>
+
+<script>
+export default {};
+</script>
+<script setup>
+import X from 'Y'
+</script>
+`,
+      { parseOptions: { language: 'vue' } }
+  );
+  ast.find('<template></template>').replace('<div>$$$0</div>', '<span>$$$0</span>')
+  ast.find('<script></script>').replace('export default {$$$0}', 'export default {\n  name: "Component"\n};')
+  ast.find('<script setup></script>').replace('import X from "Y"', 'import Y from "X"')
+  const res = ast.generate();
+  const expected = `
+<template>
+  <span>Test</span>
+</template>
+
+<i18n>
+{
+  "en": {
+    "test" "Test"
+  }
+}
+</i18n>
+
+<script>
+export default {
+  name: "Component"
+};
+</script>
+<script setup>
+import Y from "X"
+</script>
+`;
+  expect(res).toEqual(expected);
+});
+
+
+
+test('retains all newlines and comments', () => {
+  const ast = $(`
+<template>
+  <div>Test</div>
+</template>
+<custom>
+//
+</custom>
+
+<script setup>
+//
+</script>
+<script>
+export default {};
+</script>
+
+<style lang="css">
+.class{}
+</style>
+/**
+ *  A comment
+ */
+<style lang="css" src="test.css"></style>
+<style lang="css" src="another.css"></style>
+`,
+      { parseOptions: { language: 'vue' } }
+  );
+  const res = ast.generate();
+  const expected = `
+<template>
+  <div>Test</div>
+</template>
+<custom>
+//
+</custom>
+
+<script setup>
+//
+</script>
+<script>
+export default {};
+</script>
+
+<style lang="css">
+.class{}
+</style>
+/**
+ *  A comment
+ */
+<style lang="css" src="test.css"></style>
+<style lang="css" src="another.css"></style>
+`;
+  expect(res).toEqual(expected);
+})
+;
