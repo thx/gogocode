@@ -9,7 +9,7 @@
 
 <script>
 import { version } from 'vue';
-import { Search as ElIconSearch, Coffee as ElIconCoffee } from '@element-plus/icons'
+import { Search as ElIconSearch, Coffee as ElIconCoffee } from '@element-plus/icons-vue'
 
 export default {
   name: 'icon',

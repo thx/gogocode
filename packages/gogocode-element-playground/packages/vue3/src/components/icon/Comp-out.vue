@@ -21,7 +21,7 @@
 import {
   CirclePlus as ElIconCirclePlus,
   Search as ElIconSearch,
-} from '@element-plus/icons'
+} from '@element-plus/icons-vue'
 import * as Vue from 'vue'
 export default {
   data() {

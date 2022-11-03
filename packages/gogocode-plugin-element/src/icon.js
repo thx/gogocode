@@ -20,7 +20,7 @@ function addIconImport(scriptAst, icons) {
         scriptAst.prepend(
             `import { ${icons
                 .map((icon) => `${capitalizeFirstLetter(icon)} as ElIcon${capitalizeFirstLetter(icon)}`)
-                .join(',')} } from '@element-plus/icons'`
+                .join(',')} } from '@element-plus/icons-vue'`
         );
     }
 
