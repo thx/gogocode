@@ -17,7 +17,7 @@ module.exports = function (ast, api, options) {
         inserted: 'mounted',
         update: 'updated',
         componentUpdated: 'updated',
-        unbind: 'unMounted',
+        unbind: 'unmounted',
     };
 
     function processHookNodes(hookNodes) {
