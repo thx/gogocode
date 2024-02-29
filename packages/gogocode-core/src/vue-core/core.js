@@ -21,7 +21,8 @@ const core = {
             if (ast.scriptAst) {
                 newAst = ast.scriptAst;
             } else {
-                ast.scriptAst = core.getScript(ast, { parseOptions });
+                const isSetup = ast.scriptSetup && ast.scriptSetup.setup;
+                ast.scriptAst = core.getScript(ast, { isSetup, parseOptions });
                 newAst = ast.scriptAst;
             }
         } else if (selector == '<script setup></script>') {
@@ -52,7 +53,7 @@ const core = {
             return undefined;
         }
     },
-    getScript(ast, { isSetup = false, parseOptions } = {} ) {
+    getScript(ast, { isSetup = false, parseOptions } = {}) {
         // 仅针对vue，取script，后续通过jscore处理
         let content;
         if (isSetup && ast.scriptSetup) {
@@ -89,7 +90,7 @@ const core = {
             } else {
                 return null;
             }
-        } catch(e) {
+        } catch (e) {
             console.log('buildAstByAstStr failed:' + e)
         }
     }
