@@ -7,6 +7,8 @@ export function $children(instance) {
       for (let i = 0; i < vnodes.length; i++) {
         $walk(vnodes[i], children)
       }
+    } else if (vnode.component && vnode.component.subTree) {
+      $walk(vnode.component.subTree, children)
     }
   }
   const root = instance.$.subTree
@@ -29,7 +31,7 @@ export function $on(instance, event, fn) {
     event.forEach((e) => $on(instance, e, fn))
   } else {
     const events = getRegistry(instance)
-    ;(events[event] || (events[event] = [])).push(fn)
+      ; (events[event] || (events[event] = [])).push(fn)
   }
   return instance.proxy
 }
