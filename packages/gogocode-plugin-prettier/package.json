@@ -3,7 +3,10 @@
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test:api": "node ./test/run.js",
+    "test:command": "gogocode -s test/input.js -t index.js -o test/output/cli.js --params=prettierrc=test/.prettierrc.json"
+  },
   "keywords": [
     "vue",
     "gogocode",
@@ -13,5 +16,9 @@
   "license": "ISC",
   "dependencies": {
     "prettier": "^2.2.1"
+  },
+  "devDependencies": {
+    "gogocode": "^1.0.53",
+    "gogocode-cli": "^0.2.27"
   }
 }
