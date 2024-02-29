@@ -166,3 +166,17 @@ test('$.replaceBy: replace use $_$ result should be ok', () => {
         .generate()
     expect(res.match('我是注释我是注释') && res.match('我是新来的')).toBeTruthy(); 
 })
+
+
+test('$.replace: TemplateLiteral', () => {
+    const res = $('const a=`${a}11${b}`')
+    .find({ type: 'TemplateLiteral'})
+    .each(item => {
+        const matcher = item.generate()
+        item.replaceBy(`$fn(${matcher})`)
+    })
+    .root()
+    .generate()
+
+    expect(res == 'const a = $fn(`${a}11${b}`)').toBeTruthy()
+})
