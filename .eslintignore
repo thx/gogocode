@@ -7,4 +7,5 @@ packages/esbuild-import-plugin
 packages/transform-project
 packages/gogocode-vue-playground
 packages/gogocode-element-playground
+packages/gogocode-antd-playground
 packages/gogocode-core/umd
