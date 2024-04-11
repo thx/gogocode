@@ -2,7 +2,7 @@
 
 [![npm version](https://img.shields.io/npm/v/gogocode.svg)](https://www.npmjs.com/package/gogocode) [![license](https://img.shields.io/npm/l/gogocode.svg)](LICENSE) 
 
-[>>>>>>>>>>>>>>>>>>>阿里妈妈前端招聘啦~ ](https://talent.taotian.com/off-campus/position-detail?lang=zh&positionId=1019223&track_id=SSP1691116011187KXRTJqqMmf1253)
+[ 详细文档点击这里 ](https://github.com/thx/gogocode/blob/main/docs/specification/basic.zh.md)
 
 ## What is GoGoCode?
 
@@ -13,7 +13,7 @@ GoGoCode is a transformer for JavaScript/Typescript/HTML based on AST but provid
 -   A jQuery-like API to select and transform AST.
 -   A Regex-like syntax to match and replace code.
 
-Learn more at [GoGoCode.io](https://gogocode.io) and [GoGoCode: Yet Another Automated Refactor Tool for Web Developers](https://medium.com/@fengyuhere/gogocode-yet-another-automatic-refactor-tool-for-web-developers-df8a6a3560da)
+Learn more at [GoGoCode Document](https://github.com/thx/gogocode/blob/main/docs/specification/basic.en.md) 
 
 ## Intro
 
@@ -48,8 +48,6 @@ const outCode = script.generate();
 const a = 1;
 const b = 1;
 ```
-
-Try this demo out at our [Playground](https://play.gogocode.io/#code/N4IglgdgDgrgLgYQPYBMCmIBcIDGSIDOcABAIbEC8xAjADoR6EkBGlxATPSADQgDuSAE4BrZOiwgAZjAZww+YnEGlCkoQFsAFJLAAbNAEkIa7mShhTSKHPwEAlMWD1ixRkWIASNqXMA6AOZIgXjozq62JARIMII4aGw6+kZqvlExcfRhbpE4gmDWbB6aabFodmEA9BXEMATxHgD6XqQEZMR8eig4pIIoikjE6qRwOAAWxACCAMoAKsRo+upoECTDZBAAnsRQSARgNhDEG9HtKnBZEWQTBHv+EEsrbAS5+XC+OhAomgDk2W1UjQ833Kh2IVWI-jQJDgo3iQxGsL60zmCzQDxIADdSLoYGgLkwyAA1bG47zXW73ZZveFjAD8vgA2gAGAC69OZbN8WJxeNB4MEaCgulIcUmszIrQIpCWEuIAqFIvi5CIeQg-mIzHgxDAdyE8Rh8RC8TUgnhxGKUEVgEAGSDoR5CYi6SBoZgC0jCEEuZ55ay+eXCuI-P6sAFNb6mAAGwcKwFIxJ5AF8I56wdVIRA0Mo4Er3HABirIP4wgK4DFDt7XgFlpnhmhNCCE1xeJBYHAADIqfwSOAbKBoCvWHggUYtAAKJbkmawSlxvDw6ktAoA8vBW9PBLiE0A).
 
 ## Related Project
 
