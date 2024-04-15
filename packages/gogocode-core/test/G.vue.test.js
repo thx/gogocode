@@ -635,3 +635,46 @@ test('test vue parseoptions', () => {
   const res = ast.generate()
   expect(res.match('&&')).toBeTruthy()
 })
+
+
+test('test vue3 setup by script', () => {
+  const ast = $(
+    `<template>
+    <div class="a">1</div>
+    <div class="a">2</div>
+  </template>
+  
+  <script setup lang="ts">
+  const a = 1
+  const b = 2
+</script>
+  `,
+    { parseOptions: { language: 'vue' } }
+  )
+  const res = ast.find('<script></script>').generate()
+  expect(res===`
+  const a = 1
+  const b = 2
+`).toBeTruthy()
+})
+
+test('test vue3 setup by script setup', () => {
+  const ast = $(
+    `<template>
+    <div class="a">1</div>
+    <div class="a">2</div>
+  </template>
+  
+  <script setup lang="ts">
+  const a = 1
+  const b = 2
+</script>
+  `,
+    { parseOptions: { language: 'vue' } }
+  )
+  const res = ast.find('<script setup></script>').generate()
+  expect(res===`
+  const a = 1
+  const b = 2
+`).toBeTruthy()
+})
