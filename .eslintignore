@@ -8,3 +8,4 @@ packages/transform-project
 packages/gogocode-vue-playground
 packages/gogocode-element-playground
 packages/gogocode-core/umd
+packages/gogocode-plugin-prettier/test/output

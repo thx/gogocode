@@ -1,4 +1,6 @@
 const prettier = require('prettier');
+const path = require("path")
+const fs = require("fs")
 
 /**
  * 转换入口导出一个函数，按照如下函数签名
@@ -24,12 +26,29 @@ module.exports = function (fileInfo, api, options) {
         return sourceCode;
     }
 
-    return prettier.format(sourceCode, {
+    let prettierConfig = {
         trailingComma: 'es5',
         tabWidth: 2,
         semi: false,
         singleQuote: true,
         printWidth: 80,
         parser: /\.vue$/.test(fileInfo.path) ? 'vue' : 'typescript',
-    });
+    };
+    const { prettierrc, rootPath } = options
+    if (prettierrc) {
+        let prettierConfigFilePath = prettier.resolveConfigFile.sync(
+            path.resolve(rootPath, prettierrc)
+        )
+        if (fs.existsSync(prettierConfigFilePath)) {
+            const resolvedConfig = prettier.resolveConfig.sync(prettierConfigFilePath)
+            prettierConfig = {
+                ...prettierConfig,
+                ...resolvedConfig
+            }
+        } else {
+            console.warn(`prettier config file ${prettierConfigFilePath} not found`)
+        }
+    }
+
+    return prettier.format(sourceCode, prettierConfig);
 };
